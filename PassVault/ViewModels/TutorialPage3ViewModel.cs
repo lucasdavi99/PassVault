@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using Plugin.Fingerprint;
 using Plugin.Fingerprint.Abstractions;
+using System.Runtime.InteropServices;
 using System.Windows.Input;
 
 
@@ -35,6 +36,12 @@ namespace PassVault.ViewModels
         {
             try
             {
+                if(RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                {
+                    await Shell.Current.DisplayAlert("Simulação", "Autenticação simulada no Windows.", "OK");
+                    return true;
+                }
+
                 var config = new AuthenticationRequestConfiguration("Autenticação necessária", "Para acessar o aplicativo, autorize o uso da senha padrão do seu smartphone.");
                 var authResult = await CrossFingerprint.Current.AuthenticateAsync(config);
 
