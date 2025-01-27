@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:PassVault.ViewModels"
+             x:Class="PassVault.Views.TutorialPage5"
+             Shell.NavBarIsVisible="False">
+    <!-- Title="TutorialPage5"> -->
+
+    <ContentPage.BindingContext>
+        <viewModels:TutorialPage5ViewModel />
+    </ContentPage.BindingContext>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <!-- Para o título -->
+            <RowDefinition Height="Auto" />
+            <!-- Para a descrição -->
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <!-- Coluna principal -->
+        </Grid.ColumnDefinitions>
+
+        <Label 
+        Text="{Binding Title}"
+        TextColor="{StaticResource Primary}"
+        FontSize="64"
+        FontAttributes="Bold"
+        HorizontalTextAlignment="Center"
+        VerticalTextAlignment="Center" 
+        Margin="0,60,0,0"
+        Grid.Row="0" />
+
+        <Label 
+        Text="{Binding Description}"
+        TextColor="White"
+        FontSize="24"
+        FontAttributes="Bold"
+        HorizontalTextAlignment="Center"
+        VerticalTextAlignment="Center"
+        WidthRequest="300" 
+        Margin="0, 0, 0, 200"
+        Grid.Row="1" />
+
+        <Button
+        Text="Vamos começar!"
+        TextColor="{StaticResource PrimaryDarkText}"
+        FontAttributes="Bold"
+        FontSize="Medium"
+        WidthRequest="335"
+        HeightRequest="54"
+        CornerRadius="14"
+        Grid.Row="1" 
+        Margin="0, 200, 0, 0" 
+        BackgroundColor="{StaticResource Primary}" 
+        Command="{Binding NextPageCommand}"/>
+
+
+    </Grid>
+</ContentPage>
