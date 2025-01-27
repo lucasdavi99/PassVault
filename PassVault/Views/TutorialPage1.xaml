@@ -4,7 +4,7 @@
              xmlns:viewModels="clr-namespace:PassVault.ViewModels"
              x:Class="PassVault.Views.TutorialPage1"
              Shell.NavBarIsVisible="False">
-    <!-- Title="TutorialPage1"> -->
+             <!-- Title="TutorialPage1"> -->
 
     <ContentPage.BindingContext>
         <viewModels:TutorialPage1ViewModel />
