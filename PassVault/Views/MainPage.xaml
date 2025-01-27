@@ -1,12 +1,82 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:PassVault.ViewModels"
+             xmlns:converters="clr-namespace:PassVault.Converters"
              x:Class="PassVault.Views.MainPage"
+             x:DataType="viewModels:MainPageViewModel"
+             Shell.NavBarIsVisible="False"
              Title="MainPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:TabVisibilityConverter x:Key="TabVisibilityConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="100,*">
+        <Grid Grid.Row="0" 
+              BackgroundColor="#19171C"
+              Padding="10,20,10,0"
+              ColumnSpacing="10">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="0"
+                    Text="Itens"
+                    BackgroundColor="Transparent"
+                    TextColor="{Binding SelectedTab, Converter={StaticResource TabVisibilityConverter}, ConverterParameter=Itens, TargetNullValue=White, FallbackValue=White}"
+                    FontAttributes="Bold"
+                    FontSize="24"
+                    Command="{Binding SelectTabCommand}"
+                    CommandParameter="Itens"/>
+
+            <Button Grid.Column="1"
+                    Text="Pastas"
+                    BackgroundColor="Transparent"
+                    TextColor="{Binding SelectedTab, Converter={StaticResource TabVisibilityConverter}, ConverterParameter=Pastas, TargetNullValue=White, FallbackValue=White}"
+                    FontAttributes="Bold"
+                    FontSize="24"
+                    Command="{Binding SelectTabCommand}"
+                    CommandParameter="Pastas"/>
+
+            <BoxView Grid.Column="0"
+                     HeightRequest="3"
+                     WidthRequest="130"
+                     BackgroundColor="#1DA1F2"
+                     HorizontalOptions="Start"
+                     VerticalOptions="End"
+                     Margin="30,0,0,-1"
+                     IsVisible="{Binding SelectedTab, Converter={StaticResource TabVisibilityConverter}, ConverterParameter=Itens}"/>
+
+            <BoxView Grid.Column="1"
+                     HeightRequest="3"
+                     WidthRequest="130"
+                     BackgroundColor="#1DA1F2"
+                     HorizontalOptions="Start"
+                     VerticalOptions="End"
+                     Margin="30,0,0,-1"
+                     IsVisible="{Binding SelectedTab, Converter={StaticResource TabVisibilityConverter}, ConverterParameter=Pastas}"/>
+        </Grid>
+
+        <!-- Conteúdo -->
+        <Grid Grid.Row="1">
+            <!-- Itens -->
+            <StackLayout IsVisible="{Binding SelectedTab, Converter={StaticResource TabVisibilityConverter}, ConverterParameter=Itens}">
+                <Label Text="Conteúdo da aba Itens" 
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"/>
+            </StackLayout>
+
+            <!-- Pastas -->
+            <StackLayout IsVisible="{Binding SelectedTab, Converter={StaticResource TabVisibilityConverter}, ConverterParameter=Pastas}">
+                <Label Text="Conteúdo da aba Pastas" 
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"/>
+            </StackLayout>
+        </Grid>
+    </Grid>
 </ContentPage>
