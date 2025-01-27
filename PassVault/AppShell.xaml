@@ -9,6 +9,7 @@
 
 
     <ShellContent Title="Lock Screen" ContentTemplate="{DataTemplate local:LockScreen}" Route="LockScreen" />
+    <ShellContent Title="MainPage" ContentTemplate="{DataTemplate local:MainPage}" Route="MainPage" />
     
     <!--> Rotas das paginas de Tutorial <-->
     <ShellContent Title="Tutorial Page 1" ContentTemplate="{DataTemplate local:TutorialPage1}" Route="TutorialPage1" />

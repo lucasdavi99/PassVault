@@ -10,19 +10,32 @@
         <viewModels:LockScreenViewModel />
     </ContentPage.BindingContext>
 
-    <VerticalStackLayout>
+    <Grid>
+        <Grid.RowDefinitions>
+            <!-- Para o título -->
+            <RowDefinition Height="Auto" />
+            <!-- Para a descrição -->
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <!-- Coluna principal -->
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
         <Label Text="{Binding Title}" 
                TextColor="{StaticResource Primary}"
                FontAttributes="Bold" 
                FontSize="64"
-               VerticalTextAlignment="Center"
                HorizontalTextAlignment="Center"
-               Margin="0, 0, 0, 0" />
+               Margin="0, 60, 0, 0" 
+               Grid.Row="0"/>
 
         <Image Source="logo.png" 
                WidthRequest="257"
                HeightRequest="257"
-               Margin="0, 150, 0, 0" />
+               Margin="0, 300, 0, 0" 
+               Grid.Row="0"/>
 
         <Button Text="Usar senha do celular"
                 TextColor="Black"
@@ -31,7 +44,8 @@
                 WidthRequest="345"
                 HeightRequest="50"
                 CornerRadius="30"
-                Margin="0, 200, 0, 0"
-                Command="{Binding NextPageCommand}" />
-    </VerticalStackLayout>
+                Margin="0, 0, 0, 0"
+                Command="{Binding NextPageCommand}" 
+                Grid.Row="1"/>
+    </Grid>
 </ContentPage>

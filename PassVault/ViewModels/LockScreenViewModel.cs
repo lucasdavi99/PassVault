@@ -27,7 +27,7 @@ namespace PassVault.ViewModels
 
             if (authResult)
             {
-                await Shell.Current.DisplayAlert("Simulação", "Autenticação simulada no Windows.", "OK");
+                await Shell.Current.GoToAsync("///MainPage");
             }
         }
 
