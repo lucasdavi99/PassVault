@@ -7,6 +7,9 @@ namespace PassVault.ViewModels
     {
         [ObservableProperty]
         private string _selectedTab;
+        [ObservableProperty]
+        private string _selectedAction;
+
 
         public IRelayCommand SelectTabCommand { get; }
 
@@ -19,6 +22,24 @@ namespace PassVault.ViewModels
         private void OnTabSelected(string tab)
         {
             SelectedTab = tab;
+        }
+
+        [RelayCommand]
+        private void SelectAction(string action)
+        {
+            SelectedAction = action;
+
+            // Executa a ação correspondente
+            if (action == "Item")
+            {
+                // Lógica para criar novo item
+                Console.WriteLine("Criando novo item...");
+            }
+            else if (action == "Pasta")
+            {
+                // Lógica para criar nova pasta
+                Console.WriteLine("Criando nova pasta...");
+            }
         }
     }
 }
