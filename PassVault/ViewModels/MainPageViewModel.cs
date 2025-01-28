@@ -15,31 +15,42 @@ namespace PassVault.ViewModels
 
         public MainPageViewModel()
         {
-            SelectTabCommand = new RelayCommand<string>(OnTabSelected);
+            SelectTabCommand = new AsyncRelayCommand<string>(OnTabSelected);
             SelectedTab = "Itens";
         }
 
-        private void OnTabSelected(string tab)
+        private async Task OnTabSelected(string tab)
         {
+            await Task.Delay(100);
             SelectedTab = tab;
         }
-
+        
         [RelayCommand]
-        private void SelectAction(string action)
+        private async Task SelectAction(string action)
         {
-            SelectedAction = action;
+            switch (action)
+            {
+                case "Home":
+                    // Lógica para o botão Home
+                    await SimulateAsyncWork("Home selecionado");
+                    break;
 
-            // Executa a ação correspondente
-            if (action == "Item")
-            {
-                // Lógica para criar novo item
-                Console.WriteLine("Criando novo item...");
+                case "Add":
+                    // Lógica para o botão Adicionar
+                    await SimulateAsyncWork("Adicionar selecionado");
+                    break;
+
+                case "Search":
+                    // Lógica para o botão Procurar
+                    await SimulateAsyncWork("Procurar selecionado");
+                    break;
             }
-            else if (action == "Pasta")
-            {
-                // Lógica para criar nova pasta
-                Console.WriteLine("Criando nova pasta...");
-            }
+        }
+
+        private async Task SimulateAsyncWork(string message)
+        {
+            await Task.Delay(500); // Simulação de uma operação demorada
+            Console.WriteLine(message);
         }
     }
 }
