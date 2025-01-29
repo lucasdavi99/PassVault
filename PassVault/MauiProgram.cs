@@ -1,6 +1,9 @@
 ﻿using Microsoft.Extensions.Logging;
 using Plugin.Fingerprint.Abstractions;
 using Plugin.Fingerprint;
+using PassVault.Data;
+using PassVault.ViewModels;
+using PassVault.Views;
 
 namespace PassVault
 {
@@ -19,7 +22,9 @@ namespace PassVault
 
 #if DEBUG
     		builder.Logging.AddDebug();
-            //builder.Services.AddSingleton<>
+            builder.Services.AddSingleton<AccountDatabase>();
+            builder.Services.AddTransient<NewAccountPageViewModel>();
+            builder.Services.AddTransient<NewAccountPage>();
 #endif
 
             return builder.Build();

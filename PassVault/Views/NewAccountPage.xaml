@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:PassVault.ViewModels"
              x:Class="PassVault.Views.NewAccountPage"
+             x:DataType="viewmodel:NewAccountPageViewModel"
              Shell.NavBarIsVisible="False"
              Title="NewAccountPage">
     <VerticalStackLayout>
-        <Label Text="close"
-               FontFamily="MaterialIcons"
-               TextColor="{StaticResource Primary}"
-               FontSize="60"
-               Margin="0, 20, 20, 0"
-               HorizontalTextAlignment="End"/>
+
+        <!-- Botão Fechar -->
+        <Button Text="close"
+                FontFamily="MaterialIcons"
+                TextColor="{StaticResource Primary}"
+                FontSize="60"
+                Margin="0, 20, 20, 0"
+                BackgroundColor="Transparent"
+                HorizontalOptions="End"
+                Command="{Binding CloseCommand}" />
 
         <Grid RowSpacing="50" ColumnSpacing="10">
             <Grid.ColumnDefinitions>
@@ -25,6 +31,7 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
+            <!-- Título -->
             <Entry Placeholder="Titulo da conta"
                    FontSize="20"
                    HorizontalTextAlignment="Center"
@@ -33,8 +40,10 @@
                    WidthRequest="378"
                    HeightRequest="62"
                    BackgroundColor="#19171C"
-                   Margin="100" />
+                   Margin="100" 
+                   Text="{Binding Title}" />
 
+            <!-- Nome de Usuário -->
             <Entry Placeholder="Username"
                    FontSize="20"
                    HorizontalTextAlignment="Center"
@@ -42,8 +51,10 @@
                    Grid.Column="0"
                    WidthRequest="378"
                    HeightRequest="62"
-                   BackgroundColor="#19171C" />
+                   BackgroundColor="#19171C" 
+                   Text="{Binding Username}" />
 
+            <!-- E-mail -->
             <Entry Placeholder="E-mail"
                    FontSize="20"
                    HorizontalTextAlignment="Center"
@@ -51,8 +62,10 @@
                    Grid.Column="0"
                    WidthRequest="378"
                    HeightRequest="62"
-                   BackgroundColor="#19171C" />
+                   BackgroundColor="#19171C" 
+                   Text="{Binding Email}" />
 
+            <!-- Senha -->
             <Entry Placeholder="Senha"
                    FontSize="20"
                    HorizontalTextAlignment="Center"
@@ -61,8 +74,10 @@
                    WidthRequest="378"
                    HeightRequest="62"
                    BackgroundColor="#19171C" 
-                   IsPassword="True" />
+                   IsPassword="True" 
+                   Text="{Binding Password}" />
 
+            <!-- Seletor de Cor -->
             <Frame HeightRequest="50"
                    WidthRequest="50"
                    CornerRadius="25"
@@ -95,11 +110,8 @@
                         Text="home"
                         TextColor="Black"
                         FontFamily="MaterialIcons"
-                        FontSize="30">
-
-                    <Button.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding SelectActionCommand}" CommandParameter="Home" />
-                    </Button.GestureRecognizers>
+                        FontSize="30"
+                        Command="{Binding CloseCommand}">
                 </Button>
 
                 <!-- Botão Confirmar -->
@@ -114,7 +126,7 @@
                         FontSize="40"
                         Padding="0"
                         HorizontalOptions="Center"
-                        Command="{Binding SelectActionCommand}"
+                        Command="{Binding SaveAccountCommand}"
                         CommandParameter="Add">
                 </Button>
 
@@ -129,10 +141,6 @@
                         TextColor="Black"
                         FontFamily="MaterialIcons"
                         FontSize="30">
-
-                    <Button.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding SelectActionCommand}" CommandParameter="Search" />
-                    </Button.GestureRecognizers>
                 </Button>
             </Grid>
         </Border>
