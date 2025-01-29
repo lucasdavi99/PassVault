@@ -86,23 +86,23 @@
                 StrokeShape="RoundRectangle 100, 100">
             <Grid ColumnDefinitions="*,*,*" ColumnSpacing="0">
                 <!-- Botão Home -->
-                <Border WidthRequest="60"
+                <Button WidthRequest="60"
                         Grid.Column="0"
-                        HeightRequest="60"
-                        StrokeShape="RoundRectangle 100,100,100,100"
+                        HeightRequest="60"  
+                        Padding="0"
                         BackgroundColor="{StaticResource Primary}"
-                        Stroke="Transparent">
+                        CornerRadius="50"
+                        Text="home"
+                        TextColor="Black"
+                        FontFamily="MaterialIcons"
+                        FontSize="30">
 
-                    <Border.GestureRecognizers>
+                    <Button.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding SelectActionCommand}" CommandParameter="Home" />
-                    </Border.GestureRecognizers>
+                    </Button.GestureRecognizers>
+                </Button>
 
-                    <Image Source="home.png"
-                           WidthRequest="30"
-                           HeightRequest="30"/>
-                </Border>
-
-                <!-- Botão Adicionar -->
+                <!-- Botão Confirmar -->
                 <Button WidthRequest="60"
                         Grid.Column="1"
                         HeightRequest="60"
@@ -118,22 +118,22 @@
                         CommandParameter="Add">
                 </Button>
 
-                <!-- Botão Procurar -->
-                <Border WidthRequest="60"
+                <!-- Botão Aleatório -->
+                <Button WidthRequest="60"
                         Grid.Column="2"
-                        HeightRequest="60"
-                        StrokeShape="RoundRectangle 100,100,100,100"
+                        HeightRequest="60"  
+                        Padding="0"
                         BackgroundColor="{StaticResource Primary}"
-                        Stroke="Transparent">
+                        CornerRadius="50"
+                        Text="shuffle"
+                        TextColor="Black"
+                        FontFamily="MaterialIcons"
+                        FontSize="30">
 
-                    <Border.GestureRecognizers>
+                    <Button.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding SelectActionCommand}" CommandParameter="Search" />
-                    </Border.GestureRecognizers>
-
-                    <Image Source="search.png"
-                           WidthRequest="30"
-                           HeightRequest="30"/>
-                </Border>
+                    </Button.GestureRecognizers>
+                </Button>
             </Grid>
         </Border>
     </VerticalStackLayout>
