@@ -14,6 +14,7 @@ namespace PassVault
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("Roboto.ttf", "Roboto");  
+                    fonts.AddFont("MaterialIcons-Regular.ttf", "MaterialIcons");  
                 });
 
 #if DEBUG

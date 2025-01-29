@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PassVault.Views.NewAccountPage"
+             Shell.NavBarIsVisible="False"
+             Title="NewAccountPage">
+    <VerticalStackLayout>
+        <Label Text="close"
+               FontFamily="MaterialIcons"
+               TextColor="{StaticResource Primary}"
+               FontSize="60"
+               Margin="0, 20, 20, 0"
+               HorizontalTextAlignment="End"/>
+
+        <Grid RowSpacing="50" ColumnSpacing="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Entry Placeholder="Titulo da conta"
+                   FontSize="20"
+                   HorizontalTextAlignment="Center"
+                   Grid.Row="0"
+                   Grid.Column="0"
+                   WidthRequest="378"
+                   HeightRequest="62"
+                   BackgroundColor="#19171C"
+                   Margin="100" />
+
+            <Entry Placeholder="Username"
+                   FontSize="20"
+                   HorizontalTextAlignment="Center"
+                   Grid.Row="1"
+                   Grid.Column="0"
+                   WidthRequest="378"
+                   HeightRequest="62"
+                   BackgroundColor="#19171C" />
+
+            <Entry Placeholder="E-mail"
+                   FontSize="20"
+                   HorizontalTextAlignment="Center"
+                   Grid.Row="2"
+                   Grid.Column="0"
+                   WidthRequest="378"
+                   HeightRequest="62"
+                   BackgroundColor="#19171C" />
+
+            <Entry Placeholder="Senha"
+                   FontSize="20"
+                   HorizontalTextAlignment="Center"
+                   Grid.Row="3"
+                   Grid.Column="0"
+                   WidthRequest="378"
+                   HeightRequest="62"
+                   BackgroundColor="#19171C" 
+                   IsPassword="True" />
+        </Grid>
+
+        <!-- Espaço para garantir que o menu fique na parte inferior -->
+        <BoxView HeightRequest="150" VerticalOptions="FillAndExpand" BackgroundColor="Transparent"/>
+
+        <!-- Menu de navegação -->
+        <Border BackgroundColor="#19171C"
+                WidthRequest="370"
+                HeightRequest="92"
+                Stroke="Transparent"
+                VerticalOptions="End"
+                
+                StrokeShape="RoundRectangle 100, 100">
+            <Grid ColumnDefinitions="*,*,*" ColumnSpacing="0">
+                <!-- Botão Home -->
+                <Border WidthRequest="60"
+                        Grid.Column="0"
+                        HeightRequest="60"
+                        StrokeShape="RoundRectangle 100,100,100,100"
+                        BackgroundColor="{StaticResource Primary}"
+                        Stroke="Transparent">
+
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectActionCommand}" CommandParameter="Home" />
+                    </Border.GestureRecognizers>
+
+                    <Image Source="home.png"
+                           WidthRequest="30"
+                           HeightRequest="30"/>
+                </Border>
+
+                <!-- Botão Adicionar -->
+                <Button WidthRequest="60"
+                        Grid.Column="1"
+                        HeightRequest="60"
+                        CornerRadius="10"
+                        BackgroundColor="{StaticResource Primary}"
+                        Text="check"
+                        TextColor="Black"
+                        FontFamily="MaterialIcons"
+                        FontSize="40"
+                        Padding="0"
+                        HorizontalOptions="Center"
+                        Command="{Binding SelectActionCommand}"
+                        CommandParameter="Add">
+                </Button>
+
+                <!-- Botão Procurar -->
+                <Border WidthRequest="60"
+                        Grid.Column="2"
+                        HeightRequest="60"
+                        StrokeShape="RoundRectangle 100,100,100,100"
+                        BackgroundColor="{StaticResource Primary}"
+                        Stroke="Transparent">
+
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectActionCommand}" CommandParameter="Search" />
+                    </Border.GestureRecognizers>
+
+                    <Image Source="search.png"
+                           WidthRequest="30"
+                           HeightRequest="30"/>
+                </Border>
+            </Grid>
+        </Border>
+    </VerticalStackLayout>
+</ContentPage>
