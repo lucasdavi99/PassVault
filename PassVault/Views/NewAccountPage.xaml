@@ -22,6 +22,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
             <Entry Placeholder="Titulo da conta"
@@ -61,10 +62,19 @@
                    HeightRequest="62"
                    BackgroundColor="#19171C" 
                    IsPassword="True" />
+
+            <Frame HeightRequest="50"
+                   WidthRequest="50"
+                   CornerRadius="25"
+                   BackgroundColor="Purple"
+                   HorizontalOptions="Center"
+                   Grid.Column="0"
+                   Grid.Row="4">
+            </Frame>
         </Grid>
 
         <!-- Espaço para garantir que o menu fique na parte inferior -->
-        <BoxView HeightRequest="150" VerticalOptions="FillAndExpand" BackgroundColor="Transparent"/>
+        <BoxView HeightRequest="80" VerticalOptions="FillAndExpand" BackgroundColor="Transparent"/>
 
         <!-- Menu de navegação -->
         <Border BackgroundColor="#19171C"
