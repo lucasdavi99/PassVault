@@ -40,7 +40,7 @@
                    WidthRequest="378"
                    HeightRequest="62"
                    BackgroundColor="#19171C"
-                   Margin="100" 
+                   Margin="20" 
                    Text="{Binding Title}" />
 
             <!-- Nome de Usuário -->
@@ -140,7 +140,8 @@
                         Text="shuffle"
                         TextColor="Black"
                         FontFamily="MaterialIcons"
-                        FontSize="30">
+                        FontSize="30"
+                        Command="{Binding GoToGeneratorCommand}">
                 </Button>
             </Grid>
         </Border>

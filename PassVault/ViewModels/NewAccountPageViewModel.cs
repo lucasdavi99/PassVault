@@ -66,6 +66,9 @@ namespace PassVault.ViewModels
         }
 
         [RelayCommand]
+        private async Task GoToGenerator() => await Shell.Current.GoToAsync("///PasswordGenerator");
+
+        [RelayCommand]
         private async Task Close() => await Shell.Current.GoToAsync("///MainPage");
 
 

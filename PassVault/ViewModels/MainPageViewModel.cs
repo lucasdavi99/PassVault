@@ -37,7 +37,7 @@ namespace PassVault.ViewModels
 
                 case "Add":
                     // Lógica para o botão Adicionar
-                    await SimulateAsyncWork("Adicionar selecionado");
+                    await Shell.Current.GoToAsync("///NewAccountPage");
                     break;
 
                 case "Search":

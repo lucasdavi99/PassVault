@@ -8,10 +8,10 @@
     Title="PassVault">
 
 
-    <ShellContent Title="Password Generator" ContentTemplate="{DataTemplate local:PasswordGenerator}" Route="PasswordGenerator" />
-    <ShellContent Title="New Account Page" ContentTemplate="{DataTemplate local:NewAccountPage}" Route="NewAccountPage" />
-    <ShellContent Title="Main Page" ContentTemplate="{DataTemplate local:MainPage}" Route="MainPage" />
     <ShellContent Title="Lock Screen" ContentTemplate="{DataTemplate local:LockScreen}" Route="LockScreen" />
+    <ShellContent Title="Main Page" ContentTemplate="{DataTemplate local:MainPage}" Route="MainPage" />
+    <ShellContent Title="New Account Page" ContentTemplate="{DataTemplate local:NewAccountPage}" Route="NewAccountPage" />
+    <ShellContent Title="Password Generator" ContentTemplate="{DataTemplate local:PasswordGenerator}" Route="PasswordGenerator" />
     
     <!--> Rotas das paginas de Tutorial <-->
     <ShellContent Title="Tutorial Page 1" ContentTemplate="{DataTemplate local:TutorialPage1}" Route="TutorialPage1" />
