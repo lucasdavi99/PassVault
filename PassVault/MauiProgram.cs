@@ -25,6 +25,9 @@ namespace PassVault
             builder.Services.AddSingleton<AccountDatabase>();
             builder.Services.AddTransient<NewAccountPageViewModel>();
             builder.Services.AddTransient<NewAccountPage>();
+            builder.Services.AddTransient<PasswordGeneratorViewModel>();
+            builder.Services.AddTransient<PasswordGenerator>();
+
 #endif
 
             return builder.Build();
