@@ -4,6 +4,7 @@ using Plugin.Fingerprint;
 using PassVault.Data;
 using PassVault.ViewModels;
 using PassVault.Views;
+using CommunityToolkit.Maui;
 
 namespace PassVault
 {
@@ -14,6 +15,7 @@ namespace PassVault
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                .UseMauiCommunityToolkit()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("Roboto.ttf", "Roboto");  
