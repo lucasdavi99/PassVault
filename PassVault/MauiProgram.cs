@@ -1,6 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
 using Plugin.Fingerprint.Abstractions;
 using Plugin.Fingerprint;
+using PassVault.Data;
+using PassVault.ViewModels;
+using PassVault.Views;
+using SkiaSharp.Views.Maui.Controls.Hosting;
 
 namespace PassVault
 {
@@ -11,15 +15,21 @@ namespace PassVault
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                .UseSkiaSharp()
                 .ConfigureFonts(fonts =>
                 {
-                    fonts.AddFont("Roboto.ttf", "Roboto");
-                    fonts.AddFont("MaterialIcons-Regular.ttf", "MaterialIcons");
+                    fonts.AddFont("Roboto.ttf", "Roboto");  
+                    fonts.AddFont("MaterialIcons-Regular.ttf", "MaterialIcons");  
                 });
 
 #if DEBUG
     		builder.Logging.AddDebug();
-            //builder.Services.AddSingleton<>
+            builder.Services.AddSingleton<AccountDatabase>();
+            builder.Services.AddTransient<NewAccountPageViewModel>();
+            builder.Services.AddTransient<NewAccountPage>();
+            builder.Services.AddTransient<PasswordGeneratorViewModel>();
+            builder.Services.AddTransient<PasswordGenerator>();
+
 #endif
 
             return builder.Build();

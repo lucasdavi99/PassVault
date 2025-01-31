@@ -97,13 +97,16 @@
 
             <!-- Pastas -->
             <StackLayout IsVisible="{Binding SelectedTab, Converter={StaticResource TabVisibilityConverter}, ConverterParameter=Pastas}">
-                <Label Text="Conteúdo da aba Pastas" 
+                <Label Text="Funcionalidade de pastas em construção" 
                        TextColor="White"
+                       FontSize="60"
+                       FontAttributes="Bold"
                        HorizontalOptions="Center"
                        VerticalOptions="Center"/>
             </StackLayout>
         </Grid>
 
+        <!-- Menu de navegação -->
         <Border Grid.Row="1"
                 BackgroundColor="#19171C"
                 WidthRequest="370"
