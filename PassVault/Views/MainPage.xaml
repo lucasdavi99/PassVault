@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModels="clr-namespace:PassVault.ViewModels"
              xmlns:converters="clr-namespace:PassVault.Converters"
+             xmlns:models="clr-namespace:PassVault.Models"
              x:Class="PassVault.Views.MainPage"
              x:DataType="viewModels:MainPageViewModel"
              Shell.NavBarIsVisible="False"
@@ -11,6 +12,7 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <converters:TabVisibilityConverter x:Key="TabVisibilityConverter" />
+            <converters:HexToColorConverter x:Key="HexToColorConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -75,24 +77,38 @@
 
             <!-- Itens -->
             <StackLayout Grid.Row="1" IsVisible="{Binding SelectedTab, Converter={StaticResource TabVisibilityConverter}, ConverterParameter=Itens}">
-                <Border BackgroundColor="Black" WidthRequest="390" HeightRequest="52" Stroke="Purple" Margin="0, 30, 0, 0">
-                    <Grid ColumnDefinitions="Auto, *" ColumnSpacing="10" Padding="15,0,15,0">
-                        <Ellipse WidthRequest="32" HeightRequest="32" Fill="Purple" Grid.Column="0"/>
 
-                        <Label Text="Conta Twitch"
-                               TextColor="White"
-                               Grid.Column="1"
-                               VerticalTextAlignment="Center"
-                               FontSize="20"
-                               FontAttributes="Bold" />
+                <CollectionView ItemsSource="{Binding Accounts}"
+                                EmptyView="Nenhuma conta cadastrada"
+                                Margin="0,30,0,0">
 
-                        <Label Text="25/01/2025"
-                               Grid.Column="2"
-                               HorizontalTextAlignment="End"
-                               VerticalTextAlignment="Center"/>
-                    </Grid>
-                </Border>
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="5"/>
+                    </CollectionView.ItemsLayout>
 
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:Account">
+                            <Border BackgroundColor="Black" WidthRequest="390" HeightRequest="52" Stroke="{Binding Color, Converter={StaticResource HexToColorConverter}}">
+                                <Grid ColumnDefinitions="Auto, *" ColumnSpacing="10" Padding="15,0,15,0">
+
+                                    <Ellipse WidthRequest="32" HeightRequest="32" Fill="{Binding Color, Converter={StaticResource HexToColorConverter}}" Grid.Column="0"/>
+
+                                    <Label Text="{Binding Title}"
+                                           TextColor="White"
+                                           Grid.Column="1"
+                                           VerticalTextAlignment="Center"
+                                           FontSize="20"
+                                           FontAttributes="Bold" />
+
+                                    <Label Text="{Binding Created, StringFormat='{0:dd/MM/yyyy}'}"
+                                           Grid.Column="2"
+                                           HorizontalTextAlignment="End"
+                                           VerticalTextAlignment="Center"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
             </StackLayout>
 
             <!-- Pastas -->

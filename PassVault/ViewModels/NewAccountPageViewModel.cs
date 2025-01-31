@@ -60,6 +60,7 @@ namespace PassVault.ViewModels
                     Email = Email,
                     Password = Password,
                     Created = DateTime.Now,
+                    Color = SelectedColor.ToHex()
                 };
 
                 await _database.SaveAccountAsync(account);
