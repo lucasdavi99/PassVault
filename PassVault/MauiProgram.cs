@@ -4,7 +4,7 @@ using Plugin.Fingerprint;
 using PassVault.Data;
 using PassVault.ViewModels;
 using PassVault.Views;
-using CommunityToolkit.Maui;
+using SkiaSharp.Views.Maui.Controls.Hosting;
 
 namespace PassVault
 {
@@ -15,7 +15,7 @@ namespace PassVault
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
-                .UseMauiCommunityToolkit()
+                .UseSkiaSharp()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("Roboto.ttf", "Roboto");  

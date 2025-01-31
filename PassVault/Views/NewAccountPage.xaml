@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewmodel="clr-namespace:PassVault.ViewModels"
+             xmlns:controls="clr-namespace:Maui.ColorPicker;assembly=Maui.ColorPicker"
              x:Class="PassVault.Views.NewAccountPage"
              x:DataType="viewmodel:NewAccountPageViewModel"
              Shell.NavBarIsVisible="False"
@@ -77,15 +78,47 @@
                    IsPassword="True" 
                    Text="{Binding Password}" />
 
-            <!-- Seletor de Cor -->
+            <BoxView BackgroundColor="#80000000" 
+                     IsVisible="{Binding IsColorPickerVisible}"
+                     Grid.RowSpan="5"
+                     Grid.ColumnSpan="1"
+                     ZIndex="1">
+                <BoxView.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding CloseColorPickerCommand}" />
+                </BoxView.GestureRecognizers>
+            </BoxView>
+
+            <!-- Bolinha de Cor -->
             <Frame HeightRequest="50"
                    WidthRequest="50"
                    CornerRadius="25"
-                   BackgroundColor="Purple"
+                   BackgroundColor="{Binding SelectedColor}"
                    HorizontalOptions="Center"
+                   Grid.Row="4"
                    Grid.Column="0"
-                   Grid.Row="4">
+                   ZIndex="2">
+
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ToggleColorPickerCommand}" />
+                </Frame.GestureRecognizers>
             </Frame>
+
+            <!-- ColorPicker -->
+            <controls:ColorPicker
+                x:Name="ColorPicker"
+                ColorFlowDirection="Horizontal"
+                WidthRequest="300"
+                HeightRequest="200"
+                ColorSpectrumStyle="ShadeToHueToTintStyle"
+                PointerRingBorderUnits="0.3"
+                PointerRingDiameterUnits="0.7"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                Grid.Row="4"
+                Grid.Column="0"
+                IsVisible="{Binding IsColorPickerVisible}"
+                PickedColor="{Binding SelectedColor, Mode=TwoWay}"
+                ZIndex="3"/>
         </Grid>
 
         <!-- Espaço para garantir que o menu fique na parte inferior -->
@@ -97,7 +130,7 @@
                 HeightRequest="92"
                 Stroke="Transparent"
                 VerticalOptions="End"
-                
+                Margin="0, 0, 0, 0"
                 StrokeShape="RoundRectangle 100, 100">
             <Grid ColumnDefinitions="*,*,*" ColumnSpacing="0">
                 <!-- Botão Home -->

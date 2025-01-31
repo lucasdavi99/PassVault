@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Maui.ColorPicker;
 using PassVault.Data;
 using PassVault.Models;
 using System;
@@ -29,6 +30,12 @@ namespace PassVault.ViewModels
         [ObservableProperty]
         [Required(ErrorMessage = "Senha é obrigatória")]
         private string _password;
+
+        [ObservableProperty]
+        private Color _selectedColor = Colors.Purple;
+
+        [ObservableProperty]
+        private bool _isColorPickerVisible = false;
 
         public NewAccountPageViewModel(AccountDatabase database)
         {
@@ -71,6 +78,22 @@ namespace PassVault.ViewModels
         [RelayCommand]
         private async Task Close() => await Shell.Current.GoToAsync("///MainPage");
 
+        [RelayCommand]
+        private void ToggleColorPicker()
+        {
+            IsColorPickerVisible = !IsColorPickerVisible;
+        }
 
+        [RelayCommand]
+        private void CloseColorPicker()
+        {
+            IsColorPickerVisible = false;
+        }
+
+        partial void OnSelectedColorChanged(Color value)
+        {
+            // Força a atualização da interface
+            OnPropertyChanged(nameof(SelectedColor));
+        }
     }
 }
