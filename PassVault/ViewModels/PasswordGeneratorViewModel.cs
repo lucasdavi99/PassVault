@@ -94,9 +94,8 @@ namespace PassVault.ViewModels
             if (!string.IsNullOrEmpty(GeneratedPassword))
             {
                 await Clipboard.Default.SetTextAsync(GeneratedPassword);
-                await Shell.Current.DisplayAlert("Sucesso", "Senha copiada para a área de transferência!", "OK");
-                //essa navegação deve mudar para await Shell.Current.GoToAsync("..");
-                await Shell.Current.GoToAsync("///NewAccountPage");
+                await Shell.Current.DisplayAlert("Sucesso", "Senha copiada para a área de transferência!", "OK");               
+                await Shell.Current.GoToAsync("..");
             }
         }
 

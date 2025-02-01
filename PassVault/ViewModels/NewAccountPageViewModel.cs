@@ -1,8 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using Maui.ColorPicker;
 using PassVault.Data;
+using PassVault.Messages;
 using PassVault.Models;
+using PassVault.Views;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -65,6 +68,7 @@ namespace PassVault.ViewModels
 
                 await _database.SaveAccountAsync(account);
                 await Shell.Current.DisplayAlert("Sucesso", "Conta salva com sucesso", "OK");
+                WeakReferenceMessenger.Default.Send(new AccountSavedMessage(true));
                 await Shell.Current.Navigation.PopAsync();
             }
             catch (Exception ex)
@@ -74,10 +78,10 @@ namespace PassVault.ViewModels
         }
 
         [RelayCommand]
-        private async Task GoToGenerator() => await Shell.Current.GoToAsync("///PasswordGenerator");
+        private async Task GoToGenerator() => await Shell.Current.GoToAsync(nameof(PasswordGenerator));
 
         [RelayCommand]
-        private async Task Close() => await Shell.Current.GoToAsync("///MainPage");
+        private static async Task Close() => await Shell.Current.GoToAsync("..");
 
         [RelayCommand]
         private void ToggleColorPicker()

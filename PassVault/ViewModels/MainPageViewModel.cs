@@ -1,12 +1,15 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using PassVault.Data;
+using PassVault.Messages;
 using PassVault.Models;
+using PassVault.Views;
 using System.Collections.ObjectModel;
 
 namespace PassVault.ViewModels
 {
-    public partial class MainPageViewModel : ObservableObject
+    public partial class MainPageViewModel : ObservableObject, IRecipient<AccountSavedMessage>
     {
         private readonly AccountDatabase _database;
 
@@ -26,6 +29,8 @@ namespace PassVault.ViewModels
             SelectTabCommand = new AsyncRelayCommand<string>(OnTabSelected);
             SelectedTab = "Itens";
 
+            WeakReferenceMessenger.Default.Register(this);
+
             LoadAccounts();
         }
 
@@ -34,7 +39,7 @@ namespace PassVault.ViewModels
             await Task.Delay(100);
             SelectedTab = tab;
 
-            if(tab == "Itens") LoadAccounts();
+            if(tab == "Itens") await LoadAccounts();
         }
         
         [RelayCommand]
@@ -49,7 +54,7 @@ namespace PassVault.ViewModels
 
                 case "Add":
                     // Lógica para o botão Adicionar
-                    await Shell.Current.GoToAsync("///NewAccountPage");
+                    await Shell.Current.GoToAsync(nameof(NewAccountPage));
                     break;
 
                 case "Search":
@@ -59,16 +64,24 @@ namespace PassVault.ViewModels
             }
         }
 
-        private async void LoadAccounts()
+        private async Task LoadAccounts()
         {
             var accounts = await _database.GetAccountsAsync();
             Accounts = new ObservableCollection<Account>(accounts);
         }
 
-        private async Task SimulateAsyncWork(string message)
+        private static async Task SimulateAsyncWork(string message)
         {
-            await Task.Delay(500); // Simulação de uma operação demorada
+            await Task.Delay(500);
             Console.WriteLine(message);
+        }
+
+        public void Receive(AccountSavedMessage message)
+        {
+            if (message.Value)
+            {
+                LoadAccounts();
+            }
         }
     }
 }
