@@ -18,7 +18,7 @@ namespace PassVault.ViewModels
         private async void OnNextPageClicked()
         {
             // Lógica para navegação (simulando com uma simples exibição de mensagem)
-            await Shell.Current.GoToAsync("///TutorialPage2", true);
+            await Shell.Current.GoToAsync(nameof(TutorialPage2));
         }
     }
 }

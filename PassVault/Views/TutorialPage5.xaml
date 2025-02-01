@@ -19,8 +19,8 @@
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
             <!-- Coluna principal -->
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
         <Label 

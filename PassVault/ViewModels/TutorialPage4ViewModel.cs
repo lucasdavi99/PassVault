@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using PassVault.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +22,7 @@ namespace PassVault.ViewModels
 
         private async void OnNextPageClicked()
         {
-            await Shell.Current.GoToAsync("///TutorialPage5", true);
+            await Shell.Current.GoToAsync(nameof(TutorialPage5));
         }
     }
 }

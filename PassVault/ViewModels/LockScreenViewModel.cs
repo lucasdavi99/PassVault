@@ -1,20 +1,22 @@
 ﻿using CommunityToolkit.Mvvm.Input;
-using PassVault.Views;
-using Plugin.Fingerprint;
 using Plugin.Fingerprint.Abstractions;
+using Plugin.Fingerprint;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
-
 
 namespace PassVault.ViewModels
 {
-    class TutorialPage3ViewModel
+    internal class LockScreenViewModel
     {
-        public string Title => "Senha do aplicativo";
-        public string Description => "Para acessar e utilizar o aplicativo, autorize o uso da senha padrão do seu smartphone clicando no botão abaixo.";
+        public string Title => "Bem vindo!";
         public ICommand NextPageCommand { get; }
 
-        public TutorialPage3ViewModel()
+        public LockScreenViewModel()
         {
             NextPageCommand = new RelayCommand(OnNextPageClicked);
         }
@@ -25,21 +27,16 @@ namespace PassVault.ViewModels
 
             if (authResult)
             {
-                await Shell.Current.GoToAsync(nameof(TutorialPage4));
-            }
-            else
-            {
-                await Shell.Current.DisplayAlert("Erro", "Falha na autenticação. Tente novamente.", "OK");
+                await Shell.Current.GoToAsync("///MainPage");
             }
         }
 
-        public async Task<bool> AuthenticateUserAsync()
+        private async Task<bool> AuthenticateUserAsync()
         {
             try
             {
-                if(RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                 {
-                    await Shell.Current.DisplayAlert("Simulação", "Autenticação simulada no Windows.", "OK");
                     return true;
                 }
 
@@ -48,7 +45,6 @@ namespace PassVault.ViewModels
 
                 if (authResult.Authenticated)
                 {
-                    await Shell.Current.DisplayAlert("Sucesso", "Autenticação realizada com sucesso!", "OK");
                     return true;
                 }
                 else

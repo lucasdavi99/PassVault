@@ -48,8 +48,7 @@
             Source="permission_button.png"
             WidthRequest="184"
             HeightRequest="59" 
-            Grid.Row="1"
-            
+            Grid.Row="1" 
             Margin="0, 200, 0, 0" 
             BackgroundColor="Transparent" 
             Command="{Binding NextPageCommand}"/>
