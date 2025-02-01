@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using PassVault.Views;
 using Plugin.Fingerprint;
 using Plugin.Fingerprint.Abstractions;
 using System.Runtime.InteropServices;
@@ -24,7 +25,7 @@ namespace PassVault.ViewModels
 
             if (authResult)
             {
-                await Shell.Current.GoToAsync("///TutorialPage4", true);
+                await Shell.Current.GoToAsync(nameof(TutorialPage4));
             }
             else
             {
