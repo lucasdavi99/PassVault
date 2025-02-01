@@ -5,6 +5,7 @@ using PassVault.Data;
 using PassVault.ViewModels;
 using PassVault.Views;
 using SkiaSharp.Views.Maui.Controls.Hosting;
+using CommunityToolkit.Maui;
 
 namespace PassVault
 {
@@ -16,6 +17,7 @@ namespace PassVault
             builder
                 .UseMauiApp<App>()
                 .UseSkiaSharp()
+                .UseMauiCommunityToolkit()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("Roboto.ttf", "Roboto");  
@@ -26,14 +28,14 @@ namespace PassVault
     		builder.Logging.AddDebug();
             builder.Services.AddSingleton<AccountDatabase>();
             
-            builder.Services.AddTransient<MainPageViewModel>();
             builder.Services.AddTransient<MainPage>();
-            builder.Services.AddTransient<NewAccountPageViewModel>();
+            builder.Services.AddTransient<MainPageViewModel>();
             builder.Services.AddTransient<NewAccountPage>();
-            builder.Services.AddTransient<PasswordGeneratorViewModel>();
+            builder.Services.AddTransient<NewAccountPageViewModel>();
             builder.Services.AddTransient<PasswordGenerator>();
-            builder.Services.AddTransient<EditAccountPageViewModel>();
+            builder.Services.AddTransient<PasswordGeneratorViewModel>();
             builder.Services.AddTransient<EditAccountPage>();
+            builder.Services.AddTransient<EditAccountPageViewModel>();
 
 #endif
 

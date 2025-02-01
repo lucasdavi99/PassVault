@@ -6,6 +6,7 @@ using PassVault.Messages;
 using PassVault.Models;
 using PassVault.Views;
 using System.Collections.ObjectModel;
+using System.Xml.Linq;
 
 namespace PassVault.ViewModels
 {
@@ -76,6 +77,23 @@ namespace PassVault.ViewModels
         {
             var accounts = await _database.GetAccountsAsync();
             Accounts = new ObservableCollection<Account>(accounts);
+            Console.WriteLine($"Número de contas: {Accounts.Count}");
+        }
+
+        [RelayCommand]
+        private async Task DeleteAccount(Account account)
+        {
+            if(account != null)
+            {
+                bool confirm = await Shell.Current.DisplayAlert("Confirmação", "Deseja realmente excluir este item?", "Sim", "Não");
+
+                if (confirm)
+                {
+                    await _database.DeleteAccountAsync(account);
+                    await LoadAccounts();
+                    await Shell.Current.DisplayAlert("Sucesso", "Conta excluída com sucesso.", "OK");
+                }
+            }
         }
 
         private static async Task SimulateAsyncWork(string message)
