@@ -89,6 +89,11 @@
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="models:Account">
                             <Border BackgroundColor="Black" WidthRequest="390" HeightRequest="52" Stroke="{Binding Color, Converter={StaticResource HexToColorConverter}}">
+
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}, Path=EditAccountCommand}" CommandParameter="{Binding .}" />
+                                </Border.GestureRecognizers>
+                                
                                 <Grid ColumnDefinitions="Auto, *" ColumnSpacing="10" Padding="15,0,15,0">
 
                                     <Ellipse WidthRequest="32" HeightRequest="32" Fill="{Binding Color, Converter={StaticResource HexToColorConverter}}" Grid.Column="0"/>

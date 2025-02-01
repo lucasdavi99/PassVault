@@ -32,6 +32,8 @@ namespace PassVault
             builder.Services.AddTransient<NewAccountPage>();
             builder.Services.AddTransient<PasswordGeneratorViewModel>();
             builder.Services.AddTransient<PasswordGenerator>();
+            builder.Services.AddTransient<EditAccountPageViewModel>();
+            builder.Services.AddTransient<EditAccountPage>();
 
 #endif
 
