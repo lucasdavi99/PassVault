@@ -42,8 +42,7 @@ namespace PassVault.ViewModels
                 }
 
                 var config = new AuthenticationRequestConfiguration(
-                    "Autenticação necessária",
-                    "Para acessar o aplicativo, autorize o uso da senha padrão do seu smartphone.")
+                    "Autenticação necessária", "Desbloqueie o Dispositivo.")
                 {
                     AllowAlternativeAuthentication = true,
                 };

@@ -24,10 +24,8 @@ namespace PassVault
                     fonts.AddFont("MaterialIcons-Regular.ttf", "MaterialIcons");  
                 });
 
-#if DEBUG
-    		builder.Logging.AddDebug();
             builder.Services.AddSingleton<AccountDatabase>();
-            
+
             builder.Services.AddTransient<MainPage>();
             builder.Services.AddTransient<MainPageViewModel>();
             builder.Services.AddTransient<NewAccountPage>();
@@ -36,6 +34,9 @@ namespace PassVault
             builder.Services.AddTransient<PasswordGeneratorViewModel>();
             builder.Services.AddTransient<EditAccountPage>();
             builder.Services.AddTransient<EditAccountPageViewModel>();
+
+#if DEBUG
+    		builder.Logging.AddDebug();            
 
 #endif
 

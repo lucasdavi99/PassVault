@@ -43,9 +43,15 @@ namespace PassVault.ViewModels
                     return true;
                 }
 
-                var config = new AuthenticationRequestConfiguration("Autenticação necessária", "Para acessar o aplicativo, autorize o uso da senha padrão do seu smartphone.");
+                var config = new AuthenticationRequestConfiguration(
+                    "Autenticação necessária",
+                    "Para acessar o aplicativo, autorize o uso da senha padrão do seu smartphone.")
+                {
+                    AllowAlternativeAuthentication = true,
+                };
+                
                 var authResult = await CrossFingerprint.Current.AuthenticateAsync(config);
-
+                
                 if (authResult.Authenticated)
                 {
                     await Shell.Current.DisplayAlert("Sucesso", "Autenticação realizada com sucesso!", "OK");

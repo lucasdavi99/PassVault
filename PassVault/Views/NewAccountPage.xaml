@@ -78,7 +78,6 @@
                    WidthRequest="378"
                    HeightRequest="62"
                    BackgroundColor="#19171C" 
-                   IsPassword="True" 
                    Text="{Binding Password}" 
                    TextColor="White" />
 
