@@ -13,13 +13,13 @@
         <Button Text="close"
                 FontFamily="MaterialIcons"
                 TextColor="{StaticResource Primary}"
-                FontSize="60"
-                Margin="0, 20, 20, 0"
+                FontSize="40"
+                Margin="0, 20, 0, 0"
                 BackgroundColor="Transparent"
                 HorizontalOptions="End"
                 Command="{Binding CloseCommand}" />
 
-        <Grid RowSpacing="50" ColumnSpacing="10">
+        <Grid RowSpacing="20" ColumnSpacing="10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
@@ -37,9 +37,7 @@
                    FontSize="20"
                    HorizontalTextAlignment="Center"
                    Grid.Row="0"
-                   Grid.Column="0"
-                   WidthRequest="378"
-                   HeightRequest="62"
+                   Grid.Column="0"                   
                    BackgroundColor="#19171C"
                    Margin="20" 
                    Text="{Binding Title}" 
@@ -50,37 +48,36 @@
                    FontSize="20"
                    HorizontalTextAlignment="Center"
                    Grid.Row="1"
-                   Grid.Column="0"
-                   WidthRequest="378"
-                   HeightRequest="62"
+                   Grid.Column="0"                  
                    BackgroundColor="#19171C" 
                    Text="{Binding Username}" 
-                   TextColor="White" />
+                   TextColor="White" 
+                   Margin="10, 0, 10, 0"/>
 
             <!-- E-mail -->
             <Entry Placeholder="E-mail"
                    FontSize="20"
                    HorizontalTextAlignment="Center"
                    Grid.Row="2"
-                   Grid.Column="0"
-                   WidthRequest="378"
-                   HeightRequest="62"
+                   Grid.Column="0"                  
                    BackgroundColor="#19171C" 
                    Text="{Binding Email}" 
-                   TextColor="White" />
+                   TextColor="White" 
+                   Keyboard="Email"
+                   Margin="10, 0, 10, 0" />
 
             <!-- Senha -->
             <Entry Placeholder="Senha"
                    FontSize="20"
                    HorizontalTextAlignment="Center"
                    Grid.Row="3"
-                   Grid.Column="0"
-                   WidthRequest="378"
-                   HeightRequest="62"
+                   Grid.Column="0"                   
                    BackgroundColor="#19171C" 
                    Text="{Binding Password}" 
-                   TextColor="White" />
+                   TextColor="White" 
+                   Margin="10, 0, 10, 0" />
 
+            <!-- Overlay para o ColorPicker -->
             <BoxView BackgroundColor="#80000000" 
                      IsVisible="{Binding IsColorPickerVisible}"
                      Grid.RowSpan="5"
@@ -125,15 +122,14 @@
         </Grid>
 
         <!-- Espaço para garantir que o menu fique na parte inferior -->
-        <BoxView HeightRequest="80" VerticalOptions="FillAndExpand" BackgroundColor="Transparent"/>
+        <BoxView VerticalOptions="FillAndExpand" HeightRequest="100" BackgroundColor="Transparent"/>
 
         <!-- Menu de navegação -->
         <Border BackgroundColor="#19171C"
-                WidthRequest="370"
+                WidthRequest="250"
                 HeightRequest="92"
                 Stroke="Transparent"
                 VerticalOptions="End"
-                Margin="0, 0, 0, 0"
                 StrokeShape="RoundRectangle 100, 100">
             <Grid ColumnDefinitions="*,*,*" ColumnSpacing="0">
                 <!-- Botão Home -->
