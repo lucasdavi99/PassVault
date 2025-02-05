@@ -1,113 +1,167 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:viewmodel="clr-namespace:PassVault.ViewModels"
-             xmlns:controls="clr-namespace:Maui.ColorPicker;assembly=Maui.ColorPicker"
-             x:Class="PassVault.Views.NewAccountPage"
-             x:DataType="viewmodel:NewAccountPageViewModel"
-             Shell.NavBarIsVisible="False"
-             Title="NewAccountPage">
-    <VerticalStackLayout>
+<ContentPage 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewmodel="clr-namespace:PassVault.ViewModels"
+    xmlns:controls="clr-namespace:Maui.ColorPicker;assembly=Maui.ColorPicker"
+    x:Class="PassVault.Views.NewAccountPage"
+    x:DataType="viewmodel:NewAccountPageViewModel"
+    Shell.NavBarIsVisible="False"
+    Title="NewAccountPage">
 
-        <!-- Botão Fechar -->
-        <Button Text="close"
-                FontFamily="MaterialIcons"
-                TextColor="{StaticResource Primary}"
-                FontSize="60"
-                Margin="0, 20, 20, 0"
-                BackgroundColor="Transparent"
-                HorizontalOptions="End"
-                Command="{Binding CloseCommand}" />
+    <Grid>
+        <Grid RowDefinitions="*,Auto">
+            <!-- Conteúdo Principal -->
+            <VerticalStackLayout Grid.Row="0" Spacing="20" Padding="0,20,0,0">
+                <!-- Botão Fechar -->
+                <Button Text="close"
+                        FontFamily="MaterialIcons"
+                        TextColor="{StaticResource Primary}"
+                        FontSize="40"
+                        Margin="0,20,0,0"
+                        BackgroundColor="Transparent"
+                        HorizontalOptions="End"
+                        Command="{Binding CloseCommand}" />
 
-        <Grid RowSpacing="50" ColumnSpacing="10">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
+                <!-- Formulário -->
+                <Grid RowSpacing="20" ColumnSpacing="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
 
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
+                    <!-- Título -->
+                    <Entry Placeholder="Titulo da conta"
+                           FontSize="20"
+                           HorizontalTextAlignment="Center"
+                           Grid.Row="0"
+                           Grid.Column="0"                   
+                           BackgroundColor="#19171C"
+                           Margin="20" 
+                           Text="{Binding Title}" 
+                           TextColor="White" />
 
-            <!-- Título -->
-            <Entry Placeholder="Titulo da conta"
-                   FontSize="20"
-                   HorizontalTextAlignment="Center"
-                   Grid.Row="0"
-                   Grid.Column="0"
-                   WidthRequest="378"
-                   HeightRequest="62"
-                   BackgroundColor="#19171C"
-                   Margin="20" 
-                   Text="{Binding Title}" 
-                   TextColor="White" />
+                    <!-- Nome de Usuário -->
+                    <Entry Placeholder="Username"
+                           FontSize="20"
+                           HorizontalTextAlignment="Center"
+                           Grid.Row="1"
+                           Grid.Column="0"                  
+                           BackgroundColor="#19171C" 
+                           Text="{Binding Username}" 
+                           TextColor="White" 
+                           Margin="10,0,10,0"/>
 
-            <!-- Nome de Usuário -->
-            <Entry Placeholder="Username"
-                   FontSize="20"
-                   HorizontalTextAlignment="Center"
-                   Grid.Row="1"
-                   Grid.Column="0"
-                   WidthRequest="378"
-                   HeightRequest="62"
-                   BackgroundColor="#19171C" 
-                   Text="{Binding Username}" 
-                   TextColor="White" />
+                    <!-- E-mail -->
+                    <Entry Placeholder="E-mail"
+                           FontSize="20"
+                           HorizontalTextAlignment="Center"
+                           Grid.Row="2"
+                           Grid.Column="0"                  
+                           BackgroundColor="#19171C" 
+                           Text="{Binding Email}" 
+                           TextColor="White" 
+                           Keyboard="Email"
+                           Margin="10,0,10,0" />
 
-            <!-- E-mail -->
-            <Entry Placeholder="E-mail"
-                   FontSize="20"
-                   HorizontalTextAlignment="Center"
-                   Grid.Row="2"
-                   Grid.Column="0"
-                   WidthRequest="378"
-                   HeightRequest="62"
-                   BackgroundColor="#19171C" 
-                   Text="{Binding Email}" 
-                   TextColor="White" />
+                    <!-- Senha -->
+                    <Entry Placeholder="Senha"
+                           FontSize="20"
+                           HorizontalTextAlignment="Center"
+                           Grid.Row="3"
+                           Grid.Column="0"                  
+                           BackgroundColor="#19171C" 
+                           Text="{Binding Password}" 
+                           TextColor="White" 
+                           Margin="10,0,10,0" />
 
-            <!-- Senha -->
-            <Entry Placeholder="Senha"
-                   FontSize="20"
-                   HorizontalTextAlignment="Center"
-                   Grid.Row="3"
-                   Grid.Column="0"
-                   WidthRequest="378"
-                   HeightRequest="62"
-                   BackgroundColor="#19171C" 
-                   Text="{Binding Password}" 
-                   TextColor="White" />
+                    <!-- Bolinha de Cor -->
+                    <Frame HeightRequest="50"
+                           WidthRequest="50"
+                           CornerRadius="25"
+                           BackgroundColor="{Binding SelectedColor}"
+                           HorizontalOptions="Center"
+                           Grid.Row="4"
+                           Grid.Column="0"
+                           ZIndex="1">
+                        
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ToggleColorPickerCommand}" />
+                        </Frame.GestureRecognizers>
+                    </Frame>
+                </Grid>
+            </VerticalStackLayout>
 
-            <BoxView BackgroundColor="#80000000" 
-                     IsVisible="{Binding IsColorPickerVisible}"
-                     Grid.RowSpan="5"
-                     Grid.ColumnSpan="1"
-                     ZIndex="1">
-                <BoxView.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding CloseColorPickerCommand}" />
-                </BoxView.GestureRecognizers>
-            </BoxView>
+            <!-- Menu de Navegação fixo na parte inferior -->
+            <Border Grid.Row="1"
+                    BackgroundColor="#19171C"
+                    WidthRequest="250"
+                    HeightRequest="92"
+                    Stroke="Transparent"
+                    VerticalOptions="End"
+                    StrokeShape="RoundRectangle 100, 100"
+                    HorizontalOptions="Center"
+                    Margin="0,0,0,10">
+                
+                <Grid ColumnDefinitions="*,*,*" ColumnSpacing="0">
+                    <!-- Botão Home -->
+                    <Button WidthRequest="60"
+                            Grid.Column="0"
+                            HeightRequest="60"  
+                            Padding="0"
+                            BackgroundColor="{StaticResource Primary}"
+                            CornerRadius="50"
+                            Text="home"
+                            TextColor="Black"
+                            FontFamily="MaterialIcons"
+                            FontSize="30"
+                            Command="{Binding CloseCommand}" />
 
-            <!-- Bolinha de Cor -->
-            <Frame HeightRequest="50"
-                   WidthRequest="50"
-                   CornerRadius="25"
-                   BackgroundColor="{Binding SelectedColor}"
-                   HorizontalOptions="Center"
-                   Grid.Row="4"
-                   Grid.Column="0"
-                   ZIndex="2">
+                    <!-- Botão Confirmar -->
+                    <Button WidthRequest="60"
+                            Grid.Column="1"
+                            HeightRequest="60"
+                            CornerRadius="10"
+                            BackgroundColor="{StaticResource Primary}"
+                            Text="check"
+                            TextColor="Black"
+                            FontFamily="MaterialIcons"
+                            FontSize="40"
+                            Padding="0"
+                            HorizontalOptions="Center"
+                            Command="{Binding SaveAccountCommand}"
+                            CommandParameter="Add" />
 
-                <Frame.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding ToggleColorPickerCommand}" />
-                </Frame.GestureRecognizers>
-            </Frame>
-
-            <!-- ColorPicker -->
-            <controls:ColorPicker
+                    <!-- Botão Aleatório -->
+                    <Button WidthRequest="60"
+                            Grid.Column="2"
+                            HeightRequest="60"  
+                            Padding="0"
+                            BackgroundColor="{StaticResource Primary}"
+                            CornerRadius="50"
+                            Text="shuffle"
+                            TextColor="Black"
+                            FontFamily="MaterialIcons"
+                            FontSize="30"
+                            Command="{Binding GoToGeneratorCommand}" />
+                </Grid>
+            </Border>
+        </Grid>
+        
+        <Grid IsVisible="{Binding IsColorPickerVisible}"
+              BackgroundColor="#80000000">
+            
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding CloseColorPickerCommand}" />
+            </Grid.GestureRecognizers>
+            <!-- ColorPicker centralizado -->
+            <controls:ColorPicker                       
                 x:Name="ColorPicker"
                 ColorFlowDirection="Horizontal"
                 WidthRequest="300"
@@ -117,69 +171,7 @@
                 PointerRingDiameterUnits="0.7"
                 HorizontalOptions="Center"
                 VerticalOptions="Center"
-                Grid.Row="4"
-                Grid.Column="0"
-                IsVisible="{Binding IsColorPickerVisible}"
-                PickedColor="{Binding SelectedColor, Mode=TwoWay}"
-                ZIndex="3"/>
+                PickedColor="{Binding SelectedColor, Mode=TwoWay}" />
         </Grid>
-
-        <!-- Espaço para garantir que o menu fique na parte inferior -->
-        <BoxView HeightRequest="80" VerticalOptions="FillAndExpand" BackgroundColor="Transparent"/>
-
-        <!-- Menu de navegação -->
-        <Border BackgroundColor="#19171C"
-                WidthRequest="370"
-                HeightRequest="92"
-                Stroke="Transparent"
-                VerticalOptions="End"
-                Margin="0, 0, 0, 0"
-                StrokeShape="RoundRectangle 100, 100">
-            <Grid ColumnDefinitions="*,*,*" ColumnSpacing="0">
-                <!-- Botão Home -->
-                <Button WidthRequest="60"
-                        Grid.Column="0"
-                        HeightRequest="60"  
-                        Padding="0"
-                        BackgroundColor="{StaticResource Primary}"
-                        CornerRadius="50"
-                        Text="home"
-                        TextColor="Black"
-                        FontFamily="MaterialIcons"
-                        FontSize="30"
-                        Command="{Binding CloseCommand}">
-                </Button>
-
-                <!-- Botão Confirmar -->
-                <Button WidthRequest="60"
-                        Grid.Column="1"
-                        HeightRequest="60"
-                        CornerRadius="10"
-                        BackgroundColor="{StaticResource Primary}"
-                        Text="check"
-                        TextColor="Black"
-                        FontFamily="MaterialIcons"
-                        FontSize="40"
-                        Padding="0"
-                        HorizontalOptions="Center"
-                        Command="{Binding SaveAccountCommand}"
-                        CommandParameter="Add">
-                </Button>
-
-                <!-- Botão Aleatório -->
-                <Button WidthRequest="60"
-                        Grid.Column="2"
-                        HeightRequest="60"  
-                        Padding="0"
-                        BackgroundColor="{StaticResource Primary}"
-                        CornerRadius="50"
-                        Text="shuffle"
-                        TextColor="Black"
-                        FontFamily="MaterialIcons"
-                        FontSize="30"
-                        Command="{Binding GoToGeneratorCommand}">
-                </Button>
-            </Grid>
-        </Border>
-    </VerticalStackLayout>
+    </Grid>
 </ContentPage>
