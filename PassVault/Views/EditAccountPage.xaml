@@ -16,185 +16,181 @@
             <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
-    
-    <Grid RowDefinitions="*,Auto">
-        <!-- Conteúdo Principal -->
-        <VerticalStackLayout Grid.Row="0" Spacing="20" Padding="0,20,0,0">
-            <!-- Botão Fechar -->
-            <Button Text="close"
-                    FontFamily="MaterialIcons"
-                    TextColor="{StaticResource Primary}"
-                    FontSize="40"
-                    Margin="0,20,0,0"
-                    BackgroundColor="Transparent"
-                    HorizontalOptions="End"
-                    Command="{Binding CloseCommand}" />
-            
-            <Grid RowSpacing="20" ColumnSpacing="10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
 
-                <!-- Título -->
-                <Entry Placeholder="Titulo da conta"
-                       FontSize="20"
-                       HorizontalTextAlignment="Center"
-                       Grid.Row="0"
-                       Grid.Column="0"                   
-                       BackgroundColor="#19171C"
-                       Margin="20" 
-                       Text="{Binding Title}"
-                       TextColor="{Binding IsEditing, Converter={StaticResource EditingModeToColorConverter}}"
-                       IsReadOnly="{Binding IsEditing, Converter={StaticResource InverseBooleanConverter}}" />
-
-                <!-- Nome de Usuário -->
-                <Entry Placeholder="Username"
-                       FontSize="20"
-                       HorizontalTextAlignment="Center"
-                       Grid.Row="1"
-                       Grid.Column="0"     
-                       Margin="10,0,10,0"
-                       BackgroundColor="#19171C" 
-                       Text="{Binding Username}"
-                       TextColor="{Binding IsEditing, Converter={StaticResource EditingModeToColorConverter}}"
-                       IsReadOnly="{Binding IsEditing, Converter={StaticResource InverseBooleanConverter}}" />
-
-                <!-- E-mail -->
-                <Entry Placeholder="E-mail"
-                       FontSize="20"
-                       HorizontalTextAlignment="Center"
-                       Grid.Row="2"
-                       Grid.Column="0"
-                       Margin="10,0,10,0"
-                       Keyboard="Email"
-                       BackgroundColor="#19171C" 
-                       Text="{Binding Email}"
-                       TextColor="{Binding IsEditing, Converter={StaticResource EditingModeToColorConverter}}"
-                       IsReadOnly="{Binding IsEditing, Converter={StaticResource InverseBooleanConverter}}" />
-
-                <!-- Senha -->
-                <Entry Placeholder="Senha"
-                       FontSize="20"
-                       HorizontalTextAlignment="Center"
-                       Grid.Row="3"
-                       Grid.Column="0"
-                       Margin="10,0,10,0"
-                       BackgroundColor="#19171C" 
-                       Text="{Binding Password}"
-                       TextColor="{Binding IsEditing, Converter={StaticResource EditingModeToColorConverter}}"
-                       IsReadOnly="{Binding IsEditing, Converter={StaticResource InverseBooleanConverter}}" />
-
-                <!-- Overlay para o ColorPicker -->
-                <BoxView BackgroundColor="#80000000" 
-                         IsVisible="{Binding IsColorPickerVisible}"
-                         Grid.RowSpan="5"
-                         Grid.ColumnSpan="1"
-                         ZIndex="1">
-                    <BoxView.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding CloseColorPickerCommand}" />
-                    </BoxView.GestureRecognizers>
-                </BoxView>
-
-                <!-- Bolinha de Cor -->
-                <Frame HeightRequest="50"
-                       WidthRequest="50"
-                       CornerRadius="25"
-                       BackgroundColor="{Binding SelectedColor}"
-                       HorizontalOptions="Center"
-                       Grid.Row="4"
-                       Grid.Column="0"
-                       ZIndex="2">
-                    <Frame.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding ToggleColorPickerCommand}" />
-                    </Frame.GestureRecognizers>
-                </Frame>
-
-                <!-- ColorPicker -->
-                <controls:ColorPicker
-                    x:Name="ColorPicker"
-                    ColorFlowDirection="Horizontal"
-                    WidthRequest="300"
-                    HeightRequest="200"
-                    ColorSpectrumStyle="ShadeToHueToTintStyle"
-                    PointerRingBorderUnits="0.3"
-                    PointerRingDiameterUnits="0.7"
-                    HorizontalOptions="Center"
-                    VerticalOptions="Center"
-                    Grid.Row="4"
-                    Grid.Column="0"
-                    IsVisible="{Binding IsColorPickerVisible}"
-                    PickedColor="{Binding SelectedColor, Mode=TwoWay}"
-                    ZIndex="3"/>
-            </Grid>
-        </VerticalStackLayout>
-
-        <!-- Menu de Navegação fixo na parte inferior -->
-        <Border Grid.Row="1"
-                BackgroundColor="#19171C"
-                WidthRequest="250"
-                HeightRequest="92"
-                Stroke="Transparent"
-                VerticalOptions="End"
-                StrokeShape="RoundRectangle 100, 100"
-                HorizontalOptions="Center"
-                Margin="0,0,0,10">
-            <Grid ColumnDefinitions="*,*,*" ColumnSpacing="0">
-                <!-- Botão Home -->
-                <Button WidthRequest="60"
-                        Grid.Column="0"
-                        HeightRequest="60"  
-                        Padding="0"
-                        BackgroundColor="{StaticResource Primary}"
-                        CornerRadius="50"
-                        Text="home"
-                        TextColor="Black"
+    <Grid>
+        <Grid RowDefinitions="*,Auto">
+            <!-- Conteúdo Principal -->
+            <VerticalStackLayout Grid.Row="0" Spacing="20" Padding="0,20,0,0">
+                <!-- Botão Fechar -->
+                <Button Text="close"
                         FontFamily="MaterialIcons"
-                        FontSize="30"
+                        TextColor="{StaticResource Primary}"
+                        FontSize="40"
+                        Margin="0,20,0,0"
+                        BackgroundColor="Transparent"
+                        HorizontalOptions="End"
                         Command="{Binding CloseCommand}" />
 
-                <!-- Botão Confirmar Edição (alterna entre editar e confirmar) -->
-                <Button WidthRequest="60"
-                        Grid.Column="1"
-                        HeightRequest="60"
-                        CornerRadius="10"
-                        BackgroundColor="{StaticResource Primary}"
-                        TextColor="Black"
-                        FontFamily="MaterialIcons"
-                        FontSize="40"
-                        Padding="0"
-                        HorizontalOptions="Center">
-                    <Button.Triggers>
-                        <DataTrigger TargetType="Button" Binding="{Binding IsEditing}" Value="False">
-                            <Setter Property="Text" Value="edit"/>
-                            <Setter Property="Command" Value="{Binding ToggleEditModeCommand}"/>
-                        </DataTrigger>
-                        <DataTrigger TargetType="Button" Binding="{Binding IsEditing}" Value="True">
-                            <Setter Property="Text" Value="check"/>
-                            <Setter Property="Command" Value="{Binding SaveEditAccountCommand}"/>
-                        </DataTrigger>
-                    </Button.Triggers>
-                </Button>
+                <Grid RowSpacing="20" ColumnSpacing="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
 
-                <!-- Botão Aleatório -->
-                <Button WidthRequest="60"
-                        Grid.Column="2"
-                        HeightRequest="60"  
-                        Padding="0"
-                        BackgroundColor="{StaticResource Primary}"
-                        CornerRadius="50"
-                        Text="shuffle"
-                        TextColor="Black"
-                        FontFamily="MaterialIcons"
-                        FontSize="30"
-                        Command="{Binding GoToGeneratorCommand}" />
-            </Grid>
-        </Border>
+                    <!-- Título -->
+                    <Entry Placeholder="Titulo da conta"
+                           FontSize="20"
+                           HorizontalTextAlignment="Center"
+                           Grid.Row="0"
+                           Grid.Column="0"                   
+                           BackgroundColor="#19171C"
+                           Margin="20" 
+                           Text="{Binding Title}"
+                           TextColor="{Binding IsEditing, Converter={StaticResource EditingModeToColorConverter}}"
+                           IsReadOnly="{Binding IsEditing, Converter={StaticResource InverseBooleanConverter}}" />
+
+                    <!-- Nome de Usuário -->
+                    <Entry Placeholder="Username"
+                           FontSize="20"
+                           HorizontalTextAlignment="Center"
+                           Grid.Row="1"
+                           Grid.Column="0"     
+                           Margin="10,0,10,0"
+                           BackgroundColor="#19171C" 
+                           Text="{Binding Username}"
+                           TextColor="{Binding IsEditing, Converter={StaticResource EditingModeToColorConverter}}"
+                           IsReadOnly="{Binding IsEditing, Converter={StaticResource InverseBooleanConverter}}" />
+
+                    <!-- E-mail -->
+                    <Entry Placeholder="E-mail"
+                           FontSize="20"
+                           HorizontalTextAlignment="Center"
+                           Grid.Row="2"
+                           Grid.Column="0"
+                           Margin="10,0,10,0"
+                           Keyboard="Email"
+                           BackgroundColor="#19171C" 
+                           Text="{Binding Email}"
+                           TextColor="{Binding IsEditing, Converter={StaticResource EditingModeToColorConverter}}"
+                           IsReadOnly="{Binding IsEditing, Converter={StaticResource InverseBooleanConverter}}" />
+
+                    <!-- Senha -->
+                    <Entry Placeholder="Senha"
+                           FontSize="20"
+                           HorizontalTextAlignment="Center"
+                           Grid.Row="3"
+                           Grid.Column="0"
+                           Margin="10,0,10,0"
+                           BackgroundColor="#19171C" 
+                           Text="{Binding Password}"
+                           TextColor="{Binding IsEditing, Converter={StaticResource EditingModeToColorConverter}}"
+                           IsReadOnly="{Binding IsEditing, Converter={StaticResource InverseBooleanConverter}}" />
+
+                    <!-- Bolinha de Cor -->
+                    <Frame HeightRequest="50"
+                           WidthRequest="50"
+                           CornerRadius="25"
+                           BackgroundColor="{Binding SelectedColor}"
+                           HorizontalOptions="Center"
+                           Grid.Row="4"
+                           Grid.Column="0"
+                           ZIndex="1">
+                        
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ToggleColorPickerCommand}" />
+                        </Frame.GestureRecognizers>
+                    </Frame>
+                </Grid>
+            </VerticalStackLayout>
+
+            <!-- Menu de Navegação fixo na parte inferior -->
+            <Border Grid.Row="1"
+                    BackgroundColor="#19171C"
+                    WidthRequest="250"
+                    HeightRequest="92"
+                    Stroke="Transparent"
+                    VerticalOptions="End"
+                    StrokeShape="RoundRectangle 100, 100"
+                    HorizontalOptions="Center"
+                    Margin="0,0,0,10">
+                <Grid ColumnDefinitions="*,*,*" ColumnSpacing="0">
+                    <!-- Botão Home -->
+                    <Button WidthRequest="60"
+                            Grid.Column="0"
+                            HeightRequest="60"  
+                            Padding="0"
+                            BackgroundColor="{StaticResource Primary}"
+                            CornerRadius="50"
+                            Text="home"
+                            TextColor="Black"
+                            FontFamily="MaterialIcons"
+                            FontSize="30"
+                            Command="{Binding CloseCommand}" />
+
+                    <!-- Botão Confirmar Edição -->
+                    <Button WidthRequest="60"
+                            Grid.Column="1"
+                            HeightRequest="60"
+                            CornerRadius="10"
+                            BackgroundColor="{StaticResource Primary}"
+                            TextColor="Black"
+                            FontFamily="MaterialIcons"
+                            FontSize="40"
+                            Padding="0"
+                            HorizontalOptions="Center">
+                        <Button.Triggers>
+                            <DataTrigger TargetType="Button" Binding="{Binding IsEditing}" Value="False">
+                                <Setter Property="Text" Value="edit"/>
+                                <Setter Property="Command" Value="{Binding ToggleEditModeCommand}"/>
+                            </DataTrigger>
+                            <DataTrigger TargetType="Button" Binding="{Binding IsEditing}" Value="True">
+                                <Setter Property="Text" Value="check"/>
+                                <Setter Property="Command" Value="{Binding SaveEditAccountCommand}"/>
+                            </DataTrigger>
+                        </Button.Triggers>
+                    </Button>
+
+                    <!-- Botão Aleatório -->
+                    <Button WidthRequest="60"
+                            Grid.Column="2"
+                            HeightRequest="60"  
+                            Padding="0"
+                            BackgroundColor="{StaticResource Primary}"
+                            CornerRadius="50"
+                            Text="shuffle"
+                            TextColor="Black"
+                            FontFamily="MaterialIcons"
+                            FontSize="30"
+                            Command="{Binding GoToGeneratorCommand}" />
+                </Grid>
+            </Border>
+        </Grid>
+   
+        <Grid IsVisible="{Binding IsColorPickerVisible}"
+              BackgroundColor="#80000000">
+            
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding CloseColorPickerCommand}" />
+            </Grid.GestureRecognizers>
+            
+            <!-- ColorPicker centralizado -->
+            <controls:ColorPicker
+                x:Name="ColorPicker"
+                ColorFlowDirection="Horizontal"
+                WidthRequest="300"
+                HeightRequest="200"
+                ColorSpectrumStyle="ShadeToHueToTintStyle"
+                PointerRingBorderUnits="0.3"
+                PointerRingDiameterUnits="0.7"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                PickedColor="{Binding SelectedColor, Mode=TwoWay}" />
+        </Grid>
     </Grid>
 </ContentPage>

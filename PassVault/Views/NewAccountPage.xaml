@@ -9,19 +9,21 @@
     Shell.NavBarIsVisible="False"
     Title="NewAccountPage">
 
-    <Grid RowDefinitions="*,Auto">
-        <ScrollView Grid.Row="0">
-            <VerticalStackLayout Spacing="20" Padding="0,20,0,0">
+    <Grid>
+        <Grid RowDefinitions="*,Auto">
+            <!-- Conteúdo Principal -->
+            <VerticalStackLayout Grid.Row="0" Spacing="20" Padding="0,20,0,0">
                 <!-- Botão Fechar -->
                 <Button Text="close"
                         FontFamily="MaterialIcons"
                         TextColor="{StaticResource Primary}"
                         FontSize="40"
-                        Margin="0, 20, 0, 0"
+                        Margin="0,20,0,0"
                         BackgroundColor="Transparent"
                         HorizontalOptions="End"
                         Command="{Binding CloseCommand}" />
- 
+
+                <!-- Formulário -->
                 <Grid RowSpacing="20" ColumnSpacing="10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -54,7 +56,7 @@
                            BackgroundColor="#19171C" 
                            Text="{Binding Username}" 
                            TextColor="White" 
-                           Margin="10, 0, 10, 0"/>
+                           Margin="10,0,10,0"/>
 
                     <!-- E-mail -->
                     <Entry Placeholder="E-mail"
@@ -66,7 +68,7 @@
                            Text="{Binding Email}" 
                            TextColor="White" 
                            Keyboard="Email"
-                           Margin="10, 0, 10, 0" />
+                           Margin="10,0,10,0" />
 
                     <!-- Senha -->
                     <Entry Placeholder="Senha"
@@ -77,19 +79,7 @@
                            BackgroundColor="#19171C" 
                            Text="{Binding Password}" 
                            TextColor="White" 
-                           Margin="10, 0, 10, 0" />
-
-                    <!-- Overlay para o ColorPicker -->
-                    <BoxView BackgroundColor="#80000000" 
-                             IsVisible="{Binding IsColorPickerVisible}"
-                             Grid.RowSpan="5"
-                             Grid.ColumnSpan="1"
-                             ZIndex="1">
-                        
-                        <BoxView.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding CloseColorPickerCommand}" />
-                        </BoxView.GestureRecognizers>
-                    </BoxView>
+                           Margin="10,0,10,0" />
 
                     <!-- Bolinha de Cor -->
                     <Frame HeightRequest="50"
@@ -99,86 +89,89 @@
                            HorizontalOptions="Center"
                            Grid.Row="4"
                            Grid.Column="0"
-                           ZIndex="2">
+                           ZIndex="1">
                         
                         <Frame.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding ToggleColorPickerCommand}" />
                         </Frame.GestureRecognizers>
                     </Frame>
-
-                    <!-- ColorPicker -->
-                    <controls:ColorPicker                       
-                        x:Name="ColorPicker"
-                        ColorFlowDirection="Horizontal"
-                        WidthRequest="300"
-                        HeightRequest="200"
-                        ColorSpectrumStyle="ShadeToHueToTintStyle"
-                        PointerRingBorderUnits="0.3"
-                        PointerRingDiameterUnits="0.7"
-                        HorizontalOptions="Center"
-                        VerticalOptions="Center"
-                        Grid.Row="4"
-                        Grid.Column="0"
-                        IsVisible="{Binding IsColorPickerVisible}"
-                        PickedColor="{Binding SelectedColor, Mode=TwoWay}"
-                        ZIndex="3"/>
                 </Grid>
             </VerticalStackLayout>
-        </ScrollView>
 
-        <!-- Menu de navegação fixo na parte inferior -->
-        <Border Grid.Row="1"
-                BackgroundColor="#19171C"
-                WidthRequest="250"
-                HeightRequest="92"
-                Stroke="Transparent"
-                VerticalOptions="End"
-                StrokeShape="RoundRectangle 100, 100"
-                HorizontalOptions="Center"
-                Margin="0,0,0,10">
+            <!-- Menu de Navegação fixo na parte inferior -->
+            <Border Grid.Row="1"
+                    BackgroundColor="#19171C"
+                    WidthRequest="250"
+                    HeightRequest="92"
+                    Stroke="Transparent"
+                    VerticalOptions="End"
+                    StrokeShape="RoundRectangle 100, 100"
+                    HorizontalOptions="Center"
+                    Margin="0,0,0,10">
+                
+                <Grid ColumnDefinitions="*,*,*" ColumnSpacing="0">
+                    <!-- Botão Home -->
+                    <Button WidthRequest="60"
+                            Grid.Column="0"
+                            HeightRequest="60"  
+                            Padding="0"
+                            BackgroundColor="{StaticResource Primary}"
+                            CornerRadius="50"
+                            Text="home"
+                            TextColor="Black"
+                            FontFamily="MaterialIcons"
+                            FontSize="30"
+                            Command="{Binding CloseCommand}" />
+
+                    <!-- Botão Confirmar -->
+                    <Button WidthRequest="60"
+                            Grid.Column="1"
+                            HeightRequest="60"
+                            CornerRadius="10"
+                            BackgroundColor="{StaticResource Primary}"
+                            Text="check"
+                            TextColor="Black"
+                            FontFamily="MaterialIcons"
+                            FontSize="40"
+                            Padding="0"
+                            HorizontalOptions="Center"
+                            Command="{Binding SaveAccountCommand}"
+                            CommandParameter="Add" />
+
+                    <!-- Botão Aleatório -->
+                    <Button WidthRequest="60"
+                            Grid.Column="2"
+                            HeightRequest="60"  
+                            Padding="0"
+                            BackgroundColor="{StaticResource Primary}"
+                            CornerRadius="50"
+                            Text="shuffle"
+                            TextColor="Black"
+                            FontFamily="MaterialIcons"
+                            FontSize="30"
+                            Command="{Binding GoToGeneratorCommand}" />
+                </Grid>
+            </Border>
+        </Grid>
+        
+        <Grid IsVisible="{Binding IsColorPickerVisible}"
+              BackgroundColor="#80000000">
             
-            <Grid ColumnDefinitions="*,*,*" ColumnSpacing="0">
-                <!-- Botão Home -->
-                <Button WidthRequest="60"
-                        Grid.Column="0"
-                        HeightRequest="60"  
-                        Padding="0"
-                        BackgroundColor="{StaticResource Primary}"
-                        CornerRadius="50"
-                        Text="home"
-                        TextColor="Black"
-                        FontFamily="MaterialIcons"
-                        FontSize="30"
-                        Command="{Binding CloseCommand}"/>
-
-                <!-- Botão Confirmar -->
-                <Button WidthRequest="60"
-                        Grid.Column="1"
-                        HeightRequest="60"
-                        CornerRadius="10"
-                        BackgroundColor="{StaticResource Primary}"
-                        Text="check"
-                        TextColor="Black"
-                        FontFamily="MaterialIcons"
-                        FontSize="40"
-                        Padding="0"
-                        HorizontalOptions="Center"
-                        Command="{Binding SaveAccountCommand}"
-                        CommandParameter="Add"/>
-
-                <!-- Botão Aleatório -->
-                <Button WidthRequest="60"
-                        Grid.Column="2"
-                        HeightRequest="60"  
-                        Padding="0"
-                        BackgroundColor="{StaticResource Primary}"
-                        CornerRadius="50"
-                        Text="shuffle"
-                        TextColor="Black"
-                        FontFamily="MaterialIcons"
-                        FontSize="30"
-                        Command="{Binding GoToGeneratorCommand}"/>
-            </Grid>
-        </Border>
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding CloseColorPickerCommand}" />
+            </Grid.GestureRecognizers>
+            <!-- ColorPicker centralizado -->
+            <controls:ColorPicker                       
+                x:Name="ColorPicker"
+                ColorFlowDirection="Horizontal"
+                WidthRequest="300"
+                HeightRequest="200"
+                ColorSpectrumStyle="ShadeToHueToTintStyle"
+                PointerRingBorderUnits="0.3"
+                PointerRingDiameterUnits="0.7"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                PickedColor="{Binding SelectedColor, Mode=TwoWay}" />
+        </Grid>
     </Grid>
 </ContentPage>
