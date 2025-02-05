@@ -82,32 +82,36 @@
                         <CollectionView.ItemTemplate>
                             <DataTemplate x:DataType="models:Account">
                                 <Border BackgroundColor="Black"
-                        WidthRequest="300"
-                        HeightRequest="52"
-                        Stroke="{Binding Color, Converter={StaticResource HexToColorConverter}}">
+                                        WidthRequest="300"
+                                        HeightRequest="52"
+                                        Stroke="{Binding Color, Converter={StaticResource HexToColorConverter}}">
+                                    
                                     <Border.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}, Path=EditAccountCommand}"
-                                          CommandParameter="{Binding .}" />
+                                                              CommandParameter="{Binding .}" />
                                         <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}, Path=DeleteAccountCommand}"
-                                          CommandParameter="{Binding .}"
-                                          NumberOfTapsRequired="2"/>
+                                                              CommandParameter="{Binding .}"
+                                                              NumberOfTapsRequired="2"/>
                                     </Border.GestureRecognizers>
+                                    
                                     <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="10" Padding="15,0,15,0">
                                         <Ellipse WidthRequest="32"
-                             HeightRequest="32"
-                             Fill="{Binding Color, Converter={StaticResource HexToColorConverter}}"
-                             Grid.Column="0"/>
+                                                 HeightRequest="32"
+                                                 Fill="{Binding Color, Converter={StaticResource HexToColorConverter}}"
+                                                 Grid.Column="0"/>
+                                       
                                         <Label Text="{Binding Title}"
-                           TextColor="White"
-                           Grid.Column="1"
-                           VerticalTextAlignment="Center"
-                           FontSize="20"
-                           FontAttributes="Bold"/>
+                                               TextColor="White"
+                                               Grid.Column="1"
+                                               VerticalTextAlignment="Center"
+                                               FontSize="20"
+                                               FontAttributes="Bold"/>
+                                        
                                         <Label Text="{Binding Created, StringFormat='{0:dd/MM/yyyy}'}"
-                           TextColor="White"
-                           Grid.Column="2"
-                           HorizontalTextAlignment="End"
-                           VerticalTextAlignment="Center"/>
+                                               TextColor="White"
+                                               Grid.Column="2"
+                                               HorizontalTextAlignment="End"
+                                               VerticalTextAlignment="Center"/>
                                     </Grid>
                                 </Border>
                             </DataTemplate>
@@ -117,40 +121,43 @@
 
                 <!-- Tab Pastas -->
                 <StackLayout IsVisible="{Binding SelectedTab, Converter={StaticResource TabVisibilityConverter}, ConverterParameter=Pastas}"
-                     VerticalOptions="CenterAndExpand"
-                     HorizontalOptions="CenterAndExpand">
+                             VerticalOptions="CenterAndExpand"
+                             HorizontalOptions="CenterAndExpand">
+                    
                     <Label Text="Funcionalidade de pastas em construção" 
-                 TextColor="White"
-                 FontSize="60"
-                 FontAttributes="Bold"
-                 HorizontalOptions="Center"
-                 VerticalOptions="Center"/>
+                           TextColor="White"
+                           FontSize="60"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"/>
                 </StackLayout>
             </Grid>
         </ScrollView>
 
         <!-- Menu de navegação fixo -->
         <Border Grid.Row="2"
-            BackgroundColor="#19171C"
-            WidthRequest="250"
-            HeightRequest="92"
-            Stroke="Transparent"
-            VerticalOptions="End"
-            Margin="0,0,0,10"
-            StrokeShape="RoundRectangle 100, 100">
+                BackgroundColor="#19171C"
+                WidthRequest="250"
+                HeightRequest="92"
+                Stroke="Transparent"
+                VerticalOptions="End"
+                Margin="0,0,0,10"
+                StrokeShape="RoundRectangle 100, 100">
+            
             <Grid ColumnDefinitions="*,*,*" ColumnSpacing="0">
                 
                 <!-- Botão Home -->
                 <Button WidthRequest="60"
-                Grid.Column="0"
-                HeightRequest="60"  
-                Padding="0"
-                BackgroundColor="{StaticResource Primary}"
-                CornerRadius="50"
-                Text="home"
-                TextColor="Black"
-                FontFamily="MaterialIcons"
-                FontSize="30">
+                        Grid.Column="0"
+                        HeightRequest="60"  
+                        Padding="0"
+                        BackgroundColor="{StaticResource Primary}"
+                        CornerRadius="50"
+                        Text="home"
+                        TextColor="Black"
+                        FontFamily="MaterialIcons"
+                        FontSize="30">
+                    
                     <Button.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding SelectActionCommand}" CommandParameter="Home" />
                     </Button.GestureRecognizers>
@@ -158,29 +165,30 @@
                
                 <!-- Botão Adicionar -->
                 <Button WidthRequest="60"
-                Grid.Column="1"
-                HeightRequest="60"
-                CornerRadius="10"
-                BackgroundColor="{StaticResource Primary}"
-                Text="+"
-                TextColor="Black"
-                FontSize="{OnPlatform Default=60, Android=40}"
-                Padding="0"
-                HorizontalOptions="Center"
-                Command="{Binding SelectActionCommand}"
-                CommandParameter="Add"/>
+                        Grid.Column="1"
+                        HeightRequest="60"
+                        CornerRadius="10"
+                        BackgroundColor="{StaticResource Primary}"
+                        Text="+"
+                        TextColor="Black"
+                        FontSize="{OnPlatform Default=60, Android=40}"
+                        Padding="0"
+                        HorizontalOptions="Center"
+                        Command="{Binding SelectActionCommand}"
+                        CommandParameter="Add"/>
                 
                 <!-- Botão Procurar -->
                 <Button WidthRequest="60"
-                Grid.Column="2"
-                HeightRequest="60"  
-                Padding="0"
-                BackgroundColor="{StaticResource Primary}"
-                CornerRadius="50"
-                Text="search"
-                TextColor="Black"
-                FontFamily="MaterialIcons"
-                FontSize="30">
+                        Grid.Column="2"
+                        HeightRequest="60"  
+                        Padding="0"
+                        BackgroundColor="{StaticResource Primary}"
+                        CornerRadius="50"
+                        Text="search"
+                        TextColor="Black"
+                        FontFamily="MaterialIcons"
+                        FontSize="30">
+                    
                     <Button.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding SelectActionCommand}" CommandParameter="Search" />
                     </Button.GestureRecognizers>
