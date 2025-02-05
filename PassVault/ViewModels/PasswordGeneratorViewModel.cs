@@ -110,11 +110,11 @@ namespace PassVault.ViewModels
                 return false;
             }
 
-            if (MaxLength <= MinLength)
+            if (MaxLength < MinLength)
             {
                 if (OperatingSystem.IsWindowsVersionAtLeast(10, 0, 17763))
                 {
-                    Shell.Current.DisplayAlert("Erro", "O comprimento máximo deve ser maior que o mínimo", "OK");
+                    Shell.Current.DisplayAlert("Erro", "O comprimento máximo deve ser maior ou igual a o mínimo", "OK");
                 }
                 return false;
             }
@@ -122,5 +122,3 @@ namespace PassVault.ViewModels
         }
     }
 }
-
-
