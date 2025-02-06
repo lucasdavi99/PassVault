@@ -51,22 +51,20 @@
 
             <!-- Traço para o tab "Itens" -->
             <BoxView Grid.Column="0"
-               HeightRequest="3"
                WidthRequest="130"
+               HeightRequest="3"
                BackgroundColor="{StaticResource Primary}"
-               HorizontalOptions="Start"
+               HorizontalOptions="Center"
                VerticalOptions="End"
-               Margin="30,0,0,-1"
                IsVisible="{Binding SelectedTab, Converter={StaticResource TabVisibilityConverter}, ConverterParameter=Itens}"/>
 
             <!-- Traço para o tab "Pastas" -->
             <BoxView Grid.Column="1"
-               HeightRequest="3"
                WidthRequest="130"
+               HeightRequest="3"
                BackgroundColor="{StaticResource Primary}"
-               HorizontalOptions="Start"
+               HorizontalOptions="Center"
                VerticalOptions="End"
-               Margin="35,0,0,-1"
                IsVisible="{Binding SelectedTab, Converter={StaticResource TabVisibilityConverter}, ConverterParameter=Pastas}"/>
         </Grid>
 
@@ -126,7 +124,7 @@
                     
                     <Label Text="Funcionalidade de pastas em construção" 
                            TextColor="White"
-                           FontSize="60"
+                           FontSize="18"
                            FontAttributes="Bold"
                            HorizontalOptions="Center"
                            VerticalOptions="Center"/>
