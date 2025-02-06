@@ -156,7 +156,7 @@
                         FontFamily="MaterialIcons"
                         FontSize="30"
                         Command="{Binding SelectActionCommand}"
-                        CommandParameter="Home"
+                        CommandParameter="Export/Import"
                         ToolTipProperties.Text="Clique para Importar/Exportar contas." />
 
                 <!-- Botão Adicionar -->
