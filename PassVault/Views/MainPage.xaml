@@ -144,23 +144,21 @@
             
             <Grid ColumnDefinitions="*,*,*" ColumnSpacing="0">
                 
-                <!-- Botão Home -->
+                <!-- Botão Export/Import -->
                 <Button WidthRequest="60"
                         Grid.Column="0"
                         HeightRequest="60"  
                         Padding="0"
                         BackgroundColor="{StaticResource Primary}"
                         CornerRadius="50"
-                        Text="home"
+                        Text="download"
                         TextColor="Black"
                         FontFamily="MaterialIcons"
-                        FontSize="30">
-                    
-                    <Button.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding SelectActionCommand}" CommandParameter="Home" />
-                    </Button.GestureRecognizers>
-                </Button>
-               
+                        FontSize="30"
+                        Command="{Binding SelectActionCommand}"
+                        CommandParameter="Home"
+                        ToolTipProperties.Text="Clique para Importar/Exportar contas." />
+
                 <!-- Botão Adicionar -->
                 <Button WidthRequest="60"
                         Grid.Column="1"
@@ -173,7 +171,8 @@
                         Padding="0"
                         HorizontalOptions="Center"
                         Command="{Binding SelectActionCommand}"
-                        CommandParameter="Add"/>
+                        CommandParameter="Add"
+                        ToolTipProperties.Text="Clique para criar novas contas." />
                 
                 <!-- Botão Procurar -->
                 <Button WidthRequest="60"
@@ -185,12 +184,10 @@
                         Text="search"
                         TextColor="Black"
                         FontFamily="MaterialIcons"
-                        FontSize="30">
-                    
-                    <Button.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding SelectActionCommand}" CommandParameter="Search" />
-                    </Button.GestureRecognizers>
-                </Button>
+                        FontSize="30"
+                        Command="{Binding SelectActionCommand}"
+                        CommandParameter="Search"
+                        ToolTipProperties.Text="Clique para buscar  contas."/>
             </Grid>
         </Border>
     </Grid>
