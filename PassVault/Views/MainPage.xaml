@@ -130,13 +130,13 @@
                                         HeightRequest="52"
                                         Stroke="{Binding Color, Converter={StaticResource HexToColorConverter}}">
 
-                                    <!--<Border.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}, Path=EditAccountCommand}"
-                                              CommandParameter="{Binding .}" />
-                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}, Path=DeleteAccountCommand}"
+                                    <Border.GestureRecognizers>
+                                        <!--<TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}, Path=EditAccountCommand}"
+                                              CommandParameter="{Binding .}" />-->
+                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}, Path=DeleteFolderCommand}"
                                               CommandParameter="{Binding .}"
                                               NumberOfTapsRequired="2"/>
-                                    </Border.GestureRecognizers> -->
+                                    </Border.GestureRecognizers> 
 
                                     <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="10" Padding="15,0,15,0">
                                         <Label FontSize="32"

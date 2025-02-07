@@ -52,6 +52,13 @@ namespace PassVault.Data
             await Init();
             if (_database == null) throw new InvalidOperationException("Database not initialized");
 
+            var accountsToDelete = await _database.Table<Account>().Where(a => a.FolderId == folder.Id).ToListAsync();
+
+            foreach (var account in accountsToDelete)
+            {
+                await _database.DeleteAsync(account);
+            }
+
             return await _database.DeleteAsync(folder);
         }
 

@@ -99,6 +99,22 @@ namespace PassVault.ViewModels
                     await _database.DeleteAccountAsync(account);
                     await LoadAccounts();
                     await Shell.Current.DisplayAlert("Sucesso", "Conta excluída com sucesso.", "OK");
+                }               
+            }
+        }
+
+        [RelayCommand]
+        private async Task DeleteFolder(Folder folder)
+        {
+            if (folder != null)
+            {
+                bool confirm = await Shell.Current.DisplayAlert("Confirmação", "Deseja realmente excluir essa pasta? Todos os itens dentro da pasta serão excluidos", "Sim", "Não");
+
+                if (confirm)
+                {
+                    await _folderDatabase.DeleteFolderAsync(folder);
+                    await LoadFolders();
+                    await Shell.Current.DisplayAlert("Sucesso", "Pasta excluída com sucesso.", "OK");
                 }
             }
         }
