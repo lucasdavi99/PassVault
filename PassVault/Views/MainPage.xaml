@@ -139,10 +139,12 @@
                                     </Border.GestureRecognizers> -->
 
                                     <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="10" Padding="15,0,15,0">
-                                        <Ellipse WidthRequest="32"
-                                                 HeightRequest="32"
-                                                 Fill="{Binding Color, Converter={StaticResource HexToColorConverter}}"
-                                                 Grid.Column="0"/>
+                                        <Label FontSize="32"
+                                               VerticalOptions="Center"
+                                               FontFamily="MaterialIcons"
+                                               Text="folder"
+                                               TextColor="{Binding Color, Converter={StaticResource HexToColorConverter}}"
+                                               Grid.Column="0"/>
 
                                         <Label Text="{Binding Title}"
                                                TextColor="White"
