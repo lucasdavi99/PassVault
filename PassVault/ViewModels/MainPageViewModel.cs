@@ -10,7 +10,7 @@ using System.Xml.Linq;
 
 namespace PassVault.ViewModels
 {
-    public partial class MainPageViewModel : ObservableObject, IRecipient<AccountSavedMessage>
+    public partial class MainPageViewModel : ObservableObject, IRecipient<AccountSavedMessage>, IRecipient<FolderSavedMessage>
     {
         private readonly AccountDatabase _database;
         private readonly FolderDatabase _folderDatabase;
@@ -37,7 +37,8 @@ namespace PassVault.ViewModels
             EditAccountCommand = new RelayCommand<Account>(OnAccountSelected);
             SelectedTab = "Itens";
 
-            WeakReferenceMessenger.Default.Register(this);
+            WeakReferenceMessenger.Default.Register<AccountSavedMessage>(this);
+            WeakReferenceMessenger.Default.Register<FolderSavedMessage>(this);
 
             _ = LoadAccounts();
             _ = LoadFolders();
@@ -49,6 +50,7 @@ namespace PassVault.ViewModels
             SelectedTab = tab;
 
             if(tab == "Itens") await LoadAccounts();
+            if(tab == "Pastas") await LoadFolders();
         }
         
         [RelayCommand]
@@ -83,21 +85,7 @@ namespace PassVault.ViewModels
         private async void OnAccountSelected(Account account)
         {
             await Shell.Current.GoToAsync($"{nameof(EditAccountPage)}?accountId={account.Id}");
-        }
-
-        private async Task LoadAccounts()
-        {
-            var accounts = await _database.GetAccountsAsync();
-            Accounts = new ObservableCollection<Account>(accounts);
-            Console.WriteLine($"Número de contas: {Accounts.Count}");
-        }
-
-        private async Task LoadFolders()
-        {
-            var folders = await _folderDatabase.GetFoldersAsync();
-            Folders = new ObservableCollection<Folder>(folders);
-            Console.WriteLine($"Número de contas: {Folders.Count}");
-        }
+        }       
 
         [RelayCommand]
         private async Task DeleteAccount(Account account)
@@ -125,8 +113,30 @@ namespace PassVault.ViewModels
         {
             if (message.Value)
             {
-                LoadAccounts();
+                _ = LoadAccounts();
+            }            
+        }
+
+        public void Receive(FolderSavedMessage message)
+        {
+            if (message.Value)
+            {
+                _ = LoadFolders();
             }
+        }
+
+        private async Task LoadAccounts()
+        {
+            var accounts = await _database.GetAccountsAsync();
+            Accounts = new ObservableCollection<Account>(accounts);
+            Console.WriteLine($"Número de contas: {Accounts.Count}");
+        }
+
+        private async Task LoadFolders()
+        {
+            var folders = await _folderDatabase.GetFoldersAsync();
+            Folders = new ObservableCollection<Folder>(folders);
+            Console.WriteLine($"Número de contas: {Folders.Count}");
         }
     }
 }
