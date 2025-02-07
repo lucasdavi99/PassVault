@@ -56,8 +56,14 @@ namespace PassVault.ViewModels
                     break;
 
                 case "Add":
-                    // Lógica para o botão Adicionar
-                    await Shell.Current.GoToAsync(nameof(NewAccountPage));
+                    if (SelectedTab == "Itens")
+                    {
+                        await Shell.Current.GoToAsync(nameof(NewAccountPage));
+                    }
+                    else if (SelectedTab == "Pastas")
+                    {
+                        await Shell.Current.GoToAsync(nameof(NewFolderPage));
+                    }                    
                     break;
 
                 case "Search":
