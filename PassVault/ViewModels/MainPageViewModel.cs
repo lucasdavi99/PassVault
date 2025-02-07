@@ -13,6 +13,7 @@ namespace PassVault.ViewModels
     public partial class MainPageViewModel : ObservableObject, IRecipient<AccountSavedMessage>
     {
         private readonly AccountDatabase _database;
+        private readonly FolderDatabase _folderDatabase;
 
         [ObservableProperty]
         private string _selectedTab;
@@ -20,21 +21,26 @@ namespace PassVault.ViewModels
         private string _selectedAction;
         [ObservableProperty]
         private ObservableCollection<Account> _accounts;
+        [ObservableProperty]
+        private ObservableCollection<Folder> _folders;
 
 
         public IRelayCommand SelectTabCommand { get; }
         public IRelayCommand<Account> EditAccountCommand { get; }
 
-        public MainPageViewModel(AccountDatabase database)
+        public MainPageViewModel(AccountDatabase database, FolderDatabase folderDatabase)
         {
             _database = database;
+            _folderDatabase = folderDatabase;
+
             SelectTabCommand = new AsyncRelayCommand<string>(OnTabSelected);
+            EditAccountCommand = new RelayCommand<Account>(OnAccountSelected);
             SelectedTab = "Itens";
 
             WeakReferenceMessenger.Default.Register(this);
 
-            LoadAccounts();
-            EditAccountCommand = new RelayCommand<Account>(OnAccountSelected);
+            _ = LoadAccounts();
+            _ = LoadFolders();
         }
 
         private async Task OnTabSelected(string tab)
@@ -84,6 +90,13 @@ namespace PassVault.ViewModels
             var accounts = await _database.GetAccountsAsync();
             Accounts = new ObservableCollection<Account>(accounts);
             Console.WriteLine($"Número de contas: {Accounts.Count}");
+        }
+
+        private async Task LoadFolders()
+        {
+            var folders = await _folderDatabase.GetFoldersAsync();
+            Folders = new ObservableCollection<Folder>(folders);
+            Console.WriteLine($"Número de contas: {Folders.Count}");
         }
 
         [RelayCommand]

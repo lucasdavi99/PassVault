@@ -9,6 +9,8 @@ namespace PassVault.Models
         public string Title { get; set; }
         public DateTime Created { get; set; }
         public string Color { get; set; }
+        
+        [Ignore]
         public List<Account> Accounts { get; set; } = new List<Account>();
     }
 }

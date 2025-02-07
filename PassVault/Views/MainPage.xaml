@@ -118,16 +118,43 @@
                 </StackLayout>
 
                 <!-- Tab Pastas -->
-                <StackLayout IsVisible="{Binding SelectedTab, Converter={StaticResource TabVisibilityConverter}, ConverterParameter=Pastas}"
-                             VerticalOptions="CenterAndExpand"
-                             HorizontalOptions="CenterAndExpand">
-                    
-                    <Label Text="Funcionalidade de pastas em construção" 
-                           TextColor="White"
-                           FontSize="18"
-                           FontAttributes="Bold"
-                           HorizontalOptions="Center"
-                           VerticalOptions="Center"/>
+                <StackLayout IsVisible="{Binding SelectedTab, Converter={StaticResource TabVisibilityConverter}, ConverterParameter=Pastas}">
+                    <CollectionView ItemsSource="{Binding Folders}" Margin="0,30,0,0">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout Orientation="Vertical" ItemSpacing="5"/>
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:Folder">
+                                <Border BackgroundColor="Black"
+                                        WidthRequest="300"
+                                        HeightRequest="52"
+                                        Stroke="{Binding Color, Converter={StaticResource HexToColorConverter}}">
+
+                                    <!--<Border.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}, Path=EditAccountCommand}"
+                                              CommandParameter="{Binding .}" />
+                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}, Path=DeleteAccountCommand}"
+                                              CommandParameter="{Binding .}"
+                                              NumberOfTapsRequired="2"/>
+                                    </Border.GestureRecognizers> -->
+
+                                    <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="10" Padding="15,0,15,0">
+                                        <Ellipse WidthRequest="32"
+                                                 HeightRequest="32"
+                                                 Fill="{Binding Color, Converter={StaticResource HexToColorConverter}}"
+                                                 Grid.Column="0"/>
+
+                                        <Label Text="{Binding Title}"
+                                               TextColor="White"
+                                               Grid.Column="1"
+                                               VerticalTextAlignment="Center"
+                                               FontSize="20"
+                                               FontAttributes="Bold"/>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
                 </StackLayout>
             </Grid>
         </ScrollView>
