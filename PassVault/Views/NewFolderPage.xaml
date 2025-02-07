@@ -11,7 +11,7 @@
     <Grid>
         <Grid RowDefinitions="*,Auto">
             <!-- Conteúdo Principal -->
-            <VerticalStackLayout Grid.Row="0" Spacing="20" Padding="0,20,0,0">
+            <VerticalStackLayout Grid.Row="0" Spacing="20">
                 <!-- Botão Fechar -->
                 <Button Text="close"
                     FontFamily="MaterialIcons"
@@ -49,7 +49,7 @@
                        CornerRadius="25"
                        BackgroundColor="{Binding SelectedColor}"
                        HorizontalOptions="Center"
-                       Grid.Row="4"
+                       Grid.Row="1"
                        Grid.Column="0"
                        ZIndex="1">
 
@@ -71,7 +71,7 @@
                 HorizontalOptions="Center"
                 Margin="0,0,0,10">
 
-                <Grid ColumnDefinitions="*,*,*" ColumnSpacing="0">
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="0">
                     <!-- Botão Home -->
                     <Button WidthRequest="60"
                         Grid.Column="0"
