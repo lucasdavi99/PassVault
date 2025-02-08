@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:PassVault.ViewModels"
+             xmlns:models="clr-namespace:PassVault.Models"
+             xmlns:converters="clr-namespace:PassVault.Converters"
+             x:Class="PassVault.Views.FolderPage"
+             x:DataType="viewModels:FolderPageViewModel"
+             Title="{Binding Folder.Title}">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:HexToColorConverter x:Key="HexToColorConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="*, Auto">
+        <!-- Conteúdo rolável -->
+        <ScrollView Grid.Row="0" Padding="0,0,0,20">
+            <Grid>
+                <StackLayout>
+                    <CollectionView ItemsSource="{Binding Accounts}" Margin="0,30,0,0">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout Orientation="Vertical" ItemSpacing="5"/>
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:Account">
+                                <Border BackgroundColor="Black"
+                                        WidthRequest="300"
+                                        HeightRequest="52"
+                                        Stroke="{Binding Color, Converter={StaticResource HexToColorConverter}}">
+
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}, Path=EditAccountCommand}"
+                                                        CommandParameter="{Binding .}" />
+                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}, Path=DeleteAccountCommand}"
+                                                      CommandParameter="{Binding .}"
+                                                      NumberOfTapsRequired="2"/>
+                                    </Border.GestureRecognizers>
+
+                                    <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="10" Padding="15,0,15,0">
+                                        <Ellipse WidthRequest="32"
+                                                 HeightRequest="32"
+                                                 Fill="{Binding Color, Converter={StaticResource HexToColorConverter}}"
+                                                 Grid.Column="0"/>
+
+                                        <Label Text="{Binding Title}"
+                                               TextColor="White"
+                                               Grid.Column="1"
+                                               VerticalTextAlignment="Center"
+                                               FontSize="20"
+                                               FontAttributes="Bold"/>
+
+                                        <Label Text="{Binding Created, StringFormat='{0:dd/MM/yyyy}'}"
+                                               TextColor="White"
+                                               Grid.Column="2"
+                                               HorizontalTextAlignment="End"
+                                               VerticalTextAlignment="Center"/>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </StackLayout>
+            </Grid>
+        </ScrollView>
+
+        <!-- Menu de navegação fixo -->
+        <Border Grid.Row="1"
+        BackgroundColor="#19171C"
+        WidthRequest="250"
+        HeightRequest="92"
+        Stroke="Transparent"
+        VerticalOptions="End"
+        Margin="0,0,0,10"
+        StrokeShape="RoundRectangle 100, 100">
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="0">
+
+                <Button WidthRequest="60"
+                        Grid.Column="0"
+                        HeightRequest="60"  
+                        Padding="0"
+                        BackgroundColor="{StaticResource Primary}"
+                        CornerRadius="50"
+                        Text="home"
+                        TextColor="Black"
+                        FontFamily="MaterialIcons"
+                        FontSize="30"
+                        Command="{Binding GoToHomeCommand}" />
+
+                <!-- Botão Confirmar -->
+                <Button WidthRequest="60"
+                        Grid.Column="1"
+                        HeightRequest="60"
+                        CornerRadius="10"
+                        BackgroundColor="{StaticResource Primary}"
+                        Text="add"
+                        TextColor="Black"
+                        FontFamily="MaterialIcons"
+                        FontSize="40"
+                        Padding="0"
+                        HorizontalOptions="Center"
+                        Command="{Binding AddNewItemCommand}"
+                        CommandParameter="Add" />
+
+            </Grid>
+        </Border>
+    </Grid>
+</ContentPage>

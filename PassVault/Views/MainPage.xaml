@@ -120,9 +120,11 @@
                 <!-- Tab Pastas -->
                 <StackLayout IsVisible="{Binding SelectedTab, Converter={StaticResource TabVisibilityConverter}, ConverterParameter=Pastas}">
                     <CollectionView ItemsSource="{Binding Folders}" Margin="0,30,0,0">
+                        
                         <CollectionView.ItemsLayout>
                             <LinearItemsLayout Orientation="Vertical" ItemSpacing="5"/>
                         </CollectionView.ItemsLayout>
+                        
                         <CollectionView.ItemTemplate>
                             <DataTemplate x:DataType="models:Folder">
                                 <Border BackgroundColor="Black"
@@ -131,8 +133,8 @@
                                         Stroke="{Binding Color, Converter={StaticResource HexToColorConverter}}">
 
                                     <Border.GestureRecognizers>
-                                        <!--<TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}, Path=EditAccountCommand}"
-                                              CommandParameter="{Binding .}" />-->
+                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}, Path=OpenFolderCommand}"
+                                              CommandParameter="{Binding .}" />
                                         <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}, Path=DeleteFolderCommand}"
                                               CommandParameter="{Binding .}"
                                               NumberOfTapsRequired="2"/>

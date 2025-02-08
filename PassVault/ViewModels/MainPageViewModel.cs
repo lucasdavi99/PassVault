@@ -119,6 +119,12 @@ namespace PassVault.ViewModels
             }
         }
 
+        [RelayCommand]
+        private async Task OpenFolderAsync(Folder folder)
+        {
+            await Shell.Current.GoToAsync($"{nameof(FolderPage)}?folderId={folder.Id}");
+        }
+
         private static async Task SimulateAsyncWork(string message)
         {
             await Task.Delay(500);
@@ -144,7 +150,8 @@ namespace PassVault.ViewModels
         private async Task LoadAccounts()
         {
             var accounts = await _database.GetAccountsAsync();
-            Accounts = new ObservableCollection<Account>(accounts);
+            var filteredAccounts = accounts.Where(account => account.FolderId == null).ToList();
+            Accounts = new ObservableCollection<Account>(filteredAccounts);
             Console.WriteLine($"Número de contas: {Accounts.Count}");
         }
 

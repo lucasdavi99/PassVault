@@ -35,6 +35,9 @@ namespace PassVault.ViewModels
         private string _password;
 
         [ObservableProperty]
+        private int? folderId;
+
+        [ObservableProperty]
         private Color _selectedColor = Colors.Purple;
 
         [ObservableProperty]
@@ -63,7 +66,8 @@ namespace PassVault.ViewModels
                     Email = Email,
                     Password = Password,
                     Created = DateTime.Now,
-                    Color = SelectedColor.ToHex()
+                    Color = SelectedColor.ToHex(),
+                    FolderId = FolderId
                 };
 
                 await _database.SaveAccountAsync(account);
