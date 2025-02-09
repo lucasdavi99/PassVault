@@ -25,6 +25,7 @@ namespace PassVault
                 });
 
             builder.Services.AddSingleton<AccountDatabase>();
+            builder.Services.AddSingleton<FolderDatabase>();
 
             builder.Services.AddTransient<MainPage>();
             builder.Services.AddTransient<MainPageViewModel>();
@@ -34,9 +35,15 @@ namespace PassVault
             builder.Services.AddTransient<PasswordGeneratorViewModel>();
             builder.Services.AddTransient<EditAccountPage>();
             builder.Services.AddTransient<EditAccountPageViewModel>();
+            builder.Services.AddTransient<NewFolderPage>();
+            builder.Services.AddTransient<NewFolderPageViewModel>();
+            builder.Services.AddTransient<FolderPage>();
+            builder.Services.AddTransient<FolderPageViewModel>();
+            builder.Services.AddTransient<EditFolderPage>();
+            builder.Services.AddTransient<EditFolderPageViewModel>();
 
 #if DEBUG
-    		builder.Logging.AddDebug();            
+            builder.Logging.AddDebug();            
 
 #endif
 

@@ -27,45 +27,45 @@
 
             <!-- Botão Itens -->
             <Button Grid.Column="0"
-              Margin="0,30,0,0"
-              Padding="0"
-              Text="Itens"
-              BackgroundColor="Transparent"
-              TextColor="{Binding SelectedTab, Converter={StaticResource TabVisibilityConverter}, ConverterParameter=Itens, TargetNullValue=White, FallbackValue=White}"
-              FontAttributes="Bold"
-              FontSize="24"
-              Command="{Binding SelectTabCommand}"
-              CommandParameter="Itens"/>
+                    Margin="0,30,0,0"
+                    Padding="0"
+                    Text="Itens"
+                    BackgroundColor="Transparent"
+                    TextColor="{Binding SelectedTab, Converter={StaticResource TabVisibilityConverter}, ConverterParameter=Itens, TargetNullValue=White, FallbackValue=White}"
+                    FontAttributes="Bold"
+                    FontSize="24"
+                    Command="{Binding SelectTabCommand}"
+                    CommandParameter="Itens"/>
 
             <!-- Botão Pastas -->
             <Button Grid.Column="1"
-              Margin="0,30,0,0"
-              Padding="0"
-              Text="Pastas"
-              BackgroundColor="Transparent"
-              TextColor="{Binding SelectedTab, Converter={StaticResource TabVisibilityConverter}, ConverterParameter=Pastas, TargetNullValue=White, FallbackValue=White}"
-              FontAttributes="Bold"
-              FontSize="24"
-              Command="{Binding SelectTabCommand}"
-              CommandParameter="Pastas"/>
+                    Margin="0,30,0,0"
+                    Padding="0"
+                    Text="Pastas"
+                    BackgroundColor="Transparent"
+                    TextColor="{Binding SelectedTab, Converter={StaticResource TabVisibilityConverter}, ConverterParameter=Pastas, TargetNullValue=White, FallbackValue=White}"
+                    FontAttributes="Bold"
+                    FontSize="24"
+                    Command="{Binding SelectTabCommand}"
+                    CommandParameter="Pastas"/>
 
             <!-- Traço para o tab "Itens" -->
             <BoxView Grid.Column="0"
-               WidthRequest="130"
-               HeightRequest="3"
-               BackgroundColor="{StaticResource Primary}"
-               HorizontalOptions="Center"
-               VerticalOptions="End"
-               IsVisible="{Binding SelectedTab, Converter={StaticResource TabVisibilityConverter}, ConverterParameter=Itens}"/>
+                     WidthRequest="130"
+                     HeightRequest="3"
+                     BackgroundColor="{StaticResource Primary}"
+                     HorizontalOptions="Center"
+                     VerticalOptions="End"
+                     IsVisible="{Binding SelectedTab, Converter={StaticResource TabVisibilityConverter}, ConverterParameter=Itens}"/>
 
             <!-- Traço para o tab "Pastas" -->
             <BoxView Grid.Column="1"
-               WidthRequest="130"
-               HeightRequest="3"
-               BackgroundColor="{StaticResource Primary}"
-               HorizontalOptions="Center"
-               VerticalOptions="End"
-               IsVisible="{Binding SelectedTab, Converter={StaticResource TabVisibilityConverter}, ConverterParameter=Pastas}"/>
+                     WidthRequest="130"
+                     HeightRequest="3"
+                     BackgroundColor="{StaticResource Primary}"
+                     HorizontalOptions="Center"
+                     VerticalOptions="End"
+                     IsVisible="{Binding SelectedTab, Converter={StaticResource TabVisibilityConverter}, ConverterParameter=Pastas}"/>
         </Grid>
 
         <!-- Conteúdo rolável -->
@@ -118,16 +118,47 @@
                 </StackLayout>
 
                 <!-- Tab Pastas -->
-                <StackLayout IsVisible="{Binding SelectedTab, Converter={StaticResource TabVisibilityConverter}, ConverterParameter=Pastas}"
-                             VerticalOptions="CenterAndExpand"
-                             HorizontalOptions="CenterAndExpand">
-                    
-                    <Label Text="Funcionalidade de pastas em construção" 
-                           TextColor="White"
-                           FontSize="18"
-                           FontAttributes="Bold"
-                           HorizontalOptions="Center"
-                           VerticalOptions="Center"/>
+                <StackLayout IsVisible="{Binding SelectedTab, Converter={StaticResource TabVisibilityConverter}, ConverterParameter=Pastas}">
+                    <CollectionView ItemsSource="{Binding Folders}" Margin="0,30,0,0">
+                        
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout Orientation="Vertical" ItemSpacing="5"/>
+                        </CollectionView.ItemsLayout>
+                        
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:Folder">
+                                <Border BackgroundColor="Black"
+                                        WidthRequest="300"
+                                        HeightRequest="52"
+                                        Stroke="{Binding Color, Converter={StaticResource HexToColorConverter}}">
+
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}, Path=OpenFolderCommand}"
+                                              CommandParameter="{Binding .}" />
+                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}, Path=DeleteFolderCommand}"
+                                              CommandParameter="{Binding .}"
+                                              NumberOfTapsRequired="2"/>
+                                    </Border.GestureRecognizers> 
+
+                                    <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="10" Padding="15,0,15,0">
+                                        <Label FontSize="32"
+                                               VerticalOptions="Center"
+                                               FontFamily="MaterialIcons"
+                                               Text="folder"
+                                               TextColor="{Binding Color, Converter={StaticResource HexToColorConverter}}"
+                                               Grid.Column="0"/>
+
+                                        <Label Text="{Binding Title}"
+                                               TextColor="White"
+                                               Grid.Column="1"
+                                               VerticalTextAlignment="Center"
+                                               FontSize="20"
+                                               FontAttributes="Bold"/>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
                 </StackLayout>
             </Grid>
         </ScrollView>

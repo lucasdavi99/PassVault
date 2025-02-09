@@ -10,9 +10,10 @@ using System.Xml.Linq;
 
 namespace PassVault.ViewModels
 {
-    public partial class MainPageViewModel : ObservableObject, IRecipient<AccountSavedMessage>
+    public partial class MainPageViewModel : ObservableObject, IRecipient<AccountSavedMessage>, IRecipient<FolderSavedMessage>
     {
         private readonly AccountDatabase _database;
+        private readonly FolderDatabase _folderDatabase;
 
         [ObservableProperty]
         private string _selectedTab;
@@ -20,21 +21,25 @@ namespace PassVault.ViewModels
         private string _selectedAction;
         [ObservableProperty]
         private ObservableCollection<Account> _accounts;
+        [ObservableProperty]
+        private ObservableCollection<Folder> _folders;
 
 
         public IRelayCommand SelectTabCommand { get; }
-        public IRelayCommand<Account> EditAccountCommand { get; }
 
-        public MainPageViewModel(AccountDatabase database)
+        public MainPageViewModel(AccountDatabase database, FolderDatabase folderDatabase)
         {
             _database = database;
+            _folderDatabase = folderDatabase;
+
             SelectTabCommand = new AsyncRelayCommand<string>(OnTabSelected);
             SelectedTab = "Itens";
 
-            WeakReferenceMessenger.Default.Register(this);
+            WeakReferenceMessenger.Default.Register<AccountSavedMessage>(this);
+            WeakReferenceMessenger.Default.Register<FolderSavedMessage>(this);
 
-            LoadAccounts();
-            EditAccountCommand = new RelayCommand<Account>(OnAccountSelected);
+            _ = LoadAccounts();
+            _ = LoadFolders();
         }
 
         private async Task OnTabSelected(string tab)
@@ -43,6 +48,7 @@ namespace PassVault.ViewModels
             SelectedTab = tab;
 
             if(tab == "Itens") await LoadAccounts();
+            if(tab == "Pastas") await LoadFolders();
         }
         
         [RelayCommand]
@@ -56,8 +62,14 @@ namespace PassVault.ViewModels
                     break;
 
                 case "Add":
-                    // Lógica para o botão Adicionar
-                    await Shell.Current.GoToAsync(nameof(NewAccountPage));
+                    if (SelectedTab == "Itens")
+                    {
+                        await Shell.Current.GoToAsync(nameof(NewAccountPage));
+                    }
+                    else if (SelectedTab == "Pastas")
+                    {
+                        await Shell.Current.GoToAsync(nameof(NewFolderPage));
+                    }                    
                     break;
 
                 case "Search":
@@ -68,17 +80,10 @@ namespace PassVault.ViewModels
         }
 
         [RelayCommand]
-        private async void OnAccountSelected(Account account)
+        private async Task EditAccount(Account account)
         {
             await Shell.Current.GoToAsync($"{nameof(EditAccountPage)}?accountId={account.Id}");
-        }
-
-        private async Task LoadAccounts()
-        {
-            var accounts = await _database.GetAccountsAsync();
-            Accounts = new ObservableCollection<Account>(accounts);
-            Console.WriteLine($"Número de contas: {Accounts.Count}");
-        }
+        }       
 
         [RelayCommand]
         private async Task DeleteAccount(Account account)
@@ -92,8 +97,30 @@ namespace PassVault.ViewModels
                     await _database.DeleteAccountAsync(account);
                     await LoadAccounts();
                     await Shell.Current.DisplayAlert("Sucesso", "Conta excluída com sucesso.", "OK");
+                }               
+            }
+        }
+
+        [RelayCommand]
+        private async Task DeleteFolder(Folder folder)
+        {
+            if (folder != null)
+            {
+                bool confirm = await Shell.Current.DisplayAlert("Confirmação", "Deseja realmente excluir essa pasta? Todos os itens dentro da pasta serão excluidos", "Sim", "Não");
+
+                if (confirm)
+                {
+                    await _folderDatabase.DeleteFolderAsync(folder);
+                    await LoadFolders();
+                    await Shell.Current.DisplayAlert("Sucesso", "Pasta excluída com sucesso.", "OK");
                 }
             }
+        }
+
+        [RelayCommand]
+        private async Task OpenFolderAsync(Folder folder)
+        {
+            await Shell.Current.GoToAsync($"{nameof(FolderPage)}?folderId={folder.Id}");
         }
 
         private static async Task SimulateAsyncWork(string message)
@@ -106,8 +133,31 @@ namespace PassVault.ViewModels
         {
             if (message.Value)
             {
-                LoadAccounts();
+                _ = LoadAccounts();
+            }            
+        }
+
+        public void Receive(FolderSavedMessage message)
+        {
+            if (message.Value)
+            {
+                _ = LoadFolders();
             }
+        }
+
+        private async Task LoadAccounts()
+        {
+            var accounts = await _database.GetAccountsAsync();
+            var filteredAccounts = accounts.Where(account => account.FolderId == null).ToList();
+            Accounts = new ObservableCollection<Account>(filteredAccounts);
+            Console.WriteLine($"Número de contas: {Accounts.Count}");
+        }
+
+        private async Task LoadFolders()
+        {
+            var folders = await _folderDatabase.GetFoldersAsync();
+            Folders = new ObservableCollection<Folder>(folders);
+            Console.WriteLine($"Número de contas: {Folders.Count}");
         }
     }
 }

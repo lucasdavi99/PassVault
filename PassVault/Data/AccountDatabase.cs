@@ -25,7 +25,7 @@ namespace PassVault.Data
             await Init();
             if (_database == null)
                 throw new InvalidOperationException("Database not initialized");
-            
+
             return await _database.Table<Account>().ToListAsync();
         }
 
@@ -34,7 +34,7 @@ namespace PassVault.Data
             await Init();
             if (_database == null)
                 throw new InvalidOperationException("Database not initialized");
-            
+
             return await _database.Table<Account>().Where(i => i.Id == id).FirstOrDefaultAsync();
         }
 
@@ -59,8 +59,18 @@ namespace PassVault.Data
             await Init();
             if (_database == null)
                 throw new InvalidOperationException("Database not initialized");
-            
+
             return await _database.DeleteAsync(account);
         }
+
+        public async Task<List<Account>> GetAccountsByFolderIdAsync(int folderId)
+        {
+            await Init();
+            if (_database == null)
+                throw new InvalidOperationException("Database not initialized");
+
+            return await _database.Table<Account>().Where(a => a.FolderId == folderId).ToListAsync();
+        }
+
     }
 }

@@ -1,7 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
-using Maui.ColorPicker;
 using PassVault.Data;
 using PassVault.Messages;
 using PassVault.Models;
@@ -15,27 +14,13 @@ using System.Threading.Tasks;
 
 namespace PassVault.ViewModels
 {
-    public partial class NewAccountPageViewModel : ObservableValidator
+    public partial class NewFolderPageViewModel : ObservableValidator
     {
-        private readonly AccountDatabase _database;
+        private readonly FolderDatabase _database;
 
         [ObservableProperty]
         [Required(ErrorMessage = "Título é obrigatório")]
         private string _title;
-
-        [ObservableProperty]
-        private string _username;
-
-        [ObservableProperty]
-        [EmailAddress(ErrorMessage = "E-mail inválido")]
-        private string _email;
-
-        [ObservableProperty]
-        [Required(ErrorMessage = "Senha é obrigatória")]
-        private string _password;
-
-        [ObservableProperty]
-        private int? folderId;
 
         [ObservableProperty]
         private Color _selectedColor = Colors.Purple;
@@ -43,36 +28,31 @@ namespace PassVault.ViewModels
         [ObservableProperty]
         private bool _isColorPickerVisible = false;
 
-        public NewAccountPageViewModel(AccountDatabase database)
+        public NewFolderPageViewModel(FolderDatabase database)
         {
             _database = database;
         }
 
         [RelayCommand]
-        private async Task SaveAccountAsync()
+        public async Task SaveFolderAsync()
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(Title) || string.IsNullOrWhiteSpace(Password))
+                if (string.IsNullOrEmpty(Title))
                 {
-                    await Shell.Current.DisplayAlert("Erro", "Preencha os campos obrigatórios", "OK");
+                    await Shell.Current.DisplayAlert("Erro", "O campo Titulo é obrigatório", "OK");
                     return;
                 }
 
-                var account = new Account
+                var folder = new Folder
                 {
                     Title = Title,
-                    Username = Username,
-                    Email = Email,
-                    Password = Password,
-                    Created = DateTime.Now,
                     Color = SelectedColor.ToHex(),
-                    FolderId = FolderId
                 };
 
-                await _database.SaveAccountAsync(account);
-                await Shell.Current.DisplayAlert("Sucesso", "Conta salva com sucesso", "OK");
-                WeakReferenceMessenger.Default.Send(new AccountSavedMessage(true));
+                await _database.SaveFolderAsync(folder);
+                await Shell.Current.DisplayAlert("Sucesso", "Pasta criada com sucesso", "OK");
+                WeakReferenceMessenger.Default.Send(new FolderSavedMessage(true));
                 await Shell.Current.Navigation.PopAsync();
             }
             catch (Exception ex)
@@ -80,9 +60,6 @@ namespace PassVault.ViewModels
                 await Shell.Current.DisplayAlert("Erro", ex.Message, "OK");
             }
         }
-
-        [RelayCommand]
-        private async Task GoToGenerator() => await Shell.Current.GoToAsync(nameof(PasswordGenerator));
 
         [RelayCommand]
         private static async Task Close() => await Shell.Current.GoToAsync("..");
@@ -106,3 +83,4 @@ namespace PassVault.ViewModels
         }
     }
 }
+

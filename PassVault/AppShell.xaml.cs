@@ -1,4 +1,5 @@
-﻿using PassVault.Views;
+﻿using Microsoft.Maui.Controls;
+using PassVault.Views;
 
 namespace PassVault
 {
@@ -9,8 +10,11 @@ namespace PassVault
             InitializeComponent();
 
             Routing.RegisterRoute(nameof(NewAccountPage), typeof(NewAccountPage));
+            Routing.RegisterRoute(nameof(NewFolderPage), typeof(NewFolderPage));
+            Routing.RegisterRoute(nameof(FolderPage), typeof(FolderPage));
             Routing.RegisterRoute(nameof(PasswordGenerator), typeof(PasswordGenerator));
             Routing.RegisterRoute(nameof(EditAccountPage), typeof(EditAccountPage));
+            Routing.RegisterRoute(nameof(EditFolderPage), typeof(EditFolderPage));
 
 
             //Rotas das paginas de Tutorial
