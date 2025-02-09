@@ -39,9 +39,28 @@ namespace PassVault.ViewModels
         }
 
         [RelayCommand]
+        public async Task EditAccountInFolder(Account account) => await Shell.Current.GoToAsync($"{nameof(EditAccountPage)}?accountId={account.Id}");
+
+        [RelayCommand]
+        public async Task DeleteAccountInFolder(Account account)
+        {
+            if (account != null)
+            {
+                bool confirm = await Shell.Current.DisplayAlert("Confirmação", "Deseja realmente excluir este item?", "Sim", "Não");
+
+                if (confirm)
+                {
+                    await _accountDatabase.DeleteAccountAsync(account);
+                    await LoadDataAsync();
+                    await Shell.Current.DisplayAlert("Sucesso", "Conta excluída com sucesso.", "OK");
+                }
+            }
+        }
+
+        [RelayCommand]
         public async Task GoToHome()
         {
-            await Shell.Current.GoToAsync($"{nameof(MainPage)}");
+            await Shell.Current.GoToAsync("///MainPage");
         }
 
         public async Task LoadDataAsync()

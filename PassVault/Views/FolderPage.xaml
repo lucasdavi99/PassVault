@@ -31,9 +31,9 @@
                                         Stroke="{Binding Color, Converter={StaticResource HexToColorConverter}}">
 
                                     <Border.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}, Path=EditAccountCommand}"
+                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:FolderPageViewModel}}, Path=EditAccountInFolderCommand}"
                                                         CommandParameter="{Binding .}" />
-                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}, Path=DeleteAccountCommand}"
+                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:FolderPageViewModel}}, Path=DeleteAccountInFolderCommand}"
                                                       CommandParameter="{Binding .}"
                                                       NumberOfTapsRequired="2"/>
                                     </Border.GestureRecognizers>
@@ -77,6 +77,7 @@
 
             <Grid ColumnDefinitions="*,*" ColumnSpacing="0">
 
+                <!-- Botão Home -->
                 <Button WidthRequest="60"
                         Grid.Column="0"
                         HeightRequest="60"  
@@ -89,7 +90,7 @@
                         FontSize="30"
                         Command="{Binding GoToHomeCommand}" />
 
-                <!-- Botão Confirmar -->
+                <!-- Botão Adicionar -->
                 <Button WidthRequest="60"
                         Grid.Column="1"
                         HeightRequest="60"
@@ -103,7 +104,6 @@
                         HorizontalOptions="Center"
                         Command="{Binding AddNewItemCommand}"
                         CommandParameter="Add" />
-
             </Grid>
         </Border>
     </Grid>

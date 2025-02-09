@@ -26,7 +26,6 @@ namespace PassVault.ViewModels
 
 
         public IRelayCommand SelectTabCommand { get; }
-        public IRelayCommand<Account> EditAccountCommand { get; }
 
         public MainPageViewModel(AccountDatabase database, FolderDatabase folderDatabase)
         {
@@ -34,7 +33,6 @@ namespace PassVault.ViewModels
             _folderDatabase = folderDatabase;
 
             SelectTabCommand = new AsyncRelayCommand<string>(OnTabSelected);
-            EditAccountCommand = new RelayCommand<Account>(OnAccountSelected);
             SelectedTab = "Itens";
 
             WeakReferenceMessenger.Default.Register<AccountSavedMessage>(this);
@@ -82,7 +80,7 @@ namespace PassVault.ViewModels
         }
 
         [RelayCommand]
-        private async void OnAccountSelected(Account account)
+        private async Task EditAccount(Account account)
         {
             await Shell.Current.GoToAsync($"{nameof(EditAccountPage)}?accountId={account.Id}");
         }       
