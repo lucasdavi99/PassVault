@@ -39,6 +39,9 @@ namespace PassVault.ViewModels
         }
 
         [RelayCommand]
+        private async Task EditFolder(Folder folder) => await Shell.Current.GoToAsync($"{nameof(EditFolderPage)}?folderId={folder.Id}");
+
+        [RelayCommand]
         public async Task EditAccountInFolder(Account account) => await Shell.Current.GoToAsync($"{nameof(EditAccountPage)}?accountId={account.Id}");
 
         [RelayCommand]

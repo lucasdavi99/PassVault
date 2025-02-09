@@ -14,6 +14,33 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
+    <Shell.TitleView>
+        <Grid BackgroundColor="Transparent">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <!-- Exibe o título da pasta -->
+            <Label Text="{Binding Folder.Title}" 
+                   TextColor="{StaticResource Primary}" 
+                   FontSize="20"
+                   FontAttributes="Bold"
+                   VerticalOptions="Center"
+                   Grid.Column="0" />
+            <!-- Botão de edição (você pode usar um ícone ou texto) -->
+            <Button Text="edit"
+                    Command="{Binding EditFolderCommand}"
+                    CommandParameter="{Binding Folder}"
+                    BackgroundColor="Transparent"
+                    TextColor="{StaticResource Primary}"
+                    FontFamily="MaterialIcons"
+                    FontSize="25"
+                    VerticalOptions="Center"
+                    Padding="0,0,20,0"
+                    Grid.Column="1" />
+        </Grid>
+    </Shell.TitleView>
+
     <Grid RowDefinitions="*, Auto">
         <!-- Conteúdo rolável -->
         <ScrollView Grid.Row="0" Padding="0,0,0,20">
@@ -32,10 +59,10 @@
 
                                     <Border.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:FolderPageViewModel}}, Path=EditAccountInFolderCommand}"
-                                                        CommandParameter="{Binding .}" />
+                                                              CommandParameter="{Binding .}" />
                                         <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:FolderPageViewModel}}, Path=DeleteAccountInFolderCommand}"
-                                                      CommandParameter="{Binding .}"
-                                                      NumberOfTapsRequired="2"/>
+                                                              CommandParameter="{Binding .}"
+                                                              NumberOfTapsRequired="2"/>
                                     </Border.GestureRecognizers>
 
                                     <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="10" Padding="15,0,15,0">
