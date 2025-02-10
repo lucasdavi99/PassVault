@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using PassVault.Data;
 using PassVault.Models;
+using PassVault.Views;
 using System.Collections.ObjectModel;
 
 
@@ -40,6 +41,32 @@ namespace PassVault.ViewModels
             foreach (var account in results)
             {
                 FilteredAccounts.Add(account);
+            }
+        }
+
+        [RelayCommand]
+        private async Task EditAccount(Account account)
+        {
+            if (account == null)
+                return;
+
+            await Shell.Current.GoToAsync($"{nameof(EditAccountPage)}?accountId={account.Id}");
+            await SearchAsync();
+        }
+
+        [RelayCommand]
+        private async Task DeleteAccount(Account account)
+        {
+            if (account != null)
+            {
+                bool confirm = await Shell.Current.DisplayAlert("Confirmação", "Deseja realmente excluir este item?", "Sim", "Não");
+
+                if (confirm)
+                {
+                    await _accountDatabase.DeleteAccountAsync(account);
+                    await SearchAsync();
+                    await Shell.Current.DisplayAlert("Sucesso", "Conta excluída com sucesso.", "OK");
+                }
             }
         }
 
