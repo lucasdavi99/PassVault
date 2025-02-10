@@ -41,6 +41,8 @@ namespace PassVault
             builder.Services.AddTransient<FolderPageViewModel>();
             builder.Services.AddTransient<EditFolderPage>();
             builder.Services.AddTransient<EditFolderPageViewModel>();
+            builder.Services.AddTransient<SearchPage>();
+            builder.Services.AddTransient<SearchPageViewModel>();
 
 #if DEBUG
             builder.Logging.AddDebug();            

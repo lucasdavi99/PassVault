@@ -101,6 +101,9 @@
 	  <MauiXaml Update="Views\PasswordGenerator.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\SearchPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\TutorialPage1.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

@@ -73,8 +73,7 @@ namespace PassVault.ViewModels
                     break;
 
                 case "Search":
-                    // Lógica para o botão Procurar
-                    await SimulateAsyncWork("Procurar selecionado");
+                    await Shell.Current.GoToAsync(nameof(SearchPage));
                     break;
             }
         }

@@ -72,5 +72,12 @@ namespace PassVault.Data
             return await _database.Table<Account>().Where(a => a.FolderId == folderId).ToListAsync();
         }
 
+        public async Task<List<Account>> SearchAccountsByNameAsync(string name)
+        {
+            await Init();
+            if (_database == null) throw new InvalidOperationException("Database not initialized");
+            return await _database.Table<Account>().Where(a => a.Title.ToLower().Contains(name.ToLower())).ToListAsync();
+        }
+
     }
 }
