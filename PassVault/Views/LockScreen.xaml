@@ -12,14 +12,12 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <!-- Para o título -->
-            <RowDefinition Height="Auto" />
-            <!-- Para a descrição -->
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <!-- Coluna principal -->
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
@@ -28,24 +26,24 @@
                FontAttributes="Bold" 
                FontSize="64"
                HorizontalTextAlignment="Center"
-               Margin="0, 60, 0, 0" 
                Grid.Row="0"/>
 
         <Image Source="logo.png" 
                WidthRequest="257"
                HeightRequest="257"
-               Margin="0, 300, 0, 0" 
-               Grid.Row="0"/>
+               VerticalOptions="Center"
+               Grid.Row="1"/>
 
         <Button Text="Usar senha do celular"
                 TextColor="Black"
                 FontSize="20"
                 BackgroundColor="{StaticResource Primary}"
-                WidthRequest="345"
+                WidthRequest="300"
                 HeightRequest="50"
                 CornerRadius="30"
-                Margin="0, 0, 0, 0"
+                VerticalOptions="End"
+                Margin="0, 0, 0, 20"
                 Command="{Binding NextPageCommand}" 
-                Grid.Row="1"/>
+                Grid.Row="2"/>
     </Grid>
 </ContentPage>
