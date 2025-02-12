@@ -57,8 +57,7 @@ namespace PassVault.ViewModels
             switch (action)
             {
                 case "Export/Import":
-                    // Lógica para o botão Home
-                    await Shell.Current.DisplayActionSheet("Deseja exportar ou importar seu backup?", "Cancelar", null, "Exportar", "Importar");
+                    await Shell.Current.GoToAsync(nameof(BackupPage));
                     break;
 
                 case "Add":

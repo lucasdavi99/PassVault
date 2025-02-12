@@ -16,6 +16,7 @@ namespace PassVault
             Routing.RegisterRoute(nameof(PasswordGenerator), typeof(PasswordGenerator));
             Routing.RegisterRoute(nameof(EditAccountPage), typeof(EditAccountPage));
             Routing.RegisterRoute(nameof(EditFolderPage), typeof(EditFolderPage));
+            Routing.RegisterRoute(nameof(BackupPage), typeof(BackupPage));
 
 
             //Rotas das paginas de Tutorial
