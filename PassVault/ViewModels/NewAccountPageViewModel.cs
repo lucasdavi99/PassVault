@@ -53,9 +53,11 @@ namespace PassVault.ViewModels
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(Title) || string.IsNullOrWhiteSpace(Password))
+                ValidateAllProperties();
+
+                if (HasErrors)
                 {
-                    await Shell.Current.DisplayAlert("Erro", "Preencha os campos obrigatórios", "OK");
+                    await Shell.Current.DisplayAlert("Erro", "Preencha os campos corretamente", "OK");
                     return;
                 }
 
