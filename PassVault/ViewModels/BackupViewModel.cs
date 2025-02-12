@@ -1,7 +1,9 @@
 ﻿using CommunityToolkit.Maui.Core.Primitives;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using PassVault.Data;
+using PassVault.Messages;
 using PassVault.Models;
 using PassVault.Services;
 using System;
@@ -100,16 +102,36 @@ namespace PassVault.ViewModels
 
                 BackupData backupData = await _importService.ImportBackupAsync(filePath, senha);
 
+                Dictionary<int, int> folderIdMapping = new Dictionary<int, int>();
+
                 foreach (var folder in backupData.Folders)
                 {
+                    int oldId = folder.Id;
+
                     folder.Id = 0;
                     await _folderDatabase.SaveFolderAsync(folder);
+
+                    int newId = folder.Id;
+                    folderIdMapping.Add(oldId, newId);
                 }
+
                 foreach (var account in backupData.Accounts)
                 {
+                    if (account.FolderId.HasValue && folderIdMapping.ContainsKey(account.FolderId.Value))
+                    {
+                        account.FolderId = folderIdMapping[account.FolderId.Value];
+                    }
+                    else
+                    {
+                        account.FolderId = null;
+                    }
+
                     account.Id = 0;
                     await _accountDatabase.SaveAccountAsync(account);
                 }
+
+                WeakReferenceMessenger.Default.Send(new AccountSavedMessage(true));
+                WeakReferenceMessenger.Default.Send(new FolderSavedMessage(true));
 
                 await Shell.Current.DisplayAlert("Importado", "Backup importado com sucesso!", "OK");
                 await Shell.Current.Navigation.PopAsync();
