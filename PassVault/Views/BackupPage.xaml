@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:PassVault.ViewModels"
+             x:DataType="viewModels:BackupViewModel"
+             x:Class="PassVault.Views.BackupPage"
+             Title="Backup">
+    
+    <VerticalStackLayout Padding="20" Spacing="15">
+        <!-- Seção de exportação -->
+        <Button Text="Exportar Backup" 
+                TextColor="Black"
+                Command="{Binding ExportBackupCommand}" />
+
+        <Label Text="Senha de Exportação:" 
+               TextColor="White"
+               FontAttributes="Bold" />
+        
+        <Label Text="{Binding ExportPassword}" 
+               TextColor="White"/>
+        <!-- Seção de importação -->        
+        
+        <Button Text="Importar Backup"
+                TextColor="Black"
+                Command="{Binding ImportBackupCommand}" />
+    </VerticalStackLayout>
+</ContentPage>

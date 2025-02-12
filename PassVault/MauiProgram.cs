@@ -6,6 +6,7 @@ using PassVault.ViewModels;
 using PassVault.Views;
 using SkiaSharp.Views.Maui.Controls.Hosting;
 using CommunityToolkit.Maui;
+using PassVault.Services;
 
 namespace PassVault
 {
@@ -26,6 +27,8 @@ namespace PassVault
 
             builder.Services.AddSingleton<AccountDatabase>();
             builder.Services.AddSingleton<FolderDatabase>();
+            builder.Services.AddSingleton<ExportService>();
+            builder.Services.AddSingleton<ImportService>();            
 
             builder.Services.AddTransient<MainPage>();
             builder.Services.AddTransient<MainPageViewModel>();
@@ -43,6 +46,8 @@ namespace PassVault
             builder.Services.AddTransient<EditFolderPageViewModel>();
             builder.Services.AddTransient<SearchPage>();
             builder.Services.AddTransient<SearchPageViewModel>();
+            builder.Services.AddTransient<BackupPage>();
+            builder.Services.AddTransient<BackupViewModel>();
 
 #if DEBUG
             builder.Logging.AddDebug();            
