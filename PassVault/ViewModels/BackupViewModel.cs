@@ -9,6 +9,7 @@ using PassVault.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -52,8 +53,7 @@ namespace PassVault.ViewModels
             ExportFilePath = filePath;
             ExportPassword = password;
 
-            await Shell.Current.DisplayAlert("Backup Exportado",
-                $"Backup salvo em: {filePath}\nSenha: {password}", "OK");
+            await Shell.Current.DisplayAlert("Backup Exportado",$"Senha: {password}", "OK");
         }
 
         [RelayCommand]
@@ -91,14 +91,13 @@ namespace PassVault.ViewModels
                 ImportFilePath = filePath;
 
                 string senha = await Shell.Current.DisplayPromptAsync("Senha de Importação", "Digite a senha para importar o backup:");
+                ImportPassword = senha;
 
                 if (string.IsNullOrWhiteSpace(senha))
                 {
                     await Shell.Current.DisplayAlert("Erro", "A senha é obrigatória para importar o backup.", "OK");
                     return;
                 }
-
-                ImportPassword = senha;
 
                 BackupData backupData = await _importService.ImportBackupAsync(filePath, senha);
 
@@ -136,11 +135,14 @@ namespace PassVault.ViewModels
                 await Shell.Current.DisplayAlert("Importado", "Backup importado com sucesso!", "OK");
                 await Shell.Current.Navigation.PopAsync();
             }
+            catch (CryptographicException)
+            {
+                await Shell.Current.DisplayAlert("Erro", "Senha incorreta ou arquivo de backup inválido.", "OK");
+            }
             catch (Exception ex)
             {
                 await Shell.Current.DisplayAlert("Erro", ex.Message, "OK");
             }
-
         }
     }
 }
