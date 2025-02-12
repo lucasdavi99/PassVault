@@ -97,24 +97,12 @@
                     StrokeShape="RoundRectangle 100, 100"
                     HorizontalOptions="Center"
                     Margin="0,0,0,10">
-                
-                <Grid ColumnDefinitions="*,*,*" ColumnSpacing="0">
-                    <!-- Botão Home -->
-                    <Button WidthRequest="60"
-                            Grid.Column="0"
-                            HeightRequest="60"  
-                            Padding="0"
-                            BackgroundColor="{StaticResource Primary}"
-                            CornerRadius="50"
-                            Text="home"
-                            TextColor="Black"
-                            FontFamily="MaterialIcons"
-                            FontSize="30"
-                            Command="{Binding CloseCommand}" />
+
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="0">
 
                     <!-- Botão Confirmar -->
                     <Button WidthRequest="60"
-                            Grid.Column="1"
+                            Grid.Column="0"
                             HeightRequest="60"
                             CornerRadius="10"
                             BackgroundColor="{StaticResource Primary}"
@@ -129,7 +117,7 @@
 
                     <!-- Botão Aleatório -->
                     <Button WidthRequest="60"
-                            Grid.Column="2"
+                            Grid.Column="1"
                             HeightRequest="60"  
                             Padding="0"
                             BackgroundColor="{StaticResource Primary}"

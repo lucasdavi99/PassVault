@@ -42,6 +42,9 @@ namespace PassVault.ViewModels
         [ObservableProperty]
         private bool _isEditing;
 
+        [ObservableProperty]
+        private bool _isPasswordVisible = true;
+
         public EditAccountPageViewModel(AccountDatabase database)
         {
             _database = database;
@@ -82,7 +85,7 @@ namespace PassVault.ViewModels
         private async Task GoToGenerator() => await Shell.Current.GoToAsync(nameof(PasswordGenerator));
 
         [RelayCommand]
-        private async Task Close() => await Shell.Current.GoToAsync("..");
+        private void TogglePasswordVisibility() => IsPasswordVisible = !IsPasswordVisible;
 
         [RelayCommand]
         private void ToggleColorPicker() => IsColorPickerVisible = !IsColorPickerVisible;

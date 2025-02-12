@@ -7,8 +7,7 @@
     xmlns:controls="clr-namespace:Maui.ColorPicker;assembly=Maui.ColorPicker"
     x:Class="PassVault.Views.EditAccountPage"
     x:DataType="viewmodel:EditAccountPageViewModel"
-    Shell.NavBarIsVisible="False"
-    Title="EditAccountPage">
+    Title="Visualizar e Editar">
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -22,14 +21,18 @@
             <!-- Conteúdo Principal -->
             <VerticalStackLayout Grid.Row="0" Spacing="20" Padding="0,20,0,0">
                 <!-- Botão Fechar -->
-                <Button Text="close"
+                <Label Text="visibility"
                         FontFamily="MaterialIcons"
                         TextColor="{StaticResource Primary}"
                         FontSize="40"
                         Margin="0,20,0,0"
                         BackgroundColor="Transparent"
-                        HorizontalOptions="End"
-                        Command="{Binding CloseCommand}" />
+                        HorizontalOptions="Center">
+
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding TogglePasswordVisibilityCommand}"/>
+                    </Label.GestureRecognizers>
+                </Label>
 
                 <Grid RowSpacing="20" ColumnSpacing="10">
                     <Grid.ColumnDefinitions>
@@ -62,7 +65,8 @@
                            Grid.Row="1"
                            Grid.Column="0"     
                            Margin="10,0,10,0"
-                           BackgroundColor="#19171C" 
+                           BackgroundColor="#19171C"
+                           IsPassword="{Binding IsPasswordVisible}"
                            Text="{Binding Username}"
                            TextColor="{Binding IsEditing, Converter={StaticResource EditingModeToColorConverter}}"
                            IsReadOnly="{Binding IsEditing, Converter={StaticResource InverseBooleanConverter}}" />
@@ -74,9 +78,9 @@
                            Grid.Row="2"
                            Grid.Column="0"
                            Margin="10,0,10,0"
-                           Keyboard="Email"
                            BackgroundColor="#19171C" 
                            Text="{Binding Email}"
+                           IsPassword="{Binding IsPasswordVisible}"
                            TextColor="{Binding IsEditing, Converter={StaticResource EditingModeToColorConverter}}"
                            IsReadOnly="{Binding IsEditing, Converter={StaticResource InverseBooleanConverter}}" />
 
@@ -89,6 +93,7 @@
                            Margin="10,0,10,0"
                            BackgroundColor="#19171C" 
                            Text="{Binding Password}"
+                           IsPassword="{Binding IsPasswordVisible}"
                            TextColor="{Binding IsEditing, Converter={StaticResource EditingModeToColorConverter}}"
                            IsReadOnly="{Binding IsEditing, Converter={StaticResource InverseBooleanConverter}}" />
 
@@ -119,23 +124,11 @@
                     StrokeShape="RoundRectangle 100, 100"
                     HorizontalOptions="Center"
                     Margin="0,0,0,10">
-                <Grid ColumnDefinitions="*,*,*" ColumnSpacing="0">
-                    <!-- Botão Home -->
-                    <Button WidthRequest="60"
-                            Grid.Column="0"
-                            HeightRequest="60"  
-                            Padding="0"
-                            BackgroundColor="{StaticResource Primary}"
-                            CornerRadius="50"
-                            Text="home"
-                            TextColor="Black"
-                            FontFamily="MaterialIcons"
-                            FontSize="30"
-                            Command="{Binding CloseCommand}" />
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="0">
 
                     <!-- Botão Confirmar Edição -->
                     <Button WidthRequest="60"
-                            Grid.Column="1"
+                            Grid.Column="0"
                             HeightRequest="60"
                             CornerRadius="10"
                             BackgroundColor="{StaticResource Primary}"
@@ -158,7 +151,7 @@
 
                     <!-- Botão Aleatório -->
                     <Button WidthRequest="60"
-                            Grid.Column="2"
+                            Grid.Column="1"
                             HeightRequest="60"  
                             Padding="0"
                             BackgroundColor="{StaticResource Primary}"
