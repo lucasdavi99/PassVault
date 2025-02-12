@@ -8,6 +8,8 @@ namespace PassVault
         {
             InitializeComponent();
 
+            Preferences.Clear();
+
             bool isNewUser = Preferences.Get("IsNewUser", true);
 
             if (isNewUser)

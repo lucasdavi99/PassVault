@@ -3,8 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModels="clr-namespace:PassVault.ViewModels"
              x:Class="PassVault.Views.TutorialPage4"
-             Shell.NavBarIsVisible="False">
-             <!-- Title="TutorialPage4"> -->
+             Shell.NavBarIsVisible="False"
+             Title="TutorialPage4">
 
     <ContentPage.BindingContext>
         <viewModels:TutorialPage4ViewModel />
@@ -12,49 +12,44 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <!-- Para o título -->
+            <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
-            <!-- Para a descrição -->
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
-            <!-- Coluna principal -->
         </Grid.ColumnDefinitions>
 
-        <Label 
-            Text="{Binding Title}"
-            TextColor="{StaticResource Primary}"
-            FontSize="64"
-            FontAttributes="Bold"
-            HorizontalTextAlignment="Center"
-            VerticalTextAlignment="Center" 
-            Margin="0,10,0,0"
-            Grid.Row="0" />
+        <Label Text="{Binding Title}"
+               TextColor="{StaticResource Primary}"
+               FontSize="64"
+               FontAttributes="Bold"
+               HorizontalTextAlignment="Center"
+               Grid.Row="0" />
 
-        <Label 
-            Text="{Binding Description}"
-            TextColor="White"
-            FontSize="24"
-            FontAttributes="Bold"
-            HorizontalTextAlignment="Center"
-            VerticalTextAlignment="Center"
-            WidthRequest="340" 
-            Margin="0, 0, 0, 250"
-            Grid.Row="1" />
+        <Label Text="{Binding Description}"
+               TextColor="White"
+               FontSize="23"
+               Padding="13"
+               FontAttributes="Bold"
+               HorizontalTextAlignment="Center"
+               VerticalTextAlignment="Center"
+               Grid.Row="1" />
 
-        <ImageButton
-            Source="arrow_forward.png"
-            WidthRequest="60"
-            HeightRequest="60" 
-            Grid.Row="1"
-            HorizontalOptions="End"
-            VerticalOptions="End"
-            Margin="0, 0, 20, 30" 
-            BackgroundColor="Transparent" 
-            Command="{Binding NextPageCommand}"/>
+        <Label Text="arrow_forward"
+               FontFamily="MaterialIcons"
+               TextColor="{StaticResource Primary}"
+               FontSize="60"
+               Margin="20"
+               Grid.Row="2"
+               HorizontalOptions="End"
+               VerticalOptions="End"
+               BackgroundColor="Transparent">
 
-
+            <Label.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding NextPageCommand}" />
+            </Label.GestureRecognizers>
+        </Label>
     </Grid>
 </ContentPage>
