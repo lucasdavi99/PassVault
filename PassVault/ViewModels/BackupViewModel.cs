@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using PassVault.Data;
+using PassVault.exceptions;
 using PassVault.Messages;
 using PassVault.Models;
 using PassVault.Services;
@@ -135,9 +136,9 @@ namespace PassVault.ViewModels
                 await Shell.Current.DisplayAlert("Importado", "Backup importado com sucesso!", "OK");
                 await Shell.Current.Navigation.PopAsync();
             }
-            catch (CryptographicException)
+            catch (InvalidImportPasswordException)
             {
-                await Shell.Current.DisplayAlert("Erro", "Senha incorreta ou arquivo de backup inválido.", "OK");
+                await Shell.Current.DisplayAlert("Erro", "A senha fornecida está incorreta.", "OK");
             }
             catch (Exception ex)
             {
