@@ -26,46 +26,54 @@
             </Grid.ColumnDefinitions>
 
             <!-- Botão Itens -->
-            <Button Grid.Column="0"
-                    Margin="0,30,0,0"
-                    Padding="0"
-                    Text="Itens"
-                    BackgroundColor="Transparent"
-                    TextColor="{Binding SelectedTab, Converter={StaticResource TabVisibilityConverter}, ConverterParameter=Itens, TargetNullValue=White, FallbackValue=White}"
-                    FontAttributes="Bold"
-                    FontSize="24"
-                    Command="{Binding SelectTabCommand}"
-                    CommandParameter="Itens"/>
+            <Label Grid.Column="0"
+                   Margin="0,30,0,0"
+                   HorizontalTextAlignment="Center"
+                   Text="Itens"
+                   BackgroundColor="Transparent"
+                   TextColor="{Binding SelectedTab, Converter={StaticResource TabVisibilityConverter}, ConverterParameter=Itens, TargetNullValue=White, FallbackValue=White}"
+                   FontAttributes="Bold"
+                   FontSize="24">
 
-            <!-- Botão Pastas -->
-            <Button Grid.Column="1"
-                    Margin="0,30,0,0"
-                    Padding="0"
-                    Text="Pastas"
-                    BackgroundColor="Transparent"
-                    TextColor="{Binding SelectedTab, Converter={StaticResource TabVisibilityConverter}, ConverterParameter=Pastas, TargetNullValue=White, FallbackValue=White}"
-                    FontAttributes="Bold"
-                    FontSize="24"
-                    Command="{Binding SelectTabCommand}"
-                    CommandParameter="Pastas"/>
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelectTabCommand}" CommandParameter="Itens"/>
+                </Label.GestureRecognizers>
+
+            </Label>
+
+                <!-- Botão Pastas -->
+            <Label Grid.Column="1"
+                   Margin="0,30,0,0"
+                   HorizontalTextAlignment="Center"
+                   Text="Pastas"
+                   BackgroundColor="Transparent"
+                   TextColor="{Binding SelectedTab, Converter={StaticResource TabVisibilityConverter}, ConverterParameter=Pastas, TargetNullValue=White, FallbackValue=White}"
+                   FontAttributes="Bold"
+                   FontSize="24">
+
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelectTabCommand}" CommandParameter="Pastas"/>
+                </Label.GestureRecognizers>
+
+            </Label>
 
             <!-- Traço para o tab "Itens" -->
-            <BoxView Grid.Column="0"
-                     WidthRequest="130"
-                     HeightRequest="3"
-                     BackgroundColor="{StaticResource Primary}"
-                     HorizontalOptions="Center"
-                     VerticalOptions="End"
-                     IsVisible="{Binding SelectedTab, Converter={StaticResource TabVisibilityConverter}, ConverterParameter=Itens}"/>
+                <BoxView Grid.Column="0"
+                         WidthRequest="130"
+                         HeightRequest="3"
+                         BackgroundColor="{StaticResource Primary}"
+                         HorizontalOptions="Center"
+                         VerticalOptions="End"
+                         IsVisible="{Binding SelectedTab, Converter={StaticResource TabVisibilityConverter}, ConverterParameter=Itens}"/>
 
-            <!-- Traço para o tab "Pastas" -->
-            <BoxView Grid.Column="1"
-                     WidthRequest="130"
-                     HeightRequest="3"
-                     BackgroundColor="{StaticResource Primary}"
-                     HorizontalOptions="Center"
-                     VerticalOptions="End"
-                     IsVisible="{Binding SelectedTab, Converter={StaticResource TabVisibilityConverter}, ConverterParameter=Pastas}"/>
+                <!-- Traço para o tab "Pastas" -->
+                <BoxView Grid.Column="1"
+                         WidthRequest="130"
+                         HeightRequest="3"
+                         BackgroundColor="{StaticResource Primary}"
+                         HorizontalOptions="Center"
+                         VerticalOptions="End"
+                         IsVisible="{Binding SelectedTab, Converter={StaticResource TabVisibilityConverter}, ConverterParameter=Pastas}"/>
         </Grid>
 
         <!-- Conteúdo rolável -->
@@ -83,7 +91,7 @@
                                         WidthRequest="300"
                                         HeightRequest="52"
                                         Stroke="{Binding Color, Converter={StaticResource HexToColorConverter}}">
-                                    
+
                                     <Border.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}, Path=EditAccountCommand}"
                                                               CommandParameter="{Binding .}" />
@@ -91,20 +99,20 @@
                                                               CommandParameter="{Binding .}"
                                                               NumberOfTapsRequired="2"/>
                                     </Border.GestureRecognizers>
-                                    
+
                                     <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="10" Padding="15,0,15,0">
                                         <Ellipse WidthRequest="32"
                                                  HeightRequest="32"
                                                  Fill="{Binding Color, Converter={StaticResource HexToColorConverter}}"
                                                  Grid.Column="0"/>
-                                       
+
                                         <Label Text="{Binding Title}"
                                                TextColor="White"
                                                Grid.Column="1"
                                                VerticalTextAlignment="Center"
                                                FontSize="20"
                                                FontAttributes="Bold"/>
-                                        
+
                                         <Label Text="{Binding Created, StringFormat='{0:dd/MM/yyyy}'}"
                                                TextColor="White"
                                                Grid.Column="2"
@@ -120,11 +128,11 @@
                 <!-- Tab Pastas -->
                 <StackLayout IsVisible="{Binding SelectedTab, Converter={StaticResource TabVisibilityConverter}, ConverterParameter=Pastas}">
                     <CollectionView ItemsSource="{Binding Folders}" Margin="0,30,0,0">
-                        
+
                         <CollectionView.ItemsLayout>
                             <LinearItemsLayout Orientation="Vertical" ItemSpacing="5"/>
                         </CollectionView.ItemsLayout>
-                        
+
                         <CollectionView.ItemTemplate>
                             <DataTemplate x:DataType="models:Folder">
                                 <Border BackgroundColor="Black"
@@ -138,7 +146,7 @@
                                         <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}, Path=DeleteFolderCommand}"
                                               CommandParameter="{Binding .}"
                                               NumberOfTapsRequired="2"/>
-                                    </Border.GestureRecognizers> 
+                                    </Border.GestureRecognizers>
 
                                     <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="10" Padding="15,0,15,0">
                                         <Label FontSize="32"
@@ -172,9 +180,9 @@
                 VerticalOptions="End"
                 Margin="0,0,0,10"
                 StrokeShape="RoundRectangle 100, 100">
-            
+
             <Grid ColumnDefinitions="*,*,*" ColumnSpacing="0">
-                
+
                 <!-- Botão Export/Import -->
                 <Button WidthRequest="60"
                         Grid.Column="0"
@@ -204,7 +212,7 @@
                         Command="{Binding SelectActionCommand}"
                         CommandParameter="Add"
                         ToolTipProperties.Text="Clique para criar novas contas." />
-                
+
                 <!-- Botão Procurar -->
                 <Button WidthRequest="60"
                         Grid.Column="2"
