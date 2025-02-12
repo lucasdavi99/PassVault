@@ -6,8 +6,6 @@ namespace PassVault
     {
         public App()
         {
-            InitializeComponent();
-
             Preferences.Clear();
 
             bool isNewUser = Preferences.Get("IsNewUser", true);
@@ -22,8 +20,6 @@ namespace PassVault
                 MainPage = new AppShell();
                 Shell.Current.GoToAsync(nameof(MainPage));
             }
-
-
         }
     }
 }
