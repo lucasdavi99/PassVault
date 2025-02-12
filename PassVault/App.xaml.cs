@@ -6,7 +6,7 @@ namespace PassVault
     {
         public App()
         {
-            Preferences.Clear();
+            InitializeComponent();
 
             bool isNewUser = Preferences.Get("IsNewUser", true);
 
