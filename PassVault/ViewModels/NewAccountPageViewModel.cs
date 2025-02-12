@@ -82,10 +82,7 @@ namespace PassVault.ViewModels
         }
 
         [RelayCommand]
-        private async Task GoToGenerator() => await Shell.Current.GoToAsync(nameof(PasswordGenerator));
-
-        [RelayCommand]
-        private static async Task Close() => await Shell.Current.GoToAsync("..");
+        private async Task GoToGenerator() => await Shell.Current.GoToAsync(nameof(PasswordGenerator));        
 
         [RelayCommand]
         private void ToggleColorPicker()
