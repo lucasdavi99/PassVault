@@ -121,6 +121,9 @@ namespace PassVault.ViewModels
             await Shell.Current.GoToAsync($"{nameof(FolderPage)}?folderId={folder.Id}");
         }
 
+        [RelayCommand]
+        private async Task Help() => await Shell.Current.DisplayAlert("Ajuda", "Para deletar uma conta ou pasta, toque duas vezes no item.", "OK");
+
         private static async Task SimulateAsyncWork(string message)
         {
             await Task.Delay(500);

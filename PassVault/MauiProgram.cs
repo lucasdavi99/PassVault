@@ -52,9 +52,6 @@ namespace PassVault
 #if DEBUG
             builder.Logging.AddDebug();            
 
-#if DEBUG
-    		builder.Logging.AddDebug();
-
 #endif
 
             return builder.Build();
