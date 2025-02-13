@@ -44,3 +44,7 @@ PassVault é um aplicativo Android desenvolvido com **.NET MAUI**, pensado para 
 Baixe a versão mais recente diretamente na aba de [**Releases**](https://github.com/lucasdavi99/PassVault/releases).
 
 ---
+
+## 📝 **Licença**
+
+Este projeto está licenciado sob a licença MIT - veja o arquivo [LICENSE](LICENSE) para mais detalhes.
