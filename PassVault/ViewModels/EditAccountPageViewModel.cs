@@ -5,7 +5,10 @@ using PassVault.Data;
 using PassVault.Messages;
 using PassVault.Models;
 using PassVault.Views;
+using Plugin.Fingerprint.Abstractions;
+using Plugin.Fingerprint;
 using System.ComponentModel.DataAnnotations;
+using System.Runtime.InteropServices;
 
 
 namespace PassVault.ViewModels
@@ -41,6 +44,9 @@ namespace PassVault.ViewModels
 
         [ObservableProperty]
         private bool _isEditing;
+
+        [ObservableProperty]
+        private bool _isPasswordVisible = true;
 
         public EditAccountPageViewModel(AccountDatabase database)
         {
@@ -82,7 +88,7 @@ namespace PassVault.ViewModels
         private async Task GoToGenerator() => await Shell.Current.GoToAsync(nameof(PasswordGenerator));
 
         [RelayCommand]
-        private async Task Close() => await Shell.Current.GoToAsync("..");
+        private void TogglePasswordVisibility() => IsPasswordVisible = !IsPasswordVisible;
 
         [RelayCommand]
         private void ToggleColorPicker() => IsColorPickerVisible = !IsColorPickerVisible;
@@ -91,7 +97,38 @@ namespace PassVault.ViewModels
         private void CloseColorPicker() => IsColorPickerVisible = false;
 
         [RelayCommand]
-        private void ToggleEditMode() => IsEditing = !IsEditing;
+        private async Task<bool> ToggleEditMode()
+        {
+            try
+            {
+                //if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                //{
+                //    return true;
+                //}
+
+                var config = new AuthenticationRequestConfiguration("Autenticação necessária", "Desbloqueie o Dispositivo.")
+                {
+                    AllowAlternativeAuthentication = true,
+                };
+                var authResult = await CrossFingerprint.Current.AuthenticateAsync(config);
+
+                if (authResult.Authenticated)
+                {
+                    IsEditing = !IsEditing;
+                    return true;
+                }
+                else
+                {
+                    await Shell.Current.DisplayAlert("Erro", "Falha na autenticação", "OK");
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlert("Erro", ex.Message, "OK");
+                return false;
+            }
+        }
 
         partial void OnSelectedColorChanged(Color value)
         {

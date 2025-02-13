@@ -2,13 +2,13 @@ using PassVault.ViewModels;
 
 namespace PassVault.Views;
 
-public partial class NewAccountPage : ContentPage, IQueryAttributable
+public partial class FolderPage : ContentPage, IQueryAttributable
 {
-	public NewAccountPage(NewAccountPageViewModel viewModel)
+	public FolderPage(FolderPageViewModel viewModel)
 	{
 		InitializeComponent();
-        BindingContext = viewModel;      
-    }
+		BindingContext = viewModel;
+	}
 
     public void ApplyQueryAttributes(IDictionary<string, object> query)
     {
@@ -16,8 +16,8 @@ public partial class NewAccountPage : ContentPage, IQueryAttributable
         {
             if (int.TryParse(folderIdObj?.ToString(), out int folderId))
             {
-                // Define a propriedade FolderId no ViewModel
-                ((NewAccountPageViewModel)BindingContext).FolderId = folderId;
+                ((FolderPageViewModel)BindingContext).FolderId = folderId;
+                _ = ((FolderPageViewModel)BindingContext).LoadDataAsync();
             }
             else
             {

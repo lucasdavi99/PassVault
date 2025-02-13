@@ -3,8 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModels="clr-namespace:PassVault.ViewModels"
              x:Class="PassVault.Views.TutorialPage5"
-             Shell.NavBarIsVisible="False">
-    <!-- Title="TutorialPage5"> -->
+             Shell.NavBarIsVisible="False"
+             Title="TutorialPage5">
 
     <ContentPage.BindingContext>
         <viewModels:TutorialPage5ViewModel />
@@ -12,51 +12,32 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <!-- Para o título -->
             <RowDefinition Height="Auto" />
-            <!-- Para a descrição -->
+            <RowDefinition Height="*" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <!-- Coluna principal -->
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Label 
-        Text="{Binding Title}"
-        TextColor="{StaticResource Primary}"
-        FontSize="64"
-        FontAttributes="Bold"
-        HorizontalTextAlignment="Center"
-        VerticalTextAlignment="Center" 
-        Margin="0,60,0,0"
-        Grid.Row="0" />
+        <Label Text="{Binding Title}"
+               TextColor="{StaticResource Primary}"
+               FontSize="60"
+               FontAttributes="Bold"
+               HorizontalTextAlignment="Center"
+               VerticalTextAlignment="Center" 
+               Grid.Row="0" />
 
-        <Label 
-        Text="{Binding Description}"
-        TextColor="White"
-        FontSize="24"
-        FontAttributes="Bold"
-        HorizontalTextAlignment="Center"
-        VerticalTextAlignment="Center"
-        WidthRequest="300" 
-        Margin="0, 0, 0, 200"
-        Grid.Row="1" />
-
-        <Button
-        Text="Vamos começar!"
-        TextColor="{StaticResource PrimaryDarkText}"
-        FontAttributes="Bold"
-        FontSize="Medium"
-        WidthRequest="335"
-        HeightRequest="54"
-        CornerRadius="14"
-        Grid.Row="1" 
-        Margin="0, 200, 0, 0" 
-        BackgroundColor="{StaticResource Primary}" 
-        Command="{Binding NextPageCommand}"/>
-
-
+        <Button Text="Vamos começar!"
+                TextColor="{StaticResource PrimaryDarkText}"
+                FontAttributes="Bold"
+                FontSize="Medium"
+                WidthRequest="250"
+                HeightRequest="54"
+                CornerRadius="14"
+                Grid.Row="2" 
+                BackgroundColor="{StaticResource Primary}" 
+                Command="{Binding NextPageCommand}"/>
     </Grid>
 </ContentPage>

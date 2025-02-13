@@ -8,6 +8,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using PassVault.Views;
 
 namespace PassVault.ViewModels
 {
@@ -27,7 +28,7 @@ namespace PassVault.ViewModels
 
             if (authResult)
             {
-                await Shell.Current.GoToAsync("///MainPage");
+                await Shell.Current.GoToAsync("//MainPage");
             }
         }
 
@@ -40,18 +41,14 @@ namespace PassVault.ViewModels
                     return true;
                 }
 
-                var config = new AuthenticationRequestConfiguration("Autenticação necessária", "Para acessar o aplicativo, autorize o uso da senha padrão do seu smartphone.");
+                var config = new AuthenticationRequestConfiguration(
+                    "Autenticação necessária", "Desbloqueie o Dispositivo.")
+                {
+                    AllowAlternativeAuthentication = true,
+                };
                 var authResult = await CrossFingerprint.Current.AuthenticateAsync(config);
 
-                if (authResult.Authenticated)
-                {
-                    return true;
-                }
-                else
-                {
-                    await Shell.Current.DisplayAlert("Erro", "Falha na autenticação. Tente novamente.", "OK");
-                    return false;
-                }
+                return authResult.Authenticated;
             }
             catch (Exception ex)
             {

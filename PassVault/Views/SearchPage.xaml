@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:PassVault.ViewModels"
+             xmlns:converters="clr-namespace:PassVault.Converters"
+             xmlns:models="clr-namespace:PassVault.Models"
+             x:Class="PassVault.Views.SearchPage"
+             x:DataType="viewModels:SearchPageViewModel"
+             Title="Buscar">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:HexToColorConverter x:Key="HexToColorConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <VerticalStackLayout Padding="20" Spacing="10">
+        <!-- Campo de busca -->
+        <Entry Placeholder="Buscar por nome..."
+               Text="{Binding SearchText, Mode=TwoWay}"
+               TextColor="White"
+               FontSize="20" />
+        
+        <!-- Lista de resultados -->
+        <CollectionView ItemsSource="{Binding FilteredAccounts}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:Account">
+                    <Border BackgroundColor="Black"
+                            WidthRequest="300"
+                            HeightRequest="52"
+                            Stroke="{Binding Color, Converter={StaticResource HexToColorConverter}}">
+
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:SearchPageViewModel}}, Path=EditAccountCommand}"
+                                                  CommandParameter="{Binding .}" />
+                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:SearchPageViewModel}}, Path=DeleteAccountCommand}"
+                                                  CommandParameter="{Binding .}"
+                                                  NumberOfTapsRequired="2"/>
+                        </Border.GestureRecognizers>
+
+                        <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="15" Padding="15,0,15,0">
+                            <Ellipse WidthRequest="32"
+                                     HeightRequest="32"
+                                     Fill="{Binding Color, Converter={StaticResource HexToColorConverter}}"
+                                     Grid.Column="0"/>
+
+                            <Label Text="{Binding Title}"
+                                   TextColor="White"
+                                   Grid.Column="1"
+                                   VerticalTextAlignment="Center"
+                                   FontSize="20"
+                                   FontAttributes="Bold"/>
+
+                            <Label Text="{Binding Created, StringFormat='{0:dd/MM/yyyy}'}"
+                                   TextColor="White"
+                                   Grid.Column="2"
+                                   HorizontalTextAlignment="End"
+                                   VerticalTextAlignment="Center"/>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </VerticalStackLayout>
+</ContentPage>

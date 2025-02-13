@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:PassVault.ViewModels"
+             x:DataType="viewmodel:NewFolderPageViewModel"
+             xmlns:controls="clr-namespace:Maui.ColorPicker;assembly=Maui.ColorPicker"
+             x:Class="PassVault.Views.NewFolderPage"
+             Shell.NavBarIsVisible="False"
+             Title="NewFolderPage">
+
+    <Grid>
+        <Grid RowDefinitions="*,Auto">
+            <!-- Conteúdo Principal -->
+            <VerticalStackLayout Grid.Row="0" Spacing="20">
+                <!-- Botão Fechar -->
+                <Button Text="close"
+                    FontFamily="MaterialIcons"
+                    TextColor="{StaticResource Primary}"
+                    FontSize="40"
+                    Margin="0,20,0,0"
+                    BackgroundColor="Transparent"
+                    HorizontalOptions="End"
+                    Command="{Binding CloseCommand}" />
+
+                <!-- Formulário -->
+                <Grid RowSpacing="20" ColumnSpacing="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Título -->
+                    <Entry Placeholder="Titulo da pasta"
+                       FontSize="20"
+                       HorizontalTextAlignment="Center"
+                       Grid.Row="0"
+                       Grid.Column="0"                   
+                       BackgroundColor="#19171C"
+                       Margin="20" 
+                       Text="{Binding Title}" 
+                       TextColor="White" />
+
+                    <!-- Bolinha de Cor -->
+                    <Frame HeightRequest="50"
+                       WidthRequest="50"
+                       CornerRadius="25"
+                       BackgroundColor="{Binding SelectedColor}"
+                       HorizontalOptions="Center"
+                       Grid.Row="1"
+                       Grid.Column="0"
+                       ZIndex="1">
+
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ToggleColorPickerCommand}" />
+                        </Frame.GestureRecognizers>
+                    </Frame>
+                </Grid>
+            </VerticalStackLayout>
+
+            <!-- Menu de Navegação fixo na parte inferior -->
+            <Border Grid.Row="1"
+                BackgroundColor="#19171C"
+                WidthRequest="250"
+                HeightRequest="92"
+                Stroke="Transparent"
+                VerticalOptions="End"
+                StrokeShape="RoundRectangle 100, 100"
+                HorizontalOptions="Center"
+                Margin="0,0,0,10">
+
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="0">
+                    <!-- Botão Home -->
+                    <Button WidthRequest="60"
+                        Grid.Column="0"
+                        HeightRequest="60"  
+                        Padding="0"
+                        BackgroundColor="{StaticResource Primary}"
+                        CornerRadius="50"
+                        Text="home"
+                        TextColor="Black"
+                        FontFamily="MaterialIcons"
+                        FontSize="30"
+                        Command="{Binding CloseCommand}" />
+
+                    <!-- Botão Confirmar -->
+                    <Button WidthRequest="60"
+                        Grid.Column="1"
+                        HeightRequest="60"
+                        CornerRadius="10"
+                        BackgroundColor="{StaticResource Primary}"
+                        Text="check"
+                        TextColor="Black"
+                        FontFamily="MaterialIcons"
+                        FontSize="40"
+                        Padding="0"
+                        HorizontalOptions="Center"
+                        Command="{Binding SaveFolderCommand}"
+                        CommandParameter="Add" />
+
+                    
+                </Grid>
+            </Border>
+        </Grid>
+
+        <Grid IsVisible="{Binding IsColorPickerVisible}"
+          BackgroundColor="#80000000">
+
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding CloseColorPickerCommand}" />
+            </Grid.GestureRecognizers>
+            <!-- ColorPicker centralizado -->
+            <controls:ColorPicker                       
+            x:Name="ColorPicker"
+            ColorFlowDirection="Horizontal"
+            WidthRequest="300"
+            HeightRequest="200"
+            ColorSpectrumStyle="ShadeToHueToTintStyle"
+            PointerRingBorderUnits="0.3"
+            PointerRingDiameterUnits="0.7"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            PickedColor="{Binding SelectedColor, Mode=TwoWay}" />
+        </Grid>
+    </Grid>
+</ContentPage>
