@@ -47,7 +47,7 @@ namespace PassVault
             builder.Services.AddTransient<SearchPage>();
             builder.Services.AddTransient<SearchPageViewModel>();
             builder.Services.AddTransient<BackupPage>();
-            builder.Services.AddTransient<BackupViewModel>();
+            builder.Services.AddTransient<BackupViewModel>();          
 
 #if DEBUG
             builder.Logging.AddDebug();            
