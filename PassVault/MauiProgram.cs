@@ -26,12 +26,9 @@ namespace PassVault
                 });
 
             builder.Services.AddSingleton<AccountDatabase>();
-<<<<<<< HEAD
-=======
             builder.Services.AddSingleton<FolderDatabase>();
             builder.Services.AddSingleton<ExportService>();
             builder.Services.AddSingleton<ImportService>();            
->>>>>>> release/1.0.0
 
             builder.Services.AddTransient<MainPage>();
             builder.Services.AddTransient<MainPageViewModel>();
