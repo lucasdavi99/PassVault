@@ -10,6 +10,7 @@
         <!-- Seção de exportação -->
         <Button Text="Exportar Backup" 
                 TextColor="Black"
+                BackgroundColor="{StaticResource Primary}"
                 Command="{Binding ExportBackupCommand}" />
 
         <Label Text="Senha de Exportação:" 
@@ -22,6 +23,7 @@
         
         <Button Text="Importar Backup"
                 TextColor="Black"
+                BackgroundColor="{StaticResource Primary}"
                 Command="{Binding ImportBackupCommand}" />
     </VerticalStackLayout>
 </ContentPage>
