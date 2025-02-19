@@ -10,35 +10,39 @@ namespace PassVault.Services
     {
         public async Task<(string filePath, string password)> ExportBackupAsync(List<Account> accounts, List<Folder> folders)
         {
-            var backupData = new BackupData
+            try
             {
-                ExportDate = DateTime.UtcNow,
-                Accounts = accounts,
-                Folders = folders
-            };
-
-            string json = JsonSerializer.Serialize(backupData);
-            string password = GenerateRandomPassword(12);
-
-            byte[] salt = new byte[16];
-            byte[] iv = new byte[16];
-
-            using (var rng = RandomNumberGenerator.Create())
-            {
-                rng.GetBytes(salt);
-                rng.GetBytes(iv);
-            }
-
-            var keyDerivation = new Rfc2898DeriveBytes(password, salt, 10000, HashAlgorithmName.SHA256);
-            byte[] key = keyDerivation.GetBytes(32);
-
-            byte[] encrypted;
-            using (var aes = Aes.Create())
-            {
-                aes.Key = key;
-                aes.IV = iv;
-                using (var ms = new MemoryStream())
+                var backupData = new BackupData
                 {
+                    ExportDate = DateTime.UtcNow,
+                    Accounts = accounts,
+                    Folders = folders
+                };
+
+                string json = JsonSerializer.Serialize(backupData);
+                string password = GenerateRandomPassword(12);
+
+                byte[] salt = new byte[16];
+                byte[] iv = new byte[16];
+
+                using (var rng = RandomNumberGenerator.Create())
+                {
+                    rng.GetBytes(salt);
+                    rng.GetBytes(iv);
+                }
+
+                var keyDerivation = new Rfc2898DeriveBytes(password, salt, 100000, HashAlgorithmName.SHA256);
+                byte[] key = keyDerivation.GetBytes(32);
+
+                byte[] encrypted;
+                using (var aes = Aes.Create())
+                {
+                    aes.Key = key;
+                    aes.IV = iv;
+                    aes.Mode = CipherMode.CBC;
+                    aes.Padding = PaddingMode.PKCS7;
+
+                    using var ms = new MemoryStream();
                     ms.Write(salt, 0, salt.Length);
                     ms.Write(iv, 0, iv.Length);
 
@@ -46,21 +50,27 @@ namespace PassVault.Services
                     using (var sw = new StreamWriter(cs))
                     {
                         sw.Write(json);
+                        sw.Flush();
+                        cs.FlushFinalBlock();
                     }
                     encrypted = ms.ToArray();
                 }
+
+                string filePath = Path.Combine(FileSystem.AppDataDirectory, "backup.dat");
+                await File.WriteAllBytesAsync(filePath, encrypted);
+
+                await Share.RequestAsync(new ShareFileRequest
+                {
+                    Title = "Compartilhar Backup",
+                    File = new ShareFile(filePath)
+                });
+
+                return (filePath, password);
             }
-
-            string filePath = Path.Combine(FileSystem.AppDataDirectory, "backup.dat");
-            await File.WriteAllBytesAsync(filePath, encrypted);
-
-            await Share.RequestAsync(new ShareFileRequest
+            catch
             {
-                Title = "Compartilhar Backup",
-                File = new ShareFile(filePath)
-            });
-
-            return (filePath, password);
+                throw new Exception("Erro ao exportar o backup.");
+            }
         }
 
         private string GenerateRandomPassword(int length)

@@ -25,18 +25,13 @@ namespace PassVault.Services
                 {
                     aes.Key = key;
                     aes.IV = iv;
-                    using (var ms = new MemoryStream(cipherText))
-                    using (var cs = new CryptoStream(ms, aes.CreateDecryptor(), CryptoStreamMode.Read))
-                    using (var sr = new StreamReader(cs))
-                    {
-                        json = sr.ReadToEnd();
-                    }
+                    using var ms = new MemoryStream(cipherText);
+                    using var cs = new CryptoStream(ms, aes.CreateDecryptor(), CryptoStreamMode.Read);
+                    using var sr = new StreamReader(cs);
+                    json = sr.ReadToEnd();
                 }
 
-                var backupData = JsonSerializer.Deserialize<BackupData>(json);
-                if (backupData == null)
-                    throw new Exception("Erro ao desserializar o backup.");
-
+                var backupData = JsonSerializer.Deserialize<BackupData>(json) ?? throw new Exception("Erro ao desserializar o backup.");
                 TimeSpan validade = TimeSpan.FromHours(24);
                 if (DateTime.UtcNow - backupData.ExportDate > validade)
                     throw new Exception("O backup expirou.");

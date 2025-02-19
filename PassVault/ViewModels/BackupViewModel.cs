@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Maui.Core.Primitives;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using PassVault.Data;
@@ -7,12 +6,6 @@ using PassVault.exceptions;
 using PassVault.Messages;
 using PassVault.Models;
 using PassVault.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PassVault.ViewModels
 {
@@ -49,12 +42,33 @@ namespace PassVault.ViewModels
             var accounts = await _accountDatabase.GetAccountsAsync();
             var folders = await _folderDatabase.GetFoldersAsync();
 
-            var (filePath, password) = await _exportService.ExportBackupAsync(accounts, folders);
+            if (accounts.Count > 0 || folders.Count > 0)
+            {
 
-            ExportFilePath = filePath;
-            ExportPassword = password;
+                var (filePath, password) = await _exportService.ExportBackupAsync(accounts, folders);
 
-            await Shell.Current.DisplayAlert("Backup Exportado",$"Senha: {password}", "OK");
+                ExportFilePath = filePath;
+                ExportPassword = password;
+
+                bool sharingCompleted = await Shell.Current.DisplayAlert("Confirmação", "Você concluiu o compartilhamento do backup?", "Sim", "Não");
+
+                if (sharingCompleted)
+                {
+                    await Shell.Current.DisplayAlert("Backup Exportado", $"Senha: {password}", "OK");
+                }
+                else
+                {
+                    if (File.Exists(ExportFilePath))
+                    {
+                        File.Delete(ExportFilePath);
+                    }
+                    await Shell.Current.DisplayAlert("Exportação Cancelada", "A exportação foi cancelada.", "OK");
+                }
+            }
+            else
+            {
+                await Shell.Current.DisplayAlert("Erro", "Não há contas ou pastas para exportar.", "OK");
+            }
         }
 
         [RelayCommand]
@@ -79,14 +93,10 @@ namespace PassVault.ViewModels
 
                 if (string.IsNullOrEmpty(filePath))
                 {
-                    using (var stream = await result.OpenReadAsync())
-                    {
-                        filePath = Path.Combine(FileSystem.AppDataDirectory, result.FileName);
-                        using (var fileStream = File.Create(filePath))
-                        {
-                            await stream.CopyToAsync(fileStream);
-                        }
-                    }
+                    using var stream = await result.OpenReadAsync();
+                    filePath = Path.Combine(FileSystem.AppDataDirectory, result.FileName);
+                    using var fileStream = File.Create(filePath);
+                    await stream.CopyToAsync(fileStream);
                 }
 
                 ImportFilePath = filePath;
