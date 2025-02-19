@@ -26,29 +26,40 @@
                     </Grid.RowDefinitions>
 
                     <!-- Título -->
-                    <Entry Placeholder="Titulo da conta"
+                    <Border Stroke="{StaticResource Primary}"
+                            StrokeShape="RoundRectangle 10"
+                            Margin="10, 50, 10, 50"
+                            Grid.Row="0"
+                            Grid.Column="0">
+                        <Entry Placeholder="Titulo da conta"
                            FontSize="20"
-                           HorizontalTextAlignment="Center"
-                           Grid.Row="0"
-                           Grid.Column="0"                   
-                           BackgroundColor="#19171C"
-                           Margin="20" 
+                           HorizontalTextAlignment="Center"                                        
+                           BackgroundColor="#19171C"                          
                            Text="{Binding Title}" 
                            TextColor="White" />
+                    </Border>
 
                     <!-- Nome de Usuário -->
-                    <Entry Placeholder="Username"
+                    <Border Stroke="{StaticResource Primary}"
+                            StrokeShape="RoundRectangle 10"
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Margin="10,0,10,0">
+                        <Entry Placeholder="Username"
                            FontSize="20"
-                           HorizontalTextAlignment="Center"
-                           Grid.Row="1"
-                           Grid.Column="0"                  
+                           HorizontalTextAlignment="Center"                                            
                            BackgroundColor="#19171C" 
                            Text="{Binding Username}" 
-                           TextColor="White" 
-                           Margin="10,0,10,0"/>
+                           TextColor="White"/>
+                    </Border>
 
                     <!-- E-mail -->
-                    <Entry Placeholder="E-mail"
+                    <Border Stroke="{StaticResource Primary}"
+                            StrokeShape="RoundRectangle 10"
+                            Grid.Row="2"
+                            Grid.Column="0"
+                            Margin="10,0,10,0">
+                        <Entry Placeholder="E-mail"
                            FontSize="20"
                            HorizontalTextAlignment="Center"
                            Grid.Row="2"
@@ -56,19 +67,24 @@
                            BackgroundColor="#19171C" 
                            Text="{Binding Email}" 
                            TextColor="White" 
-                           Keyboard="Email"
-                           Margin="10,0,10,0" />
+                           Keyboard="Email" />
+                    </Border>
 
                     <!-- Senha -->
-                    <Entry Placeholder="Senha"
+                    <Border Stroke="{StaticResource Primary}"
+                            StrokeShape="RoundRectangle 10"
+                            Grid.Row="3"
+                            Grid.Column="0"
+                            Margin="10,0,10,0">
+                        <Entry Placeholder="Senha"
                            FontSize="20"
                            HorizontalTextAlignment="Center"
                            Grid.Row="3"
                            Grid.Column="0"                  
                            BackgroundColor="#19171C" 
                            Text="{Binding Password}" 
-                           TextColor="White" 
-                           Margin="10,0,10,0" />
+                           TextColor="White" />
+                    </Border>
 
                     <!-- Bolinha de Cor -->
                     <Frame HeightRequest="50"
