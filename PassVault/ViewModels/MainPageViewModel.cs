@@ -50,7 +50,25 @@ namespace PassVault.ViewModels
             if(tab == "Itens") await LoadAccounts();
             if(tab == "Pastas") await LoadFolders();
         }
-        
+
+        [RelayCommand]
+        private async Task SwipeLeft()
+        {
+            if (SelectedTab == "Itens")
+            {
+                await OnTabSelected("Pastas");
+            }
+        }
+
+        [RelayCommand]
+        private async Task SwipeRight()
+        {
+            if (SelectedTab == "Pastas")
+            {
+                await OnTabSelected("Itens");
+            }
+        }
+
         [RelayCommand]
         private async Task SelectAction(string action)
         {

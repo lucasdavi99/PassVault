@@ -74,8 +74,7 @@
                             Text="home"
                             TextColor="Black"
                             FontFamily="MaterialIcons"
-                            FontSize="30"
-                            Command="{Binding CloseCommand}" />
+                            FontSize="30" />
 
                     <!-- Botão Confirmar -->
                     <Button WidthRequest="60"
