@@ -6,8 +6,7 @@
              xmlns:controls="clr-namespace:Maui.ColorPicker;assembly=Maui.ColorPicker"
              x:DataType="viewmodel:EditFolderPageViewModel"
              x:Class="PassVault.Views.EditFolderPage"
-             Shell.NavBarIsVisible="False"
-             Title="EditFolderPage">
+             Title="Editar Pasta">
     
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -19,17 +18,7 @@
     <Grid>
         <Grid RowDefinitions="*,Auto">
             <!-- Conteúdo Principal -->
-            <VerticalStackLayout Grid.Row="0" Spacing="20" Padding="0,20,0,0">
-                <!-- Botão Fechar -->
-                <Button Text="close"
-                    FontFamily="MaterialIcons"
-                    TextColor="{StaticResource Primary}"
-                    FontSize="40"
-                    Margin="0,20,0,0"
-                    BackgroundColor="Transparent"
-                    HorizontalOptions="End"
-                    Command="{Binding CloseCommand}" />
-
+            <VerticalStackLayout Grid.Row="0" Spacing="20" Padding="0,20,0,0" VerticalOptions="Center">
                 <Grid RowSpacing="20" ColumnSpacing="10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -43,26 +32,29 @@
                     </Grid.RowDefinitions>
 
                     <!-- Título -->
-                    <Entry Placeholder="Titulo da conta"
-                       FontSize="20"
-                       HorizontalTextAlignment="Center"
-                       Grid.Row="0"
-                       Grid.Column="0"                   
-                       BackgroundColor="#19171C"
-                       Margin="20" 
-                       Text="{Binding Title}"
-                       TextColor="{Binding IsEditing, Converter={StaticResource EditingModeToColorConverter}}"
-                       IsReadOnly="{Binding IsEditing, Converter={StaticResource InverseBooleanConverter}}" />
+                    <Border Stroke="{StaticResource Primary}"
+                            StrokeShape="RoundRectangle 10"
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Margin="10,0,10,0">
+                        <Entry Placeholder="Titulo da conta"
+                               FontSize="20"
+                               HorizontalTextAlignment="Center"
+                               BackgroundColor="#19171C"
+                               Text="{Binding Title}"
+                               TextColor="{Binding IsEditing, Converter={StaticResource EditingModeToColorConverter}}"
+                               IsReadOnly="{Binding IsEditing, Converter={StaticResource InverseBooleanConverter}}" />
+                    </Border>
 
                     <!-- Bolinha de Cor -->
                     <Frame HeightRequest="50"
-                       WidthRequest="50"
-                       CornerRadius="25"
-                       BackgroundColor="{Binding SelectedColor}"
-                       HorizontalOptions="Center"
-                       Grid.Row="4"
-                       Grid.Column="0"
-                       ZIndex="1">
+                           WidthRequest="50"
+                           CornerRadius="25"
+                           BackgroundColor="{Binding SelectedColor}"
+                           HorizontalOptions="Center"
+                           Grid.Row="1"
+                           Grid.Column="0"
+                           ZIndex="1">
 
                         <Frame.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding ToggleColorPickerCommand}" />
@@ -73,39 +65,39 @@
 
             <!-- Menu de Navegação fixo na parte inferior -->
             <Border Grid.Row="1"
-                BackgroundColor="#19171C"
-                WidthRequest="250"
-                HeightRequest="92"
-                Stroke="Transparent"
-                VerticalOptions="End"
-                StrokeShape="RoundRectangle 100, 100"
-                HorizontalOptions="Center"
-                Margin="0,0,0,10">
+                    BackgroundColor="#19171C"
+                    WidthRequest="250"
+                    HeightRequest="92"
+                    Stroke="Transparent"
+                    VerticalOptions="End"
+                    StrokeShape="RoundRectangle 100, 100"
+                    HorizontalOptions="Center"
+                    Margin="0,0,0,10">
                 <Grid ColumnDefinitions="*,*" ColumnSpacing="0">
                     <!-- Botão Home -->
                     <Button WidthRequest="60"
-                        Grid.Column="0"
-                        HeightRequest="60"  
-                        Padding="0"
-                        BackgroundColor="{StaticResource Primary}"
-                        CornerRadius="50"
-                        Text="home"
-                        TextColor="Black"
-                        FontFamily="MaterialIcons"
-                        FontSize="30"
-                        Command="{Binding CloseCommand}" />
+                            Grid.Column="0"
+                            HeightRequest="60"  
+                            Padding="0"
+                            BackgroundColor="{StaticResource Primary}"
+                            CornerRadius="50"
+                            Text="home"
+                            TextColor="Black"
+                            FontFamily="MaterialIcons"
+                            FontSize="30"
+                            Command="{Binding CloseCommand}" />
 
                     <!-- Botão Confirmar Edição -->
                     <Button WidthRequest="60"
-                        Grid.Column="1"
-                        HeightRequest="60"
-                        CornerRadius="10"
-                        BackgroundColor="{StaticResource Primary}"
-                        TextColor="Black"
-                        FontFamily="MaterialIcons"
-                        FontSize="40"
-                        Padding="0"
-                        HorizontalOptions="Center">
+                            Grid.Column="1"
+                            HeightRequest="60"
+                            CornerRadius="10"
+                            BackgroundColor="{StaticResource Primary}"
+                            TextColor="Black"
+                            FontFamily="MaterialIcons"
+                            FontSize="40"
+                            Padding="0"
+                            HorizontalOptions="Center">
                         <Button.Triggers>
                             <DataTrigger TargetType="Button" Binding="{Binding IsEditing}" Value="False">
                                 <Setter Property="Text" Value="edit"/>
@@ -130,16 +122,16 @@
 
             <!-- ColorPicker centralizado -->
             <controls:ColorPicker
-            x:Name="ColorPicker"
-            ColorFlowDirection="Horizontal"
-            WidthRequest="300"
-            HeightRequest="200"
-            ColorSpectrumStyle="ShadeToHueToTintStyle"
-            PointerRingBorderUnits="0.3"
-            PointerRingDiameterUnits="0.7"
-            HorizontalOptions="Center"
-            VerticalOptions="Center"
-            PickedColor="{Binding SelectedColor, Mode=TwoWay}" />
+                x:Name="ColorPicker"
+                ColorFlowDirection="Horizontal"
+                WidthRequest="300"
+                HeightRequest="200"
+                ColorSpectrumStyle="ShadeToHueToTintStyle"
+                PointerRingBorderUnits="0.3"
+                PointerRingDiameterUnits="0.7"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                PickedColor="{Binding SelectedColor, Mode=TwoWay}" />
         </Grid>
     </Grid>
 </ContentPage>

@@ -59,10 +59,7 @@ namespace PassVault.ViewModels
             {
                 await Shell.Current.DisplayAlert("Erro", ex.Message, "OK");
             }
-        }
-
-        [RelayCommand]
-        private static async Task Close() => await Shell.Current.GoToAsync("..");
+        }       
 
         [RelayCommand]
         private void ToggleColorPicker()

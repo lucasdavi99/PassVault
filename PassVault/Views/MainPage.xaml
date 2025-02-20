@@ -137,7 +137,8 @@
                         <CollectionView.ItemTemplate>
                             <DataTemplate x:DataType="models:Folder">
                                 <Border BackgroundColor="Black"
-                                        WidthRequest="300"
+                                        MinimumWidthRequest="300"
+                                        MaximumWidthRequest="350"
                                         HeightRequest="52"
                                         Stroke="{Binding Color, Converter={StaticResource HexToColorConverter}}">
 
