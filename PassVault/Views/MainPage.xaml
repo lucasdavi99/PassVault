@@ -103,7 +103,7 @@
                                         </Border.GestureRecognizers>
 
                                         <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="10" Padding="15,0,15,0">
-                                            
+
                                             <Ellipse WidthRequest="32"
                                                      HeightRequest="32"
                                                      Fill="{Binding Color, Converter={StaticResource HexToColorConverter}}"
@@ -172,16 +172,11 @@
                             </CollectionView.ItemTemplate>
                         </CollectionView>
                     </StackLayout>
+                    <Grid.GestureRecognizers>
+                        <PanGestureRecognizer PanUpdated="OnPanUpdated" />
+                    </Grid.GestureRecognizers>
                 </Grid>
             </ScrollView>
-
-            <!-- Controle deslizante -->
-            <BoxView BackgroundColor="Transparent">
-                <BoxView.GestureRecognizers>
-                    <SwipeGestureRecognizer Direction="Left" Command="{Binding SwipeLeftCommand}" />
-                    <SwipeGestureRecognizer Direction="Right" Command="{Binding SwipeRightCommand}" />
-                </BoxView.GestureRecognizers>
-            </BoxView>
         </Grid>
 
         <!-- Botão de ajuda -->
