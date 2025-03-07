@@ -6,12 +6,7 @@ using PassVault.Data;
 using PassVault.Messages;
 using PassVault.Models;
 using PassVault.Views;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PassVault.ViewModels
 {
@@ -42,6 +37,9 @@ namespace PassVault.ViewModels
 
         [ObservableProperty]
         private bool _isColorPickerVisible = false;
+
+        [ObservableProperty]
+        private string _selectedColorHex = Colors.Purple.ToHex();
 
         public NewAccountPageViewModel(AccountDatabase database)
         {
@@ -84,7 +82,7 @@ namespace PassVault.ViewModels
         }
 
         [RelayCommand]
-        private async Task GoToGenerator() => await Shell.Current.GoToAsync(nameof(PasswordGenerator));        
+        private async Task GoToGenerator() => await Shell.Current.GoToAsync(nameof(PasswordGenerator));
 
         [RelayCommand]
         private void ToggleColorPicker()
@@ -96,12 +94,25 @@ namespace PassVault.ViewModels
         private void CloseColorPicker()
         {
             IsColorPickerVisible = false;
-        }
+        }        
 
         partial void OnSelectedColorChanged(Color value)
         {
             // Força a atualização da interface
+            SelectedColorHex = value.ToHex();
             OnPropertyChanged(nameof(SelectedColor));
+        }
+
+        partial void OnSelectedColorHexChanged(string value)
+        {
+            if (!string.IsNullOrWhiteSpace(value) && (value.Length == 7 || value.Length == 9))
+            {
+                var newColor = Color.FromArgb(value);
+                if (newColor != SelectedColor)
+                {
+                    SelectedColor = newColor;
+                }
+            }
         }
     }
 }

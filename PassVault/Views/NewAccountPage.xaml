@@ -148,7 +148,9 @@
         </Grid>
         
         <Grid IsVisible="{Binding IsColorPickerVisible}"
-              BackgroundColor="#80000000">
+              BackgroundColor="#80000000"
+              RowDefinitions="*, *"
+              ColumnSpacing="-500">
             
             <Grid.GestureRecognizers>
                 <TapGestureRecognizer Command="{Binding CloseColorPickerCommand}" />
@@ -157,6 +159,7 @@
             <controls:ColorPicker                       
                 x:Name="ColorPicker"
                 ColorFlowDirection="Horizontal"
+                Grid.Row="0"
                 WidthRequest="300"
                 HeightRequest="200"
                 ColorSpectrumStyle="ShadeToHueToTintStyle"
@@ -165,6 +168,18 @@
                 HorizontalOptions="Center"
                 VerticalOptions="Center"
                 PickedColor="{Binding SelectedColor, Mode=TwoWay}" />
+  
+            <Entry Placeholder="Código hexadecimal"
+                   Text="{Binding SelectedColorHex, Mode=TwoWay}"
+                   Grid.Row="1"
+                   Keyboard="Text"
+                   FontSize="20"
+                   WidthRequest="250"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"
+                   HorizontalTextAlignment="Center"
+                   BackgroundColor="#19171C"
+                   TextColor="White" />
         </Grid>
     </Grid>
 </ContentPage>
