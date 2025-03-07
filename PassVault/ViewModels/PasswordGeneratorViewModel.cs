@@ -1,5 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using PassVault.Messages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,6 +55,20 @@ namespace PassVault.ViewModels
             }
         }
 
+        [RelayCommand]
+        private async Task CopyPassword()
+        {
+            if (!string.IsNullOrEmpty(GeneratedPassword))
+            {
+                await Clipboard.Default.SetTextAsync(GeneratedPassword);
+                
+                WeakReferenceMessenger.Default.Send(new PasswordGeneratedMessage(GeneratedPassword));
+                
+                await Shell.Current.DisplayAlert("Sucesso", "Senha copiada para a área de transferência!", "OK");
+                await Shell.Current.GoToAsync("..");
+            }
+        }
+
         private string GenerateSecurePassword()
         {
             var passwordChars = new List<char>();
@@ -86,18 +102,7 @@ namespace PassVault.ViewModels
         private static char GetRandomChar(string validChars)
         {
             return validChars[RandomNumberGenerator.GetInt32(validChars.Length)];
-        }
-
-        [RelayCommand]
-        private async Task CopyPassword()
-        {
-            if (!string.IsNullOrEmpty(GeneratedPassword))
-            {
-                await Clipboard.Default.SetTextAsync(GeneratedPassword);
-                await Shell.Current.DisplayAlert("Sucesso", "Senha copiada para a área de transferência!", "OK");               
-                await Shell.Current.GoToAsync("..");
-            }
-        }
+        }       
 
         private bool ValidateInputs()
         {

@@ -44,6 +44,8 @@ namespace PassVault.ViewModels
         public NewAccountPageViewModel(AccountDatabase database)
         {
             _database = database;
+
+            WeakReferenceMessenger.Default.Register<PasswordGeneratedMessage>(this, (r, m) => { Password = m.Value; });
         }
 
         [RelayCommand]
