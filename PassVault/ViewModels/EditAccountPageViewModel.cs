@@ -8,14 +8,13 @@ using PassVault.Views;
 using Plugin.Fingerprint.Abstractions;
 using Plugin.Fingerprint;
 using System.ComponentModel.DataAnnotations;
-using System.Runtime.InteropServices;
-
 
 namespace PassVault.ViewModels
 {
     public partial class EditAccountPageViewModel : ObservableValidator, IQueryAttributable
     {
         private readonly AccountDatabase _database;
+        private readonly FolderDatabase _folderDatabase;
         private Account _currentAccount;
 
         [ObservableProperty]
@@ -48,11 +47,52 @@ namespace PassVault.ViewModels
         [ObservableProperty]
         private bool _isPasswordVisible = true;
 
-        public EditAccountPageViewModel(AccountDatabase database)
+        [ObservableProperty]
+        private List<Folder> _folders = new();
+        
+        [ObservableProperty]
+        private string _selectedFolderName = "Selecione a Pasta";
+
+        public EditAccountPageViewModel(AccountDatabase database, FolderDatabase folderDatabase)
         {
             _database = database;
             IsEditing = false;
-        }      
+
+            _folderDatabase = folderDatabase;
+        }
+
+        [RelayCommand]
+        private async Task SelectFolderAsync()
+        {
+            Folders = await _folderDatabase.GetFoldersAsync();
+
+            if (Folders == null || Folders.Count == 0)
+            {
+                await Shell.Current.DisplayAlert("Atenção", "Nenhuma pasta encontrada.", "OK");
+                return;
+            }
+
+            var folderNames = Folders.Select(f => f.Title).ToList();
+            folderNames.Insert(0, "Sem Pasta");
+
+            string chosenOption = await Shell.Current.DisplayActionSheet( "Selecione uma pasta", "Cancelar", null, folderNames.ToArray());
+
+            if (chosenOption != null && chosenOption != "Cancelar")
+            {
+                bool confirm = await Shell.Current.DisplayAlert(
+                    "Confirmação",
+                    $"Tem certeza que deseja mover esta conta para {chosenOption}?",
+                    "Sim",
+                    "Cancelar"
+                );
+
+                if (confirm)
+                {
+                    SelectedFolderName = chosenOption;
+                    _currentAccount.FolderId = chosenOption == "Sem Pasta" ? null : Folders.First(f => f.Title == chosenOption).Id;
+                }
+            }
+        }
 
         [RelayCommand]
         private async Task SaveEditAccountAsync()
@@ -64,7 +104,7 @@ namespace PassVault.ViewModels
                     await Shell.Current.DisplayAlert("Erro", "Preencha os campos obrigatórios", "OK");
                     return;
                 }
-                
+                else
                 {
                     _currentAccount.Title = Title;
                     _currentAccount.Username = Username;
@@ -138,7 +178,7 @@ namespace PassVault.ViewModels
 
         public async void ApplyQueryAttributes(IDictionary<string, object> query)
         {
-            if(query.ContainsKey("accountId") && int.TryParse(query["accountId"]?.ToString(), out int accountId))
+            if (query.ContainsKey("accountId") && int.TryParse(query["accountId"]?.ToString(), out int accountId))
             {
                 _currentAccount = await _database.GetAccountAsync(accountId);
                 if (_currentAccount != null)

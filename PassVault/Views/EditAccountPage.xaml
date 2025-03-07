@@ -44,6 +44,7 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
                     <!-- Título -->
@@ -123,9 +124,22 @@
                             <TapGestureRecognizer Command="{Binding ToggleColorPickerCommand}" />
                         </Frame.GestureRecognizers>
                     </Frame>
+
+                    <!-- Seleção de pasta -->
+                    <Button Text="{Binding SelectedFolderName}"
+                            TextColor="Black"
+                            FontSize="18"
+                            FontAttributes="Bold"
+                            CornerRadius="10"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center"
+                            Grid.Row="5"
+                            Grid.Column="0"
+                            BackgroundColor="{StaticResource Primary}"
+                            Command="{Binding SelectFolderCommand}" />
                 </Grid>
             </VerticalStackLayout>
-
+                      
             <!-- Menu de Navegação fixo na parte inferior -->
             <Border Grid.Row="1"
                     BackgroundColor="#19171C"
