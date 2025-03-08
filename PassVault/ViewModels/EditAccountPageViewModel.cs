@@ -53,6 +53,11 @@ namespace PassVault.ViewModels
         [ObservableProperty]
         private string _selectedFolderName = "Selecione a Pasta";
 
+        //Campos selecionados.
+
+        [ObservableProperty] private bool isUsernameVisible = true;
+        [ObservableProperty] private bool isEmailVisible = true;
+
         public EditAccountPageViewModel(AccountDatabase database, FolderDatabase folderDatabase)
         {
             _database = database;
@@ -188,6 +193,19 @@ namespace PassVault.ViewModels
                     Email = _currentAccount.Email;
                     Password = _currentAccount.Password;
                     SelectedColor = Color.FromArgb(_currentAccount.Color);
+                }
+            }
+
+            //Query dos campos selecionados para visibilidade
+            if (query.ContainsKey("selectedFields"))
+            {
+                if (query["selectedFields"] is Dictionary<string, bool> fields)
+                {
+                    if (fields.TryGetValue("Username", out bool usernameVisible))
+                        IsUsernameVisible = usernameVisible;
+
+                    if (fields.TryGetValue("Email", out bool emailVisible))
+                        IsEmailVisible = emailVisible;
                 }
             }
         }

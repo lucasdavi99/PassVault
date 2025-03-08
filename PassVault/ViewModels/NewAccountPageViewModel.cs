@@ -69,7 +69,7 @@ namespace PassVault.ViewModels
                 {
                     Title = Title,
                     Username = Username,
-                    Email = Email,
+                    Email = Email ,
                     Password = Password,
                     Created = DateTime.Now,
                     Color = SelectedColor.ToHex(),

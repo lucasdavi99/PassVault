@@ -67,7 +67,8 @@
                             StrokeShape="RoundRectangle 10"
                             Grid.Row="1"
                             Grid.Column="0"
-                            Margin="10,0,10,0">
+                            Margin="10,0,10,0"
+                            IsVisible="{Binding IsUsernameVisible}">
                         <Entry Placeholder="Username"
                            FontSize="20"
                            HorizontalTextAlignment="Center"
@@ -83,7 +84,8 @@
                             StrokeShape="RoundRectangle 10"
                             Grid.Row="2"
                             Grid.Column="0"
-                            Margin="10,0,10,0">
+                            Margin="10,0,10,0"
+                            IsVisible="{Binding IsEmailVisible}">
                         <Entry Placeholder="E-mail"
                            FontSize="20"
                            HorizontalTextAlignment="Center"

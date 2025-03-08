@@ -6,7 +6,6 @@ using PassVault.Messages;
 using PassVault.Models;
 using PassVault.Views;
 using System.Collections.ObjectModel;
-using System.Xml.Linq;
 
 namespace PassVault.ViewModels
 {
@@ -98,7 +97,18 @@ namespace PassVault.ViewModels
         [RelayCommand]
         private async Task EditAccount(Account account)
         {
-            await Shell.Current.GoToAsync($"{nameof(EditAccountPage)}?accountId={account.Id}");
+            var parameters = new Dictionary<string, object>
+            {
+                { "accountId", account.Id },
+                { "selectedFields", new Dictionary<string, bool>
+                    {
+                        { "Username", !string.IsNullOrEmpty(account.Username) },
+                        { "Email", !string.IsNullOrEmpty(account.Email) },
+                    }
+                }
+            };
+
+            await Shell.Current.GoToAsync(nameof(EditAccountPage), parameters);
         }       
 
         [RelayCommand]
