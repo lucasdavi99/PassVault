@@ -22,8 +22,12 @@ namespace PassVault.ViewModels
                 { "Email", IsEmailChecked },               
             };
 
-            WeakReferenceMessenger.Default.Send(selectedFields);
-            await Shell.Current.GoToAsync(nameof(NewAccountPage));
+            var query = new Dictionary<string, object>
+            {
+                { "selectedFields", selectedFields }
+            };
+
+            await Shell.Current.GoToAsync(nameof(NewAccountPage), query);
         }
     }
 }

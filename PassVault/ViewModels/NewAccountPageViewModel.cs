@@ -1,7 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
-using Maui.ColorPicker;
 using PassVault.Data;
 using PassVault.Messages;
 using PassVault.Models;
@@ -10,7 +9,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PassVault.ViewModels
 {
-    public partial class NewAccountPageViewModel : ObservableValidator
+    public partial class NewAccountPageViewModel : ObservableValidator, IQueryAttributable
     {
         private readonly AccountDatabase _database;
 
@@ -40,6 +39,11 @@ namespace PassVault.ViewModels
 
         [ObservableProperty]
         private string _selectedColorHex = Colors.Purple.ToHex();
+
+        //Campos selecionados.
+
+        [ObservableProperty] private bool isUsernameVisible = true;
+        [ObservableProperty] private bool isEmailVisible = true;
 
         public NewAccountPageViewModel(AccountDatabase database)
         {
@@ -113,6 +117,21 @@ namespace PassVault.ViewModels
                 if (newColor != SelectedColor)
                 {
                     SelectedColor = newColor;
+                }
+            }
+        }
+
+        public void ApplyQueryAttributes(IDictionary<string, object> query)
+        {
+            if (query.ContainsKey("selectedFields"))
+            {
+                if (query["selectedFields"] is Dictionary<string, bool> fields)
+                {
+                    if (fields.TryGetValue("Username", out bool usernameVisible))
+                        IsUsernameVisible = usernameVisible;
+                    
+                    if (fields.TryGetValue("Email", out bool emailVisible))
+                        IsEmailVisible = emailVisible;
                 }
             }
         }
