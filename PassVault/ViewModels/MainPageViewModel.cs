@@ -81,7 +81,7 @@ namespace PassVault.ViewModels
                 case "Add":
                     if (SelectedTab == "Itens")
                     {
-                        await Shell.Current.GoToAsync(nameof(NewAccountPage));
+                        await Shell.Current.GoToAsync(nameof(FieldsSelection));
                     }
                     else if (SelectedTab == "Pastas")
                     {

@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using PassVault.Views;
 
 namespace PassVault.ViewModels
 {
@@ -22,7 +23,7 @@ namespace PassVault.ViewModels
             };
 
             WeakReferenceMessenger.Default.Send(selectedFields);
-            await Shell.Current.Navigation.PopModalAsync();
+            await Shell.Current.GoToAsync(nameof(NewAccountPage));
         }
     }
 }

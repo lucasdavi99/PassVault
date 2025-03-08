@@ -75,7 +75,7 @@ namespace PassVault.ViewModels
                 await _database.SaveAccountAsync(account);
                 await Shell.Current.DisplayAlert("Sucesso", "Conta salva com sucesso", "OK");
                 WeakReferenceMessenger.Default.Send(new AccountSavedMessage(true));
-                await Shell.Current.Navigation.PopAsync();
+                await Shell.Current.Navigation.PopToRootAsync();
             }
             catch (Exception ex)
             {

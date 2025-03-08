@@ -1,6 +1,4 @@
 ﻿using Microsoft.Extensions.Logging;
-using Plugin.Fingerprint.Abstractions;
-using Plugin.Fingerprint;
 using PassVault.Data;
 using PassVault.ViewModels;
 using PassVault.Views;
@@ -47,7 +45,9 @@ namespace PassVault
             builder.Services.AddTransient<SearchPage>();
             builder.Services.AddTransient<SearchPageViewModel>();
             builder.Services.AddTransient<BackupPage>();
-            builder.Services.AddTransient<BackupViewModel>();          
+            builder.Services.AddTransient<BackupViewModel>();
+            builder.Services.AddTransient<FieldsSelection>();
+            builder.Services.AddTransient<FieldsSelectionViewModel>();
 
 #if DEBUG
             builder.Logging.AddDebug();            
