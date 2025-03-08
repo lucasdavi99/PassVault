@@ -86,6 +86,9 @@
 	  <MauiXaml Update="Views\EditFolderPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\FieldsSelection.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\FolderPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
