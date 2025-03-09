@@ -26,7 +26,8 @@
                FontAttributes="Bold" 
                FontSize="64"
                HorizontalTextAlignment="Center"
-               Grid.Row="0"/>
+               Grid.Row="0"
+               Padding="0,60"/>
 
         <Image Source="logo.png" 
                WidthRequest="257"
@@ -42,7 +43,7 @@
                 HeightRequest="50"
                 CornerRadius="30"
                 VerticalOptions="End"
-                Margin="0, 0, 0, 20"
+                Margin="0, 0, 0, 30"
                 Command="{Binding NextPageCommand}" 
                 Grid.Row="2"/>
     </Grid>

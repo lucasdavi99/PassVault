@@ -4,14 +4,14 @@
              xmlns:viewModels="clr-namespace:PassVault.ViewModels"
              x:DataType="viewModels:FieldsSelectionViewModel"
              x:Class="PassVault.Views.FieldsSelection"
-             Title="FieldsSelection">
+             Title="Escolha os campos">
     <VerticalStackLayout Padding="20">
         <HorizontalStackLayout HorizontalOptions="Start">
-            <CheckBox IsChecked="{Binding IsUsernameChecked}"/>
+            <CheckBox IsChecked="{Binding IsUsernameChecked}" Color="{StaticResource Primary}" />
             <Label Text="Nome de Usuário" TextColor="{StaticResource Primary}" FontSize="20" VerticalOptions="Center"/>
         </HorizontalStackLayout>
         <HorizontalStackLayout HorizontalOptions="Start">
-            <CheckBox IsChecked="{Binding IsEmailChecked}"/>
+            <CheckBox IsChecked="{Binding IsEmailChecked}" Color="{StaticResource Primary}" />
             <Label Text="E-mail" TextColor="{StaticResource Primary}" FontSize="20" VerticalOptions="Center"/>
         </HorizontalStackLayout>
 
@@ -19,7 +19,7 @@
         <Button Text="Confirmar" 
             Command="{Binding ConfirmSelectionCommand}"
             BackgroundColor="{StaticResource Primary}" 
-            TextColor="White"
+            TextColor="{StaticResource PrimaryDarkText}"
             HorizontalOptions="Center"
             Margin="0,20"/>
     </VerticalStackLayout>

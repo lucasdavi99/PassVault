@@ -27,7 +27,7 @@
                    FontAttributes="Bold"
                    VerticalOptions="Center"
                    Grid.Column="0" />
-            <!-- Botão de edição (você pode usar um ícone ou texto) -->
+            <!-- Botão de edição -->
             <Button Text="edit"
                     Command="{Binding EditFolderCommand}"
                     CommandParameter="{Binding Folder}"
@@ -53,7 +53,8 @@
                         <CollectionView.ItemTemplate>
                             <DataTemplate x:DataType="models:Account">
                                 <Border BackgroundColor="Black"
-                                        WidthRequest="300"
+                                        MinimumWidthRequest="300"
+                                        MaximumWidthRequest="350"
                                         HeightRequest="52"
                                         Stroke="{Binding Color, Converter={StaticResource HexToColorConverter}}">
 

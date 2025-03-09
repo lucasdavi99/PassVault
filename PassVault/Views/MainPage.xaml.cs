@@ -38,7 +38,7 @@ public partial class MainPage : ContentPage
                 totalY += e.TotalY;
                 break;
             case GestureStatus.Completed:
-                if (Math.Abs(totalX) > Math.Abs(totalY) && Math.Abs(totalX) > 1)
+                if (Math.Abs(totalX) > Math.Abs(totalY) && Math.Abs(totalX) > 50)
                 {
                     var viewModel = BindingContext as MainPageViewModel;
                     if (totalX > 0) // Deslize para a direita
