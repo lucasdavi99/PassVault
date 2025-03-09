@@ -134,6 +134,11 @@ namespace PassVault.ViewModels
                         IsEmailVisible = emailVisible;
                 }
             }
+
+            if (query.ContainsKey("folderId") && int.TryParse(query["folderId"]?.ToString(), out int folderId))
+            {
+                FolderId = folderId;
+            }
         }
     }
 }
