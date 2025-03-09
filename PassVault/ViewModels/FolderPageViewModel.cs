@@ -3,12 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using PassVault.Data;
 using PassVault.Models;
 using PassVault.Views;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PassVault.ViewModels
 {
@@ -35,14 +30,29 @@ namespace PassVault.ViewModels
         [RelayCommand]
         public async Task AddNewItemAsync()
         {
-            await Shell.Current.GoToAsync($"{nameof(NewAccountPage)}?folderId={FolderId}", true);
+            await Shell.Current.GoToAsync($"{nameof(FieldsSelection)}?folderId={FolderId}", true);
         }
 
         [RelayCommand]
         private async Task EditFolder(Folder folder) => await Shell.Current.GoToAsync($"{nameof(EditFolderPage)}?folderId={folder.Id}");
 
         [RelayCommand]
-        public async Task EditAccountInFolder(Account account) => await Shell.Current.GoToAsync($"{nameof(EditAccountPage)}?accountId={account.Id}");
+        public async Task EditAccountInFolder(Account account)
+        {
+            var parameters = new Dictionary<string, object>
+            {
+                { "accountId", account.Id },
+                { "selectedFields", new Dictionary<string, bool>
+                    {
+                        { "Username", !string.IsNullOrEmpty(account.Username) },
+                        { "Email", !string.IsNullOrEmpty(account.Email) },
+                    }
+                }
+
+            };
+
+            await Shell.Current.GoToAsync(nameof(EditAccountPage), parameters);
+        }
 
         [RelayCommand]
         public async Task DeleteAccountInFolder(Account account)
