@@ -67,6 +67,12 @@ namespace PassVault.ViewModels
             IsEditing = false;
 
             _folderDatabase = folderDatabase;
+
+            WeakReferenceMessenger.Default.Register<PasswordGeneratedMessage>(this, async (r, m) =>
+            {
+                Password = m.Value;
+                await Shell.Current.DisplayAlert("Sucesso", "Nova senha aplicada", "OK");
+            });
         }
 
         [RelayCommand]
