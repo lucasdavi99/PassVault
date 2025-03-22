@@ -6,7 +6,6 @@ using PassVault.Messages;
 using PassVault.Models;
 using PassVault.Views;
 using System.Collections.ObjectModel;
-using System.Xml.Linq;
 
 namespace PassVault.ViewModels
 {
@@ -50,7 +49,25 @@ namespace PassVault.ViewModels
             if(tab == "Itens") await LoadAccounts();
             if(tab == "Pastas") await LoadFolders();
         }
-        
+
+        [RelayCommand]
+        private async Task SwipeLeft()
+        {
+            if (SelectedTab == "Itens")
+            {
+                await OnTabSelected("Pastas");
+            }
+        }
+
+        [RelayCommand]
+        private async Task SwipeRight()
+        {
+            if (SelectedTab == "Pastas")
+            {
+                await OnTabSelected("Itens");
+            }
+        }
+
         [RelayCommand]
         private async Task SelectAction(string action)
         {
@@ -63,7 +80,7 @@ namespace PassVault.ViewModels
                 case "Add":
                     if (SelectedTab == "Itens")
                     {
-                        await Shell.Current.GoToAsync(nameof(NewAccountPage));
+                        await Shell.Current.GoToAsync(nameof(FieldsSelection));
                     }
                     else if (SelectedTab == "Pastas")
                     {
@@ -80,7 +97,18 @@ namespace PassVault.ViewModels
         [RelayCommand]
         private async Task EditAccount(Account account)
         {
-            await Shell.Current.GoToAsync($"{nameof(EditAccountPage)}?accountId={account.Id}");
+            var parameters = new Dictionary<string, object>
+            {
+                { "accountId", account.Id },
+                { "selectedFields", new Dictionary<string, bool>
+                    {
+                        { "Username", !string.IsNullOrEmpty(account.Username) },
+                        { "Email", !string.IsNullOrEmpty(account.Email) },
+                    }
+                }
+            };
+
+            await Shell.Current.GoToAsync(nameof(EditAccountPage), parameters);
         }       
 
         [RelayCommand]

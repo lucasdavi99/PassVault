@@ -26,29 +26,42 @@
                     </Grid.RowDefinitions>
 
                     <!-- Título -->
-                    <Entry Placeholder="Titulo da conta"
+                    <Border Stroke="{StaticResource Primary}"
+                            StrokeShape="RoundRectangle 10"
+                            Margin="10, 50, 10, 50"
+                            Grid.Row="0"
+                            Grid.Column="0">
+                        <Entry Placeholder="Titulo da conta"
                            FontSize="20"
-                           HorizontalTextAlignment="Center"
-                           Grid.Row="0"
-                           Grid.Column="0"                   
-                           BackgroundColor="#19171C"
-                           Margin="20" 
+                           HorizontalTextAlignment="Center"                                        
+                           BackgroundColor="#19171C"                          
                            Text="{Binding Title}" 
                            TextColor="White" />
+                    </Border>
 
                     <!-- Nome de Usuário -->
-                    <Entry Placeholder="Username"
+                    <Border Stroke="{StaticResource Primary}"
+                            StrokeShape="RoundRectangle 10"
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Margin="10,0,10,0"
+                            IsVisible="{Binding IsUsernameVisible}">
+                        <Entry Placeholder="Username"
                            FontSize="20"
-                           HorizontalTextAlignment="Center"
-                           Grid.Row="1"
-                           Grid.Column="0"                  
+                           HorizontalTextAlignment="Center"                                            
                            BackgroundColor="#19171C" 
                            Text="{Binding Username}" 
-                           TextColor="White" 
-                           Margin="10,0,10,0"/>
+                           TextColor="White"/>
+                    </Border>
 
                     <!-- E-mail -->
-                    <Entry Placeholder="E-mail"
+                    <Border Stroke="{StaticResource Primary}"
+                            StrokeShape="RoundRectangle 10"
+                            Grid.Row="2"
+                            Grid.Column="0"
+                            Margin="10,0,10,0"
+                            IsVisible="{Binding IsEmailVisible}">
+                        <Entry Placeholder="E-mail"
                            FontSize="20"
                            HorizontalTextAlignment="Center"
                            Grid.Row="2"
@@ -56,19 +69,24 @@
                            BackgroundColor="#19171C" 
                            Text="{Binding Email}" 
                            TextColor="White" 
-                           Keyboard="Email"
-                           Margin="10,0,10,0" />
+                           Keyboard="Email" />
+                    </Border>
 
                     <!-- Senha -->
-                    <Entry Placeholder="Senha"
+                    <Border Stroke="{StaticResource Primary}"
+                            StrokeShape="RoundRectangle 10"
+                            Grid.Row="3"
+                            Grid.Column="0"
+                            Margin="10,0,10,0">
+                        <Entry Placeholder="Senha"
                            FontSize="20"
                            HorizontalTextAlignment="Center"
                            Grid.Row="3"
                            Grid.Column="0"                  
                            BackgroundColor="#19171C" 
                            Text="{Binding Password}" 
-                           TextColor="White" 
-                           Margin="10,0,10,0" />
+                           TextColor="White" />
+                    </Border>
 
                     <!-- Bolinha de Cor -->
                     <Frame HeightRequest="50"
@@ -102,7 +120,7 @@
 
                     <!-- Botão Confirmar -->
                     <Button WidthRequest="60"
-                            Grid.Column="0"
+                            Grid.Column="1"
                             HeightRequest="60"
                             CornerRadius="10"
                             BackgroundColor="{StaticResource Primary}"
@@ -117,7 +135,7 @@
 
                     <!-- Botão Aleatório -->
                     <Button WidthRequest="60"
-                            Grid.Column="1"
+                            Grid.Column="0"
                             HeightRequest="60"  
                             Padding="0"
                             BackgroundColor="{StaticResource Primary}"
@@ -132,7 +150,8 @@
         </Grid>
         
         <Grid IsVisible="{Binding IsColorPickerVisible}"
-              BackgroundColor="#80000000">
+              BackgroundColor="#80000000"
+              RowDefinitions="*, *">
             
             <Grid.GestureRecognizers>
                 <TapGestureRecognizer Command="{Binding CloseColorPickerCommand}" />
@@ -141,6 +160,7 @@
             <controls:ColorPicker                       
                 x:Name="ColorPicker"
                 ColorFlowDirection="Horizontal"
+                Grid.Row="0"
                 WidthRequest="300"
                 HeightRequest="200"
                 ColorSpectrumStyle="ShadeToHueToTintStyle"
@@ -149,6 +169,18 @@
                 HorizontalOptions="Center"
                 VerticalOptions="Center"
                 PickedColor="{Binding SelectedColor, Mode=TwoWay}" />
+  
+            <Entry Placeholder="Código hexadecimal"
+                   Text="{Binding SelectedColorHex, Mode=TwoWay}"
+                   Grid.Row="1"
+                   Keyboard="Text"
+                   FontSize="20"
+                   WidthRequest="250"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"
+                   HorizontalTextAlignment="Center"
+                   BackgroundColor="#19171C"
+                   TextColor="White" />
         </Grid>
     </Grid>
 </ContentPage>

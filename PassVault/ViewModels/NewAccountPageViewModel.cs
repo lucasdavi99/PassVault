@@ -1,21 +1,15 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
-using Maui.ColorPicker;
 using PassVault.Data;
 using PassVault.Messages;
 using PassVault.Models;
 using PassVault.Views;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PassVault.ViewModels
 {
-    public partial class NewAccountPageViewModel : ObservableValidator
+    public partial class NewAccountPageViewModel : ObservableValidator, IQueryAttributable
     {
         private readonly AccountDatabase _database;
 
@@ -43,9 +37,19 @@ namespace PassVault.ViewModels
         [ObservableProperty]
         private bool _isColorPickerVisible = false;
 
+        [ObservableProperty]
+        private string _selectedColorHex = Colors.Purple.ToHex();
+
+        //Campos selecionados.
+
+        [ObservableProperty] private bool isUsernameVisible = true;
+        [ObservableProperty] private bool isEmailVisible = true;
+
         public NewAccountPageViewModel(AccountDatabase database)
         {
             _database = database;
+
+            WeakReferenceMessenger.Default.Register<PasswordGeneratedMessage>(this, (r, m) => { Password = m.Value; });
         }
 
         [RelayCommand]
@@ -65,7 +69,7 @@ namespace PassVault.ViewModels
                 {
                     Title = Title,
                     Username = Username,
-                    Email = Email,
+                    Email = Email ,
                     Password = Password,
                     Created = DateTime.Now,
                     Color = SelectedColor.ToHex(),
@@ -75,7 +79,7 @@ namespace PassVault.ViewModels
                 await _database.SaveAccountAsync(account);
                 await Shell.Current.DisplayAlert("Sucesso", "Conta salva com sucesso", "OK");
                 WeakReferenceMessenger.Default.Send(new AccountSavedMessage(true));
-                await Shell.Current.Navigation.PopAsync();
+                await Shell.Current.Navigation.PopToRootAsync();
             }
             catch (Exception ex)
             {
@@ -84,7 +88,7 @@ namespace PassVault.ViewModels
         }
 
         [RelayCommand]
-        private async Task GoToGenerator() => await Shell.Current.GoToAsync(nameof(PasswordGenerator));        
+        private async Task GoToGenerator() => await Shell.Current.GoToAsync(nameof(PasswordGenerator));
 
         [RelayCommand]
         private void ToggleColorPicker()
@@ -96,12 +100,45 @@ namespace PassVault.ViewModels
         private void CloseColorPicker()
         {
             IsColorPickerVisible = false;
-        }
+        }        
 
         partial void OnSelectedColorChanged(Color value)
         {
             // Força a atualização da interface
+            SelectedColorHex = value.ToHex();
             OnPropertyChanged(nameof(SelectedColor));
+        }
+
+        partial void OnSelectedColorHexChanged(string value)
+        {
+            if (!string.IsNullOrWhiteSpace(value) && (value.Length == 7 || value.Length == 9))
+            {
+                var newColor = Color.FromArgb(value);
+                if (newColor != SelectedColor)
+                {
+                    SelectedColor = newColor;
+                }
+            }
+        }
+
+        public void ApplyQueryAttributes(IDictionary<string, object> query)
+        {
+            if (query.ContainsKey("selectedFields"))
+            {
+                if (query["selectedFields"] is Dictionary<string, bool> fields)
+                {
+                    if (fields.TryGetValue("Username", out bool usernameVisible))
+                        IsUsernameVisible = usernameVisible;
+                    
+                    if (fields.TryGetValue("Email", out bool emailVisible))
+                        IsEmailVisible = emailVisible;
+                }
+            }
+
+            if (query.ContainsKey("folderId") && int.TryParse(query["folderId"]?.ToString(), out int folderId))
+            {
+                FolderId = folderId;
+            }
         }
     }
 }

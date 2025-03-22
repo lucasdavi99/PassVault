@@ -44,58 +44,73 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
                     <!-- Título -->
-                    <Entry Placeholder="Titulo da conta"
+                    <Border Stroke="{StaticResource Primary}"
+                            StrokeShape="RoundRectangle 10"
+                            Margin="10, 50, 10, 50" 
+                            Grid.Row="0"
+                            Grid.Column="0">
+                        <Entry Placeholder="Titulo da conta"
                            FontSize="20"
-                           HorizontalTextAlignment="Center"
-                           Grid.Row="0"
-                           Grid.Column="0"                   
-                           BackgroundColor="#19171C"
-                           Margin="20" 
+                           HorizontalTextAlignment="Center"                                              
+                           BackgroundColor="#19171C"                           
                            Text="{Binding Title}"
                            TextColor="{Binding IsEditing, Converter={StaticResource EditingModeToColorConverter}}"
                            IsReadOnly="{Binding IsEditing, Converter={StaticResource InverseBooleanConverter}}" />
+                    </Border>
 
                     <!-- Nome de Usuário -->
-                    <Entry Placeholder="Username"
+                    <Border Stroke="{StaticResource Primary}"
+                            StrokeShape="RoundRectangle 10"
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Margin="10,0,10,0"
+                            IsVisible="{Binding IsUsernameVisible}">
+                        <Entry Placeholder="Username"
                            FontSize="20"
                            HorizontalTextAlignment="Center"
-                           Grid.Row="1"
-                           Grid.Column="0"     
-                           Margin="10,0,10,0"
                            BackgroundColor="#19171C"
                            IsPassword="{Binding IsPasswordVisible}"
                            Text="{Binding Username}"
                            TextColor="{Binding IsEditing, Converter={StaticResource EditingModeToColorConverter}}"
                            IsReadOnly="{Binding IsEditing, Converter={StaticResource InverseBooleanConverter}}" />
+                    </Border>
 
                     <!-- E-mail -->
-                    <Entry Placeholder="E-mail"
+                    <Border Stroke="{StaticResource Primary}"
+                            StrokeShape="RoundRectangle 10"
+                            Grid.Row="2"
+                            Grid.Column="0"
+                            Margin="10,0,10,0"
+                            IsVisible="{Binding IsEmailVisible}">
+                        <Entry Placeholder="E-mail"
                            FontSize="20"
                            HorizontalTextAlignment="Center"
-                           Grid.Row="2"
-                           Grid.Column="0"
-                           Margin="10,0,10,0"
                            BackgroundColor="#19171C" 
                            Text="{Binding Email}"
                            IsPassword="{Binding IsPasswordVisible}"
                            TextColor="{Binding IsEditing, Converter={StaticResource EditingModeToColorConverter}}"
                            IsReadOnly="{Binding IsEditing, Converter={StaticResource InverseBooleanConverter}}" />
+                    </Border>
 
                     <!-- Senha -->
-                    <Entry Placeholder="Senha"
+                    <Border Stroke="{StaticResource Primary}"
+                            StrokeShape="RoundRectangle 10"
+                            Grid.Row="3"
+                            Grid.Column="0"
+                            Margin="10,0,10,0">
+                        <Entry Placeholder="Senha"
                            FontSize="20"
                            HorizontalTextAlignment="Center"
-                           Grid.Row="3"
-                           Grid.Column="0"
-                           Margin="10,0,10,0"
                            BackgroundColor="#19171C" 
                            Text="{Binding Password}"
                            IsPassword="{Binding IsPasswordVisible}"
                            TextColor="{Binding IsEditing, Converter={StaticResource EditingModeToColorConverter}}"
                            IsReadOnly="{Binding IsEditing, Converter={StaticResource InverseBooleanConverter}}" />
+                    </Border>
 
                     <!-- Bolinha de Cor -->
                     <Frame HeightRequest="50"
@@ -111,9 +126,22 @@
                             <TapGestureRecognizer Command="{Binding ToggleColorPickerCommand}" />
                         </Frame.GestureRecognizers>
                     </Frame>
+
+                    <!-- Seleção de pasta -->
+                    <Button Text="{Binding SelectedFolderName}"
+                            TextColor="Black"
+                            FontSize="18"
+                            FontAttributes="Bold"
+                            CornerRadius="10"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center"
+                            Grid.Row="5"
+                            Grid.Column="0"
+                            BackgroundColor="{StaticResource Primary}"
+                            Command="{Binding SelectFolderCommand}" />
                 </Grid>
             </VerticalStackLayout>
-
+                      
             <!-- Menu de Navegação fixo na parte inferior -->
             <Border Grid.Row="1"
                     BackgroundColor="#19171C"
@@ -128,7 +156,7 @@
 
                     <!-- Botão Confirmar Edição -->
                     <Button WidthRequest="60"
-                            Grid.Column="0"
+                            Grid.Column="1"
                             HeightRequest="60"
                             CornerRadius="10"
                             BackgroundColor="{StaticResource Primary}"
@@ -151,7 +179,7 @@
 
                     <!-- Botão Aleatório -->
                     <Button WidthRequest="60"
-                            Grid.Column="1"
+                            Grid.Column="0"
                             HeightRequest="60"  
                             Padding="0"
                             BackgroundColor="{StaticResource Primary}"
@@ -166,7 +194,8 @@
         </Grid>
    
         <Grid IsVisible="{Binding IsColorPickerVisible}"
-              BackgroundColor="#80000000">
+              BackgroundColor="#80000000"
+              RowDefinitions="*, *">
             
             <Grid.GestureRecognizers>
                 <TapGestureRecognizer Command="{Binding CloseColorPickerCommand}" />
@@ -176,6 +205,7 @@
             <controls:ColorPicker
                 x:Name="ColorPicker"
                 ColorFlowDirection="Horizontal"
+                Grid.Row="0"
                 WidthRequest="300"
                 HeightRequest="200"
                 ColorSpectrumStyle="ShadeToHueToTintStyle"
@@ -184,6 +214,18 @@
                 HorizontalOptions="Center"
                 VerticalOptions="Center"
                 PickedColor="{Binding SelectedColor, Mode=TwoWay}" />
+
+            <Entry Placeholder="Código hexadecimal"
+                   Text="{Binding SelectedColorHex, Mode=TwoWay}"
+                   Grid.Row="1"
+                   Keyboard="Text"
+                   FontSize="20"
+                   WidthRequest="250"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"
+                   HorizontalTextAlignment="Center"
+                   BackgroundColor="#19171C"
+                   TextColor="White" />
         </Grid>
     </Grid>
 </ContentPage>

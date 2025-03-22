@@ -5,23 +5,12 @@
              x:DataType="viewmodel:NewFolderPageViewModel"
              xmlns:controls="clr-namespace:Maui.ColorPicker;assembly=Maui.ColorPicker"
              x:Class="PassVault.Views.NewFolderPage"
-             Shell.NavBarIsVisible="False"
-             Title="NewFolderPage">
+             Title="Nova Pasta">
 
     <Grid>
         <Grid RowDefinitions="*,Auto">
             <!-- Conteúdo Principal -->
-            <VerticalStackLayout Grid.Row="0" Spacing="20">
-                <!-- Botão Fechar -->
-                <Button Text="close"
-                    FontFamily="MaterialIcons"
-                    TextColor="{StaticResource Primary}"
-                    FontSize="40"
-                    Margin="0,20,0,0"
-                    BackgroundColor="Transparent"
-                    HorizontalOptions="End"
-                    Command="{Binding CloseCommand}" />
-
+            <VerticalStackLayout Grid.Row="0" Spacing="20" VerticalOptions="Center">
                 <!-- Formulário -->
                 <Grid RowSpacing="20" ColumnSpacing="10">
                     <Grid.ColumnDefinitions>
@@ -33,15 +22,18 @@
                     </Grid.RowDefinitions>
 
                     <!-- Título -->
-                    <Entry Placeholder="Titulo da pasta"
-                       FontSize="20"
-                       HorizontalTextAlignment="Center"
-                       Grid.Row="0"
-                       Grid.Column="0"                   
-                       BackgroundColor="#19171C"
-                       Margin="20" 
-                       Text="{Binding Title}" 
-                       TextColor="White" />
+                    <Border Stroke="{StaticResource Primary}"
+                            StrokeShape="RoundRectangle 10"
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Margin="10,0,10,0">
+                        <Entry Placeholder="Titulo da pasta"
+                               FontSize="20"
+                               HorizontalTextAlignment="Center"                                         
+                               BackgroundColor="#19171C"
+                               Text="{Binding Title}" 
+                               TextColor="White" />
+                    </Border>
 
                     <!-- Bolinha de Cor -->
                     <Frame HeightRequest="50"
@@ -62,67 +54,78 @@
 
             <!-- Menu de Navegação fixo na parte inferior -->
             <Border Grid.Row="1"
-                BackgroundColor="#19171C"
-                WidthRequest="250"
-                HeightRequest="92"
-                Stroke="Transparent"
-                VerticalOptions="End"
-                StrokeShape="RoundRectangle 100, 100"
-                HorizontalOptions="Center"
-                Margin="0,0,0,10">
+                    BackgroundColor="#19171C"
+                    WidthRequest="250"
+                    HeightRequest="92"
+                    Stroke="Transparent"
+                    VerticalOptions="End"
+                    StrokeShape="RoundRectangle 100, 100"
+                    HorizontalOptions="Center"
+                    Margin="0,0,0,10">
 
                 <Grid ColumnDefinitions="*,*" ColumnSpacing="0">
                     <!-- Botão Home -->
                     <Button WidthRequest="60"
-                        Grid.Column="0"
-                        HeightRequest="60"  
-                        Padding="0"
-                        BackgroundColor="{StaticResource Primary}"
-                        CornerRadius="50"
-                        Text="home"
-                        TextColor="Black"
-                        FontFamily="MaterialIcons"
-                        FontSize="30"
-                        Command="{Binding CloseCommand}" />
+                            Grid.Column="0"
+                            HeightRequest="60"  
+                            Padding="0"
+                            BackgroundColor="{StaticResource Primary}"
+                            CornerRadius="50"
+                            Text="home"
+                            TextColor="Black"
+                            FontFamily="MaterialIcons"
+                            FontSize="30" />
 
                     <!-- Botão Confirmar -->
                     <Button WidthRequest="60"
-                        Grid.Column="1"
-                        HeightRequest="60"
-                        CornerRadius="10"
-                        BackgroundColor="{StaticResource Primary}"
-                        Text="check"
-                        TextColor="Black"
-                        FontFamily="MaterialIcons"
-                        FontSize="40"
-                        Padding="0"
-                        HorizontalOptions="Center"
-                        Command="{Binding SaveFolderCommand}"
-                        CommandParameter="Add" />
-
-                    
+                            Grid.Column="1"
+                            HeightRequest="60"
+                            CornerRadius="10"
+                            BackgroundColor="{StaticResource Primary}"
+                            Text="check"
+                            TextColor="Black"
+                            FontFamily="MaterialIcons"
+                            FontSize="40"
+                            Padding="0"
+                            HorizontalOptions="Center"
+                            Command="{Binding SaveFolderCommand}"
+                            CommandParameter="Add" />
                 </Grid>
             </Border>
         </Grid>
 
         <Grid IsVisible="{Binding IsColorPickerVisible}"
-          BackgroundColor="#80000000">
+              BackgroundColor="#80000000"
+              RowDefinitions="*, *">
 
             <Grid.GestureRecognizers>
                 <TapGestureRecognizer Command="{Binding CloseColorPickerCommand}" />
             </Grid.GestureRecognizers>
             <!-- ColorPicker centralizado -->
             <controls:ColorPicker                       
-            x:Name="ColorPicker"
-            ColorFlowDirection="Horizontal"
-            WidthRequest="300"
-            HeightRequest="200"
-            ColorSpectrumStyle="ShadeToHueToTintStyle"
-            PointerRingBorderUnits="0.3"
-            PointerRingDiameterUnits="0.7"
-            HorizontalOptions="Center"
-            VerticalOptions="Center"
-            PickedColor="{Binding SelectedColor, Mode=TwoWay}" />
+                x:Name="ColorPicker"
+                ColorFlowDirection="Horizontal"
+                Grid.Row="0"
+                WidthRequest="300"
+                HeightRequest="200"
+                ColorSpectrumStyle="ShadeToHueToTintStyle"
+                PointerRingBorderUnits="0.3"
+                PointerRingDiameterUnits="0.7"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                PickedColor="{Binding SelectedColor, Mode=TwoWay}" />
+
+            <Entry Placeholder="Código hexadecimal"
+                   Text="{Binding SelectedColorHex, Mode=TwoWay}"
+                   Grid.Row="1"
+                   Keyboard="Text"
+                   FontSize="20"
+                   WidthRequest="250"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"
+                   HorizontalTextAlignment="Center"
+                   BackgroundColor="#19171C"
+                   TextColor="White" />
         </Grid>
     </Grid>
 </ContentPage>
