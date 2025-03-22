@@ -63,8 +63,7 @@ namespace PassVault.ViewModels
                 await Clipboard.Default.SetTextAsync(GeneratedPassword);
                 
                 WeakReferenceMessenger.Default.Send(new PasswordGeneratedMessage(GeneratedPassword));
-                
-                await Shell.Current.DisplayAlert("Sucesso", "Senha copiada para a área de transferência!", "OK");
+                               
                 await Shell.Current.GoToAsync("..");
             }
         }

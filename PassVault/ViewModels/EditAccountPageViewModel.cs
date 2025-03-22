@@ -70,8 +70,8 @@ namespace PassVault.ViewModels
 
             WeakReferenceMessenger.Default.Register<PasswordGeneratedMessage>(this, async (r, m) =>
             {
-                Password = m.Value;
                 await Shell.Current.DisplayAlert("Sucesso", "Nova senha aplicada", "OK");
+                Password = m.Value;
             });
         }
 
