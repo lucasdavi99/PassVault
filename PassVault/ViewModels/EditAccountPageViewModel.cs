@@ -39,6 +39,9 @@ namespace PassVault.ViewModels
         private Color _selectedColor = Colors.Purple;
 
         [ObservableProperty]
+        private string _selectedColorHex = Colors.Purple.ToHex();
+
+        [ObservableProperty]
         private bool _isColorPickerVisible = false;
 
         [ObservableProperty]
@@ -64,6 +67,12 @@ namespace PassVault.ViewModels
             IsEditing = false;
 
             _folderDatabase = folderDatabase;
+
+            WeakReferenceMessenger.Default.Register<PasswordGeneratedMessage>(this, async (r, m) =>
+            {
+                await Shell.Current.DisplayAlert("Sucesso", "Nova senha aplicada", "OK");
+                Password = m.Value;
+            });
         }
 
         [RelayCommand]
@@ -178,7 +187,20 @@ namespace PassVault.ViewModels
         partial void OnSelectedColorChanged(Color value)
         {
             // Força a atualização da interface
+            SelectedColorHex = value.ToHex();
             OnPropertyChanged(nameof(SelectedColor));
+        }
+
+        partial void OnSelectedColorHexChanged(string value)
+        {
+            if (!string.IsNullOrWhiteSpace(value) && (value.Length == 7 || value.Length == 9))
+            {
+                var newColor = Color.FromArgb(value);
+                if (newColor != SelectedColor)
+                {
+                    SelectedColor = newColor;
+                }
+            }
         }
 
         public async void ApplyQueryAttributes(IDictionary<string, object> query)

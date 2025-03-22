@@ -19,6 +19,5 @@ namespace PassVault.Models
         public DateTime Created { get; set; }
         public string Color { get; set; } = "#FFFFFF";
         public int? FolderId { get; set; }
-        public string VisibleFields { get; set; }
     }
 }

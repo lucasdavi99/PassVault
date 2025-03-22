@@ -151,8 +151,7 @@
         
         <Grid IsVisible="{Binding IsColorPickerVisible}"
               BackgroundColor="#80000000"
-              RowDefinitions="*, *"
-              ColumnSpacing="-500">
+              RowDefinitions="*, *">
             
             <Grid.GestureRecognizers>
                 <TapGestureRecognizer Command="{Binding CloseColorPickerCommand}" />

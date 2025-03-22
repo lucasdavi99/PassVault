@@ -54,7 +54,7 @@ namespace PassVault.ViewModels
 
                 if (sharingCompleted)
                 {
-                    await Shell.Current.DisplayAlert("Backup Exportado", $"Senha: {password}", "OK");
+                    await Shell.Current.DisplayAlert("Backup exportado!", "Atenção: este backup será válido apenas por 24 horas.", "OK");
                 }
                 else
                 {
