@@ -4,6 +4,7 @@ using PassVault.Data;
 using PassVault.Models;
 using PassVault.Views;
 using System.Collections.ObjectModel;
+using Microsoft.Maui.ApplicationModel.Communication;
 
 namespace PassVault.ViewModels
 {

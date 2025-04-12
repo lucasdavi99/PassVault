@@ -8,6 +8,7 @@ using PassVault.Views;
 using Plugin.Fingerprint.Abstractions;
 using Plugin.Fingerprint;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.Maui.ApplicationModel.Communication;
 
 namespace PassVault.ViewModels
 {

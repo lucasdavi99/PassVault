@@ -9,6 +9,8 @@ namespace PassVault
         {
             InitializeComponent();
 
+            Routing.RegisterRoute(nameof(LockScreen), typeof(LockScreen));
+            Routing.RegisterRoute(nameof(MainPage), typeof(MainPage));
             Routing.RegisterRoute(nameof(NewAccountPage), typeof(NewAccountPage));
             Routing.RegisterRoute(nameof(NewFolderPage), typeof(NewFolderPage));
             Routing.RegisterRoute(nameof(SearchPage), typeof(SearchPage));

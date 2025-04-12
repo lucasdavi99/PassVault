@@ -3,6 +3,8 @@ using PassVault.Models;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
+using Microsoft.Maui.ApplicationModel.DataTransfer;
+using Microsoft.Maui.Storage;
 
 namespace PassVault.Services
 {
