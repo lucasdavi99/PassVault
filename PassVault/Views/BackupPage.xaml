@@ -7,23 +7,80 @@
              Title="Backup">
     
     <VerticalStackLayout Padding="20" Spacing="15">
-        <!-- Seção de exportação -->
-        <Button Text="Exportar Backup" 
-                TextColor="Black"
-                BackgroundColor="{StaticResource Primary}"
-                Command="{Binding ExportBackupCommand}" />
+        <!-- Card principal -->
+        <Border BackgroundColor="#1B132B"
+                Padding="20"
+                Stroke="#ffffff"
+                StrokeShape="RoundRectangle 20">
 
-        <Label Text="Senha de Exportação:" 
-               TextColor="White"
-               FontAttributes="Bold" />
-        
-        <Label Text="{Binding ExportPassword}" 
-               TextColor="White"/>
-        <!-- Seção de importação -->        
-        
-        <Button Text="Importar Backup"
-                TextColor="Black"
-                BackgroundColor="{StaticResource Primary}"
-                Command="{Binding ImportBackupCommand}" />
+            <VerticalStackLayout Spacing="25">
+
+                <!-- Exportar -->
+                <Label Text="Exportar Backup"
+                       TextColor="White"
+                       FontSize="16"
+                       FontAttributes="Bold" />
+
+                <Label Text="Crie um backup dos seus dados para transferir para outro dispositivo."
+                       TextColor="#CCCCCC"
+                       FontSize="13" />
+
+                <Label Text="Senha de Exportação"
+                       TextColor="White"
+                       FontAttributes="Bold"
+                       FontSize="13" />
+
+                <Label Text="{Binding ExportPassword}"    
+                       BackgroundColor="#2A1F40"
+                       TextColor="White"                       
+                       HeightRequest="45" />
+
+                <Button Text="⭳ Exportar Backup"
+                        BackgroundColor="#00FF88"
+                        TextColor="Black"
+                        CornerRadius="10"
+                        FontAttributes="Bold"
+                        Command="{Binding ExportBackupCommand}" />
+
+                <BoxView HeightRequest="1" Color="#322A45" />
+
+                <!-- Importar -->
+                <Label Text="Importar Backup"
+                       TextColor="White"
+                       FontSize="16"
+                       FontAttributes="Bold" />
+
+                <Label Text="Restaure seus dados a partir de um backup existente."
+                       TextColor="#CCCCCC"
+                       FontSize="13" />
+
+                <Button Text="⭳  Importar Backup"
+                        BackgroundColor="#00FF88"
+                        TextColor="Black"
+                        CornerRadius="10"
+                        FontAttributes="Bold"
+                        Command="{Binding ImportBackupCommand}" />
+            </VerticalStackLayout>
+        </Border>
+
+        <!-- Aviso -->
+        <Border BackgroundColor="#1B132B"
+                Padding="20"
+                StrokeShape="RoundRectangle 12">
+            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                <Label Text="ℹ"
+                       TextColor="#00FF88"
+                       FontSize="16"
+                       FontAttributes="Bold"
+                       VerticalOptions="Start" />
+
+                <Label Grid.Column="1"
+                   Text="Os backups são criptografados e só podem ser acessados com a senha definida durante a exportação. Por segurança, guarde sua senha em um local seguro."
+                   TextColor="#CCCCCC"
+                   FontSize="14"
+                   LineBreakMode="WordWrap"
+                   VerticalOptions="Center" />
+            </Grid>
+        </Border>
     </VerticalStackLayout>
 </ContentPage>

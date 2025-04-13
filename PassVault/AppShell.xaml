@@ -10,11 +10,6 @@
 
     <ShellContent Title="Lock Screen" ContentTemplate="{DataTemplate local:LockScreen}" Route="LockScreen" />
     <ShellContent Title="Main Page" ContentTemplate="{DataTemplate local:MainPage}" Route="MainPage" />
-    <ShellContent Title="Lock Screen" ContentTemplate="{DataTemplate local:EditAccountPage}" Route="EditAccountPage" />
-
-    <ShellContent Title="Tutorial Page 1" ContentTemplate="{DataTemplate local:TutorialPage1}" Route="TutorialPage1" />
-    <ShellContent Title="Tutorial Page 2" ContentTemplate="{DataTemplate local:TutorialPage2}" Route="TutorialPage2" />
-    <ShellContent Title="Tutorial Page 3" ContentTemplate="{DataTemplate local:TutorialPage3}" Route="TutorialPage3" />
-    <ShellContent Title="Tutorial Page 4" ContentTemplate="{DataTemplate local:TutorialPage4}" Route="TutorialPage4" />
-    <ShellContent Title="Tutorial Page 5" ContentTemplate="{DataTemplate local:TutorialPage5}" Route="TutorialPage5" />
+    <ShellContent Route="EditAccountPage" ContentTemplate="{DataTemplate local:EditAccountPage}" />
+    
 </Shell>
