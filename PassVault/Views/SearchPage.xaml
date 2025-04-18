@@ -31,9 +31,9 @@
                             Stroke="{Binding Color, Converter={StaticResource HexToColorConverter}}">
 
                         <Border.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:SearchPageViewModel}}, Path=EditAccountCommand}"
+                            <TapGestureRecognizer Command="{Binding x:DataType='viewModels:SearchPageViewModel',Source={RelativeSource AncestorType={x:Type viewModels:SearchPageViewModel}}, Path=EditAccountCommand}"
                                                   CommandParameter="{Binding .}" />
-                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:SearchPageViewModel}}, Path=DeleteAccountCommand}"
+                            <TapGestureRecognizer Command="{Binding x:DataType='viewModels:SearchPageViewModel',Source={RelativeSource AncestorType={x:Type viewModels:SearchPageViewModel}}, Path=DeleteAccountCommand}"
                                                   CommandParameter="{Binding .}"
                                                   NumberOfTapsRequired="2"/>
                         </Border.GestureRecognizers>
