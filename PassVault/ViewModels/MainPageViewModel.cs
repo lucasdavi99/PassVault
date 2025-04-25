@@ -151,7 +151,7 @@ namespace PassVault.ViewModels
         }
 
         [RelayCommand]
-        private async Task Help() => await Shell.Current.DisplayAlert("Ajuda", "Para deletar uma conta ou pasta, toque duas vezes no item.", "OK");
+        private async Task Help() => await Shell.Current.DisplayAlert("Ajuda", "Para deletar uma conta ou pasta, arraste para o lado esquerdo.", "OK");
 
         private static async Task SimulateAsyncWork(string message)
         {

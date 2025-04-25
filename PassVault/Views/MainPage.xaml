@@ -88,41 +88,50 @@
                             </CollectionView.ItemsLayout>
                             <CollectionView.ItemTemplate>
                                 <DataTemplate x:DataType="models:Account">
-                                    <Border BackgroundColor="Black"
-                                            MinimumWidthRequest="300"
-                                            MaximumWidthRequest="350"
-                                            HeightRequest="52"
-                                            Stroke="{Binding Color, Converter={StaticResource HexToColorConverter}}">
+                                    <SwipeView>
+                                        <SwipeView.RightItems>
+                                            <SwipeItems>
+                                                <SwipeItem
+                                                    Text="Excluir"
+                                                    BackgroundColor="LightCoral"
+                                                    Command="{Binding x:DataType='viewModels:MainPageViewModel',Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}, Path=DeleteAccountCommand}"
+                                                    CommandParameter="{Binding .}" />   
+                                            </SwipeItems>
+                                        </SwipeView.RightItems>
 
-                                        <Border.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding x:DataType='viewModels:MainPageViewModel',Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}, Path=EditAccountCommand}"
-                                                                  CommandParameter="{Binding .}" />
-                                            <TapGestureRecognizer Command="{Binding x:DataType='viewModels:MainPageViewModel',Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}, Path=DeleteAccountCommand}"
-                                                                  CommandParameter="{Binding .}"
-                                                                  NumberOfTapsRequired="2"/>
-                                        </Border.GestureRecognizers>
+                                        <Border BackgroundColor="Black"
+                                                MinimumWidthRequest="300"
+                                                MaximumWidthRequest="350"
+                                                HeightRequest="52"
+                                                Stroke="{Binding Color, Converter={StaticResource HexToColorConverter}}">
 
-                                        <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="10" Padding="15,0,15,0">
+                                            <Border.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}, Path=EditAccountCommand}"
+                                                                      CommandParameter="{Binding .}" />   
+                                            </Border.GestureRecognizers>
 
-                                            <Ellipse WidthRequest="32"
-                                                     HeightRequest="32"
-                                                     Fill="{Binding Color, Converter={StaticResource HexToColorConverter}}"
-                                                     Grid.Column="0"/>
+                                            <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="10" Padding="15,0,15,0">
 
-                                            <Label Text="{Binding Title}"
-                                                   TextColor="White"
-                                                   Grid.Column="1"
-                                                   VerticalTextAlignment="Center"
-                                                   FontSize="20"
-                                                   FontAttributes="Bold"/>
+                                                <Ellipse WidthRequest="32"
+                                                         HeightRequest="32"
+                                                         Fill="{Binding Color, Converter={StaticResource HexToColorConverter}}"
+                                                         Grid.Column="0"/>  
 
-                                            <Label Text="{Binding Created, StringFormat='{0:dd/MM/yyyy}'}"
-                                                   TextColor="White"
-                                                   Grid.Column="2"
-                                                   HorizontalTextAlignment="End"
-                                                   VerticalTextAlignment="Center"/>
-                                        </Grid>
-                                    </Border>
+                                                <Label Text="{Binding Title}"
+                                                       TextColor="White"
+                                                       Grid.Column="1"
+                                                       VerticalTextAlignment="Center"
+                                                       FontSize="20"
+                                                       FontAttributes="Bold"/>  
+
+                                                <Label Text="{Binding Created, StringFormat='{0:dd/MM/yyyy}'}"
+                                                       TextColor="White"
+                                                       Grid.Column="2"
+                                                       HorizontalTextAlignment="End"
+                                                       VerticalTextAlignment="Center"/> 
+                                            </Grid>
+                                        </Border>
+                                    </SwipeView>
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>
                         </CollectionView>
@@ -138,36 +147,46 @@
 
                             <CollectionView.ItemTemplate>
                                 <DataTemplate x:DataType="models:Folder">
-                                    <Border BackgroundColor="Black"
-                                            MinimumWidthRequest="300"
-                                            MaximumWidthRequest="350"
-                                            HeightRequest="52"
-                                            Stroke="{Binding Color, Converter={StaticResource HexToColorConverter}}">
+                                    <SwipeView>
+                                        <SwipeView.RightItems>
+                                            <SwipeItems>
+                                                <SwipeItem
+                                                    Text="Excluir"
+                                                    BackgroundColor="LightCoral"
+                                                    Command="{Binding x:DataType='viewModels:MainPageViewModel',Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}, Path=DeleteFolderCommand}"
+                                                    CommandParameter="{Binding .}" />   
+                                            </SwipeItems>
+                                        </SwipeView.RightItems>
 
-                                        <Border.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding x:DataType='viewModels:MainPageViewModel',Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}, Path=OpenFolderCommand}"
-                                              CommandParameter="{Binding .}" />
-                                            <TapGestureRecognizer Command="{Binding x:DataType='viewModels:MainPageViewModel',Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}, Path=DeleteFolderCommand}"
-                                              CommandParameter="{Binding .}"
-                                              NumberOfTapsRequired="2"/>
-                                        </Border.GestureRecognizers>
+                                        <Border BackgroundColor="Black"
+                                                MinimumWidthRequest="300"
+                                                MaximumWidthRequest="350"
+                                                HeightRequest="52"
+                                                Stroke="{Binding Color, Converter={StaticResource HexToColorConverter}}">   
 
-                                        <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="10" Padding="15,0,15,0">
-                                            <Label FontSize="32"
-                                                   VerticalOptions="Center"
-                                                   FontFamily="MaterialIcons"
-                                                   Text="folder"
-                                                   TextColor="{Binding Color, Converter={StaticResource HexToColorConverter}}"
-                                                   Grid.Column="0"/>
+                                            <Border.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding x:DataType='viewModels:MainPageViewModel', Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}, Path=OpenFolderCommand}"
+                                                                      CommandParameter="{Binding .}" />
+                                            </Border.GestureRecognizers>
 
-                                            <Label Text="{Binding Title}"
-                                                   TextColor="White"
-                                                   Grid.Column="1"
-                                                   VerticalTextAlignment="Center"
-                                                   FontSize="20"
-                                                   FontAttributes="Bold"/>
-                                        </Grid>
-                                    </Border>
+                                            <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="10" Padding="15,0,15,0">
+
+                                                <Label FontSize="32"
+                                                       VerticalOptions="Center"
+                                                       FontFamily="MaterialIcons"
+                                                       Text="folder"
+                                                       TextColor="{Binding Color, Converter={StaticResource HexToColorConverter}}"
+                                                       Grid.Column="0"/>    
+
+                                                <Label Text="{Binding Title}"
+                                                       TextColor="White"
+                                                       Grid.Column="1"
+                                                       VerticalTextAlignment="Center"
+                                                       FontSize="20"
+                                                       FontAttributes="Bold"/>  
+                                            </Grid>
+                                        </Border>
+                                    </SwipeView>
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>
                         </CollectionView>
