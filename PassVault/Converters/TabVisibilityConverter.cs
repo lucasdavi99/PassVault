@@ -13,7 +13,14 @@ namespace PassVault.Converters
         {
             if (value is string selectedTab && parameter is string targetTab)
             {
-                return selectedTab == targetTab;
+                if (targetType == typeof(bool))
+                {
+                    return selectedTab == targetTab;
+                }
+                else // Para cores
+                {
+                    return selectedTab == targetTab ? Colors.White : Colors.Gray;
+                }
             }
             return false;
         }

@@ -7,6 +7,7 @@ using PassVault.Models;
 using PassVault.Views;
 using System.Collections.ObjectModel;
 using Microsoft.Maui.ApplicationModel.Communication;
+using Microsoft.Maui.Controls.PlatformConfiguration.GTKSpecific;
 
 namespace PassVault.ViewModels
 {
@@ -17,13 +18,18 @@ namespace PassVault.ViewModels
 
         [ObservableProperty]
         private string _selectedTab;
+
+        [ObservableProperty]
+        private int _tabPosition;
+
         [ObservableProperty]
         private string _selectedAction;
+
         [ObservableProperty]
         private ObservableCollection<Account> _accounts;
+
         [ObservableProperty]
         private ObservableCollection<Folder> _folders;
-
 
         public IRelayCommand SelectTabCommand { get; }
 
@@ -34,6 +40,7 @@ namespace PassVault.ViewModels
 
             SelectTabCommand = new AsyncRelayCommand<string>(OnTabSelected);
             SelectedTab = "Itens";
+            TabPosition = 0;
 
             WeakReferenceMessenger.Default.Register<AccountSavedMessage>(this);
             WeakReferenceMessenger.Default.Register<FolderSavedMessage>(this);
@@ -42,31 +49,27 @@ namespace PassVault.ViewModels
             _ = LoadFolders();
         }
 
+        partial void OnTabPositionChanged(int value)
+        {
+            SelectedTab = value == 0 ? "Itens" : "Pastas";
+            _ = RefreshCurrentTab();
+        }
+
+        private async Task RefreshCurrentTab()
+        {
+            if (SelectedTab == "Itens")
+                await LoadAccounts();
+            else if (SelectedTab == "Pastas")
+                await LoadFolders();
+        }
+
         private async Task OnTabSelected(string tab)
         {
             await Task.Delay(100);
             SelectedTab = tab;
+            TabPosition = tab == "Itens" ? 0 : 1;
 
-            if(tab == "Itens") await LoadAccounts();
-            if(tab == "Pastas") await LoadFolders();
-        }
-
-        [RelayCommand]
-        private async Task SwipeLeft()
-        {
-            if (SelectedTab == "Itens")
-            {
-                await OnTabSelected("Pastas");
-            }
-        }
-
-        [RelayCommand]
-        private async Task SwipeRight()
-        {
-            if (SelectedTab == "Pastas")
-            {
-                await OnTabSelected("Itens");
-            }
+            await RefreshCurrentTab();
         }
 
         [RelayCommand]
@@ -86,7 +89,7 @@ namespace PassVault.ViewModels
                     else if (SelectedTab == "Pastas")
                     {
                         await Shell.Current.GoToAsync(nameof(NewFolderPage));
-                    }                    
+                    }
                     break;
 
                 case "Search":
@@ -110,12 +113,12 @@ namespace PassVault.ViewModels
             };
 
             await Shell.Current.GoToAsync(nameof(EditAccountPage), parameters);
-        }       
+        }
 
         [RelayCommand]
         private async Task DeleteAccount(Account account)
         {
-            if(account != null)
+            if (account != null)
             {
                 bool confirm = await Shell.Current.DisplayAlert("Confirmação", "Deseja realmente excluir este item?", "Sim", "Não");
 
@@ -124,7 +127,7 @@ namespace PassVault.ViewModels
                     await _database.DeleteAccountAsync(account);
                     await LoadAccounts();
                     await Shell.Current.DisplayAlert("Sucesso", "Conta excluída com sucesso.", "OK");
-                }               
+                }
             }
         }
 
@@ -164,7 +167,7 @@ namespace PassVault.ViewModels
             if (message.Value)
             {
                 _ = LoadAccounts();
-            }            
+            }
         }
 
         public void Receive(FolderSavedMessage message)
@@ -180,14 +183,12 @@ namespace PassVault.ViewModels
             var accounts = await _database.GetAccountsAsync();
             var filteredAccounts = accounts.Where(account => account.FolderId == null).ToList();
             Accounts = new ObservableCollection<Account>(filteredAccounts);
-            Console.WriteLine($"Número de contas: {Accounts.Count}");
         }
 
         private async Task LoadFolders()
         {
             var folders = await _folderDatabase.GetFoldersAsync();
             Folders = new ObservableCollection<Folder>(folders);
-            Console.WriteLine($"Número de contas: {Folders.Count}");
         }
     }
 }
