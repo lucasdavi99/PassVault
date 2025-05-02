@@ -78,9 +78,9 @@
 
         <!-- Conteúdo com CarouselView -->
         <CarouselView Grid.Row="1" 
-                       x:Name="TabsCarousel"
-                       CurrentItemChanged="OnCarouselItemChanged"
-                       Position="{Binding TabPosition, Mode=TwoWay}">
+                      x:Name="TabsCarousel"
+                      CurrentItemChanged="OnCarouselItemChanged"
+                      Position="{Binding TabPosition, Mode=TwoWay}">
             <CarouselView.ItemsSource>
                 <x:Array Type="{x:Type x:String}">
                     <x:String>Itens</x:String>
@@ -88,122 +88,120 @@
                 </x:Array>
             </CarouselView.ItemsSource>
             <CarouselView.ItemTemplate>
-                <DataTemplate>
-                    <ScrollView Padding="0,0,0,20">
-                        <Grid>
-                            <!-- Tab Itens -->
-                            <StackLayout IsVisible="{Binding ., Converter={StaticResource TabVisibilityConverter}, ConverterParameter=Itens}">
-                                <CollectionView ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}, Path=Accounts}" Margin="0,30,0,0">
-                                    <CollectionView.ItemsLayout>
-                                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="5"/>
-                                    </CollectionView.ItemsLayout>
-                                    <CollectionView.ItemTemplate>
-                                        <DataTemplate x:DataType="models:Account">
-                                            <SwipeView>
-                                                <SwipeView.RightItems>
-                                                    <SwipeItems>
-                                                        <SwipeItem
-                                                            Text="Excluir"
-                                                            BackgroundColor="LightCoral"
-                                                            Command="{Binding x:DataType='viewModels:MainPageViewModel',Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}, Path=DeleteAccountCommand}"
-                                                            CommandParameter="{Binding .}" />
-                                                    </SwipeItems>
-                                                </SwipeView.RightItems>
+                <DataTemplate x:DataType="x:String">
+                    <Grid>
+                        <!-- Tab Itens -->
+                        <ScrollView IsVisible="{Binding ., Converter={StaticResource TabVisibilityConverter}, ConverterParameter=Itens}">
+                            <CollectionView ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}, Path=Accounts}" 
+                                          Margin="0,30,0,20">
+                                <CollectionView.ItemsLayout>
+                                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="5"/>
+                                </CollectionView.ItemsLayout>
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate x:DataType="models:Account">
+                                        <SwipeView>
+                                            <SwipeView.RightItems>
+                                                <SwipeItems>
+                                                    <SwipeItem
+                                                        Text="Excluir"
+                                                        BackgroundColor="LightCoral"
+                                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}, Path=DeleteAccountCommand}"
+                                                        CommandParameter="{Binding .}" />
+                                                </SwipeItems>
+                                            </SwipeView.RightItems>
 
-                                                <Border BackgroundColor="Black"
-                                                        MinimumWidthRequest="300"
-                                                        MaximumWidthRequest="350"
-                                                        HeightRequest="52"
-                                                        Stroke="{Binding Color, Converter={StaticResource HexToColorConverter}}">
+                                            <Border BackgroundColor="Black"
+                                                    MinimumWidthRequest="300"
+                                                    MaximumWidthRequest="350"
+                                                    HeightRequest="52"
+                                                    Stroke="{Binding Color, Converter={StaticResource HexToColorConverter}}">
 
-                                                    <Border.GestureRecognizers>
-                                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}, Path=EditAccountCommand}"
-                                                                              CommandParameter="{Binding .}" />
-                                                    </Border.GestureRecognizers>
+                                                <Border.GestureRecognizers>
+                                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}, Path=EditAccountCommand}"
+                                                                          CommandParameter="{Binding .}" />
+                                                </Border.GestureRecognizers>
 
-                                                    <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="10" Padding="15,0,15,0">
+                                                <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="10" Padding="15,0,15,0">
 
-                                                        <Ellipse WidthRequest="32"
-                                                                 HeightRequest="32"
-                                                                 Fill="{Binding Color, Converter={StaticResource HexToColorConverter}}"
-                                                                 Grid.Column="0"/>
+                                                    <Ellipse WidthRequest="32"
+                                                             HeightRequest="32"
+                                                             Fill="{Binding Color, Converter={StaticResource HexToColorConverter}}"
+                                                             Grid.Column="0"/>
 
-                                                        <Label Text="{Binding Title}"
-                                                               TextColor="White"
-                                                               Grid.Column="1"
-                                                               VerticalTextAlignment="Center"
-                                                               FontSize="20"
-                                                               FontAttributes="Bold"/>
+                                                    <Label Text="{Binding Title}"
+                                                           TextColor="White"
+                                                           Grid.Column="1"
+                                                           VerticalTextAlignment="Center"
+                                                           FontSize="20"
+                                                           FontAttributes="Bold"/>
 
-                                                        <Label Text="{Binding Created, StringFormat='{0:dd/MM/yyyy}'}"
-                                                               TextColor="White"
-                                                               Grid.Column="2"
-                                                               HorizontalTextAlignment="End"
-                                                               VerticalTextAlignment="Center"/>
-                                                    </Grid>
-                                                </Border>
-                                            </SwipeView>
-                                        </DataTemplate>
-                                    </CollectionView.ItemTemplate>
-                                </CollectionView>
-                            </StackLayout>
+                                                    <Label Text="{Binding Created, StringFormat='{0:dd/MM/yyyy}'}"
+                                                           TextColor="White"
+                                                           Grid.Column="2"
+                                                           HorizontalTextAlignment="End"
+                                                           VerticalTextAlignment="Center"/>
+                                                </Grid>
+                                            </Border>
+                                        </SwipeView>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </ScrollView>
 
-                            <!-- Tab Pastas -->
-                            <StackLayout IsVisible="{Binding ., Converter={StaticResource TabVisibilityConverter}, ConverterParameter=Pastas}">
-                                <CollectionView ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}, Path=Folders}" Margin="0,30,0,0">
+                        <!-- Tab Pastas -->
+                        <ScrollView IsVisible="{Binding ., Converter={StaticResource TabVisibilityConverter}, ConverterParameter=Pastas}">
+                            <CollectionView ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}, Path=Folders}" 
+                                          Margin="0,30,0,20">
+                                <CollectionView.ItemsLayout>
+                                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="5"/>
+                                </CollectionView.ItemsLayout>
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate x:DataType="models:Folder">
+                                        <SwipeView>
+                                            <SwipeView.RightItems>
+                                                <SwipeItems>
+                                                    <SwipeItem
+                                                        Text="Excluir"
+                                                        BackgroundColor="LightCoral"
+                                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}, Path=DeleteFolderCommand}"
+                                                        CommandParameter="{Binding .}" />
+                                                </SwipeItems>
+                                            </SwipeView.RightItems>
 
-                                    <CollectionView.ItemsLayout>
-                                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="5"/>
-                                    </CollectionView.ItemsLayout>
+                                            <Border BackgroundColor="Black"
+                                                    MinimumWidthRequest="300"
+                                                    MaximumWidthRequest="350"
+                                                    HeightRequest="52"
+                                                    Stroke="{Binding Color, Converter={StaticResource HexToColorConverter}}">
 
-                                    <CollectionView.ItemTemplate>
-                                        <DataTemplate x:DataType="models:Folder">
-                                            <SwipeView>
-                                                <SwipeView.RightItems>
-                                                    <SwipeItems>
-                                                        <SwipeItem
-                                                            Text="Excluir"
-                                                            BackgroundColor="LightCoral"
-                                                            Command="{Binding x:DataType='viewModels:MainPageViewModel',Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}, Path=DeleteFolderCommand}"
-                                                            CommandParameter="{Binding .}" />
-                                                    </SwipeItems>
-                                                </SwipeView.RightItems>
+                                                <Border.GestureRecognizers>
+                                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}, Path=OpenFolderCommand}"
+                                                                          CommandParameter="{Binding .}" />
+                                                </Border.GestureRecognizers>
 
-                                                <Border BackgroundColor="Black"
-                                                        MinimumWidthRequest="300"
-                                                        MaximumWidthRequest="350"
-                                                        HeightRequest="52"
-                                                        Stroke="{Binding Color, Converter={StaticResource HexToColorConverter}}">
+                                                <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="10" Padding="15,0,15,0">
 
-                                                    <Border.GestureRecognizers>
-                                                        <TapGestureRecognizer Command="{Binding x:DataType='viewModels:MainPageViewModel', Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}, Path=OpenFolderCommand}"
-                                                                              CommandParameter="{Binding .}" />
-                                                    </Border.GestureRecognizers>
+                                                    <Label FontSize="32"
+                                                           VerticalOptions="Center"
+                                                           FontFamily="MaterialIcons"
+                                                           Text="folder"
+                                                           TextColor="{Binding Color, Converter={StaticResource HexToColorConverter}}"
+                                                           Grid.Column="0"/>
 
-                                                    <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="10" Padding="15,0,15,0">
-
-                                                        <Label FontSize="32"
-                                                               VerticalOptions="Center"
-                                                               FontFamily="MaterialIcons"
-                                                               Text="folder"
-                                                               TextColor="{Binding Color, Converter={StaticResource HexToColorConverter}}"
-                                                               Grid.Column="0"/>
-
-                                                        <Label Text="{Binding Title}"
-                                                               TextColor="White"
-                                                               Grid.Column="1"
-                                                               VerticalTextAlignment="Center"
-                                                               FontSize="20"
-                                                               FontAttributes="Bold"/>
-                                                    </Grid>
-                                                </Border>
-                                            </SwipeView>
-                                        </DataTemplate>
-                                    </CollectionView.ItemTemplate>
-                                </CollectionView>
-                            </StackLayout>
-                        </Grid>
-                    </ScrollView>
+                                                    <Label Text="{Binding Title}"
+                                                           TextColor="White"
+                                                           Grid.Column="1"
+                                                           VerticalTextAlignment="Center"
+                                                           FontSize="20"
+                                                           FontAttributes="Bold"/>
+                                                </Grid>
+                                            </Border>
+                                        </SwipeView>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </ScrollView>
+                    </Grid>
                 </DataTemplate>
             </CarouselView.ItemTemplate>
         </CarouselView>
