@@ -7,24 +7,22 @@ namespace PassVault
         public App()
         {
             InitializeComponent();
+            MainPage = new AppShell();
         }
 
-        protected override Window CreateWindow(IActivationState activationState)
+        protected override async void OnStart()
         {
-            var shell = new AppShell();
+            base.OnStart();
 
-            shell.Dispatcher.Dispatch(async () =>
-            {
-                bool isNewUser = Preferences.Get("IsNewUser", true);
+            // Atraso para garantir que o Shell está completamente inicializado
+            await Task.Delay(100);
 
-                if (isNewUser)
-                    await shell.GoToAsync($"///{nameof(TutorialPage1)}");
-                else
-                    await shell.GoToAsync($"///{nameof(LockScreen)}");
-            });
+            bool isNewUser = Preferences.Get("IsNewUser", true);
 
-            return new Window(shell);
+            if (isNewUser)
+                await Shell.Current.GoToAsync("//TutorialPage1");
+            else
+                await Shell.Current.GoToAsync("//LockScreen");
         }
-
     }
 }

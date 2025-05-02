@@ -9,6 +9,12 @@ namespace PassVault
         {
             InitializeComponent();
 
+            RegisterRoutes();
+        }
+
+        private void RegisterRoutes()
+        {
+            // Registrar todas as rotas
             Routing.RegisterRoute(nameof(NewAccountPage), typeof(NewAccountPage));
             Routing.RegisterRoute(nameof(NewFolderPage), typeof(NewFolderPage));
             Routing.RegisterRoute(nameof(SearchPage), typeof(SearchPage));
@@ -19,9 +25,7 @@ namespace PassVault
             Routing.RegisterRoute(nameof(BackupPage), typeof(BackupPage));
             Routing.RegisterRoute(nameof(FieldsSelection), typeof(FieldsSelection));
 
-
-            //Rotas das paginas de Tutorial
-            Routing.RegisterRoute(nameof(TutorialPage1), typeof(TutorialPage1));
+            // Páginas do tutorial
             Routing.RegisterRoute(nameof(TutorialPage2), typeof(TutorialPage2));
             Routing.RegisterRoute(nameof(TutorialPage3), typeof(TutorialPage3));
             Routing.RegisterRoute(nameof(TutorialPage4), typeof(TutorialPage4));
