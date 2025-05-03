@@ -14,9 +14,6 @@ namespace PassVault
         {
             base.OnStart();
 
-            // Atraso para garantir que o Shell está completamente inicializado
-            await Task.Delay(100);
-
             bool isNewUser = Preferences.Get("IsNewUser", true);
 
             if (isNewUser)
