@@ -9,14 +9,17 @@ public partial class MainPage : ContentPage
     {
         InitializeComponent();
         BindingContext = viewModel;
-    }  
+    }
 
-    private void OnCarouselItemChanged(object sender, CurrentItemChangedEventArgs e)
+    protected override async void OnAppearing()
     {
-        if (e.CurrentItem is string tabName)
+        base.OnAppearing();
+
+        bool hasSeenDeleteHint = Preferences.Get("HasSeenDeleteHint", false);
+        if (!hasSeenDeleteHint)
         {
-            var viewModel = BindingContext as MainPageViewModel;
-            viewModel?.SelectTabCommand?.Execute(tabName);
+            await Shell.Current.DisplayAlert("Dica", "Para deletar uma conta ou pasta, toque duas vezes no item.", "OK");
+            Preferences.Set("HasSeenDeleteHint", true);
         }
     }
 }
