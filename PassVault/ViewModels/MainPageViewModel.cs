@@ -49,12 +49,6 @@ namespace PassVault.ViewModels
             _ = LoadFolders();
         }
 
-        partial void OnTabPositionChanged(int value)
-        {
-            SelectedTab = value == 0 ? "Itens" : "Pastas";
-            _ = RefreshCurrentTab();
-        }
-
         private async Task RefreshCurrentTab()
         {
             if (SelectedTab == "Itens")
@@ -154,13 +148,7 @@ namespace PassVault.ViewModels
         }
 
         [RelayCommand]
-        private async Task Help() => await Shell.Current.DisplayAlert("Ajuda", "Para deletar uma conta ou pasta, arraste para o lado esquerdo.", "OK");
-
-        private static async Task SimulateAsyncWork(string message)
-        {
-            await Task.Delay(500);
-            Console.WriteLine(message);
-        }
+        private async Task Help() => await Shell.Current.DisplayAlert("Ajuda", "Para deletar uma conta ou pasta, arraste para o lado esquerdo.", "OK");      
 
         public void Receive(AccountSavedMessage message)
         {
