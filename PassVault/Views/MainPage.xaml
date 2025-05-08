@@ -191,9 +191,6 @@
                             </CollectionView.ItemTemplate>
                         </CollectionView>
                     </StackLayout>
-                    <Grid.GestureRecognizers>
-                        <PanGestureRecognizer PanUpdated="OnPanUpdated" />
-                    </Grid.GestureRecognizers>
                 </Grid>
             </ScrollView>
         </Grid>

@@ -5,7 +5,7 @@
              x:DataType="viewModels:BackupViewModel"
              x:Class="PassVault.Views.BackupPage"
              Title="Backup">
-    
+
     <VerticalStackLayout Padding="20" Spacing="15">
         <!-- Card principal -->
         <Border BackgroundColor="#1B132B"
@@ -25,18 +25,20 @@
                        TextColor="#CCCCCC"
                        FontSize="13" />
 
-                <Label Text="Senha de Exportação"
-                       TextColor="White"
-                       FontAttributes="Bold"
-                       FontSize="13" />
+                <VerticalStackLayout IsVisible="{Binding IsPasswordVisible}" Spacing="10">
+                    <Label Text="Senha de Exportação"
+                           TextColor="White"
+                           FontAttributes="Bold"
+                           FontSize="13" />
 
-                <Label Text="{Binding ExportPassword}"    
-                       BackgroundColor="#2A1F40"
-                       TextColor="White"                       
-                       HeightRequest="45" 
-                       VerticalTextAlignment="Center"
-                       Padding="10"
-                       FontSize="16"/>
+                    <Label Text="{Binding ExportPassword}"    
+                           BackgroundColor="#2A1F40"
+                           TextColor="White"                       
+                           HeightRequest="45" 
+                           VerticalTextAlignment="Center"
+                           Padding="10"
+                           FontSize="16"/>
+                </VerticalStackLayout>
 
                 <Button Text="Exportar Backup"
                         BackgroundColor="#00FF88"

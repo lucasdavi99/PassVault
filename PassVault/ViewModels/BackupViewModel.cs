@@ -30,12 +30,16 @@ namespace PassVault.ViewModels
         [ObservableProperty]
         private string importPassword;
 
+        [ObservableProperty]
+        private bool isPasswordVisible;
+
         public BackupViewModel(ExportService exportService, ImportService importService, AccountDatabase accountDatabase, FolderDatabase folderDatabase)
         {
             _exportService = exportService;
             _importService = importService;
             _accountDatabase = accountDatabase;
             _folderDatabase = folderDatabase;
+            IsPasswordVisible = false;
         }
 
         [RelayCommand]
@@ -46,16 +50,19 @@ namespace PassVault.ViewModels
 
             if (accounts.Count > 0 || folders.Count > 0)
             {
-
                 var (filePath, password) = await _exportService.ExportBackupAsync(accounts, folders);
 
                 ExportFilePath = filePath;
                 ExportPassword = password;
+                // A senha permanece oculta até a confirmação
+                IsPasswordVisible = false;
 
                 bool sharingCompleted = await Shell.Current.DisplayAlert("Confirmação", "Você concluiu o compartilhamento do backup?", "Sim", "Não");
 
                 if (sharingCompleted)
                 {
+                    // Só mostra a senha após a confirmação positiva
+                    IsPasswordVisible = true;
                     await Shell.Current.DisplayAlert("Backup exportado!", "Atenção: este backup será válido apenas por 24 horas.", "OK");
                 }
                 else
@@ -64,6 +71,7 @@ namespace PassVault.ViewModels
                     {
                         File.Delete(ExportFilePath);
                     }
+                    ExportPassword = string.Empty;
                     await Shell.Current.DisplayAlert("Exportação Cancelada", "A exportação foi cancelada.", "OK");
                 }
             }
