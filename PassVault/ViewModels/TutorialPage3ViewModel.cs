@@ -37,7 +37,7 @@ namespace PassVault.ViewModels
         {
             try
             {
-                if(RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                 {
                     await Shell.Current.DisplayAlert("Simulação", "Autenticação simulada no Windows.", "OK");
                     return true;
@@ -49,9 +49,15 @@ namespace PassVault.ViewModels
                 {
                     AllowAlternativeAuthentication = true,
                 };
-                
+
                 var authResult = await CrossFingerprint.Current.AuthenticateAsync(config);
-                
+
+                if (authResult.Status == FingerprintAuthenticationResultStatus.NotAvailable)
+                {
+                    await Shell.Current.DisplayAlert("Erro", "Seu dispositivo não possui uma senha configurada. Configure uma senha para continuar.", "OK");
+                    return false;
+                }
+
                 if (authResult.Authenticated)
                 {
                     await Shell.Current.DisplayAlert("Sucesso", "Autenticação realizada com sucesso!", "OK");
@@ -69,5 +75,6 @@ namespace PassVault.ViewModels
                 return false;
             }
         }
+
     }
 }
