@@ -86,6 +86,11 @@ namespace PassVault.ViewModels
                 return;
             }
 
+            var sortedFolders = Folders
+               .OrderBy(f => f.Title, StringComparer.OrdinalIgnoreCase)
+               .ToList();
+            Folders = sortedFolders;
+
             var folderNames = Folders.Select(f => f.Title).ToList();
             folderNames.Insert(0, "Sem Pasta");
 
