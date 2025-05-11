@@ -1,10 +1,10 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using CommunityToolkit.Maui;
+using Microsoft.Extensions.Logging;
 using PassVault.Data;
+using PassVault.Services;
 using PassVault.ViewModels;
 using PassVault.Views;
 using SkiaSharp.Views.Maui.Controls.Hosting;
-using CommunityToolkit.Maui;
-using PassVault.Services;
 
 namespace PassVault
 {
@@ -19,14 +19,14 @@ namespace PassVault
                 .UseMauiCommunityToolkit()
                 .ConfigureFonts(fonts =>
                 {
-                    fonts.AddFont("Roboto.ttf", "Roboto");  
-                    fonts.AddFont("MaterialIcons-Regular.ttf", "MaterialIcons");  
+                    fonts.AddFont("Roboto.ttf", "Roboto");
+                    fonts.AddFont("MaterialIcons-Regular.ttf", "MaterialIcons");
                 });
 
             builder.Services.AddSingleton<AccountDatabase>();
             builder.Services.AddSingleton<FolderDatabase>();
             builder.Services.AddSingleton<ExportService>();
-            builder.Services.AddSingleton<ImportService>();            
+            builder.Services.AddSingleton<ImportService>();
 
             builder.Services.AddTransient<MainPage>();
             builder.Services.AddTransient<MainPageViewModel>();
@@ -50,7 +50,7 @@ namespace PassVault
             builder.Services.AddTransient<FieldsSelectionViewModel>();
 
 #if DEBUG
-            builder.Logging.AddDebug();            
+            builder.Logging.AddDebug();
 
 #endif
 

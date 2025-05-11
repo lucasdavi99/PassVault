@@ -1,5 +1,4 @@
 using PassVault.ViewModels;
-using Microsoft.Maui.Storage;
 
 namespace PassVault.Views;
 
@@ -9,7 +8,7 @@ public partial class MainPage : ContentPage
     {
         InitializeComponent();
         BindingContext = viewModel;
-    }  
+    }
 
     private void OnCarouselItemChanged(object sender, CurrentItemChangedEventArgs e)
     {

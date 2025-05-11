@@ -1,12 +1,11 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.ComponentModel.DataAnnotations;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using PassVault.Data;
 using PassVault.Messages;
 using PassVault.Models;
 using PassVault.Views;
-using System.ComponentModel.DataAnnotations;
-using Microsoft.Maui.ApplicationModel.Communication;
 
 namespace PassVault.ViewModels
 {
@@ -70,7 +69,7 @@ namespace PassVault.ViewModels
                 {
                     Title = Title,
                     Username = Username,
-                    Email = Email ,
+                    Email = Email,
                     Password = Password,
                     Created = DateTime.Now,
                     Color = SelectedColor.ToHex(),
@@ -101,7 +100,7 @@ namespace PassVault.ViewModels
         private void CloseColorPicker()
         {
             IsColorPickerVisible = false;
-        }        
+        }
 
         partial void OnSelectedColorChanged(Color value)
         {
@@ -130,7 +129,7 @@ namespace PassVault.ViewModels
                 {
                     if (fields.TryGetValue("Username", out bool usernameVisible))
                         IsUsernameVisible = usernameVisible;
-                    
+
                     if (fields.TryGetValue("Email", out bool emailVisible))
                         IsEmailVisible = emailVisible;
                 }

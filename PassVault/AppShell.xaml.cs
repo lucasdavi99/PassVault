@@ -1,5 +1,4 @@
-﻿using Microsoft.Maui.Controls;
-using PassVault.Views;
+﻿using PassVault.Views;
 
 namespace PassVault
 {

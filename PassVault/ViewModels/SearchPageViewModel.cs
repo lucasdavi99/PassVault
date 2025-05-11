@@ -1,9 +1,9 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using PassVault.Data;
 using PassVault.Models;
 using PassVault.Views;
-using System.Collections.ObjectModel;
 
 
 namespace PassVault.ViewModels

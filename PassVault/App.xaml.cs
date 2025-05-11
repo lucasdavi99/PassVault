@@ -1,6 +1,4 @@
-﻿using PassVault.Views;
-
-namespace PassVault
+﻿namespace PassVault
 {
     public partial class App : Application
     {

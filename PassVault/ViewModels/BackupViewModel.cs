@@ -6,8 +6,6 @@ using PassVault.exceptions;
 using PassVault.Messages;
 using PassVault.Models;
 using PassVault.Services;
-using Microsoft.Maui.Devices;
-using Microsoft.Maui.Storage;
 
 namespace PassVault.ViewModels
 {

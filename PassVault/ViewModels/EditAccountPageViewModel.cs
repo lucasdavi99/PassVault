@@ -1,14 +1,13 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.ComponentModel.DataAnnotations;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using PassVault.Data;
 using PassVault.Messages;
 using PassVault.Models;
 using PassVault.Views;
-using Plugin.Fingerprint.Abstractions;
 using Plugin.Fingerprint;
-using System.ComponentModel.DataAnnotations;
-using Microsoft.Maui.ApplicationModel.Communication;
+using Plugin.Fingerprint.Abstractions;
 
 namespace PassVault.ViewModels
 {
@@ -53,7 +52,7 @@ namespace PassVault.ViewModels
 
         [ObservableProperty]
         private List<Folder> _folders = new();
-        
+
         [ObservableProperty]
         private string _selectedFolderName = "Selecione a Pasta";
 
@@ -90,7 +89,7 @@ namespace PassVault.ViewModels
             var folderNames = Folders.Select(f => f.Title).ToList();
             folderNames.Insert(0, "Sem Pasta");
 
-            string chosenOption = await Shell.Current.DisplayActionSheet( "Selecione uma pasta", "Cancelar", null, folderNames.ToArray());
+            string chosenOption = await Shell.Current.DisplayActionSheet("Selecione uma pasta", "Cancelar", null, folderNames.ToArray());
 
             if (chosenOption != null && chosenOption != "Cancelar")
             {
@@ -126,7 +125,8 @@ namespace PassVault.ViewModels
                     _currentAccount.Email = Email;
                     _currentAccount.Password = Password;
                     _currentAccount.Color = SelectedColor.ToHex();
-                };
+                }
+                ;
 
                 await _database.SaveAccountAsync(_currentAccount);
                 await Shell.Current.DisplayAlert("Sucesso", "Conta atualizada com sucesso", "OK");

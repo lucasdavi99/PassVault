@@ -1,10 +1,9 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using PassVault.Data;
 using PassVault.Models;
 using PassVault.Views;
-using System.Collections.ObjectModel;
-using Microsoft.Maui.ApplicationModel.Communication;
 
 namespace PassVault.ViewModels
 {
@@ -26,7 +25,7 @@ namespace PassVault.ViewModels
         {
             _accountDatabase = accountDatabase;
             _folderDatabase = folderDatabase;
-        }        
+        }
 
         [RelayCommand]
         public async Task AddNewItemAsync()

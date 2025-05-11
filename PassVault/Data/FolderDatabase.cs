@@ -6,7 +6,7 @@ namespace PassVault.Data
     public class FolderDatabase
     {
         private SQLiteAsyncConnection? _database;
-        
+
         async Task Init()
         {
             if (_database != null)
@@ -14,7 +14,7 @@ namespace PassVault.Data
             _database = new SQLiteAsyncConnection(Constants.DatabasePath, Constants.Flags);
             await _database.CreateTableAsync<Folder>();
         }
-        
+
         public async Task<List<Folder>> GetFoldersAsync()
         {
             await Init();
@@ -23,7 +23,7 @@ namespace PassVault.Data
 
             return await _database.Table<Folder>().ToListAsync();
         }
-        
+
         public async Task<Folder> GetFolderAsync(int id)
         {
             await Init();
@@ -32,7 +32,7 @@ namespace PassVault.Data
 
             return await _database.Table<Folder>().Where(i => i.Id == id).FirstOrDefaultAsync();
         }
-       
+
         public async Task<int> SaveFolderAsync(Folder folder)
         {
             await Init();
@@ -46,7 +46,7 @@ namespace PassVault.Data
                 return await _database.InsertAsync(folder);
             }
         }
-        
+
         public async Task<int> DeleteFolderAsync(Folder folder)
         {
             await Init();

@@ -1,13 +1,11 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using PassVault.Data;
 using PassVault.Messages;
 using PassVault.Models;
 using PassVault.Views;
-using System.Collections.ObjectModel;
-using Microsoft.Maui.ApplicationModel.Communication;
-using Microsoft.Maui.Controls.PlatformConfiguration.GTKSpecific;
 
 namespace PassVault.ViewModels
 {

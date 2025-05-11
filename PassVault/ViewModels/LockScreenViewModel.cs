@@ -1,14 +1,8 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using Plugin.Fingerprint.Abstractions;
-using Plugin.Fingerprint;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Runtime.InteropServices;
 using System.Windows.Input;
-using PassVault.Views;
+using CommunityToolkit.Mvvm.Input;
+using Plugin.Fingerprint;
+using Plugin.Fingerprint.Abstractions;
 
 namespace PassVault.ViewModels
 {

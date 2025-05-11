@@ -1,10 +1,10 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.ComponentModel.DataAnnotations;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using PassVault.Data;
 using PassVault.Messages;
 using PassVault.Models;
-using System.ComponentModel.DataAnnotations;
 
 namespace PassVault.ViewModels
 {
@@ -56,7 +56,7 @@ namespace PassVault.ViewModels
             {
                 await Shell.Current.DisplayAlert("Erro", ex.Message, "OK");
             }
-        }       
+        }
 
         [RelayCommand]
         private void ToggleColorPicker()
