@@ -181,14 +181,17 @@ namespace PassVault.ViewModels
         private async Task LoadAccounts()
         {
             var accounts = await _database.GetAccountsAsync();
-            var filteredAccounts = accounts.Where(account => account.FolderId == null).ToList();
+            var filteredAccounts = accounts.Where(account => account.FolderId == null)
+                .OrderBy(account => account.Title, StringComparer.OrdinalIgnoreCase)
+                .ToList();
             Accounts = new ObservableCollection<Account>(filteredAccounts);
         }
 
         private async Task LoadFolders()
         {
             var folders = await _folderDatabase.GetFoldersAsync();
-            Folders = new ObservableCollection<Folder>(folders);
+            var sortedFolders = folders.OrderBy(folder => folder.Title, StringComparer.OrdinalIgnoreCase).ToList();
+            Folders = new ObservableCollection<Folder>(sortedFolders);
         }
     }
 }

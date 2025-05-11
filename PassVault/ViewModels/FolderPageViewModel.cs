@@ -81,7 +81,10 @@ namespace PassVault.ViewModels
         {
             Folder = await _folderDatabase.GetFolderAsync(FolderId);
             var items = await _accountDatabase.GetAccountsByFolderIdAsync(FolderId);
-            Accounts = new ObservableCollection<Account>(items);
+            var sortedItems = items
+                .OrderBy(account => account.Title, StringComparer.OrdinalIgnoreCase)
+                .ToList();
+            Accounts = new ObservableCollection<Account>(sortedItems);
         }
     }
 }
