@@ -25,39 +25,50 @@
         <CollectionView ItemsSource="{Binding FilteredAccounts}">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:Account">
-                    <Border BackgroundColor="Black"
-                            WidthRequest="300"
-                            HeightRequest="52"
-                            Stroke="{Binding Color, Converter={StaticResource HexToColorConverter}}">
+                    <SwipeView>
+                        <SwipeView.RightItems>
+                            <SwipeItems>
+                                <SwipeItem
+                                     Text="Excluir"
+                                     BackgroundColor="LightCoral"
+                                     Command="{Binding x:DataType='viewModels:SearchPageViewModel',Source={RelativeSource AncestorType={x:Type viewModels:SearchPageViewModel}}, Path=DeleteAccountCommand}"
+                                     CommandParameter="{Binding .}" />  
+                            </SwipeItems>
+                        </SwipeView.RightItems>
 
-                        <Border.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding x:DataType='viewModels:SearchPageViewModel',Source={RelativeSource AncestorType={x:Type viewModels:SearchPageViewModel}}, Path=EditAccountCommand}"
-                                                  CommandParameter="{Binding .}" />
-                            <TapGestureRecognizer Command="{Binding x:DataType='viewModels:SearchPageViewModel',Source={RelativeSource AncestorType={x:Type viewModels:SearchPageViewModel}}, Path=DeleteAccountCommand}"
-                                                  CommandParameter="{Binding .}"
-                                                  NumberOfTapsRequired="2"/>
-                        </Border.GestureRecognizers>
+                        <Border BackgroundColor="Black"
+                                 MinimumWidthRequest="300"
+                                 MaximumWidthRequest="350"
+                                 HeightRequest="52"
+                                 Stroke="{Binding Color, Converter={StaticResource HexToColorConverter}}">  
 
-                        <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="15" Padding="15,0,15,0">
-                            <Ellipse WidthRequest="32"
-                                     HeightRequest="32"
-                                     Fill="{Binding Color, Converter={StaticResource HexToColorConverter}}"
-                                     Grid.Column="0"/>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding x:DataType='viewModels:SearchPageViewModel',Source={RelativeSource AncestorType={x:Type viewModels:SearchPageViewModel}}, Path=EditAccountCommand}"
+                                                      CommandParameter="{Binding .}" />
+                            </Border.GestureRecognizers>
 
-                            <Label Text="{Binding Title}"
-                                   TextColor="White"
-                                   Grid.Column="1"
-                                   VerticalTextAlignment="Center"
-                                   FontSize="20"
-                                   FontAttributes="Bold"/>
+                            <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="10" Padding="15,0,15,0">
 
-                            <Label Text="{Binding Created, StringFormat='{0:dd/MM/yyyy}'}"
-                                   TextColor="White"
-                                   Grid.Column="2"
-                                   HorizontalTextAlignment="End"
-                                   VerticalTextAlignment="Center"/>
-                        </Grid>
-                    </Border>
+                                <Ellipse WidthRequest="32"
+                                          HeightRequest="32"
+                                          Fill="{Binding Color, Converter={StaticResource HexToColorConverter}}"
+                                          Grid.Column="0"/> 
+
+                                <Label Text="{Binding Title}"
+                                        TextColor="White"
+                                        Grid.Column="1"
+                                        VerticalTextAlignment="Center"
+                                        FontSize="20"
+                                        FontAttributes="Bold"/> 
+
+                                <Label Text="{Binding Created, StringFormat='{0:dd/MM/yyyy}'}"
+                                        TextColor="White"
+                                        Grid.Column="2"
+                                        HorizontalTextAlignment="End"
+                                        VerticalTextAlignment="Center"/>    
+                            </Grid>
+                        </Border>
+                    </SwipeView>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>

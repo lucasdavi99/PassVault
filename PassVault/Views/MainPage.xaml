@@ -106,7 +106,7 @@
                                                 Stroke="{Binding Color, Converter={StaticResource HexToColorConverter}}">
 
                                             <Border.GestureRecognizers>
-                                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}, Path=EditAccountCommand}"
+                                                <TapGestureRecognizer Command="{Binding x:DataType='viewModels:MainPageViewModel',Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}, Path=EditAccountCommand}"
                                                                       CommandParameter="{Binding .}" />
                                             </Border.GestureRecognizers>
 
