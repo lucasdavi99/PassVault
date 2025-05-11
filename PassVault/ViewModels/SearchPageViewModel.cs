@@ -43,14 +43,24 @@ namespace PassVault.ViewModels
                 FilteredAccounts.Add(account);
             }
         }
-
         [RelayCommand]
         private async Task EditAccount(Account account)
         {
             if (account == null)
                 return;
 
-            await Shell.Current.GoToAsync($"{nameof(EditAccountPage)}?accountId={account.Id}");
+            var parameters = new Dictionary<string, object>
+            {
+                { "accountId", account.Id },
+                { "selectedFields", new Dictionary<string, bool>
+                    {
+                        { "Username", !string.IsNullOrEmpty(account.Username) },
+                        { "Email", !string.IsNullOrEmpty(account.Email) },
+                    }
+                }
+            };
+
+            await Shell.Current.GoToAsync(nameof(EditAccountPage), parameters);
             await SearchAsync();
         }
 
