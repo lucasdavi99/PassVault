@@ -112,20 +112,22 @@
                            IsReadOnly="{Binding IsEditing, Converter={StaticResource InverseBooleanConverter}}" />
                     </Border>
 
-                    <!-- Bolinha de Cor -->
-                    <Frame HeightRequest="50"
-                           WidthRequest="50"
-                           CornerRadius="25"
-                           BackgroundColor="{Binding SelectedColor}"
-                           HorizontalOptions="Center"
-                           Grid.Row="4"
-                           Grid.Column="0"
-                           ZIndex="1">
-                        
-                        <Frame.GestureRecognizers>
+                    <Border
+                            StrokeThickness="0"
+                            Background="{Binding SelectedColor}"
+                            HeightRequest="50"
+                            WidthRequest="50"
+                            HorizontalOptions="Center"
+                            Grid.Row="4"
+                            Grid.Column="0"
+                            ZIndex="1"
+                            StrokeShape="RoundRectangle 25">    
+
+                        <Border.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding ToggleColorPickerCommand}" />
-                        </Frame.GestureRecognizers>
-                    </Frame>
+                        </Border.GestureRecognizers>
+                    </Border>
+
 
                     <!-- Seleção de pasta -->
                     <Button Text="{Binding SelectedFolderName}"
