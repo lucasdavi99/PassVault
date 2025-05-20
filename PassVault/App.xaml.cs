@@ -5,7 +5,12 @@
         public App()
         {
             InitializeComponent();
-            MainPage = new AppShell();
+        }
+
+        protected override Window CreateWindow(IActivationState activationState)
+        {
+            Window window = new Window(new AppShell());            
+            return window;
         }
 
         protected override async void OnStart()

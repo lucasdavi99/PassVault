@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModels="clr-namespace:PassVault.ViewModels"
              x:Class="PassVault.Views.TutorialPage5"
+             x:DataType="viewModels:TutorialPage5ViewModel"
              Shell.NavBarIsVisible="False"
              Title="TutorialPage5">
 
