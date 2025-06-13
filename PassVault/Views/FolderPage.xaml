@@ -15,133 +15,192 @@
     </ContentPage.Resources>
 
     <Shell.TitleView>
-        <Grid BackgroundColor="Transparent">
+        <Grid BackgroundColor="Transparent" Padding="0,0,16,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <!-- Exibe o título da pasta -->
-            <Label Text="{Binding Folder.Title}" 
-                   TextColor="{StaticResource Primary}" 
-                   FontSize="20"
-                   FontAttributes="Bold"
-                   VerticalOptions="Center"
-                   Grid.Column="0" />
-            <!-- Botão de edição -->
-            <Button Text="edit"
-                    Command="{Binding EditFolderCommand}"
-                    CommandParameter="{Binding Folder}"
-                    BackgroundColor="Transparent"
-                    TextColor="{StaticResource Primary}"
-                    FontFamily="MaterialIcons"
-                    FontSize="25"
-                    VerticalOptions="Center"
-                    Padding="0,0,20,0"
-                    Grid.Column="1" />
+
+            <!-- Folder Title with Icon -->
+            <StackLayout Grid.Column="0" Orientation="Horizontal" Spacing="8" VerticalOptions="Center">
+                <Label Text="folder"
+                       FontFamily="MaterialIcons"
+                       TextColor="{StaticResource Primary}"
+                       FontSize="24"
+                       VerticalOptions="Center" />
+
+                <Label Text="{Binding Folder.Title}" 
+                       TextColor="{StaticResource Primary}" 
+                       FontSize="20"
+                       FontAttributes="Bold"
+                       VerticalOptions="Center" />
+            </StackLayout>
+
+            <!-- Edit Button -->
+            <Border Grid.Column="1"
+                    WidthRequest="36" HeightRequest="36"
+                    BackgroundColor="{StaticResource ElevatedSurface}"
+                    StrokeShape="RoundRectangle 10"
+                    Stroke="{StaticResource BorderPrimary}">
+
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding EditFolderCommand}" CommandParameter="{Binding Folder}" />
+                </Border.GestureRecognizers>
+
+                <Label Text="edit"
+                       FontFamily="MaterialIcons"
+                       TextColor="{StaticResource Primary}"
+                       FontSize="18"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center" />
+            </Border>
         </Grid>
     </Shell.TitleView>
 
-    <Grid RowDefinitions="*, Auto">
-        <!-- Conteúdo rolável -->
-        <ScrollView Grid.Row="0" Padding="0,0,0,20">
-            <Grid>
-                <StackLayout>
-                    <CollectionView ItemsSource="{Binding Accounts}" Margin="0,30,0,0">
-                        <CollectionView.ItemsLayout>
-                            <LinearItemsLayout Orientation="Vertical" ItemSpacing="5"/>
-                        </CollectionView.ItemsLayout>
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate x:DataType="models:Account">
-                                <SwipeView>
-                                    <SwipeView.RightItems>
-                                        <SwipeItems>
-                                            <SwipeItem
-                                                 Text="Excluir"
-                                                 BackgroundColor="LightCoral"
-                                                 Command="{Binding x:DataType='viewModels:FolderPageViewModel',Source={RelativeSource AncestorType={x:Type viewModels:FolderPageViewModel}}, Path=DeleteAccountInFolderCommand}"
-                                                 CommandParameter="{Binding .}" />  
-                                        </SwipeItems>
-                                    </SwipeView.RightItems>
+    <Grid RowDefinitions="*,Auto">
 
-                                    <Border BackgroundColor="Black"
-                                            MinimumWidthRequest="300"
-                                            MaximumWidthRequest="350"
-                                            HeightRequest="52"
-                                            Stroke="{Binding Color, Converter={StaticResource HexToColorConverter}}"> 
+        <!-- Content Area -->
+        <ScrollView Grid.Row="0" Padding="16,8,16,24">
+            <StackLayout Spacing="8">
 
-                                        <Border.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding x:DataType='viewModels:FolderPageViewModel',Source={RelativeSource AncestorType={x:Type viewModels:FolderPageViewModel}}, Path=EditAccountInFolderCommand}"
-                                                                  CommandParameter="{Binding .}" /> 
-                                        </Border.GestureRecognizers>
+                <!-- Empty State -->
+                <StackLayout IsVisible="{Binding Accounts.Count, Converter={StaticResource TabVisibilityConverter}, ConverterParameter=0}"
+                             Spacing="16" Padding="32" VerticalOptions="CenterAndExpand">
 
-                                        <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="10" Padding="15,0,15,0">
+                    <Border WidthRequest="80" HeightRequest="80"
+                            BackgroundColor="{StaticResource ElevatedSurface}"
+                            StrokeShape="RoundRectangle 24"
+                            Stroke="{StaticResource BorderPrimary}"
+                            HorizontalOptions="Center">
 
-                                            <Ellipse WidthRequest="32"
-                                                     HeightRequest="32"
-                                                     Fill="{Binding Color, Converter={StaticResource HexToColorConverter}}"
-                                                     Grid.Column="0"/> 
+                        <Label Text="folder_open"
+                               FontFamily="MaterialIcons"
+                               FontSize="40"
+                               TextColor="{StaticResource TextTertiary}"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center" />
+                    </Border>
+
+                    <Label Text="Pasta Vazia"
+                           Style="{StaticResource TitleStyle}"
+                           HorizontalTextAlignment="Center"
+                           TextColor="{StaticResource TextSecondary}" />
+
+                    <Label Text="Adicione contas para organizar suas senhas"
+                           Style="{StaticResource BodyStyle}"
+                           HorizontalTextAlignment="Center" />
+
+                </StackLayout>
+
+                <!-- Accounts List -->
+                <CollectionView ItemsSource="{Binding Accounts}">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="8"/>
+                    </CollectionView.ItemsLayout>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:Account">
+                            <SwipeView>
+                                <SwipeView.RightItems>
+                                    <SwipeItems>
+                                        <SwipeItem Text="Excluir"
+                                                   BackgroundColor="{StaticResource Error}"
+                                                   Command="{Binding x:DataType='viewModels:FolderPageViewModel',Source={RelativeSource AncestorType={x:Type viewModels:FolderPageViewModel}}, Path=DeleteAccountInFolderCommand}"
+                                                   CommandParameter="{Binding .}" />
+                                    </SwipeItems>
+                                </SwipeView.RightItems>
+
+                                <Border Style="{StaticResource ListItemStyle}"
+                                        MinimumWidthRequest="300"
+                                        MaximumWidthRequest="400">
+
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding x:DataType='viewModels:FolderPageViewModel',Source={RelativeSource AncestorType={x:Type viewModels:FolderPageViewModel}}, Path=EditAccountInFolderCommand}"
+                                                              CommandParameter="{Binding .}" />
+                                    </Border.GestureRecognizers>
+
+                                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="16">
+
+                                        <!-- Account Icon -->
+                                        <Border WidthRequest="40" HeightRequest="40"
+                                                BackgroundColor="{Binding Color, Converter={StaticResource HexToColorConverter}}"
+                                                StrokeShape="RoundRectangle 12"
+                                                Grid.Column="0"
+                                                VerticalOptions="Center">
+
+                                            <Label Text="key"
+                                                   FontFamily="MaterialIcons"
+                                                   FontSize="20"
+                                                   TextColor="{StaticResource PrimaryDarkText}"
+                                                   HorizontalOptions="Center"
+                                                   VerticalOptions="Center" />
+                                        </Border>
+
+                                        <!-- Account Info -->
+                                        <StackLayout Grid.Column="1" VerticalOptions="Center" Spacing="2">
 
                                             <Label Text="{Binding Title}"
-                                                   TextColor="White"
-                                                   Grid.Column="1"
-                                                   VerticalTextAlignment="Center"
-                                                   FontSize="20"
-                                                   FontAttributes="Bold"/> 
+                                                   Style="{StaticResource TitleStyle}"
+                                                   FontSize="18" />
 
-                                            <Label Text="{Binding Created, StringFormat='{0:dd/MM/yyyy}'}"
-                                                   TextColor="White"
-                                                   Grid.Column="2"
-                                                   HorizontalTextAlignment="End"
-                                                   VerticalTextAlignment="Center"/> 
-                                        </Grid>
-                                    </Border>
-                                </SwipeView>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
-                </StackLayout>
-            </Grid>
+                                            <Label Text="{Binding Created, StringFormat='Criado em {0:dd/MM/yyyy}'}"
+                                                   Style="{StaticResource CaptionStyle}" />
+
+                                        </StackLayout>
+
+                                        <!-- Access Indicator -->
+                                        <Label Text="chevron_right"
+                                               FontFamily="MaterialIcons"
+                                               FontSize="20"
+                                               TextColor="{StaticResource TextTertiary}"
+                                               Grid.Column="2"
+                                               VerticalOptions="Center" />
+
+                                    </Grid>
+                                </Border>
+                            </SwipeView>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </StackLayout>
         </ScrollView>
 
-        <!-- Menu de navegação fixo -->
+        <!-- Floating Action Menu -->
         <Border Grid.Row="1"
-                BackgroundColor="#19171C"
-                WidthRequest="250"
-                HeightRequest="92"
-                Stroke="Transparent"
+                Style="{StaticResource NavigationMenuStyle}"
+                WidthRequest="200"
+                HeightRequest="76"
+                HorizontalOptions="Center"
                 VerticalOptions="End"
-                Margin="0,0,0,10"
-                StrokeShape="RoundRectangle 100, 100">
+                Margin="0,0,0,24">
 
-            <Grid ColumnDefinitions="*,*" ColumnSpacing="0">
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="16">
 
-                <!-- Botão Home -->
-                <Button WidthRequest="60"
-                        Grid.Column="0"
-                        HeightRequest="60"  
-                        Padding="0"
-                        BackgroundColor="{StaticResource Primary}"
-                        CornerRadius="50"
+                <!-- Home Button -->
+                <Button Grid.Column="0"
+                        Style="{StaticResource IconButtonStyle}"
                         Text="home"
-                        TextColor="Black"
-                        FontFamily="MaterialIcons"
-                        FontSize="30"
+                        FontSize="24"
                         Command="{Binding GoToHomeCommand}" />
 
-                <!-- Botão Adicionar -->
-                <Button WidthRequest="60"
-                        Grid.Column="1"
-                        HeightRequest="60"
-                        CornerRadius="10"
+                <!-- Add Button -->
+                <Button Grid.Column="1"
+                        WidthRequest="56" HeightRequest="56"
+                        CornerRadius="28"
                         BackgroundColor="{StaticResource Primary}"
-                        Text="add"
-                        TextColor="Black"
+                        TextColor="{StaticResource PrimaryDarkText}"
                         FontFamily="MaterialIcons"
-                        FontSize="40"
+                        FontSize="32"
+                        Text="add"
                         Padding="0"
-                        HorizontalOptions="Center"
-                        Command="{Binding AddNewItemCommand}"
-                        CommandParameter="Add" />
+                        Command="{Binding AddNewItemCommand}">
+
+                    <Button.Shadow>
+                        <Shadow Brush="{StaticResource Black}" Offset="0,4" Radius="12" Opacity="0.25" />
+                    </Button.Shadow>
+
+                </Button>
+
             </Grid>
         </Border>
     </Grid>

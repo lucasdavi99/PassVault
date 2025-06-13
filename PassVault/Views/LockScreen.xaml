@@ -11,41 +11,143 @@
         <viewModels:LockScreenViewModel />
     </ContentPage.BindingContext>
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+    <!-- Background with subtle gradient -->
+    <Grid Background="{StaticResource CardGradient}">
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
+        <!-- Main Content -->
+        <StackLayout Spacing="48" VerticalOptions="Center" Padding="32">
 
-        <Label Text="{Binding Title}" 
-               TextColor="{StaticResource Primary}"
-               FontAttributes="Bold" 
-               FontSize="64"
-               HorizontalTextAlignment="Center"
-               Grid.Row="0"
-               Padding="0,60"/>
+            <!-- Welcome Title -->
+            <StackLayout Spacing="16">
+                <Label Text="{Binding Title}" 
+                       TextColor="{StaticResource Primary}"
+                       FontAttributes="Bold" 
+                       FontSize="48"
+                       HorizontalTextAlignment="Center">
 
-        <Image Source="logo.png" 
-               WidthRequest="257"
-               HeightRequest="257"
-               VerticalOptions="Center"
-               Grid.Row="1"/>
+                    <Label.Shadow>
+                        <Shadow Brush="{StaticResource Black}" Offset="0,3" Radius="8" Opacity="0.3" />
+                    </Label.Shadow>
 
-        <Button Text="Usar senha do celular"
-                TextColor="Black"
-                FontSize="20"
-                BackgroundColor="{StaticResource Primary}"
-                WidthRequest="300"
-                HeightRequest="50"
-                CornerRadius="30"
-                VerticalOptions="End"
-                Margin="0, 0, 0, 30"
-                Command="{Binding NextPageCommand}" 
-                Grid.Row="2"/>
+                </Label>
+
+                <Label Text="Protegendo suas senhas com segurança"
+                       Style="{StaticResource BodyStyle}"
+                       HorizontalTextAlignment="Center"
+                       Opacity="0.8" />
+            </StackLayout>
+
+            <!-- Logo with enhanced styling -->
+            <Border WidthRequest="180" HeightRequest="180"
+                    BackgroundColor="{StaticResource ElevatedSurface}"
+                    StrokeShape="RoundRectangle 32"
+                    Stroke="{StaticResource BorderPrimary}"
+                    StrokeThickness="2"
+                    HorizontalOptions="Center">
+
+                <Border.Shadow>
+                    <Shadow Brush="{StaticResource Black}" Offset="0,8" Radius="24" Opacity="0.3" />
+                </Border.Shadow>
+
+                <!-- Placeholder for logo - you can replace with actual image -->
+                <Grid>
+                    <Ellipse WidthRequest="120" HeightRequest="120"
+                             Fill="{StaticResource Primary}"
+                             Opacity="0.1"
+                             HorizontalOptions="Center"
+                             VerticalOptions="Center" />
+
+                    <Label Text="security"
+                           FontFamily="MaterialIcons"
+                           FontSize="72"
+                           TextColor="{StaticResource Primary}"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center" />
+                </Grid>
+
+            </Border>
+
+            <!-- Security Features Info -->
+            <StackLayout Spacing="12">
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                    <Label Grid.Column="0"
+                           Text="verified"
+                           FontFamily="MaterialIcons"
+                           FontSize="20"
+                           TextColor="{StaticResource Primary}"
+                           VerticalOptions="Center" />
+
+                    <Label Grid.Column="1"
+                           Text="Criptografia AES-256"
+                           Style="{StaticResource CaptionStyle}"
+                           VerticalOptions="Center" />
+                </Grid>
+
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                    <Label Grid.Column="0"
+                           Text="fingerprint"
+                           FontFamily="MaterialIcons"
+                           FontSize="20"
+                           TextColor="{StaticResource Primary}"
+                           VerticalOptions="Center" />
+
+                    <Label Grid.Column="1"
+                           Text="Autenticação biométrica"
+                           Style="{StaticResource CaptionStyle}"
+                           VerticalOptions="Center" />
+                </Grid>
+
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                    <Label Grid.Column="0"
+                           Text="phone_android"
+                           FontFamily="MaterialIcons"
+                           FontSize="20"
+                           TextColor="{StaticResource Primary}"
+                           VerticalOptions="Center" />
+
+                    <Label Grid.Column="1"
+                           Text="Dados armazenados localmente"
+                           Style="{StaticResource CaptionStyle}"
+                           VerticalOptions="Center" />
+                </Grid>
+            </StackLayout>
+
+            <!-- Authentication Button -->
+            <Border BackgroundColor="Transparent"
+                    StrokeShape="RoundRectangle 24"
+                    Stroke="{StaticResource Primary}"
+                    StrokeThickness="2"
+                    Padding="2">
+
+                <Button Text="Usar senha do celular"
+                        Style="{StaticResource ModernButtonStyle}"
+                        WidthRequest="280"
+                        HeightRequest="56"
+                        FontSize="18"
+                        Command="{Binding NextPageCommand}">
+
+                    <Button.Shadow>
+                        <Shadow Brush="{StaticResource Black}" Offset="0,4" Radius="12" Opacity="0.25" />
+                    </Button.Shadow>
+
+                </Button>
+
+            </Border>
+
+        </StackLayout>
+
+        <!-- Subtle pattern overlay -->
+        <Grid Opacity="0.03">
+            <Polygon Points="0,0 100,0 0,100"
+                     Fill="{StaticResource Primary}"
+                     HorizontalOptions="Start"
+                     VerticalOptions="Start" />
+
+            <Polygon Points="100,100 100,0 0,100"
+                     Fill="{StaticResource Primary}"
+                     HorizontalOptions="End"
+                     VerticalOptions="End" />
+        </Grid>
+
     </Grid>
 </ContentPage>

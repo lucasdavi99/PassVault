@@ -8,116 +8,181 @@
              Title="Nova Pasta">
 
     <Grid>
-        <Grid RowDefinitions="*,Auto">
-            <!-- Conteúdo Principal -->
-            <VerticalStackLayout Grid.Row="0" Spacing="20" VerticalOptions="Center">
-                <!-- Formulário -->
-                <Grid RowSpacing="20" ColumnSpacing="10">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
+        <!-- Main Content -->
+        <ScrollView>
+            <Grid RowDefinitions="Auto,*,Auto" Padding="24">
 
-                    <!-- Título -->
-                    <Border Stroke="{StaticResource Primary}"
-                            StrokeShape="RoundRectangle 10"
-                            Grid.Row="0"
-                            Grid.Column="0"
-                            Margin="10,0,10,0">
-                        <Entry Placeholder="Titulo da pasta"
-                               FontSize="20"
-                               HorizontalTextAlignment="Center"                                         
-                               BackgroundColor="#19171C"
-                               Text="{Binding Title}" 
-                               TextColor="White" />
-                    </Border>
+                <!-- Header -->
+                <StackLayout Grid.Row="0" Spacing="8" Margin="0,20,0,32">
+                    <Label Text="Nova Pasta"
+                           Style="{StaticResource HeadlineStyle}"
+                           TextColor="{StaticResource Primary}" />
 
-                    <!-- Bolinha de Cor -->
-                    <Border
-                            StrokeThickness="0"
+                    <Label Text="Organize suas contas criando uma nova pasta"
+                           Style="{StaticResource BodyStyle}"
+                           HorizontalTextAlignment="Center" />
+                </StackLayout>
+
+                <!-- Form Content -->
+                <StackLayout Grid.Row="1" Spacing="32" VerticalOptions="Center">
+
+                    <!-- Folder Icon Preview -->
+                    <Border WidthRequest="120" HeightRequest="120"
                             Background="{Binding SelectedColor}"
-                            HeightRequest="50"
-                            WidthRequest="50"
-                            HorizontalOptions="Center"
-                            Grid.Row="4"
-                            Grid.Column="0"
-                            ZIndex="1"
-                            StrokeShape="RoundRectangle 25">    
+                            StrokeShape="RoundRectangle 24"
+                            StrokeThickness="3"
+                            Stroke="{StaticResource BorderPrimary}"
+                            HorizontalOptions="Center">
 
-                        <Border.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding ToggleColorPickerCommand}" />
-                        </Border.GestureRecognizers>
+                        <Border.Shadow>
+                            <Shadow Brush="{StaticResource Black}" Offset="0,6" Radius="16" Opacity="0.2" />
+                        </Border.Shadow>
+
+                        <Label Text="folder"
+                               FontFamily="MaterialIcons"
+                               FontSize="64"
+                               TextColor="{StaticResource PrimaryDarkText}"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center" />
                     </Border>
 
+                    <!-- Title Field -->
+                    <StackLayout Spacing="8">
+                        <Label Text="Nome da Pasta *"
+                               Style="{StaticResource CaptionStyle}"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource Primary}" />
+
+                        <Border Style="{StaticResource EntryContainerStyle}">
+                            <Entry Placeholder="Ex: Trabalho, Pessoal, Redes Sociais..."
+                                   Style="{StaticResource ModernEntryStyle}"
+                                   Text="{Binding Title}"
+                                   HorizontalTextAlignment="Center"
+                                   FontSize="18" />
+                        </Border>
+                    </StackLayout>
+
+                    <!-- Color Selection -->
+                    <StackLayout Spacing="12">
+                        <Label Text="Cor de Identificação"
+                               Style="{StaticResource CaptionStyle}"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource TextSecondary}"
+                               HorizontalTextAlignment="Center" />
+
+                        <Border WidthRequest="60" HeightRequest="60"
+                                Background="{Binding SelectedColor}"
+                                StrokeShape="RoundRectangle 16"
+                                StrokeThickness="3"
+                                Stroke="{StaticResource BorderPrimary}"
+                                HorizontalOptions="Center">
+
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ToggleColorPickerCommand}" />
+                            </Border.GestureRecognizers>
+
+                            <Border.Shadow>
+                                <Shadow Brush="{StaticResource Black}" Offset="0,3" Radius="8" Opacity="0.2" />
+                            </Border.Shadow>
+
+                            <Label Text="palette"
+                                   FontFamily="MaterialIcons"
+                                   FontSize="24"
+                                   TextColor="{StaticResource PrimaryDarkText}"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center" />
+                        </Border>
+
+                        <Label Text="Toque para escolher uma cor"
+                               Style="{StaticResource CaptionStyle}"
+                               HorizontalTextAlignment="Center"
+                               Opacity="0.8" />
+                    </StackLayout>
+
+                </StackLayout>
+
+                <!-- Action Buttons -->
+                <Grid Grid.Row="2" 
+                      ColumnDefinitions="*,*" 
+                      ColumnSpacing="16" 
+                      Margin="0,32,0,0">
+
+                    <!-- Cancel Button -->
+                    <Button Grid.Column="0"
+                            Text="Cancelar"
+                            BackgroundColor="{StaticResource ElevatedSurface}"
+                            TextColor="{StaticResource TextSecondary}"
+                            Style="{StaticResource ModernButtonStyle}" />
+
+                    <!-- Save Button -->
+                    <Button Grid.Column="1"
+                            Text="Criar Pasta"
+                            Style="{StaticResource ModernButtonStyle}"
+                            Command="{Binding SaveFolderCommand}">
+
+                        <Button.ImageSource>
+                            <FontImageSource FontFamily="MaterialIcons"
+                                             Glyph="create_new_folder"
+                                             Color="{StaticResource PrimaryDarkText}"
+                                             Size="20" />
+                        </Button.ImageSource>
+
+                    </Button>
+
                 </Grid>
-            </VerticalStackLayout>
 
-            <!-- Menu de Navegação fixo na parte inferior -->
-            <Border Grid.Row="1"
-                    BackgroundColor="#19171C"
-                    WidthRequest="250"
-                    HeightRequest="92"
-                    Stroke="Transparent"
-                    VerticalOptions="End"
-                    StrokeShape="RoundRectangle 100, 100"
-                    HorizontalOptions="Center"
-                    Margin="0,0,0,10">
+            </Grid>
+        </ScrollView>
 
-                <Grid ColumnDefinitions="*" ColumnSpacing="0">
-                  
-                    <!-- Botão Confirmar -->
-                    <Button WidthRequest="60"
-                            Grid.Column="1"
-                            HeightRequest="60"
-                            CornerRadius="10"
-                            BackgroundColor="{StaticResource Primary}"
-                            Text="check"
-                            TextColor="Black"
-                            FontFamily="MaterialIcons"
-                            FontSize="40"
-                            Padding="0"
-                            HorizontalOptions="Center"
-                            Command="{Binding SaveFolderCommand}"
-                            CommandParameter="Add" />
-                </Grid>
-            </Border>
-        </Grid>
-
+        <!-- Color Picker Overlay -->
         <Grid IsVisible="{Binding IsColorPickerVisible}"
-              BackgroundColor="#80000000"
-              RowDefinitions="*, *">
+              BackgroundColor="{StaticResource PressedOverlay}"
+              RowDefinitions="*,Auto,*">
 
             <Grid.GestureRecognizers>
                 <TapGestureRecognizer Command="{Binding CloseColorPickerCommand}" />
             </Grid.GestureRecognizers>
-            <!-- ColorPicker centralizado -->
-            <controls:ColorPicker                       
-                x:Name="ColorPicker"
-                ColorFlowDirection="Horizontal"
-                Grid.Row="0"
-                WidthRequest="300"
-                HeightRequest="200"
-                ColorSpectrumStyle="ShadeToHueToTintStyle"
-                PointerRingBorderUnits="0.3"
-                PointerRingDiameterUnits="0.7"
-                HorizontalOptions="Center"
-                VerticalOptions="Center"
-                PickedColor="{Binding SelectedColor, Mode=TwoWay}" />
 
-            <Entry Placeholder="Código hexadecimal"
-                   Text="{Binding SelectedColorHex, Mode=TwoWay}"
-                   Grid.Row="1"
-                   Keyboard="Text"
-                   FontSize="20"
-                   WidthRequest="250"
-                   HorizontalOptions="Center"
-                   VerticalOptions="Center"
-                   HorizontalTextAlignment="Center"
-                   BackgroundColor="#19171C"
-                   TextColor="White" />
+            <!-- Color Picker Card -->
+            <Border Grid.Row="1"
+                    Style="{StaticResource ElevatedCardStyle}"
+                    Margin="24"
+                    MaximumWidthRequest="350">
+
+                <StackLayout Spacing="20">
+
+                    <Label Text="Escolher Cor"
+                           Style="{StaticResource TitleStyle}"
+                           HorizontalTextAlignment="Center"
+                           TextColor="{StaticResource Primary}" />
+
+                    <!-- Color Picker -->
+                    <controls:ColorPicker x:Name="ColorPicker"
+                                          ColorFlowDirection="Horizontal"
+                                          WidthRequest="300"
+                                          HeightRequest="200"
+                                          ColorSpectrumStyle="ShadeToHueToTintStyle"
+                                          PointerRingBorderUnits="0.3"
+                                          PointerRingDiameterUnits="0.7"
+                                          HorizontalOptions="Center"
+                                          PickedColor="{Binding SelectedColor, Mode=TwoWay}" />
+
+                    <!-- Hex Input -->
+                    <Border Style="{StaticResource EntryContainerStyle}">
+                        <Entry Placeholder="Código hexadecimal (ex: #FF5733)"
+                               Text="{Binding SelectedColorHex, Mode=TwoWay}"
+                               Style="{StaticResource ModernEntryStyle}"
+                               Keyboard="Text"
+                               HorizontalTextAlignment="Center" />
+                    </Border>
+
+                    <!-- Close Button -->
+                    <Button Text="Confirmar"
+                            Style="{StaticResource ModernButtonStyle}"
+                            Command="{Binding CloseColorPickerCommand}" />
+
+                </StackLayout>
+            </Border>
         </Grid>
     </Grid>
 </ContentPage>
