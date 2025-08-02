@@ -7,8 +7,10 @@ namespace PassVault
         public AppShell()
         {
             InitializeComponent();
-
             RegisterRoutes();
+
+            // Adicionar handler para navegação
+            Navigated += OnShellNavigated;
         }
 
         private void RegisterRoutes()
@@ -29,6 +31,54 @@ namespace PassVault
             Routing.RegisterRoute(nameof(TutorialPage3), typeof(TutorialPage3));
             Routing.RegisterRoute(nameof(TutorialPage4), typeof(TutorialPage4));
             Routing.RegisterRoute(nameof(TutorialPage5), typeof(TutorialPage5));
+        }
+
+        private async void OnShellNavigated(object sender, ShellNavigatedEventArgs e)
+        {
+            // Quando navegar de volta para MainPage, forçar refresh
+            if (e.Current?.Location?.ToString().Contains("MainPage") == true)
+            {
+                await Task.Delay(200); // Pequeno delay para garantir que a página foi carregada
+
+                var currentPage = CurrentPage;
+                if (currentPage?.BindingContext is ViewModels.MainPageViewModel mainViewModel)
+                {
+                    // Forçar refresh da aba atual
+                    await MainThread.InvokeOnMainThreadAsync(async () =>
+                    {
+                        try
+                        {
+                            await mainViewModel.RefreshCommand?.ExecuteAsync(null);
+                        }
+                        catch
+                        {
+                            // Ignorar erros
+                        }
+                    });
+                }
+            }
+
+            // Quando navegar de volta para FolderPage, forçar refresh
+            if (e.Current?.Location?.ToString().Contains("FolderPage") == true)
+            {
+                await Task.Delay(200);
+
+                var currentPage = CurrentPage;
+                if (currentPage?.BindingContext is ViewModels.FolderPageViewModel folderViewModel)
+                {
+                    await MainThread.InvokeOnMainThreadAsync(async () =>
+                    {
+                        try
+                        {
+                            await folderViewModel.LoadDataAsync();
+                        }
+                        catch
+                        {
+                            // Ignorar erros
+                        }
+                    });
+                }
+            }
         }
     }
 }

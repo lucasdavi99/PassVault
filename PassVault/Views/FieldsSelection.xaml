@@ -4,23 +4,237 @@
              xmlns:viewModels="clr-namespace:PassVault.ViewModels"
              x:DataType="viewModels:FieldsSelectionViewModel"
              x:Class="PassVault.Views.FieldsSelection"
-             Title="Escolha os campos">
-    <VerticalStackLayout Padding="20">
-        <HorizontalStackLayout HorizontalOptions="Start">
-            <CheckBox IsChecked="{Binding IsUsernameChecked}" Color="{StaticResource Primary}" />
-            <Label Text="Nome de Usuário" TextColor="{StaticResource Primary}" FontSize="20" VerticalOptions="Center"/>
-        </HorizontalStackLayout>
-        <HorizontalStackLayout HorizontalOptions="Start">
-            <CheckBox IsChecked="{Binding IsEmailChecked}" Color="{StaticResource Primary}" />
-            <Label Text="E-mail" TextColor="{StaticResource Primary}" FontSize="20" VerticalOptions="Center"/>
-        </HorizontalStackLayout>
+             Title="Personalizar Campos">
 
+    <Grid RowDefinitions="*,Auto" Padding="24">
 
-        <Button Text="Confirmar" 
-            Command="{Binding ConfirmSelectionCommand}"
-            BackgroundColor="{StaticResource Primary}" 
-            TextColor="{StaticResource PrimaryDarkText}"
-            HorizontalOptions="Center"
-            Margin="0,20"/>
-    </VerticalStackLayout>
+        <!-- Content Area -->
+        <ScrollView Grid.Row="0">
+            <StackLayout Spacing="32">
+
+                <!-- Header -->
+                <StackLayout Spacing="8" Margin="0,20,0,16">
+                    <Label Text="Personalizar Campos"
+                           Style="{StaticResource HeadlineStyle}"
+                           TextColor="{StaticResource Primary}" />
+
+                    <Label Text="Escolha quais campos deseja incluir na sua conta"
+                           Style="{StaticResource BodyStyle}"
+                           HorizontalTextAlignment="Center" />
+                </StackLayout>
+
+                <!-- Field Options -->
+                <StackLayout Spacing="16">
+
+                    <!-- Username Field Option -->
+                    <Border Style="{StaticResource CardStyle}"
+                            BackgroundColor="{StaticResource ElevatedSurface}">
+
+                        <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="16" Padding="8">
+
+                            <!-- Icon -->
+                            <Border Grid.Column="0"
+                                    WidthRequest="48" HeightRequest="48"
+                                    BackgroundColor="{StaticResource Info}"
+                                    StrokeShape="RoundRectangle 12"
+                                    VerticalOptions="Center">
+
+                                <Label Text="person"
+                                       FontFamily="MaterialIcons"
+                                       FontSize="24"
+                                       TextColor="White"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center" />
+                            </Border>
+
+                            <!-- Info -->
+                            <StackLayout Grid.Column="1" VerticalOptions="Center" Spacing="4">
+                                <Label Text="Nome de Usuário"
+                                       Style="{StaticResource TitleStyle}"
+                                       FontSize="18" />
+
+                                <Label Text="Campo para armazenar username ou login"
+                                       Style="{StaticResource CaptionStyle}" />
+                            </StackLayout>
+
+                            <!-- Toggle -->
+                            <CheckBox Grid.Column="2"
+                                      IsChecked="{Binding IsUsernameChecked}"
+                                      Color="{StaticResource Primary}"
+                                      VerticalOptions="Center" />
+
+                        </Grid>
+                    </Border>
+
+                    <!-- Email Field Option -->
+                    <Border Style="{StaticResource CardStyle}"
+                            BackgroundColor="{StaticResource ElevatedSurface}">
+
+                        <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="16" Padding="8">
+
+                            <!-- Icon -->
+                            <Border Grid.Column="0"
+                                    WidthRequest="48" HeightRequest="48"
+                                    BackgroundColor="{StaticResource Warning}"
+                                    StrokeShape="RoundRectangle 12"
+                                    VerticalOptions="Center">
+
+                                <Label Text="email"
+                                       FontFamily="MaterialIcons"
+                                       FontSize="24"
+                                       TextColor="White"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center" />
+                            </Border>
+
+                            <!-- Info -->
+                            <StackLayout Grid.Column="1" VerticalOptions="Center" Spacing="4">
+                                <Label Text="E-mail"
+                                       Style="{StaticResource TitleStyle}"
+                                       FontSize="18" />
+
+                                <Label Text="Campo para armazenar endereço de e-mail"
+                                       Style="{StaticResource CaptionStyle}" />
+                            </StackLayout>
+
+                            <!-- Toggle -->
+                            <CheckBox Grid.Column="2"
+                                      IsChecked="{Binding IsEmailChecked}"
+                                      Color="{StaticResource Primary}"
+                                      VerticalOptions="Center" />
+
+                        </Grid>
+                    </Border>
+
+                </StackLayout>
+
+                <!-- Required Fields Info -->
+                <Border Style="{StaticResource CardStyle}"
+                        Stroke="{StaticResource Primary}"
+                        BackgroundColor="{StaticResource ElevatedSurface}">
+
+                    <StackLayout Spacing="12">
+
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                            <Label Grid.Column="0"
+                                   Text="info"
+                                   FontFamily="MaterialIcons"
+                                   FontSize="20"
+                                   TextColor="{StaticResource Primary}"
+                                   VerticalOptions="Start" />
+
+                            <Label Grid.Column="1"
+                                   Text="Campos Obrigatórios"
+                                   Style="{StaticResource TitleStyle}"
+                                   FontSize="16"
+                                   TextColor="{StaticResource Primary}" />
+                        </Grid>
+
+                        <Label Text="Os campos Título e Senha são sempre incluídos e são obrigatórios para todas as contas."
+                               Style="{StaticResource CaptionStyle}" />
+
+                    </StackLayout>
+                </Border>
+
+                <!-- Preview Section -->
+                <StackLayout Spacing="12">
+
+                    <Label Text="Prévia dos Campos"
+                           Style="{StaticResource TitleStyle}"
+                           TextColor="{StaticResource Primary}"
+                           FontSize="16" />
+
+                    <Border Style="{StaticResource CardStyle}"
+                            BackgroundColor="{StaticResource CardBackground}">
+
+                        <StackLayout Spacing="8">
+
+                            <!-- Title Field (Always shown) -->
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                                <Label Grid.Column="0"
+                                       Text="title"
+                                       FontFamily="MaterialIcons"
+                                       FontSize="16"
+                                       TextColor="{StaticResource Primary}"
+                                       VerticalOptions="Center" />
+
+                                <Label Grid.Column="1"
+                                       Text="Título da Conta"
+                                       Style="{StaticResource BodyStyle}"
+                                       VerticalOptions="Center" />
+                            </Grid>
+
+                            <!-- Username Field (Conditional) -->
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8"
+                                  IsVisible="{Binding IsUsernameChecked}">
+                                <Label Grid.Column="0"
+                                       Text="person"
+                                       FontFamily="MaterialIcons"
+                                       FontSize="16"
+                                       TextColor="{StaticResource Info}"
+                                       VerticalOptions="Center" />
+
+                                <Label Grid.Column="1"
+                                       Text="Nome de Usuário"
+                                       Style="{StaticResource BodyStyle}"
+                                       VerticalOptions="Center" />
+                            </Grid>
+
+                            <!-- Email Field (Conditional) -->
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8"
+                                  IsVisible="{Binding IsEmailChecked}">
+                                <Label Grid.Column="0"
+                                       Text="email"
+                                       FontFamily="MaterialIcons"
+                                       FontSize="16"
+                                       TextColor="{StaticResource Warning}"
+                                       VerticalOptions="Center" />
+
+                                <Label Grid.Column="1"
+                                       Text="E-mail"
+                                       Style="{StaticResource BodyStyle}"
+                                       VerticalOptions="Center" />
+                            </Grid>
+
+                            <!-- Password Field (Always shown) -->
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                                <Label Grid.Column="0"
+                                       Text="lock"
+                                       FontFamily="MaterialIcons"
+                                       FontSize="16"
+                                       TextColor="{StaticResource Primary}"
+                                       VerticalOptions="Center" />
+
+                                <Label Grid.Column="1"
+                                       Text="Senha"
+                                       Style="{StaticResource BodyStyle}"
+                                       VerticalOptions="Center" />
+                            </Grid>
+
+                        </StackLayout>
+                    </Border>
+
+                </StackLayout>
+
+            </StackLayout>
+        </ScrollView>
+
+        <!-- Action Button -->
+        <Button Grid.Row="1"
+                Text="Continuar"
+                Style="{StaticResource ModernButtonStyle}"
+                FontSize="18"
+                HeightRequest="56"
+                Command="{Binding ConfirmSelectionCommand}"
+                Margin="0,24,0,0">
+
+            <Button.ImageSource>
+                <FontImageSource FontFamily="MaterialIcons"
+                                 Glyph="arrow_forward"
+                                 Color="{StaticResource PrimaryDarkText}"
+                                 Size="20" />
+            </Button.ImageSource>
+
+        </Button>
+    </Grid>
 </ContentPage>

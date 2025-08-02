@@ -6,184 +6,203 @@
     xmlns:controls="clr-namespace:Maui.ColorPicker;assembly=Maui.ColorPicker"
     x:Class="PassVault.Views.NewAccountPage"
     x:DataType="viewmodel:NewAccountPageViewModel"
-    Title="Criar">
+    Title="Criar Conta">
 
     <Grid>
-        <Grid RowDefinitions="*,Auto">
-            <!-- Conteúdo Principal -->
-            <VerticalStackLayout Grid.Row="0" Spacing="20" Padding="0,20,0,0">
-                <!-- Formulário -->
-                <Grid RowSpacing="20" ColumnSpacing="10">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
+        <!-- Main Content -->
+        <ScrollView>
+            <Grid RowDefinitions="Auto,*,Auto" Padding="24">
 
-                    <!-- Título -->
-                    <Border Stroke="{StaticResource Primary}"
-                            StrokeShape="RoundRectangle 10"
-                            Margin="10, 50, 10, 50"
-                            Grid.Row="0"
-                            Grid.Column="0">
-                        <Entry Placeholder="Titulo da conta"
-                           FontSize="20"
-                           HorizontalTextAlignment="Center"                                        
-                           BackgroundColor="#19171C"                          
-                           Text="{Binding Title}" 
-                           TextColor="White" />
-                    </Border>
+                <!-- Header -->
+                <StackLayout Grid.Row="0" Spacing="8" Margin="0,20,0,32">
+                    <Label Text="Nova Conta"
+                           Style="{StaticResource HeadlineStyle}"
+                           TextColor="{StaticResource Primary}" />
 
-                    <!-- Nome de Usuário -->
-                    <Border Stroke="{StaticResource Primary}"
-                            StrokeShape="RoundRectangle 10"
-                            Grid.Row="1"
-                            Grid.Column="0"
-                            Margin="10,0,10,0"
-                            IsVisible="{Binding IsUsernameVisible}">
-                        <Entry Placeholder="Username"
-                           FontSize="20"
-                           HorizontalTextAlignment="Center"                                            
-                           BackgroundColor="#19171C" 
-                           Text="{Binding Username}" 
-                           TextColor="White"/>
-                    </Border>
+                    <Label Text="Preencha as informações da sua nova conta"
+                           Style="{StaticResource BodyStyle}"
+                           HorizontalTextAlignment="Center" />
+                </StackLayout>
 
-                    <!-- E-mail -->
-                    <Border Stroke="{StaticResource Primary}"
-                            StrokeShape="RoundRectangle 10"
-                            Grid.Row="2"
-                            Grid.Column="0"
-                            Margin="10,0,10,0"
-                            IsVisible="{Binding IsEmailVisible}">
-                        <Entry Placeholder="E-mail"
-                           FontSize="20"
-                           HorizontalTextAlignment="Center"
-                           Grid.Row="2"
-                           Grid.Column="0"                  
-                           BackgroundColor="#19171C" 
-                           Text="{Binding Email}" 
-                           TextColor="White" 
-                           Keyboard="Email" />
-                    </Border>
+                <!-- Form Content -->
+                <StackLayout Grid.Row="1" Spacing="24">
 
-                    <!-- Senha -->
-                    <Border Stroke="{StaticResource Primary}"
-                            StrokeShape="RoundRectangle 10"
-                            Grid.Row="3"
-                            Grid.Column="0"
-                            Margin="10,0,10,0">
-                        <Entry Placeholder="Senha"
-                           FontSize="20"
-                           HorizontalTextAlignment="Center"
-                           Grid.Row="3"
-                           Grid.Column="0"                  
-                           BackgroundColor="#19171C" 
-                           Text="{Binding Password}" 
-                           TextColor="White" />
-                    </Border>
+                    <!-- Title Field -->
+                    <StackLayout Spacing="8">
+                        <Label Text="Título da Conta *"
+                               Style="{StaticResource CaptionStyle}"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource Primary}" />
 
-                    <!-- Bolinha de Cor -->
-                    <Border
-                            StrokeThickness="0"
-                            Background="{Binding SelectedColor}"
-                            HeightRequest="50"
-                            WidthRequest="50"
-                            HorizontalOptions="Center"
-                            Grid.Row="4"
-                            Grid.Column="0"
-                            ZIndex="1"
-                            StrokeShape="RoundRectangle 25">    
+                        <Border Style="{StaticResource EntryContainerStyle}">
+                            <Entry Placeholder="Ex: Gmail, Instagram, GitHub..."
+                                   Style="{StaticResource ModernEntryStyle}"
+                                   Text="{Binding Title}" />
+                        </Border>
+                    </StackLayout>
 
-                        <Border.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding ToggleColorPickerCommand}" />
-                        </Border.GestureRecognizers>
-                    </Border>
+                    <!-- Username Field -->
+                    <StackLayout Spacing="8" IsVisible="{Binding IsUsernameVisible}">
+                        <Label Text="Nome de Usuário"
+                               Style="{StaticResource CaptionStyle}"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource TextSecondary}" />
+
+                        <Border Style="{StaticResource EntryContainerStyle}">
+                            <Entry Placeholder="Digite seu nome de usuário"
+                                   Style="{StaticResource ModernEntryStyle}"
+                                   Text="{Binding Username}" />
+                        </Border>
+                    </StackLayout>
+
+                    <!-- Email Field -->
+                    <StackLayout Spacing="8" IsVisible="{Binding IsEmailVisible}">
+                        <Label Text="E-mail"
+                               Style="{StaticResource CaptionStyle}"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource TextSecondary}" />
+
+                        <Border Style="{StaticResource EntryContainerStyle}">
+                            <Entry Placeholder="exemplo@email.com"
+                                   Style="{StaticResource ModernEntryStyle}"
+                                   Text="{Binding Email}"
+                                   Keyboard="Email" />
+                        </Border>
+                    </StackLayout>
+
+                    <!-- Password Field -->
+                    <StackLayout Spacing="8">
+                        <Label Text="Senha *"
+                               Style="{StaticResource CaptionStyle}"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource Primary}" />
+
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Border Style="{StaticResource EntryContainerStyle}" Grid.Column="0">
+                                <Entry Placeholder="Digite uma senha segura"
+                                       Style="{StaticResource ModernEntryStyle}"
+                                       Text="{Binding Password}" />
+                            </Border>
+
+                            <!-- Generate Password Button -->
+                            <Button Grid.Column="1"
+                                    Text="auto_awesome"
+                                    FontFamily="MaterialIcons"
+                                    Style="{StaticResource IconButtonStyle}"
+                                    WidthRequest="48" HeightRequest="48"
+                                    CornerRadius="12"
+                                    Margin="8,0,0,0"
+                                    Command="{Binding GoToGeneratorCommand}" />
+                        </Grid>
+                    </StackLayout>
+
+                    <!-- Color Selection -->
+                    <StackLayout Spacing="12">
+                        <Label Text="Cor de Identificação"
+                               Style="{StaticResource CaptionStyle}"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource TextSecondary}" />
+
+                        <Border WidthRequest="60" HeightRequest="60"
+                                Background="{Binding SelectedColor}"
+                                StrokeShape="RoundRectangle 16"
+                                StrokeThickness="3"
+                                Stroke="{StaticResource BorderPrimary}"
+                                HorizontalOptions="Center">
+
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ToggleColorPickerCommand}" />
+                            </Border.GestureRecognizers>
+
+                            <Border.Shadow>
+                                <Shadow Brush="{Binding SelectedColor}" Offset="0,4" Radius="12" Opacity="0.4" />
+                            </Border.Shadow>
+
+                            <Label Text="palette"
+                                   FontFamily="MaterialIcons"
+                                   FontSize="24"
+                                   TextColor="{StaticResource PrimaryDarkText}"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center" />
+
+                        </Border>
+                    </StackLayout>
+
+                </StackLayout>
+
+                <!-- Action Buttons -->
+                <Grid Grid.Row="2" 
+                      ColumnDefinitions="*,*" 
+                      ColumnSpacing="16" 
+                      Margin="0,32,0,0">
+
+                    <!-- Cancel/Back Button -->
+                    <Button Grid.Column="0"
+                            Text="Cancelar"
+                            BackgroundColor="{StaticResource ElevatedSurface}"
+                            TextColor="{StaticResource TextSecondary}"
+                            Style="{StaticResource ModernButtonStyle}" />
+
+                    <!-- Save Button -->
+                    <Button Grid.Column="1"
+                            Text="Salvar Conta"
+                            Style="{StaticResource ModernButtonStyle}"
+                            Command="{Binding SaveAccountCommand}" />
 
                 </Grid>
-            </VerticalStackLayout>
 
-            <!-- Menu de Navegação fixo na parte inferior -->
-            <Border Grid.Row="1"
-                    BackgroundColor="#19171C"
-                    WidthRequest="250"
-                    HeightRequest="92"
-                    Stroke="Transparent"
-                    VerticalOptions="End"
-                    StrokeShape="RoundRectangle 100, 100"
-                    HorizontalOptions="Center"
-                    Margin="0,0,0,10">
+            </Grid>
+        </ScrollView>
 
-                <Grid ColumnDefinitions="*,*" ColumnSpacing="0">
-
-                    <!-- Botão Confirmar -->
-                    <Button WidthRequest="60"
-                            Grid.Column="1"
-                            HeightRequest="60"
-                            CornerRadius="10"
-                            BackgroundColor="{StaticResource Primary}"
-                            Text="check"
-                            TextColor="Black"
-                            FontFamily="MaterialIcons"
-                            FontSize="40"
-                            Padding="0"
-                            HorizontalOptions="Center"
-                            Command="{Binding SaveAccountCommand}"
-                            CommandParameter="Add" />
-
-                    <!-- Botão Aleatório -->
-                    <Button WidthRequest="60"
-                            Grid.Column="0"
-                            HeightRequest="60"  
-                            Padding="0"
-                            BackgroundColor="{StaticResource Primary}"
-                            CornerRadius="50"
-                            Text="shuffle"
-                            TextColor="Black"
-                            FontFamily="MaterialIcons"
-                            FontSize="30"
-                            Command="{Binding GoToGeneratorCommand}" />
-                </Grid>
-            </Border>
-        </Grid>
-        
+        <!-- Color Picker Overlay -->
         <Grid IsVisible="{Binding IsColorPickerVisible}"
-              BackgroundColor="#80000000"
-              RowDefinitions="*, *">
-            
+              BackgroundColor="{StaticResource PressedOverlay}"
+              RowDefinitions="*,Auto,*">
+
             <Grid.GestureRecognizers>
                 <TapGestureRecognizer Command="{Binding CloseColorPickerCommand}" />
             </Grid.GestureRecognizers>
-            <!-- ColorPicker centralizado -->
-            <controls:ColorPicker                       
-                x:Name="ColorPicker"
-                ColorFlowDirection="Horizontal"
-                Grid.Row="0"
-                WidthRequest="300"
-                HeightRequest="200"
-                ColorSpectrumStyle="ShadeToHueToTintStyle"
-                PointerRingBorderUnits="0.3"
-                PointerRingDiameterUnits="0.7"
-                HorizontalOptions="Center"
-                VerticalOptions="Center"
-                PickedColor="{Binding SelectedColor, Mode=TwoWay}" />
-  
-            <Entry Placeholder="Código hexadecimal"
-                   Text="{Binding SelectedColorHex, Mode=TwoWay}"
-                   Grid.Row="1"
-                   Keyboard="Text"
-                   FontSize="20"
-                   WidthRequest="250"
-                   HorizontalOptions="Center"
-                   VerticalOptions="Center"
-                   HorizontalTextAlignment="Center"
-                   BackgroundColor="#19171C"
-                   TextColor="White" />
+
+            <!-- Color Picker Card -->
+            <Border Grid.Row="1"
+                    Style="{StaticResource ElevatedCardStyle}"
+                    Margin="24"
+                    MaximumWidthRequest="350">
+
+                <StackLayout Spacing="20">
+
+                    <Label Text="Escolher Cor"
+                           Style="{StaticResource TitleStyle}"
+                           HorizontalTextAlignment="Center"
+                           TextColor="{StaticResource Primary}" />
+
+                    <!-- Color Picker -->
+                    <controls:ColorPicker x:Name="ColorPicker"
+                                          ColorFlowDirection="Horizontal"
+                                          WidthRequest="300"
+                                          HeightRequest="200"
+                                          ColorSpectrumStyle="ShadeToHueToTintStyle"
+                                          PointerRingBorderUnits="0.3"
+                                          PointerRingDiameterUnits="0.7"
+                                          HorizontalOptions="Center"
+                                          PickedColor="{Binding SelectedColor, Mode=TwoWay}" />
+
+                    <!-- Hex Input -->
+                    <Border Style="{StaticResource EntryContainerStyle}">
+                        <Entry Placeholder="Código hexadecimal (ex: #FF5733)"
+                               Text="{Binding SelectedColorHex, Mode=TwoWay}"
+                               Style="{StaticResource ModernEntryStyle}"
+                               Keyboard="Text"
+                               HorizontalTextAlignment="Center" />
+                    </Border>
+
+                    <!-- Close Button -->
+                    <Button Text="Confirmar"
+                            Style="{StaticResource ModernButtonStyle}"
+                            Command="{Binding CloseColorPickerCommand}" />
+
+                </StackLayout>
+            </Border>
         </Grid>
     </Grid>
 </ContentPage>
