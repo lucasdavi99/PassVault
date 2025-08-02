@@ -1,214 +1,216 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:viewModels="clr-namespace:PassVault.ViewModels"
-             xmlns:converters="clr-namespace:PassVault.Converters"
-             xmlns:models="clr-namespace:PassVault.Models"
-             x:Class="PassVault.Views.SearchPage"
-             x:DataType="viewModels:SearchPageViewModel"
-             Title="Buscar">
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"  
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"  
+            xmlns:viewModels="clr-namespace:PassVault.ViewModels"  
+            xmlns:converters="clr-namespace:PassVault.Converters"  
+            xmlns:models="clr-namespace:PassVault.Models"  
+            x:Class="PassVault.Views.SearchPage"  
+            x:DataType="viewModels:SearchPageViewModel"  
+            Title="Buscar">  
 
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <converters:HexToColorConverter x:Key="HexToColorConverter" />
-        </ResourceDictionary>
-    </ContentPage.Resources>
+   <ContentPage.Resources>  
+       <ResourceDictionary>  
+           <converters:HexToColorConverter x:Key="HexToColorConverter" />  
+       </ResourceDictionary>  
+   </ContentPage.Resources>  
 
-    <Grid RowDefinitions="Auto,*">
+   <Grid RowDefinitions="Auto,*">  
 
-        <!-- Search Header -->
-        <Border Grid.Row="0"
-                Background="{StaticResource SurfaceGradient}"
-                Padding="24,40,24,24">
+       <!-- Search Header -->  
+       <Border Grid.Row="0"  
+               Background="{StaticResource SurfaceGradient}"  
+               Padding="24,40,24,24">  
 
-            <StackLayout Spacing="16">
+           <StackLayout Spacing="16">  
 
-                <!-- Title -->
-                <Label Text="Buscar Contas"
-                       Style="{StaticResource HeadlineStyle}"
-                       FontSize="28"
-                       TextColor="{StaticResource Primary}" />
+               <!-- Title -->  
+               <Label Text="Buscar Contas"  
+                      Style="{StaticResource HeadlineStyle}"  
+                      FontSize="28"  
+                      TextColor="{StaticResource Primary}" />  
 
-                <!-- Search Box -->
-                <Border Style="{StaticResource EntryContainerStyle}"
-                        BackgroundColor="{StaticResource ElevatedSurface}">
+               <!-- Search Box -->  
+               <Border Style="{StaticResource EntryContainerStyle}"  
+                       BackgroundColor="{StaticResource ElevatedSurface}">  
 
-                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                   <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">  
 
-                        <!-- Search Icon -->
-                        <Label Grid.Column="0"
-                               Text="search"
-                               FontFamily="MaterialIcons"
-                               FontSize="20"
-                               TextColor="{StaticResource Primary}"
-                               VerticalOptions="Center" />
+                       <!-- Search Icon -->  
+                       <Label Grid.Column="0"  
+                              Text="search"  
+                              FontFamily="MaterialIcons"  
+                              FontSize="20"  
+                              TextColor="{StaticResource Primary}"  
+                              VerticalOptions="Center" />  
 
-                        <!-- Search Entry -->
-                        <Entry Grid.Column="1"
-                               Placeholder="Digite o nome da conta..."
-                               Text="{Binding SearchText, Mode=TwoWay}"
-                               Style="{StaticResource ModernEntryStyle}"
-                               FontSize="16" />
+                       <!-- Search Entry -->  
+                       <Entry Grid.Column="1"  
+                              Placeholder="Digite o nome da conta..."  
+                              Text="{Binding SearchText, Mode=TwoWay}"  
+                              Style="{StaticResource ModernEntryStyle}"  
+                              FontSize="16" />  
 
-                        <!-- Clear Button -->
-                        <Button Grid.Column="2"
-                                Text="clear"
-                                FontFamily="MaterialIcons"
-                                BackgroundColor="Transparent"
-                                TextColor="{StaticResource TextTertiary}"
-                                FontSize="18"
-                                WidthRequest="32" HeightRequest="32"
-                                Padding="0"
-                                IsVisible="{Binding SearchText, Converter={StaticResource StringIsNotNullOrEmptyConverter}}"
-                                Command="{Binding ClearSearchCommand}" />
+                       <!-- Clear Button -->  
+                       <Button Grid.Column="2"  
+                               Text="clear"  
+                               FontFamily="MaterialIcons"  
+                               BackgroundColor="Transparent"  
+                               TextColor="{StaticResource TextTertiary}"  
+                               FontSize="18"  
+                               WidthRequest="32" HeightRequest="32"  
+                               Padding="0"  
+                               IsVisible="{Binding SearchText, Converter={StaticResource StringIsNotNullOrEmptyConverter}}"  
+                               Command="{Binding ClearSearchCommand}" />  
 
-                    </Grid>
-                </Border>
+                   </Grid>  
+               </Border>  
 
-            </StackLayout>
-        </Border>
+           </StackLayout>  
+       </Border>  
 
-        <!-- Results Area -->
-        <ScrollView Grid.Row="1" Padding="16,8,16,24">
-            <StackLayout Spacing="8">
+       <!-- Results Area -->  
+       <ScrollView Grid.Row="1" Padding="16,8,16,24">  
+           <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto">  
 
-                <!-- Empty State - No Search -->
-                <StackLayout IsVisible="{Binding SearchText, Converter={StaticResource InverseBooleanConverter}}"
-                             Spacing="16" Padding="32" VerticalOptions="CenterAndExpand">
+               <!-- Empty State - No Search -->  
+               <Grid RowDefinitions="Auto,Auto,Auto"  
+                     IsVisible="{Binding SearchText, Converter={StaticResource InverseBooleanConverter}}"  
+                     Padding="32" VerticalOptions="Center">  
 
-                    <Border WidthRequest="80" HeightRequest="80"
-                            BackgroundColor="{StaticResource ElevatedSurface}"
-                            StrokeShape="RoundRectangle 24"
-                            Stroke="{StaticResource BorderPrimary}"
-                            HorizontalOptions="Center">
+                   <Border WidthRequest="80" HeightRequest="80"  
+                           BackgroundColor="{StaticResource ElevatedSurface}"  
+                           StrokeShape="RoundRectangle 24"  
+                           Stroke="{StaticResource BorderPrimary}"  
+                           HorizontalOptions="Center">  
 
-                        <Label Text="search"
-                               FontFamily="MaterialIcons"
-                               FontSize="40"
-                               TextColor="{StaticResource Primary}"
-                               HorizontalOptions="Center"
-                               VerticalOptions="Center" />
-                    </Border>
+                       <Label Text="search"  
+                              FontFamily="MaterialIcons"  
+                              FontSize="40"  
+                              TextColor="{StaticResource Primary}"  
+                              HorizontalOptions="Center"  
+                              VerticalOptions="Center" />  
+                   </Border>  
 
-                    <Label Text="Buscar Contas"
-                           Style="{StaticResource TitleStyle}"
-                           HorizontalTextAlignment="Center"
-                           TextColor="{StaticResource TextSecondary}" />
+                   <Label Text="Buscar Contas"  
+                          Style="{StaticResource TitleStyle}"  
+                          HorizontalTextAlignment="Center"  
+                          TextColor="{StaticResource TextSecondary}" />  
 
-                    <Label Text="Digite o nome de uma conta para encontrá-la rapidamente"
-                           Style="{StaticResource BodyStyle}"
-                           HorizontalTextAlignment="Center" />
+                   <Label Text="Digite o nome de uma conta para encontrá-la rapidamente"  
+                          Style="{StaticResource BodyStyle}"  
+                          HorizontalTextAlignment="Center" />  
 
-                </StackLayout>
+               </Grid>  
 
-                <!-- Empty State - No Results -->
-                <StackLayout IsVisible="{Binding HasNoResults}"
-                             Spacing="16" Padding="32" VerticalOptions="CenterAndExpand">
+               <!-- Empty State - No Results -->  
+               <Grid RowDefinitions="Auto,Auto,Auto"  
+                     IsVisible="{Binding HasNoResults}"  
+                     Padding="32" VerticalOptions="Center">  
 
-                    <Border WidthRequest="80" HeightRequest="80"
-                            BackgroundColor="{StaticResource ElevatedSurface}"
-                            StrokeShape="RoundRectangle 24"
-                            Stroke="{StaticResource BorderPrimary}"
-                            HorizontalOptions="Center">
+                   <Border WidthRequest="80" HeightRequest="80"  
+                           BackgroundColor="{StaticResource ElevatedSurface}"  
+                           StrokeShape="RoundRectangle 24"  
+                           Stroke="{StaticResource BorderPrimary}"  
+                           HorizontalOptions="Center">  
 
-                        <Label Text="search_off"
-                               FontFamily="MaterialIcons"
-                               FontSize="40"
-                               TextColor="{StaticResource TextTertiary}"
-                               HorizontalOptions="Center"
-                               VerticalOptions="Center" />
-                    </Border>
+                       <Label Text="search_off"  
+                              FontFamily="MaterialIcons"  
+                              FontSize="40"  
+                              TextColor="{StaticResource TextTertiary}"  
+                              HorizontalOptions="Center"  
+                              VerticalOptions="Center" />  
+                   </Border>  
 
-                    <Label Text="Nenhuma conta encontrada"
-                           Style="{StaticResource TitleStyle}"
-                           HorizontalTextAlignment="Center"
-                           TextColor="{StaticResource TextSecondary}" />
+                   <Label Text="Nenhuma conta encontrada"  
+                          Style="{StaticResource TitleStyle}"  
+                          HorizontalTextAlignment="Center"  
+                          TextColor="{StaticResource TextSecondary}" />  
 
-                    <Label Text="Tente usar outros termos de busca"
-                           Style="{StaticResource BodyStyle}"
-                           HorizontalTextAlignment="Center" />
+                   <Label Text="Tente usar outros termos de busca"  
+                          Style="{StaticResource BodyStyle}"  
+                          HorizontalTextAlignment="Center" />  
 
-                </StackLayout>
+               </Grid>  
 
-                <!-- Results Header -->
-                <Label Text="{Binding FilteredAccounts.Count, StringFormat='Resultados encontrados: {0}'}"
-                       Style="{StaticResource CaptionStyle}"
-                       FontAttributes="Bold"
-                       TextColor="{StaticResource Primary}"
-                       IsVisible="{Binding FilteredAccounts.Count, Converter={StaticResource StringIsNotNullOrEmptyConverter}}"
-                       Margin="8,16,8,8" />
+               <!-- Results Header -->  
+               <Label Text="{Binding FilteredAccounts.Count, StringFormat='Resultados encontrados: {0}'}"  
+                      Style="{StaticResource CaptionStyle}"  
+                      FontAttributes="Bold"  
+                      TextColor="{StaticResource Primary}"  
+                      IsVisible="{Binding FilteredAccounts.Count, Converter={StaticResource StringIsNotNullOrEmptyConverter}}"  
+                      Margin="8,16,8,8" />  
 
-                <!-- Results List -->
-                <CollectionView ItemsSource="{Binding FilteredAccounts}">
-                    <CollectionView.ItemsLayout>
-                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="8"/>
-                    </CollectionView.ItemsLayout>
+               <!-- Results List -->  
+               <CollectionView ItemsSource="{Binding FilteredAccounts}">  
+                   <CollectionView.ItemsLayout>  
+                       <LinearItemsLayout Orientation="Vertical" ItemSpacing="8"/>  
+                   </CollectionView.ItemsLayout>  
 
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate x:DataType="models:Account">
-                            <SwipeView>
-                                <SwipeView.RightItems>
-                                    <SwipeItems>
-                                        <SwipeItem Text="Excluir"
-                                                   BackgroundColor="{StaticResource Error}"
-                                                   Command="{Binding x:DataType='viewModels:SearchPageViewModel',Source={RelativeSource AncestorType={x:Type viewModels:SearchPageViewModel}}, Path=DeleteAccountCommand}"
-                                                   CommandParameter="{Binding .}" />
-                                    </SwipeItems>
-                                </SwipeView.RightItems>
+                   <CollectionView.ItemTemplate>  
+                       <DataTemplate x:DataType="models:Account">  
+                           <SwipeView>  
+                               <SwipeView.RightItems>  
+                                   <SwipeItems>  
+                                       <SwipeItem Text="Excluir"  
+                                                  BackgroundColor="{StaticResource Error}"  
+                                                  Command="{Binding x:DataType='viewModels:SearchPageViewModel',Source={RelativeSource AncestorType={x:Type viewModels:SearchPageViewModel}}, Path=DeleteAccountCommand}"  
+                                                  CommandParameter="{Binding .}" />  
+                                   </SwipeItems>  
+                               </SwipeView.RightItems>  
 
-                                <Border Style="{StaticResource ListItemStyle}"
-                                        MinimumWidthRequest="300"
-                                        MaximumWidthRequest="400">
+                               <Border Style="{StaticResource ListItemStyle}"  
+                                       MinimumWidthRequest="300"  
+                                       MaximumWidthRequest="400">  
 
-                                    <Border.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding x:DataType='viewModels:SearchPageViewModel',Source={RelativeSource AncestorType={x:Type viewModels:SearchPageViewModel}}, Path=EditAccountCommand}"
-                                                              CommandParameter="{Binding .}" />
-                                    </Border.GestureRecognizers>
+                                   <Border.GestureRecognizers>  
+                                       <TapGestureRecognizer Command="{Binding x:DataType='viewModels:SearchPageViewModel',Source={RelativeSource AncestorType={x:Type viewModels:SearchPageViewModel}}, Path=EditAccountCommand}"  
+                                                             CommandParameter="{Binding .}" />  
+                                   </Border.GestureRecognizers>  
 
-                                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="16">
+                                   <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="16">  
 
-                                        <!-- Account Icon -->
-                                        <Border WidthRequest="40" HeightRequest="40"
-                                                BackgroundColor="{Binding Color, Converter={StaticResource HexToColorConverter}}"
-                                                StrokeShape="RoundRectangle 12"
-                                                Grid.Column="0"
-                                                VerticalOptions="Center">
+                                       <!-- Account Icon -->  
+                                       <Border WidthRequest="40" HeightRequest="40"  
+                                               BackgroundColor="{Binding Color, Converter={StaticResource HexToColorConverter}}"  
+                                               StrokeShape="RoundRectangle 12"  
+                                               Grid.Column="0"  
+                                               VerticalOptions="Center">  
 
-                                            <Label Text="key"
-                                                   FontFamily="MaterialIcons"
-                                                   FontSize="20"
-                                                   TextColor="{StaticResource PrimaryDarkText}"
-                                                   HorizontalOptions="Center"
-                                                   VerticalOptions="Center" />
-                                        </Border>
+                                           <Label Text="key"  
+                                                  FontFamily="MaterialIcons"  
+                                                  FontSize="20"  
+                                                  TextColor="{StaticResource PrimaryDarkText}"  
+                                                  HorizontalOptions="Center"  
+                                                  VerticalOptions="Center" />  
+                                       </Border>  
 
-                                        <!-- Account Info -->
-                                        <StackLayout Grid.Column="1" VerticalOptions="Center" Spacing="2">
+                                       <!-- Account Info -->  
+                                       <StackLayout Grid.Column="1" VerticalOptions="Center" Spacing="2">  
 
-                                            <Label Text="{Binding Title}"
-                                                   Style="{StaticResource TitleStyle}"
-                                                   FontSize="18" />
+                                           <Label Text="{Binding Title}"  
+                                                  Style="{StaticResource TitleStyle}"  
+                                                  FontSize="18" />  
 
-                                            <Label Text="{Binding Created, StringFormat='Criado em {0:dd/MM/yyyy}'}"
-                                                   Style="{StaticResource CaptionStyle}" />
+                                           <Label Text="{Binding Created, StringFormat='Criado em {0:dd/MM/yyyy}'}"  
+                                                  Style="{StaticResource CaptionStyle}" />  
 
-                                        </StackLayout>
+                                       </StackLayout>  
 
-                                        <!-- Access Indicator -->
-                                        <Label Text="chevron_right"
-                                               FontFamily="MaterialIcons"
-                                               FontSize="20"
-                                               TextColor="{StaticResource TextTertiary}"
-                                               Grid.Column="2"
-                                               VerticalOptions="Center" />
+                                       <!-- Access Indicator -->  
+                                       <Label Text="chevron_right"  
+                                              FontFamily="MaterialIcons"  
+                                              FontSize="20"  
+                                              TextColor="{StaticResource TextTertiary}"  
+                                              Grid.Column="2"  
+                                              VerticalOptions="Center" />  
 
-                                    </Grid>
-                                </Border>
-                            </SwipeView>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
-            </StackLayout>
-        </ScrollView>
-    </Grid>
+                                   </Grid>  
+                               </Border>  
+                           </SwipeView>  
+                       </DataTemplate>  
+                   </CollectionView.ItemTemplate>  
+               </CollectionView>  
+           </Grid>  
+       </ScrollView>  
+   </Grid>  
 </ContentPage>

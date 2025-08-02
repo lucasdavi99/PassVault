@@ -179,8 +179,8 @@ namespace PassVault.ViewModels
                 {
                     await _database.DeleteAccountAsync(account);
 
-                    // Remover da coleção local
-                    Accounts.Remove(account);
+                    // Remover da coleção local imediatamente
+                    await MainThread.InvokeOnMainThreadAsync(() => Accounts.Remove(account));
 
                     // Limpar cache
                     _cacheService.ClearAccountsCache();
@@ -207,8 +207,8 @@ namespace PassVault.ViewModels
                 {
                     await _folderDatabase.DeleteFolderAsync(folder);
 
-                    // Remover da coleção local
-                    Folders.Remove(folder);
+                    // Remover da coleção local imediatamente
+                    await MainThread.InvokeOnMainThreadAsync(() => Folders.Remove(folder));
 
                     // Limpar cache
                     _cacheService.ClearFoldersCache();
@@ -256,14 +256,26 @@ namespace PassVault.ViewModels
                     _hasMoreAccounts = true;
 
                     await MainThread.InvokeOnMainThreadAsync(() => Accounts.Clear());
+
+                    // Limpar cache ao fazer refresh
+                    _cacheService.ClearAccountsCache();
                 }
 
                 if (!_hasMoreAccounts) return;
 
-                var accounts = await _cacheService.GetOrSetAsync(
-                    $"accounts_page_{_currentAccountPage}",
-                    () => _database.GetAccountsWithoutFolderAsync(_currentAccountPage * PageSize, PageSize),
-                    TimeSpan.FromMinutes(5));
+                // Não usar cache se for um refresh para garantir dados atualizados
+                List<Account> accounts;
+                if (refresh)
+                {
+                    accounts = await _database.GetAccountsWithoutFolderAsync(_currentAccountPage * PageSize, PageSize);
+                }
+                else
+                {
+                    accounts = await _cacheService.GetOrSetAsync(
+                        $"accounts_page_{_currentAccountPage}",
+                        () => _database.GetAccountsWithoutFolderAsync(_currentAccountPage * PageSize, PageSize),
+                        TimeSpan.FromMinutes(5));
+                }
 
                 if (accounts.Count < PageSize)
                     _hasMoreAccounts = false;
@@ -301,14 +313,26 @@ namespace PassVault.ViewModels
                     _hasMoreFolders = true;
 
                     await MainThread.InvokeOnMainThreadAsync(() => Folders.Clear());
+
+                    // Limpar cache ao fazer refresh
+                    _cacheService.ClearFoldersCache();
                 }
 
                 if (!_hasMoreFolders) return;
 
-                var folders = await _cacheService.GetOrSetAsync(
-                    $"folders_page_{_currentFolderPage}",
-                    () => _folderDatabase.GetFoldersPagedAsync(_currentFolderPage * PageSize, PageSize),
-                    TimeSpan.FromMinutes(5));
+                // Não usar cache se for um refresh para garantir dados atualizados
+                List<Folder> folders;
+                if (refresh)
+                {
+                    folders = await _folderDatabase.GetFoldersPagedAsync(_currentFolderPage * PageSize, PageSize);
+                }
+                else
+                {
+                    folders = await _cacheService.GetOrSetAsync(
+                        $"folders_page_{_currentFolderPage}",
+                        () => _folderDatabase.GetFoldersPagedAsync(_currentFolderPage * PageSize, PageSize),
+                        TimeSpan.FromMinutes(5));
+                }
 
                 if (folders.Count < PageSize)
                     _hasMoreFolders = false;
@@ -345,22 +369,34 @@ namespace PassVault.ViewModels
             await LoadFoldersAsync();
         }
 
-        // Message handlers
-        public void Receive(AccountSavedMessage message)
+        // Message handlers - CORRIGIDOS
+        public async void Receive(AccountSavedMessage message)
         {
             if (message.Value)
             {
+                // Limpar cache
                 _cacheService.ClearAccountsCache();
-                _ = Task.Run(() => LoadAccountsAsync(refresh: true));
+
+                // Executar na UI thread e aguardar
+                await MainThread.InvokeOnMainThreadAsync(async () =>
+                {
+                    await LoadAccountsAsync(refresh: true);
+                });
             }
         }
 
-        public void Receive(FolderSavedMessage message)
+        public async void Receive(FolderSavedMessage message)
         {
             if (message.Value)
             {
+                // Limpar cache
                 _cacheService.ClearFoldersCache();
-                _ = Task.Run(() => LoadFoldersAsync(refresh: true));
+
+                // Executar na UI thread e aguardar
+                await MainThread.InvokeOnMainThreadAsync(async () =>
+                {
+                    await LoadFoldersAsync(refresh: true);
+                });
             }
         }
 

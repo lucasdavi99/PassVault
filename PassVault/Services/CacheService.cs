@@ -92,46 +92,71 @@ namespace PassVault.Services
 
         public void RemoveByPattern(string pattern)
         {
-            if (_cache is MemoryCache memoryCache)
+            var keysToRemove = GetAllCacheKeys()
+                .Where(key => key.Contains(pattern))
+                .ToList();
+
+            foreach (var key in keysToRemove)
             {
-                var field = typeof(MemoryCache).GetField("_coherentState",
-                    System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-
-                if (field?.GetValue(memoryCache) is object coherentState)
-                {
-                    var entriesField = coherentState.GetType()
-                        .GetProperty("EntriesCollection", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-
-                    if (entriesField?.GetValue(coherentState) is IDictionary entries)
-                    {
-                        var keysToRemove = new List<string>();
-
-                        foreach (DictionaryEntry entry in entries)
-                        {
-                            if (entry.Key.ToString()?.Contains(pattern) == true)
-                            {
-                                keysToRemove.Add(entry.Key.ToString()!);
-                            }
-                        }
-
-                        foreach (var key in keysToRemove)
-                        {
-                            Remove(key);
-                        }
-                    }
-                }
+                Remove(key);
             }
         }
 
-        // Métodos específicos para limpeza de cache por categoria
+        // Método melhorado para obter todas as chaves do cache
+        private List<string> GetAllCacheKeys()
+        {
+            var keys = new List<string>();
+
+            if (_cache is MemoryCache memoryCache)
+            {
+                try
+                {
+                    var field = typeof(MemoryCache).GetField("_coherentState",
+                        System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+
+                    if (field?.GetValue(memoryCache) is object coherentState)
+                    {
+                        var entriesField = coherentState.GetType()
+                            .GetProperty("EntriesCollection", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+
+                        if (entriesField?.GetValue(coherentState) is IDictionary entries)
+                        {
+                            foreach (DictionaryEntry entry in entries)
+                            {
+                                if (entry.Key?.ToString() is string key)
+                                {
+                                    keys.Add(key);
+                                }
+                            }
+                        }
+                    }
+                }
+                catch
+                {
+                    // Se falhar, continuar sem problema
+                }
+            }
+
+            return keys;
+        }
+
+        // Métodos específicos para limpeza de cache por categoria - MELHORADOS
         public void ClearAccountsCache()
         {
             RemoveByPattern(ACCOUNTS_KEY_PREFIX);
+
+            // Forçar coleta de lixo para liberar memória
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
         }
 
         public void ClearFoldersCache()
         {
             RemoveByPattern(FOLDERS_KEY_PREFIX);
+
+            // Forçar coleta de lixo para liberar memória
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
         }
 
         public void ClearSearchCache()
@@ -141,14 +166,15 @@ namespace PassVault.Services
 
         public void ClearAll()
         {
-            if (_cache is MemoryCache memoryCache)
+            var allKeys = GetAllCacheKeys();
+            foreach (var key in allKeys)
             {
-                // Método mais drástico - dispose e recriação seria necessária
-                // Por ora, vamos limpar as categorias conhecidas
-                ClearAccountsCache();
-                ClearFoldersCache();
-                ClearSearchCache();
+                Remove(key);
             }
+
+            // Forçar coleta de lixo
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
         }
 
         // Métodos helper para criar chaves de cache consistentes
@@ -161,34 +187,18 @@ namespace PassVault.Services
         public CacheStatistics GetStatistics()
         {
             var stats = new CacheStatistics();
+            var keys = GetAllCacheKeys();
 
-            if (_cache is MemoryCache memoryCache)
+            stats.TotalEntries = keys.Count;
+
+            foreach (var key in keys)
             {
-                var field = typeof(MemoryCache).GetField("_coherentState",
-                    System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-
-                if (field?.GetValue(memoryCache) is object coherentState)
-                {
-                    var entriesField = coherentState.GetType()
-                        .GetProperty("EntriesCollection", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-
-                    if (entriesField?.GetValue(coherentState) is IDictionary entries)
-                    {
-                        stats.TotalEntries = entries.Count;
-
-                        foreach (DictionaryEntry entry in entries)
-                        {
-                            var key = entry.Key.ToString() ?? "";
-
-                            if (key.StartsWith(ACCOUNTS_KEY_PREFIX))
-                                stats.AccountEntries++;
-                            else if (key.StartsWith(FOLDERS_KEY_PREFIX))
-                                stats.FolderEntries++;
-                            else if (key.StartsWith(SEARCH_KEY_PREFIX))
-                                stats.SearchEntries++;
-                        }
-                    }
-                }
+                if (key.StartsWith(ACCOUNTS_KEY_PREFIX))
+                    stats.AccountEntries++;
+                else if (key.StartsWith(FOLDERS_KEY_PREFIX))
+                    stats.FolderEntries++;
+                else if (key.StartsWith(SEARCH_KEY_PREFIX))
+                    stats.SearchEntries++;
             }
 
             return stats;
