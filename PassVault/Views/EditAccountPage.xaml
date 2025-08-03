@@ -16,233 +16,494 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <Grid>
-        <!-- Main Content -->
-        <ScrollView>
-            <Grid RowDefinitions="Auto,*,Auto" Padding="24">
+    <Grid RowDefinitions="Auto,*,Auto">
 
-                <!-- Header -->
-                <StackLayout Grid.Row="0" Spacing="16" Margin="0,20,0,32">
+        <!-- Modern Header -->
+        <Border Grid.Row="0" 
+                Background="{StaticResource SurfaceGradient}"
+                Padding="0,50,0,32"
+                StrokeShape="RoundRectangle 0,0,28,28">
 
-                    <!-- Visibility Icon -->
-                    <Border WidthRequest="64" HeightRequest="64"
-                            BackgroundColor="{StaticResource ElevatedSurface}"
-                            StrokeShape="RoundRectangle 20"
-                            Stroke="{StaticResource BorderPrimary}"
-                            HorizontalOptions="Center">
+            <StackLayout Spacing="20">
+
+                <!-- Title with Toggle Visibility -->
+                <Grid ColumnDefinitions="Auto,*,Auto" 
+                      ColumnSpacing="16"
+                      HorizontalOptions="Center">
+
+                    <Border Grid.Column="0"
+                            WidthRequest="48" HeightRequest="48"
+                            BackgroundColor="{StaticResource Primary}"
+                            StrokeShape="RoundRectangle 16">
 
                         <Border.Shadow>
-                            <Shadow Brush="{StaticResource Black}" Offset="0,4" Radius="12" Opacity="0.2" />
+                            <Shadow Brush="{StaticResource Primary}" Offset="0,4" Radius="12" Opacity="0.3" />
                         </Border.Shadow>
+
+                        <Label Text="account_circle"
+                               FontFamily="MaterialIcons"
+                               FontSize="24"
+                               TextColor="{StaticResource PrimaryDarkText}"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center" />
+                    </Border>
+
+                    <StackLayout Grid.Column="1" 
+                                 VerticalOptions="Center"
+                                 Spacing="4">
+
+                        <Label Text="Detalhes da Conta"
+                               Style="{StaticResource HeadlineStyle}"
+                               FontSize="24"
+                               TextColor="{StaticResource Primary}"
+                               HorizontalTextAlignment="Start" />
+
+                        <Label Style="{StaticResource CaptionStyle}"
+                               HorizontalTextAlignment="Start"
+                               Opacity="0.8">
+                            <Label.Triggers>
+                                <DataTrigger TargetType="Label" Binding="{Binding IsEditing}" Value="False">
+                                    <Setter Property="Text" Value="Visualize ou edite os dados da conta" />
+                                </DataTrigger>
+                                <DataTrigger TargetType="Label" Binding="{Binding IsEditing}" Value="True">
+                                    <Setter Property="Text" Value="Editando dados da conta" />
+                                </DataTrigger>
+                            </Label.Triggers>
+                        </Label>
+                    </StackLayout>
+
+                    <!-- Visibility Toggle Button -->
+                    <Border Grid.Column="2"
+                            WidthRequest="40" HeightRequest="40"
+                            BackgroundColor="{StaticResource ElevatedSurface}"
+                            StrokeShape="RoundRectangle 12"
+                            Stroke="{StaticResource BorderPrimary}"
+                            StrokeThickness="0.5">
 
                         <Border.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding TogglePasswordVisibilityCommand}"/>
                         </Border.GestureRecognizers>
 
-                        <Label Text="visibility"
-                               FontFamily="MaterialIcons"
+                        <Border.Shadow>
+                            <Shadow Brush="#20000000" Offset="0,2" Radius="8" Opacity="0.1" />
+                        </Border.Shadow>
+
+                        <Label FontFamily="MaterialIcons"
+                               FontSize="20"
                                TextColor="{StaticResource Primary}"
-                               FontSize="32"
                                HorizontalOptions="Center"
-                               VerticalOptions="Center" />
+                               VerticalOptions="Center">
+                            <Label.Triggers>
+                                <DataTrigger TargetType="Label" Binding="{Binding IsPasswordVisible}" Value="True">
+                                    <Setter Property="Text" Value="visibility_off" />
+                                </DataTrigger>
+                                <DataTrigger TargetType="Label" Binding="{Binding IsPasswordVisible}" Value="False">
+                                    <Setter Property="Text" Value="visibility" />
+                                </DataTrigger>
+                            </Label.Triggers>
+                        </Label>
                     </Border>
+                </Grid>
 
-                    <Label Text="Toque no ícone para alternar visibilidade"
-                           Style="{StaticResource CaptionStyle}"
-                           HorizontalTextAlignment="Center" />
-                </StackLayout>
+                <!-- Mode Indicator -->
+                <Border WidthRequest="120" HeightRequest="32"
+                        BackgroundColor="{StaticResource ElevatedSurface}"
+                        StrokeShape="RoundRectangle 16"
+                        HorizontalOptions="Center">
 
-                <!-- Form Content -->
-                <StackLayout Grid.Row="1" Spacing="24">
+                    <Border.Triggers>
+                        <DataTrigger TargetType="Border" Binding="{Binding IsEditing}" Value="True">
+                            <Setter Property="BackgroundColor" Value="{StaticResource Warning}" />
+                        </DataTrigger>
+                    </Border.Triggers>
 
-                    <!-- Title Field -->
-                    <StackLayout Spacing="8">
-                        <Label Text="Título da Conta"
-                               Style="{StaticResource CaptionStyle}"
-                               FontAttributes="Bold"
-                               TextColor="{StaticResource Primary}" />
+                    <Label Style="{StaticResource CaptionStyle}"
+                           FontSize="12"
+                           FontAttributes="Bold"
+                           HorizontalTextAlignment="Center"
+                           VerticalTextAlignment="Center">
+                        <Label.Triggers>
+                            <DataTrigger TargetType="Label" Binding="{Binding IsEditing}" Value="False">
+                                <Setter Property="Text" Value="MODO VISUALIZAÇÃO" />
+                                <Setter Property="TextColor" Value="{StaticResource TextTertiary}" />
+                            </DataTrigger>
+                            <DataTrigger TargetType="Label" Binding="{Binding IsEditing}" Value="True">
+                                <Setter Property="Text" Value="MODO EDIÇÃO" />
+                                <Setter Property="TextColor" Value="White" />
+                            </DataTrigger>
+                        </Label.Triggers>
+                    </Label>
+                </Border>
 
-                        <Border Style="{StaticResource EntryContainerStyle}">
-                            <Entry Placeholder="Título da conta"
-                                   Style="{StaticResource ModernEntryStyle}"
-                                   Text="{Binding Title}"
-                                   TextColor="{Binding IsEditing, Converter={StaticResource EditingModeToColorConverter}}"
-                                   IsReadOnly="{Binding IsEditing, Converter={StaticResource InverseBooleanConverter}}" />
-                        </Border>
-                    </StackLayout>
+            </StackLayout>
+        </Border>
 
-                    <!-- Username Field -->
-                    <StackLayout Spacing="8" IsVisible="{Binding IsUsernameVisible}">
-                        <Label Text="Nome de Usuário"
-                               Style="{StaticResource CaptionStyle}"
-                               FontAttributes="Bold"
-                               TextColor="{StaticResource TextSecondary}" />
+        <!-- Main Content -->
+        <ScrollView Grid.Row="1">
+            <StackLayout Spacing="24" Padding="24,24,24,120">
 
-                        <Border Style="{StaticResource EntryContainerStyle}">
-                            <Entry Placeholder="Username"
-                                   Style="{StaticResource ModernEntryStyle}"
-                                   Text="{Binding Username}"
-                                   IsPassword="{Binding IsPasswordVisible}"
-                                   TextColor="{Binding IsEditing, Converter={StaticResource EditingModeToColorConverter}}"
-                                   IsReadOnly="{Binding IsEditing, Converter={StaticResource InverseBooleanConverter}}" />
-                        </Border>
-                    </StackLayout>
+                <!-- Account Details Card -->
+                <Border Style="{StaticResource ElevatedCardStyle}">
+                    <StackLayout Spacing="24">
 
-                    <!-- Email Field -->
-                    <StackLayout Spacing="8" IsVisible="{Binding IsEmailVisible}">
-                        <Label Text="E-mail"
-                               Style="{StaticResource CaptionStyle}"
-                               FontAttributes="Bold"
-                               TextColor="{StaticResource TextSecondary}" />
+                        <!-- Title Field -->
+                        <StackLayout Spacing="12">
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                                <Label Grid.Column="0"
+                                       Text="title"
+                                       FontFamily="MaterialIcons"
+                                       FontSize="16"
+                                       TextColor="{StaticResource Primary}"
+                                       VerticalOptions="Center" />
 
-                        <Border Style="{StaticResource EntryContainerStyle}">
-                            <Entry Placeholder="E-mail"
-                                   Style="{StaticResource ModernEntryStyle}"
-                                   Text="{Binding Email}"
-                                   IsPassword="{Binding IsPasswordVisible}"
-                                   TextColor="{Binding IsEditing, Converter={StaticResource EditingModeToColorConverter}}"
-                                   IsReadOnly="{Binding IsEditing, Converter={StaticResource InverseBooleanConverter}}" />
-                        </Border>
-                    </StackLayout>
+                                <Label Grid.Column="1"
+                                       Text="Título da Conta"
+                                       Style="{StaticResource CaptionStyle}"
+                                       FontAttributes="Bold"
+                                       TextColor="{StaticResource Primary}"
+                                       VerticalOptions="Center" />
+                            </Grid>
 
-                    <!-- Password Field -->
-                    <StackLayout Spacing="8">
-                        <Label Text="Senha"
-                               Style="{StaticResource CaptionStyle}"
-                               FontAttributes="Bold"
-                               TextColor="{StaticResource Primary}" />
-
-                        <Grid ColumnDefinitions="*,Auto">
-                            <Border Style="{StaticResource EntryContainerStyle}" Grid.Column="0">
-                                <Entry Placeholder="Senha"
+                            <Border Style="{StaticResource EntryContainerStyle}">
+                                <Entry Placeholder="Título da conta"
                                        Style="{StaticResource ModernEntryStyle}"
-                                       Text="{Binding Password}"
+                                       Text="{Binding Title}"
+                                       TextColor="{Binding IsEditing, Converter={StaticResource EditingModeToColorConverter}}"
+                                       IsReadOnly="{Binding IsEditing, Converter={StaticResource InverseBooleanConverter}}" />
+                            </Border>
+                        </StackLayout>
+
+                        <!-- Username Field -->
+                        <StackLayout Spacing="12" IsVisible="{Binding IsUsernameVisible}">
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                                <Label Grid.Column="0"
+                                       Text="person"
+                                       FontFamily="MaterialIcons"
+                                       FontSize="16"
+                                       TextColor="{StaticResource Info}"
+                                       VerticalOptions="Center" />
+
+                                <Label Grid.Column="1"
+                                       Text="Nome de Usuário"
+                                       Style="{StaticResource CaptionStyle}"
+                                       FontAttributes="Bold"
+                                       TextColor="{StaticResource TextSecondary}"
+                                       VerticalOptions="Center" />
+                            </Grid>
+
+                            <Border Style="{StaticResource EntryContainerStyle}">
+                                <Entry Placeholder="Username"
+                                       Style="{StaticResource ModernEntryStyle}"
+                                       Text="{Binding Username}"
                                        IsPassword="{Binding IsPasswordVisible}"
                                        TextColor="{Binding IsEditing, Converter={StaticResource EditingModeToColorConverter}}"
                                        IsReadOnly="{Binding IsEditing, Converter={StaticResource InverseBooleanConverter}}" />
                             </Border>
+                        </StackLayout>
 
-                            <!-- Generate Password Button -->
-                            <Button Grid.Column="1"
-                                    Text="auto_awesome"
-                                    FontFamily="MaterialIcons"
-                                    Style="{StaticResource IconButtonStyle}"
-                                    WidthRequest="48" HeightRequest="48"
-                                    CornerRadius="12"
-                                    Margin="8,0,0,0"
-                                    Command="{Binding GoToGeneratorCommand}" />
-                        </Grid>
+                        <!-- Email Field -->
+                        <StackLayout Spacing="12" IsVisible="{Binding IsEmailVisible}">
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                                <Label Grid.Column="0"
+                                       Text="email"
+                                       FontFamily="MaterialIcons"
+                                       FontSize="16"
+                                       TextColor="{StaticResource Warning}"
+                                       VerticalOptions="Center" />
+
+                                <Label Grid.Column="1"
+                                       Text="E-mail"
+                                       Style="{StaticResource CaptionStyle}"
+                                       FontAttributes="Bold"
+                                       TextColor="{StaticResource TextSecondary}"
+                                       VerticalOptions="Center" />
+                            </Grid>
+
+                            <Border Style="{StaticResource EntryContainerStyle}">
+                                <Entry Placeholder="E-mail"
+                                       Style="{StaticResource ModernEntryStyle}"
+                                       Text="{Binding Email}"
+                                       IsPassword="{Binding IsPasswordVisible}"
+                                       TextColor="{Binding IsEditing, Converter={StaticResource EditingModeToColorConverter}}"
+                                       IsReadOnly="{Binding IsEditing, Converter={StaticResource InverseBooleanConverter}}" />
+                            </Border>
+                        </StackLayout>
+
+                        <!-- Password Field -->
+                        <StackLayout Spacing="12">
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                                <Label Grid.Column="0"
+                                       Text="lock"
+                                       FontFamily="MaterialIcons"
+                                       FontSize="16"
+                                       TextColor="{StaticResource Primary}"
+                                       VerticalOptions="Center" />
+
+                                <Label Grid.Column="1"
+                                       Text="Senha"
+                                       Style="{StaticResource CaptionStyle}"
+                                       FontAttributes="Bold"
+                                       TextColor="{StaticResource Primary}"
+                                       VerticalOptions="Center" />
+                            </Grid>
+
+                            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                                <Border Style="{StaticResource EntryContainerStyle}" Grid.Column="0">
+                                    <Entry Placeholder="Senha"
+                                           Style="{StaticResource ModernEntryStyle}"
+                                           Text="{Binding Password}"
+                                           IsPassword="{Binding IsPasswordVisible}"
+                                           TextColor="{Binding IsEditing, Converter={StaticResource EditingModeToColorConverter}}"
+                                           IsReadOnly="{Binding IsEditing, Converter={StaticResource InverseBooleanConverter}}" />
+                                </Border>
+
+                                <!-- Generate Password Button -->
+                                <Border Grid.Column="1"
+                                        WidthRequest="56" HeightRequest="56"
+                                        BackgroundColor="{StaticResource Primary}"
+                                        StrokeShape="RoundRectangle 16"
+                                        IsVisible="{Binding IsEditing}">
+
+                                    <Border.Shadow>
+                                        <Shadow Brush="{StaticResource Primary}" Offset="0,4" Radius="12" Opacity="0.25" />
+                                    </Border.Shadow>
+
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding GoToGeneratorCommand}" />
+                                    </Border.GestureRecognizers>
+
+                                    <Label Text="auto_awesome"
+                                           FontFamily="MaterialIcons"
+                                           FontSize="24"
+                                           TextColor="{StaticResource PrimaryDarkText}"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center" />
+                                </Border>
+                            </Grid>
+                        </StackLayout>
+
                     </StackLayout>
+                </Border>
 
-                    <!-- Color Selection -->
-                    <StackLayout Spacing="12">
-                        <Label Text="Cor de Identificação"
-                               Style="{StaticResource CaptionStyle}"
-                               FontAttributes="Bold"
-                               TextColor="{StaticResource TextSecondary}" />
+                <!-- Customization Card -->
+                <Border Style="{StaticResource ElevatedCardStyle}">
+                    <StackLayout Spacing="24">
 
-                        <Border WidthRequest="60" HeightRequest="60"
-                                Background="{Binding SelectedColor}"
-                                StrokeShape="RoundRectangle 16"
-                                StrokeThickness="3"
-                                Stroke="{StaticResource BorderPrimary}"
-                                HorizontalOptions="Center">
-
-                            <Border.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding ToggleColorPickerCommand}" />
-                            </Border.GestureRecognizers>
-
-                            <Border.Shadow>
-                                <Shadow Brush="{StaticResource Black}" Offset="0,3" Radius="8" Opacity="0.2" />
-                            </Border.Shadow>
-
-                            <Label Text="palette"
+                        <!-- Card Header -->
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                            <Label Grid.Column="0"
+                                   Text="tune"
                                    FontFamily="MaterialIcons"
-                                   FontSize="24"
-                                   TextColor="{StaticResource PrimaryDarkText}"
-                                   HorizontalOptions="Center"
+                                   FontSize="20"
+                                   TextColor="{StaticResource Primary}"
                                    VerticalOptions="Center" />
-                        </Border>
+
+                            <StackLayout Grid.Column="1" Spacing="4">
+                                <Label Text="Personalização"
+                                       Style="{StaticResource TitleStyle}"
+                                       FontSize="16"
+                                       TextColor="{StaticResource Primary}" />
+
+                                <Label Text="Cor e organização da conta"
+                                       Style="{StaticResource CaptionStyle}"
+                                       Opacity="0.8" />
+                            </StackLayout>
+                        </Grid>
+
+                        <!-- Color Selection -->
+                        <StackLayout Spacing="12">
+                            <Label Text="Cor de Identificação"
+                                   Style="{StaticResource CaptionStyle}"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource TextSecondary}" />
+
+                            <Border WidthRequest="80" HeightRequest="80"
+                                    Background="{Binding SelectedColor}"
+                                    StrokeShape="RoundRectangle 20"
+                                    StrokeThickness="2"
+                                    Stroke="{StaticResource BorderPrimary}"
+                                    HorizontalOptions="Center">
+
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding ToggleColorPickerCommand}" />
+                                </Border.GestureRecognizers>
+
+                                <Border.Shadow>
+                                    <Shadow Brush="{Binding SelectedColor}" Offset="0,8" Radius="20" Opacity="0.4" />
+                                </Border.Shadow>
+
+                                <Grid>
+                                    <Ellipse WidthRequest="32" HeightRequest="32"
+                                             Fill="#40FFFFFF"
+                                             HorizontalOptions="Center"
+                                             VerticalOptions="Center" />
+
+                                    <Label Text="palette"
+                                           FontFamily="MaterialIcons"
+                                           FontSize="20"
+                                           TextColor="{StaticResource PrimaryDarkText}"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center" />
+                                </Grid>
+
+                            </Border>
+                        </StackLayout>
+
+                        <!-- Folder Selection -->
+                        <StackLayout Spacing="12">
+                            <Label Text="Organização"
+                                   Style="{StaticResource CaptionStyle}"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource TextSecondary}" />
+
+                            <Border Style="{StaticResource EntryContainerStyle}">
+                                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12" Padding="4,0">
+
+                                    <Label Grid.Column="0"
+                                           Text="folder"
+                                           FontFamily="MaterialIcons"
+                                           FontSize="18"
+                                           TextColor="{StaticResource Primary}"
+                                           VerticalOptions="Center" />
+
+                                    <Label Grid.Column="1"
+                                           Text="{Binding SelectedFolderName}"
+                                           Style="{StaticResource BodyStyle}"
+                                           VerticalOptions="Center" />
+
+                                    <Label Grid.Column="2"
+                                           Text="arrow_drop_down"
+                                           FontFamily="MaterialIcons"
+                                           FontSize="24"
+                                           TextColor="{StaticResource TextTertiary}"
+                                           VerticalOptions="Center" />
+                                </Grid>
+
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding SelectFolderCommand}" />
+                                </Border.GestureRecognizers>
+                            </Border>
+                        </StackLayout>
+
                     </StackLayout>
+                </Border>
 
-                    <!-- Folder Selection -->
-                    <StackLayout Spacing="8">
-                        <Label Text="Pasta"
-                               Style="{StaticResource CaptionStyle}"
-                               FontAttributes="Bold"
-                               TextColor="{StaticResource TextSecondary}" />
-
-                        <Button Text="{Binding SelectedFolderName}"
-                                BackgroundColor="{StaticResource ElevatedSurface}"
-                                TextColor="{StaticResource TextPrimary}"
-                                Style="{StaticResource ModernButtonStyle}"
-                                Command="{Binding SelectFolderCommand}" />
-                    </StackLayout>
-
-                </StackLayout>
-
-                <!-- Action Buttons -->
-                <Grid Grid.Row="2" 
-                      ColumnDefinitions="*,*" 
-                      ColumnSpacing="16" 
-                      Margin="0,32,0,0">
-
-                    <!-- Edit/Cancel Button -->
-                    <Button Grid.Column="0"
-                            BackgroundColor="{StaticResource ElevatedSurface}"
-                            TextColor="{StaticResource TextSecondary}"
-                            Style="{StaticResource ModernButtonStyle}"
-                            Command="{Binding ToggleEditModeCommand}">
-
-                        <Button.Triggers>
-                            <DataTrigger TargetType="Button" Binding="{Binding IsEditing}" Value="False">
-                                <Setter Property="Text" Value="Editar"/>
-                            </DataTrigger>
-                            <DataTrigger TargetType="Button" Binding="{Binding IsEditing}" Value="True">
-                                <Setter Property="Text" Value="Cancelar"/>
-                            </DataTrigger>
-                        </Button.Triggers>
-
-                    </Button>
-
-                    <!-- Save Button -->
-                    <Button Grid.Column="1"
-                            Text="Salvar"
-                            Style="{StaticResource ModernButtonStyle}"
-                            Command="{Binding SaveEditAccountCommand}"
-                            IsVisible="{Binding IsEditing}" />
-
-                </Grid>
-
-            </Grid>
+            </StackLayout>
         </ScrollView>
 
-        <!-- Color Picker Overlay -->
-        <Grid IsVisible="{Binding IsColorPickerVisible}"
-              BackgroundColor="{StaticResource PressedOverlay}"
-              RowDefinitions="*,Auto,*">
+        <!-- Fixed Action Buttons -->
+        <Border Grid.Row="2"
+                VerticalOptions="End"
+                HorizontalOptions="FillAndExpand"
+                BackgroundColor="{StaticResource Background}"
+                Padding="24,16,24,32">
+
+            <Border.Shadow>
+                <Shadow Brush="#40000000" Offset="0,-4" Radius="16" Opacity="0.1" />
+            </Border.Shadow>
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="16">
+
+                <!-- Edit/Cancel Button -->
+                <Button Grid.Column="0"
+                        Style="{StaticResource SecondaryButtonStyle}"
+                        Command="{Binding ToggleEditModeCommand}">
+
+                    <Button.Triggers>
+                        <DataTrigger TargetType="Button" Binding="{Binding IsEditing}" Value="False">
+                            <Setter Property="Text" Value="Editar"/>
+                            <Setter Property="ImageSource">
+                                <FontImageSource FontFamily="MaterialIcons"
+                                                 Glyph="edit"
+                                                 Color="{StaticResource TextPrimary}"
+                                                 Size="18" />
+                            </Setter>
+                        </DataTrigger>
+                        <DataTrigger TargetType="Button" Binding="{Binding IsEditing}" Value="True">
+                            <Setter Property="Text" Value="Cancelar"/>
+                            <Setter Property="ImageSource">
+                                <FontImageSource FontFamily="MaterialIcons"
+                                                 Glyph="close"
+                                                 Color="{StaticResource TextPrimary}"
+                                                 Size="18" />
+                            </Setter>
+                        </DataTrigger>
+                    </Button.Triggers>
+
+                </Button>
+
+                <!-- Save Button -->
+                <Button Grid.Column="1"
+                        Text="Salvar"
+                        Style="{StaticResource ModernButtonStyle}"
+                        Command="{Binding SaveEditAccountCommand}"
+                        IsVisible="{Binding IsEditing}">
+
+                    <Button.ImageSource>
+                        <FontImageSource FontFamily="MaterialIcons"
+                                         Glyph="save"
+                                         Color="{StaticResource PrimaryDarkText}"
+                                         Size="18" />
+                    </Button.ImageSource>
+
+                </Button>
+
+            </Grid>
+        </Border>
+
+        <!-- Color Picker Modal -->
+        <Grid Grid.Row="0" Grid.RowSpan="3"
+              IsVisible="{Binding IsColorPickerVisible}"
+              BackgroundColor="#80000000">
 
             <Grid.GestureRecognizers>
                 <TapGestureRecognizer Command="{Binding CloseColorPickerCommand}" />
             </Grid.GestureRecognizers>
 
             <!-- Color Picker Card -->
-            <Border Grid.Row="1"
-                    Style="{StaticResource ElevatedCardStyle}"
-                    Margin="24"
-                    MaximumWidthRequest="350">
+            <Border Style="{StaticResource FloatingCardStyle}"
+                    MaximumWidthRequest="380"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    Margin="24">
 
-                <StackLayout Spacing="20">
+                <StackLayout Spacing="24">
 
-                    <Label Text="Escolher Cor"
-                           Style="{StaticResource TitleStyle}"
-                           HorizontalTextAlignment="Center"
-                           TextColor="{StaticResource Primary}" />
+                    <!-- Modal Header -->
+                    <Grid ColumnDefinitions="*,Auto">
+                        <StackLayout Grid.Column="0" Spacing="4">
+                            <Label Text="Escolher Cor"
+                                   Style="{StaticResource TitleStyle}"
+                                   FontSize="20"
+                                   TextColor="{StaticResource Primary}" />
+
+                            <Label Text="Personalize a cor de identificação da conta"
+                                   Style="{StaticResource CaptionStyle}"
+                                   Opacity="0.8" />
+                        </StackLayout>
+
+                        <Border Grid.Column="1"
+                                WidthRequest="32" HeightRequest="32"
+                                BackgroundColor="{StaticResource SurfaceBackground}"
+                                StrokeShape="RoundRectangle 10">
+
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding CloseColorPickerCommand}" />
+                            </Border.GestureRecognizers>
+
+                            <Label Text="close"
+                                   FontFamily="MaterialIcons"
+                                   FontSize="16"
+                                   TextColor="{StaticResource TextTertiary}"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center" />
+                        </Border>
+                    </Grid>
 
                     <!-- Color Picker -->
                     <controls:ColorPicker x:Name="ColorPicker"
                                           ColorFlowDirection="Horizontal"
-                                          WidthRequest="300"
+                                          WidthRequest="320"
                                           HeightRequest="200"
                                           ColorSpectrumStyle="ShadeToHueToTintStyle"
                                           PointerRingBorderUnits="0.3"
@@ -251,21 +512,38 @@
                                           PickedColor="{Binding SelectedColor, Mode=TwoWay}" />
 
                     <!-- Hex Input -->
-                    <Border Style="{StaticResource EntryContainerStyle}">
-                        <Entry Placeholder="Código hexadecimal"
-                               Text="{Binding SelectedColorHex, Mode=TwoWay}"
-                               Style="{StaticResource ModernEntryStyle}"
-                               Keyboard="Text"
-                               HorizontalTextAlignment="Center" />
-                    </Border>
+                    <StackLayout Spacing="8">
+                        <Label Text="Código Hexadecimal"
+                               Style="{StaticResource CaptionStyle}"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource TextSecondary}" />
 
-                    <!-- Close Button -->
+                        <Border Style="{StaticResource EntryContainerStyle}">
+                            <Entry Placeholder="Código hexadecimal"
+                                   Text="{Binding SelectedColorHex, Mode=TwoWay}"
+                                   Style="{StaticResource ModernEntryStyle}"
+                                   Keyboard="Text"
+                                   HorizontalTextAlignment="Center" />
+                        </Border>
+                    </StackLayout>
+
+                    <!-- Confirm Button -->
                     <Button Text="Confirmar"
                             Style="{StaticResource ModernButtonStyle}"
-                            Command="{Binding CloseColorPickerCommand}" />
+                            Command="{Binding CloseColorPickerCommand}">
+
+                        <Button.ImageSource>
+                            <FontImageSource FontFamily="MaterialIcons"
+                                             Glyph="check"
+                                             Color="{StaticResource PrimaryDarkText}"
+                                             Size="18" />
+                        </Button.ImageSource>
+
+                    </Button>
 
                 </StackLayout>
             </Border>
         </Grid>
+
     </Grid>
 </ContentPage>

@@ -9,4 +9,20 @@ public partial class FieldsSelection : ContentPage
         InitializeComponent();
         BindingContext = viewModel;
     }
+
+    private void OnUsernameToggleTapped(object sender, EventArgs e)
+    {
+        if (BindingContext is FieldsSelectionViewModel viewModel)
+        {
+            viewModel.IsUsernameChecked = !viewModel.IsUsernameChecked;
+        }
+    }
+
+    private void OnEmailToggleTapped(object sender, EventArgs e)
+    {
+        if (BindingContext is FieldsSelectionViewModel viewModel)
+        {
+            viewModel.IsEmailChecked = !viewModel.IsEmailChecked;
+        }
+    }
 }
