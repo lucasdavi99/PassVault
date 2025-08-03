@@ -87,8 +87,7 @@
                                Placeholder="Digite o nome da conta..."
                                Text="{Binding SearchText, Mode=TwoWay}"
                                Style="{StaticResource ModernEntryStyle}"
-                               FontSize="16"
-                               HorizontalOptions="FillAndExpand" />
+                               FontSize="16" />
 
                         <!-- Clear Button -->
                         <Border Grid.Column="2"
@@ -122,7 +121,6 @@
                 <!-- Empty State - No Search -->
                 <StackLayout Spacing="32" 
                             Padding="40,60"
-                            VerticalOptions="CenterAndExpand"
                             IsVisible="False">
 
                     <StackLayout.Triggers>
@@ -214,7 +212,6 @@
                 <!-- Empty State - No Results -->
                 <StackLayout Spacing="32" 
                             Padding="40,60"
-                            VerticalOptions="CenterAndExpand"
                             IsVisible="False">
 
                     <StackLayout.Triggers>
