@@ -14,7 +14,8 @@ namespace PassVault
             _inactivityService.TimeoutElapsed += OnInactivityTimeout;
         }
 
-        protected override Window CreateWindow(IActivationState activationState)
+        // Altere a assinatura para aceitar activationState anulável, conforme o método base permite.
+        protected override Window CreateWindow(IActivationState? activationState)
         {
             Window window = new Window(new AppShell());
 
@@ -48,7 +49,8 @@ namespace PassVault
             _inactivityService.Stop();
         }
 
-        private void OnWindowResumed(object sender, EventArgs e)
+        // Altere a assinatura do método para aceitar sender anulável, conforme o EventHandler espera.
+        private void OnWindowResumed(object? sender, EventArgs e)
         {
             // Quando a janela for resumida, forçar uma atualização se necessário
             // Isso ajuda com problemas de navegação
