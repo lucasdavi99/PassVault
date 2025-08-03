@@ -97,17 +97,11 @@
 
 	<ItemGroup>
 		<!-- App Icon otimizado -->
-		<MauiIcon Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'"
-				  Include="Resources\AppIcon\appicon.svg"
-				  ForegroundFile="Resources\AppIcon\appiconfg.svg"
-				  ForegroundScale="0.55" />
+		<MauiIcon Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'" Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" ForegroundScale="0.55" />
 		<MauiIcon Include="Resources\AppIcon\appiconfg.svg" />
 
 		<!-- Splash Screen otimizado -->
-		<MauiSplashScreen Include="Resources\Splash\splash.svg"
-						  Color="#221F25"
-						  BaseSize="178,178"
-						  Resize="True" />
+		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#221F25" BaseSize="178,178" Resize="True" />
 
 		<!-- Images com compressão -->
 		<MauiImage Include="Resources\Images\*" />
@@ -149,9 +143,6 @@
 	</ItemGroup>
 
 	<!-- Linker configuration -->
-	<ItemGroup>
-		<LinkDescription Include="LinkerConfig.xml" />
-	</ItemGroup>
 
 	<ItemGroup>
 		<!-- XAML Files -->
