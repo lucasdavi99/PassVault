@@ -1,9 +1,9 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using PassVault.Data;
 using PassVault.Models;
 using PassVault.Views;
-using System.Collections.ObjectModel;
 
 
 namespace PassVault.ViewModels
@@ -43,14 +43,24 @@ namespace PassVault.ViewModels
                 FilteredAccounts.Add(account);
             }
         }
-
         [RelayCommand]
         private async Task EditAccount(Account account)
         {
             if (account == null)
                 return;
 
-            await Shell.Current.GoToAsync($"{nameof(EditAccountPage)}?accountId={account.Id}");
+            var parameters = new Dictionary<string, object>
+            {
+                { "accountId", account.Id },
+                { "selectedFields", new Dictionary<string, bool>
+                    {
+                        { "Username", !string.IsNullOrEmpty(account.Username) },
+                        { "Email", !string.IsNullOrEmpty(account.Email) },
+                    }
+                }
+            };
+
+            await Shell.Current.GoToAsync(nameof(EditAccountPage), parameters);
             await SearchAsync();
         }
 

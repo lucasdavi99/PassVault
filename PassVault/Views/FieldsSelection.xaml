@@ -4,23 +4,412 @@
              xmlns:viewModels="clr-namespace:PassVault.ViewModels"
              x:DataType="viewModels:FieldsSelectionViewModel"
              x:Class="PassVault.Views.FieldsSelection"
-             Title="Escolha os campos">
-    <VerticalStackLayout Padding="20">
-        <HorizontalStackLayout HorizontalOptions="Start">
-            <CheckBox IsChecked="{Binding IsUsernameChecked}" Color="{StaticResource Primary}" />
-            <Label Text="Nome de Usuário" TextColor="{StaticResource Primary}" FontSize="20" VerticalOptions="Center"/>
-        </HorizontalStackLayout>
-        <HorizontalStackLayout HorizontalOptions="Start">
-            <CheckBox IsChecked="{Binding IsEmailChecked}" Color="{StaticResource Primary}" />
-            <Label Text="E-mail" TextColor="{StaticResource Primary}" FontSize="20" VerticalOptions="Center"/>
-        </HorizontalStackLayout>
+             Title="Personalizar Campos">
 
+    <Grid RowDefinitions="Auto,*,Auto">
 
-        <Button Text="Confirmar" 
-            Command="{Binding ConfirmSelectionCommand}"
-            BackgroundColor="{StaticResource Primary}" 
-            TextColor="{StaticResource PrimaryDarkText}"
-            HorizontalOptions="Center"
-            Margin="0,20"/>
-    </VerticalStackLayout>
+        <!-- Modern Header -->
+        <Border Grid.Row="0" 
+                Background="{StaticResource SurfaceGradient}"
+                Padding="0,50,0,32"
+                StrokeShape="RoundRectangle 0,0,28,28">
+
+            <StackLayout Spacing="12">
+
+                <!-- Title with Icon -->
+                <Grid ColumnDefinitions="Auto,*" 
+                      ColumnSpacing="16"
+                      HorizontalOptions="Center">
+
+                    <Border Grid.Column="0"
+                            WidthRequest="48" HeightRequest="48"
+                            BackgroundColor="{StaticResource Primary}"
+                            StrokeShape="RoundRectangle 16">
+
+                        <Border.Shadow>
+                            <Shadow Brush="{StaticResource Primary}" Offset="0,4" Radius="12" Opacity="0.3" />
+                        </Border.Shadow>
+
+                        <Label Text="tune"
+                               FontFamily="MaterialIcons"
+                               FontSize="24"
+                               TextColor="{StaticResource PrimaryDarkText}"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center" />
+                    </Border>
+
+                    <StackLayout Grid.Column="1" 
+                                 VerticalOptions="Center"
+                                 Spacing="4">
+
+                        <Label Text="Personalizar Campos"
+                               Style="{StaticResource HeadlineStyle}"
+                               FontSize="24"
+                               TextColor="{StaticResource Primary}"
+                               HorizontalTextAlignment="Start" />
+
+                        <Label Text="Escolha quais campos incluir na sua conta"
+                               Style="{StaticResource CaptionStyle}"
+                               HorizontalTextAlignment="Start"
+                               Opacity="0.8" />
+                    </StackLayout>
+                </Grid>
+
+            </StackLayout>
+        </Border>
+
+        <!-- Content Area -->
+        <ScrollView Grid.Row="1">
+            <StackLayout Spacing="24" Padding="24,24,24,32">
+
+                <!-- Info Card -->
+                <Border Style="{StaticResource CardStyle}"
+                        BackgroundColor="{StaticResource ElevatedSurface}"
+                        Stroke="{StaticResource Info}"
+                        StrokeThickness="1">
+
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="16">
+
+                        <Border Grid.Column="0"
+                                WidthRequest="40" HeightRequest="40"
+                                BackgroundColor="{StaticResource Info}"
+                                StrokeShape="RoundRectangle 12">
+
+                            <Label Text="info"
+                                   FontFamily="MaterialIcons"
+                                   FontSize="20"
+                                   TextColor="White"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center" />
+                        </Border>
+
+                        <StackLayout Grid.Column="1" Spacing="8">
+                            <Label Text="Campos Obrigatórios"
+                                   Style="{StaticResource TitleStyle}"
+                                   FontSize="16"
+                                   TextColor="{StaticResource Info}" />
+
+                            <Label Text="Título e Senha são sempre incluídos. Selecione abaixo os campos opcionais que deseja adicionar."
+                                   Style="{StaticResource BodyStyle}"
+                                   FontSize="14" />
+                        </StackLayout>
+                    </Grid>
+
+                </Border>
+
+                <!-- Field Options -->
+                <StackLayout Spacing="16">
+
+                    <!-- Username Field Option -->
+                    <Border Style="{StaticResource ElevatedCardStyle}"
+                            BackgroundColor="{StaticResource ElevatedSurface}">
+
+                        <Border.Triggers>
+                            <DataTrigger TargetType="Border" Binding="{Binding IsUsernameChecked}" Value="True">
+                                <Setter Property="Stroke" Value="{StaticResource Primary}" />
+                                <Setter Property="StrokeThickness" Value="2" />
+                                <Setter Property="Shadow">
+                                    <Shadow Brush="{StaticResource Primary}" Offset="0,4" Radius="16" Opacity="0.2" />
+                                </Setter>
+                            </DataTrigger>
+                        </Border.Triggers>
+
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnUsernameToggleTapped" />
+                        </Border.GestureRecognizers>
+
+                        <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="16">
+
+                            <!-- Icon -->
+                            <Border Grid.Column="0"
+                                    WidthRequest="56" HeightRequest="56"
+                                    BackgroundColor="{StaticResource Info}"
+                                    StrokeShape="RoundRectangle 16"
+                                    VerticalOptions="Center">
+
+                                <Border.Shadow>
+                                    <Shadow Brush="{StaticResource Info}" Offset="0,4" Radius="12" Opacity="0.25" />
+                                </Border.Shadow>
+
+                                <Label Text="person"
+                                       FontFamily="MaterialIcons"
+                                       FontSize="28"
+                                       TextColor="White"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center" />
+                            </Border>
+
+                            <!-- Info -->
+                            <StackLayout Grid.Column="1" VerticalOptions="Center" Spacing="6">
+                                <Label Text="Nome de Usuário"
+                                       Style="{StaticResource TitleStyle}"
+                                       FontSize="18" />
+
+                                <Label Text="Campo para armazenar username ou login da conta"
+                                       Style="{StaticResource CaptionStyle}"
+                                       Opacity="0.8" />
+                            </StackLayout>
+
+                            <!-- Modern Toggle -->
+                            <Border Grid.Column="2"
+                                    WidthRequest="24" HeightRequest="24"
+                                    BackgroundColor="Transparent"
+                                    Stroke="{StaticResource BorderPrimary}"
+                                    StrokeThickness="2"
+                                    StrokeShape="RoundRectangle 6"
+                                    VerticalOptions="Center">
+
+                                <Border.Triggers>
+                                    <DataTrigger TargetType="Border" Binding="{Binding IsUsernameChecked}" Value="True">
+                                        <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
+                                        <Setter Property="Stroke" Value="{StaticResource Primary}" />
+                                    </DataTrigger>
+                                </Border.Triggers>
+
+                                <Label Text="check"
+                                       FontFamily="MaterialIcons"
+                                       FontSize="16"
+                                       TextColor="{StaticResource PrimaryDarkText}"
+                                       IsVisible="{Binding IsUsernameChecked}"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center" />
+                            </Border>
+
+                        </Grid>
+                    </Border>
+
+                    <!-- Email Field Option -->
+                    <Border Style="{StaticResource ElevatedCardStyle}"
+                            BackgroundColor="{StaticResource ElevatedSurface}">
+
+                        <Border.Triggers>
+                            <DataTrigger TargetType="Border" Binding="{Binding IsEmailChecked}" Value="True">
+                                <Setter Property="Stroke" Value="{StaticResource Primary}" />
+                                <Setter Property="StrokeThickness" Value="2" />
+                                <Setter Property="Shadow">
+                                    <Shadow Brush="{StaticResource Primary}" Offset="0,4" Radius="16" Opacity="0.2" />
+                                </Setter>
+                            </DataTrigger>
+                        </Border.Triggers>
+
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnEmailToggleTapped" />
+                        </Border.GestureRecognizers>
+
+                        <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="16">
+
+                            <!-- Icon -->
+                            <Border Grid.Column="0"
+                                    WidthRequest="56" HeightRequest="56"
+                                    BackgroundColor="{StaticResource Warning}"
+                                    StrokeShape="RoundRectangle 16"
+                                    VerticalOptions="Center">
+
+                                <Border.Shadow>
+                                    <Shadow Brush="{StaticResource Warning}" Offset="0,4" Radius="12" Opacity="0.25" />
+                                </Border.Shadow>
+
+                                <Label Text="email"
+                                       FontFamily="MaterialIcons"
+                                       FontSize="28"
+                                       TextColor="White"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center" />
+                            </Border>
+
+                            <!-- Info -->
+                            <StackLayout Grid.Column="1" VerticalOptions="Center" Spacing="6">
+                                <Label Text="E-mail"
+                                       Style="{StaticResource TitleStyle}"
+                                       FontSize="18" />
+
+                                <Label Text="Campo para armazenar endereço de e-mail da conta"
+                                       Style="{StaticResource CaptionStyle}"
+                                       Opacity="0.8" />
+                            </StackLayout>
+
+                            <!-- Modern Toggle -->
+                            <Border Grid.Column="2"
+                                    WidthRequest="24" HeightRequest="24"
+                                    BackgroundColor="Transparent"
+                                    Stroke="{StaticResource BorderPrimary}"
+                                    StrokeThickness="2"
+                                    StrokeShape="RoundRectangle 6"
+                                    VerticalOptions="Center">
+
+                                <Border.Triggers>
+                                    <DataTrigger TargetType="Border" Binding="{Binding IsEmailChecked}" Value="True">
+                                        <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
+                                        <Setter Property="Stroke" Value="{StaticResource Primary}" />
+                                    </DataTrigger>
+                                </Border.Triggers>
+
+                                <Label Text="check"
+                                       FontFamily="MaterialIcons"
+                                       FontSize="16"
+                                       TextColor="{StaticResource PrimaryDarkText}"
+                                       IsVisible="{Binding IsEmailChecked}"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center" />
+                            </Border>
+
+                        </Grid>
+                    </Border>
+
+                </StackLayout>
+
+                <!-- Preview Section -->
+                <Border Style="{StaticResource ElevatedCardStyle}"
+                        BackgroundColor="{StaticResource CardBackground}">
+
+                    <StackLayout Spacing="16">
+
+                        <!-- Preview Header -->
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                            <Label Grid.Column="0"
+                                   Text="preview"
+                                   FontFamily="MaterialIcons"
+                                   FontSize="20"
+                                   TextColor="{StaticResource Primary}"
+                                   VerticalOptions="Center" />
+
+                            <StackLayout Grid.Column="1" Spacing="2">
+                                <Label Text="Prévia dos Campos"
+                                       Style="{StaticResource TitleStyle}"
+                                       FontSize="16"
+                                       TextColor="{StaticResource Primary}" />
+
+                                <Label Text="Campos que aparecerão no formulário"
+                                       Style="{StaticResource CaptionStyle}"
+                                       Opacity="0.8" />
+                            </StackLayout>
+                        </Grid>
+
+                        <!-- Fields Preview -->
+                        <StackLayout Spacing="12">
+
+                            <!-- Title Field (Always shown) -->
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                                <Border WidthRequest="32" HeightRequest="32"
+                                        BackgroundColor="{StaticResource Primary}"
+                                        StrokeShape="RoundRectangle 8"
+                                        VerticalOptions="Center">
+
+                                    <Label Text="title"
+                                           FontFamily="MaterialIcons"
+                                           FontSize="16"
+                                           TextColor="{StaticResource PrimaryDarkText}"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center" />
+                                </Border>
+
+                                <Label Grid.Column="1"
+                                       Text="Título da Conta ✓"
+                                       Style="{StaticResource BodyStyle}"
+                                       FontAttributes="Bold"
+                                       VerticalOptions="Center" />
+                            </Grid>
+
+                            <!-- Username Field (Conditional) -->
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12"
+                                  IsVisible="{Binding IsUsernameChecked}">
+                                <Border WidthRequest="32" HeightRequest="32"
+                                        BackgroundColor="{StaticResource Info}"
+                                        StrokeShape="RoundRectangle 8"
+                                        VerticalOptions="Center">
+
+                                    <Label Text="person"
+                                           FontFamily="MaterialIcons"
+                                           FontSize="16"
+                                           TextColor="White"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center" />
+                                </Border>
+
+                                <Label Grid.Column="1"
+                                       Text="Nome de Usuário ✓"
+                                       Style="{StaticResource BodyStyle}"
+                                       VerticalOptions="Center" />
+                            </Grid>
+
+                            <!-- Email Field (Conditional) -->
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12"
+                                  IsVisible="{Binding IsEmailChecked}">
+                                <Border WidthRequest="32" HeightRequest="32"
+                                        BackgroundColor="{StaticResource Warning}"
+                                        StrokeShape="RoundRectangle 8"
+                                        VerticalOptions="Center">
+
+                                    <Label Text="email"
+                                           FontFamily="MaterialIcons"
+                                           FontSize="16"
+                                           TextColor="White"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center" />
+                                </Border>
+
+                                <Label Grid.Column="1"
+                                       Text="E-mail ✓"
+                                       Style="{StaticResource BodyStyle}"
+                                       VerticalOptions="Center" />
+                            </Grid>
+
+                            <!-- Password Field (Always shown) -->
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                                <Border WidthRequest="32" HeightRequest="32"
+                                        BackgroundColor="{StaticResource Primary}"
+                                        StrokeShape="RoundRectangle 8"
+                                        VerticalOptions="Center">
+
+                                    <Label Text="lock"
+                                           FontFamily="MaterialIcons"
+                                           FontSize="16"
+                                           TextColor="{StaticResource PrimaryDarkText}"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center" />
+                                </Border>
+
+                                <Label Grid.Column="1"
+                                       Text="Senha ✓"
+                                       Style="{StaticResource BodyStyle}"
+                                       FontAttributes="Bold"
+                                       VerticalOptions="Center" />
+                            </Grid>
+
+                        </StackLayout>
+
+                    </StackLayout>
+                </Border>
+
+            </StackLayout>
+        </ScrollView>
+
+        <!-- Fixed Action Button -->
+        <Border Grid.Row="2"
+                VerticalOptions="End"
+                HorizontalOptions="FillAndExpand"
+                BackgroundColor="{StaticResource Background}"
+                Padding="24,16,24,32">
+
+            <Border.Shadow>
+                <Shadow Brush="#40000000" Offset="0,-4" Radius="16" Opacity="0.1" />
+            </Border.Shadow>
+
+            <Button Text="Continuar"
+                    Style="{StaticResource ModernButtonStyle}"
+                    FontSize="18"
+                    HeightRequest="60"
+                    Command="{Binding ConfirmSelectionCommand}">
+
+                <Button.ImageSource>
+                    <FontImageSource FontFamily="MaterialIcons"
+                                     Glyph="arrow_forward"
+                                     Color="{StaticResource PrimaryDarkText}"
+                                     Size="20" />
+                </Button.ImageSource>
+
+            </Button>
+        </Border>
+
+    </Grid>
 </ContentPage>

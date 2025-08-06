@@ -4,11 +4,11 @@ namespace PassVault.Views;
 
 public partial class FolderPage : ContentPage, IQueryAttributable
 {
-	public FolderPage(FolderPageViewModel viewModel)
-	{
-		InitializeComponent();
-		BindingContext = viewModel;
-	}
+    public FolderPage(FolderPageViewModel viewModel)
+    {
+        InitializeComponent();
+        BindingContext = viewModel;
+    }
 
     public void ApplyQueryAttributes(IDictionary<string, object> query)
     {

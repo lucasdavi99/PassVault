@@ -6,6 +6,7 @@
              xmlns:converters="clr-namespace:PassVault.Converters"
              x:Class="PassVault.Views.FolderPage"
              x:DataType="viewModels:FolderPageViewModel"
+             Shell.NavBarIsVisible="False"
              Title="{Binding Folder.Title}">
 
     <ContentPage.Resources>
@@ -14,124 +15,349 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <Shell.TitleView>
-        <Grid BackgroundColor="Transparent">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <!-- Exibe o título da pasta -->
-            <Label Text="{Binding Folder.Title}" 
-                   TextColor="{StaticResource Primary}" 
-                   FontSize="20"
-                   FontAttributes="Bold"
-                   VerticalOptions="Center"
-                   Grid.Column="0" />
-            <!-- Botão de edição -->
-            <Button Text="edit"
-                    Command="{Binding EditFolderCommand}"
-                    CommandParameter="{Binding Folder}"
-                    BackgroundColor="Transparent"
-                    TextColor="{StaticResource Primary}"
-                    FontFamily="MaterialIcons"
-                    FontSize="25"
-                    VerticalOptions="Center"
-                    Padding="0,0,20,0"
-                    Grid.Column="1" />
-        </Grid>
-    </Shell.TitleView>
+    <Grid RowDefinitions="Auto,*,Auto">
 
-    <Grid RowDefinitions="*, Auto">
-        <!-- Conteúdo rolável -->
-        <ScrollView Grid.Row="0" Padding="0,0,0,20">
-            <Grid>
-                <StackLayout>
-                    <CollectionView ItemsSource="{Binding Accounts}" Margin="0,30,0,0">
-                        <CollectionView.ItemsLayout>
-                            <LinearItemsLayout Orientation="Vertical" ItemSpacing="5"/>
-                        </CollectionView.ItemsLayout>
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate x:DataType="models:Account">
-                                <Border BackgroundColor="Black"
-                                        MinimumWidthRequest="300"
-                                        MaximumWidthRequest="350"
-                                        HeightRequest="52"
-                                        Stroke="{Binding Color, Converter={StaticResource HexToColorConverter}}">
+        <!-- Modern Header -->
+        <Border Grid.Row="0" 
+                Background="{StaticResource SurfaceGradient}"
+                Padding="0,50,0,32"
+                StrokeShape="RoundRectangle 0,0,28,28">
+
+            <StackLayout Spacing="16">
+
+                <!-- Folder Header -->
+                <Grid ColumnDefinitions="Auto,*,Auto" 
+                      ColumnSpacing="16"
+                      HorizontalOptions="Center">
+
+                    <!-- Folder Icon -->
+                    <Border Grid.Column="0"
+                            WidthRequest="56" HeightRequest="56"
+                            BackgroundColor="{Binding Folder.Color, Converter={StaticResource HexToColorConverter}}"
+                            StrokeShape="RoundRectangle 18">
+
+                        <Border.Shadow>
+                            <Shadow Brush="{Binding Folder.Color, Converter={StaticResource HexToColorConverter}}" 
+                                    Offset="0,6" Radius="16" Opacity="0.4" />
+                        </Border.Shadow>
+
+                        <Label Text="folder"
+                               FontFamily="MaterialIcons"
+                               FontSize="28"
+                               TextColor="{StaticResource PrimaryDarkText}"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center" />
+                    </Border>
+
+                    <!-- Folder Info -->
+                    <StackLayout Grid.Column="1" 
+                                 VerticalOptions="Center"
+                                 Spacing="4">
+
+                        <Label Text="{Binding Folder.Title, TargetNullValue='Carregando...'}"
+                               Style="{StaticResource HeadlineStyle}"
+                               FontSize="24"
+                               TextColor="{StaticResource Primary}"
+                               HorizontalTextAlignment="Start" />
+
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                            <Label Grid.Column="0"
+                                   Text="inventory"
+                                   FontFamily="MaterialIcons"
+                                   FontSize="14"
+                                   TextColor="{StaticResource TextTertiary}"
+                                   VerticalOptions="Center" />
+
+                            <Label Grid.Column="1"
+                                   Text="{Binding Accounts.Count, StringFormat='{0} contas'}"
+                                   Style="{StaticResource CaptionStyle}"
+                                   HorizontalTextAlignment="Start"
+                                   VerticalOptions="Center">
+                                <Label.Triggers>
+                                    <DataTrigger TargetType="Label" Binding="{Binding Accounts.Count}" Value="0">
+                                        <Setter Property="Text" Value="Nenhuma conta" />
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="Label" Binding="{Binding Accounts.Count}" Value="1">
+                                        <Setter Property="Text" Value="1 conta" />
+                                    </DataTrigger>
+                                </Label.Triggers>
+                            </Label>
+                        </Grid>
+                    </StackLayout>
+
+                    <!-- Edit Folder Button -->
+                    <Border Grid.Column="2"
+                            WidthRequest="40" HeightRequest="40"
+                            BackgroundColor="{StaticResource ElevatedSurface}"
+                            StrokeShape="RoundRectangle 12"
+                            Stroke="{StaticResource BorderPrimary}"
+                            StrokeThickness="0.5">
+
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding EditFolderCommand}" CommandParameter="{Binding Folder}" />
+                        </Border.GestureRecognizers>
+
+                        <Border.Shadow>
+                            <Shadow Brush="#20000000" Offset="0,2" Radius="8" Opacity="0.1" />
+                        </Border.Shadow>
+
+                        <Label Text="edit"
+                               FontFamily="MaterialIcons"
+                               TextColor="{StaticResource Primary}"
+                               FontSize="18"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center" />
+                    </Border>
+                </Grid>
+
+                <!-- Stats Card -->
+                <Border WidthRequest="200" HeightRequest="40"
+                        BackgroundColor="{StaticResource ElevatedSurface}"
+                        StrokeShape="RoundRectangle 20"
+                        Stroke="{StaticResource BorderPrimary}"
+                        StrokeThickness="0.5"
+                        HorizontalOptions="Center"
+                        Padding="16,8">
+
+                    <Border.Shadow>
+                        <Shadow Brush="#15000000" Offset="0,2" Radius="8" Opacity="0.08" />
+                    </Border.Shadow>
+
+                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                        <Label Grid.Column="0"
+                               Text="folder_open"
+                               FontFamily="MaterialIcons"
+                               FontSize="16"
+                               TextColor="{StaticResource Primary}"
+                               VerticalOptions="Center" />
+
+                        <Label Grid.Column="1"
+                               Text="Pasta de Contas"
+                               Style="{StaticResource CaptionStyle}"
+                               FontSize="12"
+                               FontAttributes="Bold"
+                               HorizontalTextAlignment="Center"
+                               VerticalOptions="Center" />
+
+                        <Label Grid.Column="2"
+                               Text="security"
+                               FontFamily="MaterialIcons"
+                               FontSize="16"
+                               TextColor="{StaticResource Primary}"
+                               VerticalOptions="Center" />
+                    </Grid>
+                </Border>
+
+            </StackLayout>
+        </Border>
+
+        <!-- Content Area -->
+        <ScrollView Grid.Row="1" Padding="20,16,20,24">
+            <StackLayout Spacing="12">
+
+                <!-- Empty State -->
+                <StackLayout Spacing="32" 
+                             Padding="40,80"
+                             VerticalOptions="CenterAndExpand"
+                             x:Name="EmptyStateLayout">
+
+                    <Border WidthRequest="120" HeightRequest="120"
+                            BackgroundColor="{StaticResource ElevatedSurface}"
+                            StrokeShape="RoundRectangle 32"
+                            Stroke="{StaticResource BorderPrimary}"
+                            HorizontalOptions="Center">
+
+                        <Border.Shadow>
+                            <Shadow Brush="#25000000" Offset="0,12" Radius="32" Opacity="0.15" />
+                        </Border.Shadow>
+
+                        <StackLayout Spacing="8" VerticalOptions="Center">
+                            <Label Text="folder_open"
+                                   FontFamily="MaterialIcons"
+                                   FontSize="48"
+                                   TextColor="{StaticResource TextTertiary}"
+                                   HorizontalOptions="Center" />
+
+                            <Label Text="folder_add"
+                                   FontFamily="MaterialIcons"
+                                   FontSize="24"
+                                   TextColor="{StaticResource Primary}"
+                                   HorizontalOptions="Center" />
+                        </StackLayout>
+                    </Border>
+
+                    <StackLayout Spacing="16">
+                        <Label Text="Pasta Vazia"
+                               Style="{StaticResource TitleStyle}"
+                               FontSize="22"
+                               HorizontalTextAlignment="Center"
+                               TextColor="{StaticResource TextSecondary}" />
+
+                        <Label Text="Esta pasta ainda não possui contas. Toque no botão + para adicionar a primeira conta."
+                               Style="{StaticResource BodyStyle}"
+                               HorizontalTextAlignment="Center"
+                               LineHeight="1.4"
+                               Opacity="0.8" />
+                    </StackLayout>
+
+                    <!-- Quick Add Button -->
+                    <Button Text="Adicionar Primeira Conta"
+                            Style="{StaticResource ModernButtonStyle}"
+                            WidthRequest="220"
+                            Command="{Binding AddNewItemCommand}">
+
+                        <Button.ImageSource>
+                            <FontImageSource FontFamily="MaterialIcons"
+                                             Glyph="add_circle"
+                                             Color="{StaticResource PrimaryDarkText}"
+                                             Size="18" />
+                        </Button.ImageSource>
+                    </Button>
+
+                </StackLayout>
+
+                <!-- Accounts List -->
+                <CollectionView ItemsSource="{Binding Accounts}">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="12"/>
+                    </CollectionView.ItemsLayout>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:Account">
+                            <SwipeView>
+                                <SwipeView.RightItems>
+                                    <SwipeItems>
+                                        <SwipeItem Text="Excluir"
+                                                   BackgroundColor="{StaticResource Error}"
+                                                   Command="{Binding x:DataType='viewModels:FolderPageViewModel',Source={RelativeSource AncestorType={x:Type viewModels:FolderPageViewModel}}, Path=DeleteAccountInFolderCommand}"
+                                                   CommandParameter="{Binding .}" />
+                                    </SwipeItems>
+                                </SwipeView.RightItems>
+
+                                <Border Style="{StaticResource PremiumListItemStyle}">
 
                                     <Border.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:FolderPageViewModel}}, Path=EditAccountInFolderCommand}"
+                                        <TapGestureRecognizer Command="{Binding x:DataType='viewModels:FolderPageViewModel',Source={RelativeSource AncestorType={x:Type viewModels:FolderPageViewModel}}, Path=EditAccountInFolderCommand}"
                                                               CommandParameter="{Binding .}" />
-                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:FolderPageViewModel}}, Path=DeleteAccountInFolderCommand}"
-                                                              CommandParameter="{Binding .}"
-                                                              NumberOfTapsRequired="2"/>
                                     </Border.GestureRecognizers>
 
-                                    <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="10" Padding="15,0,15,0">
-                                        <Ellipse WidthRequest="32"
-                                                 HeightRequest="32"
-                                                 Fill="{Binding Color, Converter={StaticResource HexToColorConverter}}"
-                                                 Grid.Column="0"/>
+                                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="20">
 
-                                        <Label Text="{Binding Title}"
-                                               TextColor="White"
-                                               Grid.Column="1"
-                                               VerticalTextAlignment="Center"
-                                               FontSize="20"
-                                               FontAttributes="Bold"/>
+                                        <!-- Account Icon -->
+                                        <Border WidthRequest="52" HeightRequest="52"
+                                                BackgroundColor="{Binding Color, Converter={StaticResource HexToColorConverter}}"
+                                                StrokeShape="RoundRectangle 16"
+                                                Grid.Column="0"
+                                                VerticalOptions="Center">
 
-                                        <Label Text="{Binding Created, StringFormat='{0:dd/MM/yyyy}'}"
-                                               TextColor="White"
-                                               Grid.Column="2"
-                                               HorizontalTextAlignment="End"
-                                               VerticalTextAlignment="Center"/>
+                                            <Border.Shadow>
+                                                <Shadow Brush="{Binding Color, Converter={StaticResource HexToColorConverter}}" 
+                                                        Offset="0,4" Radius="16" Opacity="0.3" />
+                                            </Border.Shadow>
+
+                                            <Label Text="key"
+                                                   FontFamily="MaterialIcons"
+                                                   FontSize="24"
+                                                   TextColor="{StaticResource PrimaryDarkText}"
+                                                   HorizontalOptions="Center"
+                                                   VerticalOptions="Center" />
+
+                                        </Border>
+
+                                        <!-- Account Info -->
+                                        <StackLayout Grid.Column="1" VerticalOptions="Center" Spacing="6">
+
+                                            <Label Text="{Binding Title}"
+                                                   Style="{StaticResource TitleStyle}"
+                                                   FontSize="18" />
+
+                                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                                                <Label Grid.Column="0"
+                                                       Text="schedule"
+                                                       FontFamily="MaterialIcons"
+                                                       FontSize="14"
+                                                       TextColor="{StaticResource TextTertiary}"
+                                                       VerticalOptions="Center" />
+
+                                                <Label Grid.Column="1"
+                                                       Text="{Binding Created, StringFormat='Criado em {0:dd/MM/yyyy}'}"
+                                                       Style="{StaticResource CaptionStyle}" />
+                                            </Grid>
+
+                                        </StackLayout>
+
+                                        <!-- Access Indicator -->
+                                        <Border Grid.Column="2"
+                                                WidthRequest="32" HeightRequest="32"
+                                                BackgroundColor="{StaticResource SurfaceBackground}"
+                                                StrokeShape="RoundRectangle 10"
+                                                VerticalOptions="Center">
+
+                                            <Label Text="chevron_right"
+                                                   FontFamily="MaterialIcons"
+                                                   FontSize="18"
+                                                   TextColor="{StaticResource Primary}"
+                                                   HorizontalOptions="Center"
+                                                   VerticalOptions="Center" />
+
+                                        </Border>
+
                                     </Grid>
                                 </Border>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
-                </StackLayout>
-            </Grid>
+                            </SwipeView>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </StackLayout>
         </ScrollView>
 
-        <!-- Menu de navegação fixo -->
-        <Border Grid.Row="1"
-                BackgroundColor="#19171C"
-                WidthRequest="250"
-                HeightRequest="92"
-                Stroke="Transparent"
+        <!-- Modern Floating Action Menu -->
+        <Border Grid.Row="2"
+                Style="{StaticResource NavigationMenuStyle}"
+                WidthRequest="220"
+                HeightRequest="80"
+                HorizontalOptions="Center"
                 VerticalOptions="End"
-                Margin="0,0,0,10"
-                StrokeShape="RoundRectangle 100, 100">
+                Margin="0,0,0,32"
+                Padding="20,16">
 
-            <Grid ColumnDefinitions="*,*" ColumnSpacing="0">
+            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="20">
 
-                <!-- Botão Home -->
-                <Button WidthRequest="60"
-                        Grid.Column="0"
-                        HeightRequest="60"  
-                        Padding="0"
-                        BackgroundColor="{StaticResource Primary}"
-                        CornerRadius="50"
+                <!-- Home Button -->
+                <Button Grid.Column="0"
+                        Style="{StaticResource GhostIconButtonStyle}"
                         Text="home"
-                        TextColor="Black"
-                        FontFamily="MaterialIcons"
-                        FontSize="30"
+                        FontSize="20"
+                        WidthRequest="48"
+                        HeightRequest="48"
+                        CornerRadius="16"
                         Command="{Binding GoToHomeCommand}" />
 
-                <!-- Botão Adicionar -->
-                <Button WidthRequest="60"
-                        Grid.Column="1"
-                        HeightRequest="60"
-                        CornerRadius="10"
+                <!-- Add Button (Principal) -->
+                <Border Grid.Column="1"
+                        WidthRequest="56" HeightRequest="56"
                         BackgroundColor="{StaticResource Primary}"
-                        Text="add"
-                        TextColor="Black"
-                        FontFamily="MaterialIcons"
-                        FontSize="40"
-                        Padding="0"
-                        HorizontalOptions="Center"
-                        Command="{Binding AddNewItemCommand}"
-                        CommandParameter="Add" />
+                        StrokeShape="RoundRectangle 28"
+                        VerticalOptions="Center"
+                        HorizontalOptions="Center">
+
+                    <Border.Shadow>
+                        <Shadow Brush="{StaticResource Primary}" Offset="0,6" Radius="20" Opacity="0.35" />
+                    </Border.Shadow>
+
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding AddNewItemCommand}"/>
+                    </Border.GestureRecognizers>
+
+                    <Label Text="add"
+                           FontFamily="MaterialIcons"
+                           FontSize="28"
+                           TextColor="{StaticResource PrimaryDarkText}"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center" />
+
+                </Border>
+
             </Grid>
         </Border>
     </Grid>

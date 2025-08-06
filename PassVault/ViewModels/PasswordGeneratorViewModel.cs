@@ -1,14 +1,8 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.Security.Cryptography;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using PassVault.Messages;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Maui.ApplicationModel.DataTransfer;
 
 namespace PassVault.ViewModels
 {
@@ -62,9 +56,9 @@ namespace PassVault.ViewModels
             if (!string.IsNullOrEmpty(GeneratedPassword))
             {
                 await Clipboard.Default.SetTextAsync(GeneratedPassword);
-                
+
                 WeakReferenceMessenger.Default.Send(new PasswordGeneratedMessage(GeneratedPassword));
-                               
+
                 await Shell.Current.GoToAsync("..");
             }
         }
@@ -74,23 +68,23 @@ namespace PassVault.ViewModels
             var passwordChars = new List<char>();
             var charPool = BuildCharacterPool();
 
-            
+
             if (IncludeNumbers) passwordChars.Add(GetRandomChar(Numbers));
             if (IncludeSpecialChars) passwordChars.Add(GetRandomChar(SpecialChars));
             passwordChars.Add(GetRandomChar(LowerCase));
             passwordChars.Add(GetRandomChar(UpperCase));
 
-            
+
             var remainingLength = RandomNumberGenerator.GetInt32(MinLength, MaxLength + 1) - passwordChars.Count;
             for (var i = 0; i < remainingLength; i++)
             {
                 passwordChars.Add(GetRandomChar(charPool));
             }
 
-            
+
             return new string(passwordChars.OrderBy(c => RandomNumberGenerator.GetInt32(int.MaxValue)).ToArray());
         }
-        
+
         private string BuildCharacterPool()
         {
             var pool = LowerCase + UpperCase;
@@ -102,7 +96,7 @@ namespace PassVault.ViewModels
         private static char GetRandomChar(string validChars)
         {
             return validChars[RandomNumberGenerator.GetInt32(validChars.Length)];
-        }       
+        }
 
         private bool ValidateInputs()
         {

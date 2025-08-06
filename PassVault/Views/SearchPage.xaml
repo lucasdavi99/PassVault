@@ -1,65 +1,438 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:viewModels="clr-namespace:PassVault.ViewModels"
-             xmlns:converters="clr-namespace:PassVault.Converters"
-             xmlns:models="clr-namespace:PassVault.Models"
-             x:Class="PassVault.Views.SearchPage"
-             x:DataType="viewModels:SearchPageViewModel"
-             Title="Buscar">
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"  
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"  
+            xmlns:viewModels="clr-namespace:PassVault.ViewModels"  
+            xmlns:converters="clr-namespace:PassVault.Converters"  
+            xmlns:models="clr-namespace:PassVault.Models"  
+            x:Class="PassVault.Views.SearchPage"  
+            x:DataType="viewModels:SearchPageViewModel"
+            Shell.NavBarIsVisible="True"
+            Title="Buscar">
 
     <ContentPage.Resources>
         <ResourceDictionary>
             <converters:HexToColorConverter x:Key="HexToColorConverter" />
+            <converters:StringIsNotNullOrEmptyConverter x:Key="StringIsNotNullOrEmptyConverter" />
+            <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <VerticalStackLayout Padding="20" Spacing="10">
-        <!-- Campo de busca -->
-        <Entry Placeholder="Buscar por nome..."
-               Text="{Binding SearchText, Mode=TwoWay}"
-               TextColor="White"
-               FontSize="20" />
-        
-        <!-- Lista de resultados -->
-        <CollectionView ItemsSource="{Binding FilteredAccounts}">
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="models:Account">
-                    <Border BackgroundColor="Black"
-                            WidthRequest="300"
-                            HeightRequest="52"
-                            Stroke="{Binding Color, Converter={StaticResource HexToColorConverter}}">
+    <Grid RowDefinitions="Auto,*">
 
-                        <Border.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding x:DataType='viewModels:SearchPageViewModel',Source={RelativeSource AncestorType={x:Type viewModels:SearchPageViewModel}}, Path=EditAccountCommand}"
-                                                  CommandParameter="{Binding .}" />
-                            <TapGestureRecognizer Command="{Binding x:DataType='viewModels:SearchPageViewModel',Source={RelativeSource AncestorType={x:Type viewModels:SearchPageViewModel}}, Path=DeleteAccountCommand}"
-                                                  CommandParameter="{Binding .}"
-                                                  NumberOfTapsRequired="2"/>
-                        </Border.GestureRecognizers>
+        <!-- Modern Header with Integrated Search -->
+        <Border Grid.Row="0" 
+                Background="{StaticResource SurfaceGradient}"
+                Padding="0,50,0,32"
+                StrokeShape="RoundRectangle 0,0,28,28">
 
-                        <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="15" Padding="15,0,15,0">
-                            <Ellipse WidthRequest="32"
-                                     HeightRequest="32"
-                                     Fill="{Binding Color, Converter={StaticResource HexToColorConverter}}"
-                                     Grid.Column="0"/>
+            <StackLayout Spacing="20">
 
-                            <Label Text="{Binding Title}"
-                                   TextColor="White"
-                                   Grid.Column="1"
-                                   VerticalTextAlignment="Center"
-                                   FontSize="20"
-                                   FontAttributes="Bold"/>
+                <!-- Title with Icon -->
+                <Grid ColumnDefinitions="Auto,*" 
+                      ColumnSpacing="16"
+                      HorizontalOptions="Center">
 
-                            <Label Text="{Binding Created, StringFormat='{0:dd/MM/yyyy}'}"
-                                   TextColor="White"
-                                   Grid.Column="2"
-                                   HorizontalTextAlignment="End"
-                                   VerticalTextAlignment="Center"/>
+                    <Border Grid.Column="0"
+                            WidthRequest="48" HeightRequest="48"
+                            BackgroundColor="{StaticResource Primary}"
+                            StrokeShape="RoundRectangle 16">
+
+                        <Border.Shadow>
+                            <Shadow Brush="{StaticResource Primary}" Offset="0,4" Radius="12" Opacity="0.3" />
+                        </Border.Shadow>
+
+                        <Label Text="search"
+                               FontFamily="MaterialIcons"
+                               FontSize="24"
+                               TextColor="{StaticResource PrimaryDarkText}"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center" />
+                    </Border>
+
+                    <StackLayout Grid.Column="1" 
+                                 VerticalOptions="Center"
+                                 Spacing="4">
+
+                        <Label Text="Buscar Contas"
+                               Style="{StaticResource HeadlineStyle}"
+                               FontSize="24"
+                               TextColor="{StaticResource Primary}"
+                               HorizontalTextAlignment="Start" />
+
+                        <Label Text="Encontre suas contas rapidamente"
+                               Style="{StaticResource CaptionStyle}"
+                               HorizontalTextAlignment="Start"
+                               Opacity="0.8" />
+                    </StackLayout>
+                </Grid>
+
+                <!-- Modern Search Box -->
+                <Border Style="{StaticResource ElevatedCardStyle}"
+                        Padding="4"
+                        MaximumWidthRequest="400"
+                        HorizontalOptions="Center">
+
+                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12" Padding="16,12">
+
+                        <!-- Search Icon -->
+                        <Label Grid.Column="0"
+                               Text="search"
+                               FontFamily="MaterialIcons"
+                               FontSize="20"
+                               TextColor="{StaticResource Primary}"
+                               VerticalOptions="Center" />
+
+                        <!-- Search Entry -->
+                        <Entry Grid.Column="1"
+                               Placeholder="Digite o nome da conta..."
+                               Text="{Binding SearchText, Mode=TwoWay}"
+                               Style="{StaticResource ModernEntryStyle}"
+                               FontSize="16" />
+
+                        <!-- Clear Button -->
+                        <Border Grid.Column="2"
+                                WidthRequest="28" HeightRequest="28"
+                                BackgroundColor="{StaticResource SurfaceBackground}"
+                                StrokeShape="RoundRectangle 8"
+                                IsVisible="{Binding SearchText, Converter={StaticResource StringIsNotNullOrEmptyConverter}}">
+
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ClearSearchCommand}" />
+                            </Border.GestureRecognizers>
+
+                            <Label Text="close"
+                                   FontFamily="MaterialIcons"
+                                   FontSize="16"
+                                   TextColor="{StaticResource TextTertiary}"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center" />
+                        </Border>
+
+                    </Grid>
+                </Border>
+
+            </StackLayout>
+        </Border>
+
+        <!-- Results Area -->
+        <ScrollView Grid.Row="1" Padding="20,16,20,24">
+            <StackLayout Spacing="16">
+
+                <!-- Empty State - No Search -->
+                <StackLayout Spacing="32" 
+                            Padding="40,60"
+                            IsVisible="False">
+
+                    <StackLayout.Triggers>
+                        <MultiTrigger TargetType="StackLayout">
+                            <MultiTrigger.Conditions>
+                                <BindingCondition Binding="{Binding SearchText, Converter={StaticResource StringIsNotNullOrEmptyConverter}}" Value="False" />
+                                <BindingCondition Binding="{Binding FilteredAccounts.Count}" Value="0" />
+                            </MultiTrigger.Conditions>
+                            <Setter Property="IsVisible" Value="True" />
+                        </MultiTrigger>
+                    </StackLayout.Triggers>
+
+                    <Border WidthRequest="120" HeightRequest="120"
+                           BackgroundColor="{StaticResource ElevatedSurface}"
+                           StrokeShape="RoundRectangle 32"
+                           Stroke="{StaticResource BorderPrimary}"
+                           HorizontalOptions="Center">
+
+                        <Border.Shadow>
+                            <Shadow Brush="#25000000" Offset="0,12" Radius="32" Opacity="0.15" />
+                        </Border.Shadow>
+
+                        <StackLayout Spacing="8" VerticalOptions="Center">
+                            <Label Text="search"
+                                  FontFamily="MaterialIcons"
+                                  FontSize="48"
+                                  TextColor="{StaticResource Primary}"
+                                  HorizontalOptions="Center" />
+
+                            <Label Text="manage_search"
+                                  FontFamily="MaterialIcons"
+                                  FontSize="24"
+                                  TextColor="{StaticResource TextTertiary}"
+                                  HorizontalOptions="Center" />
+                        </StackLayout>
+                    </Border>
+
+                    <StackLayout Spacing="16">
+                        <Label Text="Buscar Contas"
+                              Style="{StaticResource TitleStyle}"
+                              FontSize="22"
+                              HorizontalTextAlignment="Center"
+                              TextColor="{StaticResource TextSecondary}" />
+
+                        <Label Text="Digite o nome de uma conta no campo acima para encontrá-la rapidamente"
+                              Style="{StaticResource BodyStyle}"
+                              HorizontalTextAlignment="Center"
+                              LineHeight="1.4"
+                              Opacity="0.8" />
+                    </StackLayout>
+
+                    <!-- Quick Tips -->
+                    <Border Style="{StaticResource CardStyle}"
+                           BackgroundColor="{StaticResource ElevatedSurface}"
+                           MaximumWidthRequest="300">
+
+                        <StackLayout Spacing="12">
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                                <Label Grid.Column="0"
+                                      Text="lightbulb"
+                                      FontFamily="MaterialIcons"
+                                      FontSize="20"
+                                      TextColor="{StaticResource Warning}"
+                                      VerticalOptions="Start" />
+
+                                <Label Grid.Column="1"
+                                      Text="Dicas de Busca"
+                                      Style="{StaticResource TitleStyle}"
+                                      FontSize="16"
+                                      TextColor="{StaticResource Warning}" />
+                            </Grid>
+
+                            <Label Text="• Digite parte do nome da conta"
+                                  Style="{StaticResource CaptionStyle}"
+                                  FontSize="12" />
+
+                            <Label Text="• A busca é instantânea"
+                                  Style="{StaticResource CaptionStyle}"
+                                  FontSize="12" />
+
+                            <Label Text="• Funciona com qualquer palavra"
+                                  Style="{StaticResource CaptionStyle}"
+                                  FontSize="12" />
+                        </StackLayout>
+                    </Border>
+
+                </StackLayout>
+
+                <!-- Empty State - No Results -->
+                <StackLayout Spacing="32" 
+                            Padding="40,60"
+                            IsVisible="False">
+
+                    <StackLayout.Triggers>
+                        <MultiTrigger TargetType="StackLayout">
+                            <MultiTrigger.Conditions>
+                                <BindingCondition Binding="{Binding SearchText, Converter={StaticResource StringIsNotNullOrEmptyConverter}}" Value="True" />
+                                <BindingCondition Binding="{Binding FilteredAccounts.Count}" Value="0" />
+                            </MultiTrigger.Conditions>
+                            <Setter Property="IsVisible" Value="True" />
+                        </MultiTrigger>
+                    </StackLayout.Triggers>
+
+                    <Border WidthRequest="120" HeightRequest="120"
+                           BackgroundColor="{StaticResource ElevatedSurface}"
+                           StrokeShape="RoundRectangle 32"
+                           Stroke="{StaticResource BorderPrimary}"
+                           HorizontalOptions="Center">
+
+                        <Border.Shadow>
+                            <Shadow Brush="#25000000" Offset="0,12" Radius="32" Opacity="0.15" />
+                        </Border.Shadow>
+
+                        <StackLayout Spacing="8" VerticalOptions="Center">
+                            <Label Text="search_off"
+                                  FontFamily="MaterialIcons"
+                                  FontSize="48"
+                                  TextColor="{StaticResource TextTertiary}"
+                                  HorizontalOptions="Center" />
+
+                            <Label Text="question_mark"
+                                  FontFamily="MaterialIcons"
+                                  FontSize="24"
+                                  TextColor="{StaticResource Warning}"
+                                  HorizontalOptions="Center" />
+                        </StackLayout>
+                    </Border>
+
+                    <StackLayout Spacing="16">
+                        <Label Text="Nenhuma conta encontrada"
+                              Style="{StaticResource TitleStyle}"
+                              FontSize="22"
+                              HorizontalTextAlignment="Center"
+                              TextColor="{StaticResource TextSecondary}" />
+
+                        <Label Text="{Binding SearchText, StringFormat='Nenhum resultado para &quot;{0}&quot;'}"
+                              Style="{StaticResource BodyStyle}"
+                              HorizontalTextAlignment="Center"
+                              FontAttributes="Italic"
+                              Opacity="0.8" />
+
+                        <Label Text="Tente usar outros termos de busca ou verifique a ortografia"
+                              Style="{StaticResource CaptionStyle}"
+                              HorizontalTextAlignment="Center"
+                              Opacity="0.7" />
+                    </StackLayout>
+
+                </StackLayout>
+
+                <!-- Results Header -->
+                <StackLayout Spacing="12"
+                            IsVisible="False">
+
+                    <StackLayout.Triggers>
+                        <DataTrigger TargetType="StackLayout" Binding="{Binding FilteredAccounts.Count, Converter={StaticResource StringIsNotNullOrEmptyConverter}}" Value="True">
+                            <Setter Property="IsVisible" Value="True" />
+                        </DataTrigger>
+                    </StackLayout.Triggers>
+
+                    <!-- Results Summary -->
+                    <Border Style="{StaticResource CardStyle}"
+                           BackgroundColor="{StaticResource ElevatedSurface}"
+                           Padding="16,12">
+
+                        <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                            <Label Grid.Column="0"
+                                  Text="search"
+                                  FontFamily="MaterialIcons"
+                                  FontSize="18"
+                                  TextColor="{StaticResource Primary}"
+                                  VerticalOptions="Center" />
+
+                            <StackLayout Grid.Column="1" Spacing="2">
+                                <Label Text="{Binding FilteredAccounts.Count, StringFormat='Resultados encontrados: {0}'}"
+                                      Style="{StaticResource CaptionStyle}"
+                                      FontAttributes="Bold"
+                                      TextColor="{StaticResource Primary}" />
+
+                                <Label Text="{Binding SearchText, StringFormat='Busca por &quot;{0}&quot;'}"
+                                      Style="{StaticResource CaptionStyle}"
+                                      FontSize="12"
+                                      Opacity="0.8" />
+                            </StackLayout>
+
+                            <Border Grid.Column="2"
+                                   WidthRequest="24" HeightRequest="24"
+                                   BackgroundColor="{StaticResource Primary}"
+                                   StrokeShape="RoundRectangle 6">
+
+                                <Label Text="{Binding FilteredAccounts.Count}"
+                                      Style="{StaticResource CaptionStyle}"
+                                      FontSize="10"
+                                      FontAttributes="Bold"
+                                      TextColor="{StaticResource PrimaryDarkText}"
+                                      HorizontalTextAlignment="Center"
+                                      VerticalTextAlignment="Center" />
+                            </Border>
                         </Grid>
                     </Border>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-    </VerticalStackLayout>
+
+                </StackLayout>
+
+                <!-- Results List -->
+                <CollectionView ItemsSource="{Binding FilteredAccounts}">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="12"/>
+                    </CollectionView.ItemsLayout>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:Account">
+                            <SwipeView>
+                                <SwipeView.RightItems>
+                                    <SwipeItems>
+                                        <SwipeItem Text="Excluir"
+                                                  BackgroundColor="{StaticResource Error}"
+                                                  Command="{Binding x:DataType='viewModels:SearchPageViewModel',Source={RelativeSource AncestorType={x:Type viewModels:SearchPageViewModel}}, Path=DeleteAccountCommand}"
+                                                  CommandParameter="{Binding .}" />
+                                    </SwipeItems>
+                                </SwipeView.RightItems>
+
+                                <Border Style="{StaticResource PremiumListItemStyle}">
+
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding x:DataType='viewModels:SearchPageViewModel',Source={RelativeSource AncestorType={x:Type viewModels:SearchPageViewModel}}, Path=EditAccountCommand}"
+                                                             CommandParameter="{Binding .}" />
+                                    </Border.GestureRecognizers>
+
+                                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="20">
+
+                                        <!-- Account Icon with Highlight -->
+                                        <Border WidthRequest="52" HeightRequest="52"
+                                               BackgroundColor="{Binding Color, Converter={StaticResource HexToColorConverter}}"
+                                               StrokeShape="RoundRectangle 16"
+                                               Grid.Column="0"
+                                               VerticalOptions="Center">
+
+                                            <Border.Shadow>
+                                                <Shadow Brush="{Binding Color, Converter={StaticResource HexToColorConverter}}" 
+                                                       Offset="0,4" Radius="16" Opacity="0.3" />
+                                            </Border.Shadow>
+
+                                            <Grid>
+                                                <!-- Search highlight indicator -->
+                                                <Ellipse WidthRequest="20" HeightRequest="20"
+                                                        Fill="{StaticResource Primary}"
+                                                        HorizontalOptions="End"
+                                                        VerticalOptions="Start"
+                                                        Margin="0,-4,-4,0" />
+
+                                                <Label Text="search"
+                                                      FontFamily="MaterialIcons"
+                                                      FontSize="12"
+                                                      TextColor="{StaticResource PrimaryDarkText}"
+                                                      HorizontalOptions="End"
+                                                      VerticalOptions="Start"
+                                                      Margin="0,-4,-4,0" />
+
+                                                <Label Text="key"
+                                                      FontFamily="MaterialIcons"
+                                                      FontSize="24"
+                                                      TextColor="{StaticResource PrimaryDarkText}"
+                                                      HorizontalOptions="Center"
+                                                      VerticalOptions="Center" />
+                                            </Grid>
+
+                                        </Border>
+
+                                        <!-- Account Info -->
+                                        <StackLayout Grid.Column="1" VerticalOptions="Center" Spacing="6">
+
+                                            <Label Text="{Binding Title}"
+                                                  Style="{StaticResource TitleStyle}"
+                                                  FontSize="18" />
+
+                                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                                                <Label Grid.Column="0"
+                                                      Text="schedule"
+                                                      FontFamily="MaterialIcons"
+                                                      FontSize="14"
+                                                      TextColor="{StaticResource TextTertiary}"
+                                                      VerticalOptions="Center" />
+
+                                                <Label Grid.Column="1"
+                                                      Text="{Binding Created, StringFormat='Criado em {0:dd/MM/yyyy}'}"
+                                                      Style="{StaticResource CaptionStyle}" />
+                                            </Grid>
+
+                                        </StackLayout>
+
+                                        <!-- Access Indicator -->
+                                        <Border Grid.Column="2"
+                                               WidthRequest="32" HeightRequest="32"
+                                               BackgroundColor="{StaticResource SurfaceBackground}"
+                                               StrokeShape="RoundRectangle 10"
+                                               VerticalOptions="Center">
+
+                                            <Label Text="chevron_right"
+                                                  FontFamily="MaterialIcons"
+                                                  FontSize="18"
+                                                  TextColor="{StaticResource Primary}"
+                                                  HorizontalOptions="Center"
+                                                  VerticalOptions="Center" />
+
+                                        </Border>
+
+                                    </Grid>
+                                </Border>
+                            </SwipeView>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </StackLayout>
+        </ScrollView>
+    </Grid>
 </ContentPage>

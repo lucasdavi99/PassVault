@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PassVault.exceptions
+﻿namespace PassVault.exceptions
 {
     internal class InvalidImportPasswordException : Exception
     {
@@ -12,6 +6,6 @@ namespace PassVault.exceptions
 
         public InvalidImportPasswordException(string message) : base(message) { }
 
-        public InvalidImportPasswordException(string message, Exception innerException) : base(message, innerException) { }       
+        public InvalidImportPasswordException(string message, Exception innerException) : base(message, innerException) { }
     }
 }

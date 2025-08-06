@@ -4,10 +4,10 @@ namespace PassVault.Views;
 
 public partial class NewAccountPage : ContentPage, IQueryAttributable
 {
-	public NewAccountPage(NewAccountPageViewModel viewModel)
-	{
-		InitializeComponent();
-        BindingContext = viewModel;      
+    public NewAccountPage(NewAccountPageViewModel viewModel)
+    {
+        InitializeComponent();
+        BindingContext = viewModel;
     }
 
     public void ApplyQueryAttributes(IDictionary<string, object> query)

@@ -3,7 +3,6 @@ using System.Text.Json;
 using PassVault.Data;
 using PassVault.exceptions;
 using PassVault.Models;
-using SQLite;
 
 namespace PassVault.Services
 {

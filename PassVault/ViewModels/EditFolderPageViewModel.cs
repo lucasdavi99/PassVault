@@ -1,10 +1,10 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.ComponentModel.DataAnnotations;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using PassVault.Data;
 using PassVault.Messages;
 using PassVault.Models;
-using System.ComponentModel.DataAnnotations;
 
 namespace PassVault.ViewModels
 {
@@ -50,9 +50,10 @@ namespace PassVault.ViewModels
                 }
 
                 {
-                    _currentFolder.Title = Title;                 
+                    _currentFolder.Title = Title;
                     _currentFolder.Color = SelectedColor.ToHex();
-                };
+                }
+                ;
 
                 await _folderDatabase.SaveFolderAsync(_currentFolder);
                 await Shell.Current.DisplayAlert("Sucesso", "Pasta atualizada com sucesso", "OK");
@@ -101,10 +102,10 @@ namespace PassVault.ViewModels
             if (query.ContainsKey("folderId") && int.TryParse(query["folderId"]?.ToString(), out int folderId))
             {
                 _currentFolder = await _folderDatabase.GetFolderAsync(folderId);
-                
+
                 if (_currentFolder != null)
                 {
-                    Title = _currentFolder.Title;                    
+                    Title = _currentFolder.Title;
                     SelectedColor = Color.FromArgb(_currentFolder.Color);
                 }
             }
