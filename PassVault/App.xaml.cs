@@ -14,14 +14,9 @@ namespace PassVault
             _inactivityService.TimeoutElapsed += OnInactivityTimeout;
         }
 
-        // Altere a assinatura para aceitar activationState anulável, conforme o método base permite.
         protected override Window CreateWindow(IActivationState? activationState)
         {
-            Window window = new Window(new AppShell());
-
-            // Adicionar handler para quando a página for exibida novamente
-            window.Resumed += OnWindowResumed;
-
+            Window window = new Window(new AppShell());            
             return window;
         }
 
@@ -47,35 +42,7 @@ namespace PassVault
         {
             base.OnResume();
             _inactivityService.Stop();
-        }
-
-        // Altere a assinatura do método para aceitar sender anulável, conforme o EventHandler espera.
-        private void OnWindowResumed(object? sender, EventArgs e)
-        {
-            // Quando a janela for resumida, forçar uma atualização se necessário
-            // Isso ajuda com problemas de navegação
-            MainThread.BeginInvokeOnMainThread(async () =>
-            {
-                try
-                {
-                    // Se estiver na MainPage, forçar refresh
-                    if (Shell.Current?.CurrentPage?.GetType().Name == "MainPage")
-                    {
-                        var currentPage = Shell.Current.CurrentPage;
-                        if (currentPage?.BindingContext is ViewModels.MainPageViewModel mainViewModel)
-                        {
-                            // Pequeno delay para garantir que a navegação terminou
-                            await Task.Delay(100);
-                            await mainViewModel.RefreshCommand?.ExecuteAsync(null);
-                        }
-                    }
-                }
-                catch
-                {
-                    // Ignorar erros de navegação
-                }
-            });
-        }
+        }     
 
         private async void OnInactivityTimeout()
         {

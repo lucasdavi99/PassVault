@@ -38,24 +38,7 @@ namespace PassVault
             // Quando navegar de volta para MainPage, forçar refresh
             if (e.Current?.Location?.ToString().Contains("MainPage") == true)
             {
-                await Task.Delay(200); // Pequeno delay para garantir que a página foi carregada
-
-                var currentPage = CurrentPage;
-                if (currentPage?.BindingContext is ViewModels.MainPageViewModel mainViewModel)
-                {
-                    // Forçar refresh da aba atual
-                    await MainThread.InvokeOnMainThreadAsync(async () =>
-                    {
-                        try
-                        {
-                            await mainViewModel.RefreshCommand?.ExecuteAsync(null);
-                        }
-                        catch
-                        {
-                            // Ignorar erros
-                        }
-                    });
-                }
+                await Task.Delay(200);  
             }
 
             // Quando navegar de volta para FolderPage, forçar refresh

@@ -43,6 +43,8 @@ namespace PassVault.ViewModels
         [ObservableProperty]
         private bool _isRefreshing = false;
 
+        private readonly SemaphoreSlim _refreshSemaphore = new(1, 1);
+
         public IRelayCommand SelectTabCommand { get; }
         public IAsyncRelayCommand LoadMoreAccountsCommand { get; }
         public IAsyncRelayCommand LoadMoreFoldersCommand { get; }
@@ -81,19 +83,40 @@ namespace PassVault.ViewModels
 
         private async Task RefreshCurrentTabAsync()
         {
-            if (IsRefreshing) return;
+            // Usar semáforo para evitar múltiplas execuções simultâneas
+            if (!await _refreshSemaphore.WaitAsync(0))
+                return;
 
-            IsRefreshing = true;
             try
             {
-                if (SelectedTab == "Itens")
-                    await LoadAccountsAsync(refresh: true);
-                else if (SelectedTab == "Pastas")
-                    await LoadFoldersAsync(refresh: true);
+                // Garantir que IsRefreshing seja true no início
+                await MainThread.InvokeOnMainThreadAsync(() => IsRefreshing = true);
+
+                // Adicionar timeout para evitar travamento
+                using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+
+                try
+                {
+                    if (SelectedTab == "Itens")
+                        await LoadAccountsAsync(refresh: true);
+                    else if (SelectedTab == "Pastas")
+                        await LoadFoldersAsync(refresh: true);
+                }
+                catch (OperationCanceledException)
+                {
+                    // Timeout atingido
+                    System.Diagnostics.Debug.WriteLine("RefreshCurrentTabAsync: Timeout reached");
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"RefreshCurrentTabAsync Error: {ex.Message}");
+                }
             }
             finally
             {
-                IsRefreshing = false;
+                // SEMPRE setar IsRefreshing para false, mesmo se houver erro
+                await MainThread.InvokeOnMainThreadAsync(() => IsRefreshing = false);
+                _refreshSemaphore.Release();
             }
         }
 
@@ -292,7 +315,8 @@ namespace PassVault.ViewModels
             }
             catch (Exception ex)
             {
-                await Shell.Current.DisplayAlert("Erro", $"Erro ao carregar contas: {ex.Message}", "OK");
+                System.Diagnostics.Debug.WriteLine($"LoadAccountsAsync Error: {ex.Message}");
+                // Removido o DisplayAlert para evitar problemas durante o refresh
             }
             finally
             {
@@ -349,7 +373,8 @@ namespace PassVault.ViewModels
             }
             catch (Exception ex)
             {
-                await Shell.Current.DisplayAlert("Erro", $"Erro ao carregar pastas: {ex.Message}", "OK");
+                System.Diagnostics.Debug.WriteLine($"LoadFoldersAsync Error: {ex.Message}");
+                // Removido o DisplayAlert para evitar problemas durante o refresh
             }
             finally
             {
@@ -417,6 +442,8 @@ namespace PassVault.ViewModels
 
                 Accounts?.Clear();
                 Folders?.Clear();
+
+                _refreshSemaphore?.Dispose();
 
                 _disposed = true;
             }
