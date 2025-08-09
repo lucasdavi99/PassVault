@@ -106,7 +106,7 @@
                 </Grid>
 
                 <!-- Mode Indicator -->
-                <Border WidthRequest="120" HeightRequest="32"
+                <Border WidthRequest="120" HeightRequest="40"
                         BackgroundColor="{StaticResource ElevatedSurface}"
                         StrokeShape="RoundRectangle 16"
                         HorizontalOptions="Center">
@@ -394,7 +394,7 @@
         <!-- Fixed Action Buttons -->
         <Border Grid.Row="2"
                 VerticalOptions="End"
-                HorizontalOptions="FillAndExpand"
+                HorizontalOptions="Fill"
                 BackgroundColor="{StaticResource Background}"
                 Padding="24,16,24,32">
 

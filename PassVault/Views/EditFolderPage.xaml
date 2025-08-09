@@ -87,7 +87,7 @@
                 </Grid>
 
                 <!-- Mode Indicator -->
-                <Border WidthRequest="120" HeightRequest="32"
+                <Border WidthRequest="120" HeightRequest="40"
                 BackgroundColor="{StaticResource ElevatedSurface}"
                 StrokeShape="RoundRectangle 16"
                 HorizontalOptions="Center">
