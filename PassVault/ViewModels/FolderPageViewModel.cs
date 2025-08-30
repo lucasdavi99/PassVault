@@ -23,6 +23,14 @@ namespace PassVault.ViewModels
         [ObservableProperty]
         private ObservableCollection<Account> accounts;
 
+        // Propriedade para controlar a visibilidade do estado vazio
+        [ObservableProperty]
+        private bool isEmpty;
+
+        // Propriedade para controlar a visibilidade da lista de contas
+        [ObservableProperty]
+        private bool hasAccounts;
+
         public FolderPageViewModel(AccountDatabase accountDatabase, FolderDatabase folderDatabase)
         {
             _accountDatabase = accountDatabase;
@@ -31,6 +39,9 @@ namespace PassVault.ViewModels
 
             // Registrar para receber mensagens de conta salva
             WeakReferenceMessenger.Default.Register<AccountSavedMessage>(this);
+
+            // Inicializar propriedades de visibilidade
+            UpdateVisibilityProperties();
         }
 
         [RelayCommand]
@@ -73,6 +84,9 @@ namespace PassVault.ViewModels
                     // Remover da coleção local imediatamente
                     Accounts.Remove(account);
 
+                    // Atualizar as propriedades de visibilidade após remoção
+                    UpdateVisibilityProperties();
+
                     await Shell.Current.DisplayAlert("Sucesso", "Conta excluída com sucesso.", "OK");
                 }
             }
@@ -99,11 +113,21 @@ namespace PassVault.ViewModels
                 {
                     Accounts.Add(item);
                 }
+
+                // Atualizar as propriedades de visibilidade após carregar dados
+                UpdateVisibilityProperties();
             }
             catch (Exception ex)
             {
                 await Shell.Current.DisplayAlert("Erro", $"Erro ao carregar dados: {ex.Message}", "OK");
             }
+        }
+
+        // Método para atualizar as propriedades de visibilidade
+        private void UpdateVisibilityProperties()
+        {
+            IsEmpty = Accounts == null || Accounts.Count == 0;
+            HasAccounts = !IsEmpty;
         }
 
         // Handler para quando uma conta é salva
@@ -123,6 +147,17 @@ namespace PassVault.ViewModels
                 FolderId = folderId;
                 await LoadDataAsync();
             }
+        }
+
+        // Override da propriedade Accounts para garantir que a visibilidade seja atualizada
+        partial void OnAccountsChanged(ObservableCollection<Account> value)
+        {
+            if (value != null)
+            {
+                // Registrar para mudanças na coleção
+                value.CollectionChanged += (s, e) => UpdateVisibilityProperties();
+            }
+            UpdateVisibilityProperties();
         }
 
         // IDisposable implementation
