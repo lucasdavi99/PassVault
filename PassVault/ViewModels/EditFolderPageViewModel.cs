@@ -49,11 +49,9 @@ namespace PassVault.ViewModels
                     return;
                 }
 
-                {
-                    _currentFolder.Title = Title;
-                    _currentFolder.Color = SelectedColor.ToHex();
-                }
-                ;
+                _currentFolder.Title = Title;
+                _currentFolder.Color = SelectedColor.ToHex();
+                // Mantém ParentFolderId original - não permitimos mudar hierarquia aqui
 
                 await _folderDatabase.SaveFolderAsync(_currentFolder);
                 await Shell.Current.DisplayAlert("Sucesso", "Pasta atualizada com sucesso", "OK");
