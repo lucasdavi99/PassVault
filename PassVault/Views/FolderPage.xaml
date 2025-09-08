@@ -6,8 +6,7 @@
              xmlns:converters="clr-namespace:PassVault.Converters"
              x:Class="PassVault.Views.FolderPage"
              x:DataType="viewModels:FolderPageViewModel"
-             Shell.NavBarIsVisible="False"
-             Title="{Binding Folder.Title}">
+             Shell.NavBarIsVisible="True">
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -20,7 +19,7 @@
         <!-- Modern Header -->
         <Border Grid.Row="0" 
                 Background="{StaticResource SurfaceGradient}"
-                Padding="0,50,0,24"
+                Padding="0,30,0,24"
                 StrokeShape="RoundRectangle 0,0,28,28">
 
             <StackLayout Spacing="16">
@@ -29,25 +28,6 @@
                 <Grid ColumnDefinitions="Auto,*,Auto" 
                       ColumnSpacing="16"
                       Margin="20,0">
-
-                    <!-- Back Button -->
-                    <Border Grid.Column="0"
-                            WidthRequest="44" HeightRequest="44"
-                            BackgroundColor="{StaticResource ElevatedSurface}"
-                            StrokeShape="RoundRectangle 14"
-                            Stroke="{StaticResource BorderPrimary}">
-
-                        <Border.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding GoToHomeCommand}" />
-                        </Border.GestureRecognizers>
-
-                        <Label Text="arrow_back"
-                               FontFamily="MaterialIcons"
-                               FontSize="20"
-                               TextColor="{StaticResource TextSecondary}"
-                               HorizontalOptions="Center"
-                               VerticalOptions="Center" />
-                    </Border>
 
                     <!-- Folder Info -->
                     <StackLayout Grid.Column="1" 
@@ -74,7 +54,7 @@
                                        VerticalOptions="Center" />
                             </Border>
 
-                            <StackLayout Grid.Column="1" VerticalOptions="Center" Spacing="2">
+                            <StackLayout Grid.Column="1"  Spacing="2">
                                 <Label Text="{Binding Folder.Title}"
                                        Style="{StaticResource HeadlineStyle}"
                                        FontSize="20"
@@ -82,7 +62,9 @@
 
                                 <Label Text="Gerencie contas e pastas"
                                        Style="{StaticResource CaptionStyle}"
-                                       Opacity="0.8" />
+                                       Opacity="0.8" 
+                                       HorizontalTextAlignment="Center"
+                                       HorizontalOptions="Center"/>
                             </StackLayout>
                         </Grid>
                     </StackLayout>
@@ -137,9 +119,13 @@
                         <TapGestureRecognizer Command="{Binding ShowAccountsTabCommand}" />
                     </Border.GestureRecognizers>
 
-                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
-                        <Label Grid.Column="0"
-                               Text="key"
+                    <!-- icone de contas -->
+                    <StackLayout Orientation="Horizontal" 
+                                 Spacing="6"
+                                 HorizontalOptions="Center"
+                                 VerticalOptions="Center">
+
+                        <Label Text="key"
                                FontFamily="MaterialIcons"
                                FontSize="18"
                                VerticalOptions="Center">
@@ -153,8 +139,7 @@
                             </Label.Triggers>
                         </Label>
 
-                        <Label Grid.Column="1"
-                               Text="Contas"
+                        <Label Text="Contas"
                                Style="{StaticResource TitleStyle}"
                                FontSize="14"
                                FontAttributes="Bold"
@@ -168,7 +153,7 @@
                                 </DataTrigger>
                             </Label.Triggers>
                         </Label>
-                    </Grid>
+                    </StackLayout>
                 </Border>
 
                 <!-- Tab Pastas -->
@@ -189,9 +174,13 @@
                         <TapGestureRecognizer Command="{Binding ShowFoldersTabCommand}" />
                     </Border.GestureRecognizers>
 
-                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
-                        <Label Grid.Column="0"
-                               Text="folder"
+                    <!-- icone pasta -->
+                    <StackLayout Orientation="Horizontal" 
+                                 Spacing="6"
+                                 HorizontalOptions="Center"
+                                 VerticalOptions="Center">
+
+                        <Label Text="folder"
                                FontFamily="MaterialIcons"
                                FontSize="18"
                                VerticalOptions="Center">
@@ -205,8 +194,7 @@
                             </Label.Triggers>
                         </Label>
 
-                        <Label Grid.Column="1"
-                               Text="Pastas"
+                        <Label Text="Pastas"
                                Style="{StaticResource TitleStyle}"
                                FontSize="14"
                                VerticalOptions="Center">
@@ -219,7 +207,7 @@
                                 </DataTrigger>
                             </Label.Triggers>
                         </Label>
-                    </Grid>
+                    </StackLayout>
                 </Border>
             </Grid>
         </Border>
@@ -427,14 +415,12 @@
             </StackLayout>
         </ScrollView>
 
-        <!-- Floating Action Buttons -->
         <StackLayout Grid.Row="3" 
                      Orientation="Horizontal"
                      HorizontalOptions="End"
                      Spacing="16"
                      Margin="20,16,20,32">
 
-            <!-- Add Account Button (visible na aba Contas) -->
             <Border WidthRequest="56" HeightRequest="56"
                     BackgroundColor="{StaticResource Primary}"
                     StrokeShape="RoundRectangle 20"
@@ -449,15 +435,18 @@
                     <TapGestureRecognizer Command="{Binding AddNewItemCommand}" />
                 </Border.GestureRecognizers>
 
-                <Label Text="key"
-                       FontFamily="MaterialIcons"
-                       FontSize="24"
-                       TextColor="{StaticResource PrimaryDarkText}"
-                       HorizontalOptions="Center"
-                       VerticalOptions="Center" />
+                <Grid>
+                    <Label Text="key"
+                           FontFamily="MaterialIcons"
+                           FontSize="24"
+                           TextColor="{StaticResource PrimaryDarkText}"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           HorizontalTextAlignment="Center"
+                           VerticalTextAlignment="Center" />
+                </Grid>
             </Border>
 
-            <!-- Add SubFolder Button (visible na aba Pastas) -->
             <Border WidthRequest="56" HeightRequest="56"
                     BackgroundColor="{StaticResource Secondary}"
                     StrokeShape="RoundRectangle 20"
@@ -472,12 +461,16 @@
                     <TapGestureRecognizer Command="{Binding AddNewSubFolderCommand}" />
                 </Border.GestureRecognizers>
 
-                <Label Text="create_new_folder"
-                       FontFamily="MaterialIcons"
-                       FontSize="24"
-                       TextColor="{StaticResource SecondaryDarkText}"
-                       HorizontalOptions="Center"
-                       VerticalOptions="Center" />
+                <Grid>
+                    <Label Text="create_new_folder"
+                           FontFamily="MaterialIcons"
+                           FontSize="24"
+                           TextColor="{StaticResource SecondaryDarkText}"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           HorizontalTextAlignment="Center"
+                           VerticalTextAlignment="Center" />
+                </Grid>
             </Border>
         </StackLayout>
     </Grid>
