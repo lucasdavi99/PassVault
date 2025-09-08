@@ -276,10 +276,6 @@
                                 <SwipeView>
                                     <SwipeView.RightItems>
                                         <SwipeItems>
-                                            <SwipeItem Text="Editar"
-                                                       BackgroundColor="{StaticResource Primary}"
-                                                       Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:FolderPageViewModel}}, Path=EditAccountInFolderCommand}"
-                                                       CommandParameter="{Binding .}" />
                                             <SwipeItem Text="Excluir"
                                                        BackgroundColor="{StaticResource Error}"
                                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:FolderPageViewModel}}, Path=DeleteAccountInFolderCommand}"
@@ -288,6 +284,11 @@
                                     </SwipeView.RightItems>
 
                                     <Border Style="{StaticResource PremiumListItemStyle}">
+
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:FolderPageViewModel}}, Path=EditAccountInFolderCommand}"
+                                                                  CommandParameter="{Binding .}" />
+                                        </Border.GestureRecognizers>
                                         <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="16">
 
                                             <!-- Account Icon -->
@@ -317,10 +318,18 @@
                                                        FontSize="16"
                                                        TextColor="{StaticResource TextPrimary}" />
 
-                                                <Label Text="{Binding Username}"
-                                                       Style="{StaticResource CaptionStyle}"
-                                                       IsVisible="{Binding Username, Converter={StaticResource IsNotNullOrEmptyConverter}}"
-                                                       Opacity="0.8" />
+                                                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                                                    <Label Grid.Column="0"
+                                                           Text="schedule"
+                                                           FontFamily="MaterialIcons"
+                                                           FontSize="14"
+                                                           TextColor="{StaticResource TextTertiary}"
+                                                           VerticalOptions="Center" />
+
+                                                    <Label Grid.Column="1"
+                                                           Text="{Binding Created, StringFormat='Criado em {0:dd/MM/yyyy}'}"
+                                                           Style="{StaticResource CaptionStyle}" /> 
+                                                </Grid>
                                             </StackLayout>
 
                                             <!-- Arrow -->
