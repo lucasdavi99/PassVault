@@ -22,7 +22,7 @@
         <!-- Modern Header -->
         <Border Grid.Row="0" 
                 Background="{StaticResource SurfaceGradient}"
-                Padding="0,50,0,28"
+                Padding="0,10,0,28"
                 StrokeShape="RoundRectangle 0,0,32,32">
 
             <Grid RowDefinitions="Auto,Auto" RowSpacing="24">
@@ -440,7 +440,7 @@
         </Border>
 
         <!-- Modern Floating Action Menu -->
-        <Border Grid.Row="2"
+        <Border Grid.Row="3"
                 Style="{StaticResource NavigationMenuStyle}"
                 WidthRequest="340"
                 HeightRequest="100"

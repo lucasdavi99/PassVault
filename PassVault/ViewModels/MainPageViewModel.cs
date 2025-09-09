@@ -1,12 +1,13 @@
-﻿using System.Collections.ObjectModel;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Maui.Controls.PlatformConfiguration.GTKSpecific;
 using PassVault.Data;
 using PassVault.Messages;
 using PassVault.Models;
 using PassVault.Services;
 using PassVault.Views;
+using System.Collections.ObjectModel;
 
 namespace PassVault.ViewModels
 {
@@ -43,6 +44,9 @@ namespace PassVault.ViewModels
         [ObservableProperty]
         private bool _isRefreshing = false;
 
+        [ObservableProperty]
+        private bool isEmpty;
+
         private readonly SemaphoreSlim _refreshSemaphore = new(1, 1);
 
         public IRelayCommand SelectTabCommand { get; }
@@ -78,49 +82,9 @@ namespace PassVault.ViewModels
         partial void OnTabPositionChanged(int value)
         {
             SelectedTab = value == 0 ? "Itens" : "Pastas";
-            _ = RefreshCurrentTabAsync();
         }
 
-        private async Task RefreshCurrentTabAsync()
-        {
-            // Usar semáforo para evitar múltiplas execuções simultâneas
-            if (!await _refreshSemaphore.WaitAsync(0))
-                return;
-
-            try
-            {
-                // Garantir que IsRefreshing seja true no início
-                await MainThread.InvokeOnMainThreadAsync(() => IsRefreshing = true);
-
-                // Adicionar timeout para evitar travamento
-                using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(10));
-
-                try
-                {
-                    if (SelectedTab == "Itens")
-                        await LoadAccountsAsync(refresh: true);
-                    else if (SelectedTab == "Pastas")
-                        await LoadFoldersAsync(refresh: true);
-                }
-                catch (OperationCanceledException)
-                {
-                    // Timeout atingido
-                    System.Diagnostics.Debug.WriteLine("RefreshCurrentTabAsync: Timeout reached");
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Debug.WriteLine($"RefreshCurrentTabAsync Error: {ex.Message}");
-                }
-            }
-            finally
-            {
-                // SEMPRE setar IsRefreshing para false, mesmo se houver erro
-                await MainThread.InvokeOnMainThreadAsync(() => IsRefreshing = false);
-                _refreshSemaphore.Release();
-            }
-        }
-
-        private async Task OnTabSelected(string? tab)
+        private async Task OnTabSelected(string tab)
         {
             if (string.IsNullOrEmpty(tab)) return;
 
@@ -161,6 +125,18 @@ namespace PassVault.ViewModels
             {
                 await Shell.Current.DisplayAlert("Erro", $"Erro ao navegar: {ex.Message}", "OK");
             }
+        }
+
+        [RelayCommand]
+        private async Task AddNewItemAsync()
+        {
+            await Shell.Current.GoToAsync(nameof(FieldsSelection), true);
+        }
+
+        [RelayCommand]
+        private async Task AddNewFolderAsync()
+        {
+            await Shell.Current.GoToAsync(nameof(NewFolderPage), true);
         }
 
         [RelayCommand]
@@ -209,6 +185,7 @@ namespace PassVault.ViewModels
                     _cacheService.ClearAccountsCache();
 
                     await Shell.Current.DisplayAlert("Sucesso", "Conta excluída com sucesso.", "OK");
+                    UpdateEmptyState();
                 }
             }
             catch (Exception ex)
@@ -224,7 +201,7 @@ namespace PassVault.ViewModels
 
             try
             {
-                bool confirm = await Shell.Current.DisplayAlert("Confirmação", "Deseja realmente excluir essa pasta? Todos os itens dentro da pasta serão excluidos", "Sim", "Não");
+                bool confirm = await Shell.Current.DisplayAlert("Confirmação", "Deseja realmente excluir essa pasta? Todos os itens e subpastas dentro da pasta serão excluidos", "Sim", "Não");
 
                 if (confirm)
                 {
@@ -238,6 +215,7 @@ namespace PassVault.ViewModels
                     _cacheService.ClearAccountsCache(); // Contas também podem ter sido afetadas
 
                     await Shell.Current.DisplayAlert("Sucesso", "Pasta excluída com sucesso.", "OK");
+                    UpdateEmptyState();
                 }
             }
             catch (Exception ex)
@@ -265,12 +243,14 @@ namespace PassVault.ViewModels
         private async Task Help() =>
             await Shell.Current.DisplayAlert("Ajuda", "Para deletar uma conta ou pasta, arraste para o lado esquerdo.", "OK");
 
-        // Métodos de carregamento otimizados
+        // Métodos de carregamento com paginação
         private async Task LoadAccountsAsync(bool refresh = false)
         {
-            if (_isLoadingAccounts && !refresh) return;
+            if (_isLoadingAccounts || (!refresh && !_hasMoreAccounts))
+                return;
 
             _isLoadingAccounts = true;
+
             try
             {
                 if (refresh)
@@ -279,44 +259,30 @@ namespace PassVault.ViewModels
                     _hasMoreAccounts = true;
 
                     await MainThread.InvokeOnMainThreadAsync(() => Accounts.Clear());
-
-                    // Limpar cache ao fazer refresh
-                    _cacheService.ClearAccountsCache();
                 }
 
-                if (!_hasMoreAccounts) return;
+                // Carregar apenas contas sem pasta (da MainPage)
+                var newAccounts = await _database.GetAccountsWithoutFolderAsync(_currentAccountPage * PageSize, PageSize);
 
-                // Não usar cache se for um refresh para garantir dados atualizados
-                List<Account> accounts;
-                if (refresh)
-                {
-                    accounts = await _database.GetAccountsWithoutFolderAsync(_currentAccountPage * PageSize, PageSize);
-                }
-                else
-                {
-                    accounts = await _cacheService.GetOrSetAsync(
-                        $"accounts_page_{_currentAccountPage}",
-                        () => _database.GetAccountsWithoutFolderAsync(_currentAccountPage * PageSize, PageSize),
-                        TimeSpan.FromMinutes(5));
-                }
+                _hasMoreAccounts = newAccounts.Count == PageSize;
+                _currentAccountPage++;
 
-                if (accounts.Count < PageSize)
-                    _hasMoreAccounts = false;
+                var sortedAccounts = newAccounts
+                    .OrderBy(account => account.Title, StringComparer.OrdinalIgnoreCase)
+                    .ToList();
 
                 await MainThread.InvokeOnMainThreadAsync(() =>
                 {
-                    foreach (var account in accounts)
+                    foreach (var account in sortedAccounts)
                     {
                         Accounts.Add(account);
                     }
+                    UpdateEmptyState();
                 });
-
-                _currentAccountPage++;
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"LoadAccountsAsync Error: {ex.Message}");
-                // Removido o DisplayAlert para evitar problemas durante o refresh
+                await Shell.Current.DisplayAlert("Erro", $"Erro ao carregar contas: {ex.Message}", "OK");
             }
             finally
             {
@@ -326,9 +292,11 @@ namespace PassVault.ViewModels
 
         private async Task LoadFoldersAsync(bool refresh = false)
         {
-            if (_isLoadingFolders && !refresh) return;
+            if (_isLoadingFolders || (!refresh && !_hasMoreFolders))
+                return;
 
             _isLoadingFolders = true;
+
             try
             {
                 if (refresh)
@@ -337,44 +305,26 @@ namespace PassVault.ViewModels
                     _hasMoreFolders = true;
 
                     await MainThread.InvokeOnMainThreadAsync(() => Folders.Clear());
-
-                    // Limpar cache ao fazer refresh
-                    _cacheService.ClearFoldersCache();
                 }
 
-                if (!_hasMoreFolders) return;
+                // Carregar apenas pastas raiz (sem pai)
+                var newFolders = await _folderDatabase.GetFoldersPagedAsync(_currentFolderPage * PageSize, PageSize);
 
-                // Não usar cache se for um refresh para garantir dados atualizados
-                List<Folder> folders;
-                if (refresh)
-                {
-                    folders = await _folderDatabase.GetFoldersPagedAsync(_currentFolderPage * PageSize, PageSize);
-                }
-                else
-                {
-                    folders = await _cacheService.GetOrSetAsync(
-                        $"folders_page_{_currentFolderPage}",
-                        () => _folderDatabase.GetFoldersPagedAsync(_currentFolderPage * PageSize, PageSize),
-                        TimeSpan.FromMinutes(5));
-                }
-
-                if (folders.Count < PageSize)
-                    _hasMoreFolders = false;
+                _hasMoreFolders = newFolders.Count == PageSize;
+                _currentFolderPage++;
 
                 await MainThread.InvokeOnMainThreadAsync(() =>
                 {
-                    foreach (var folder in folders)
+                    foreach (var folder in newFolders)
                     {
                         Folders.Add(folder);
                     }
+                    UpdateEmptyState();
                 });
-
-                _currentFolderPage++;
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"LoadFoldersAsync Error: {ex.Message}");
-                // Removido o DisplayAlert para evitar problemas durante o refresh
+                await Shell.Current.DisplayAlert("Erro", $"Erro ao carregar pastas: {ex.Message}", "OK");
             }
             finally
             {
@@ -384,29 +334,57 @@ namespace PassVault.ViewModels
 
         private async Task LoadMoreAccountsAsync()
         {
-            if (SelectedTab != "Itens") return;
-            await LoadAccountsAsync();
+            if (SelectedTab == "Itens")
+            {
+                await LoadAccountsAsync();
+            }
         }
 
         private async Task LoadMoreFoldersAsync()
         {
-            if (SelectedTab != "Pastas") return;
-            await LoadFoldersAsync();
+            if (SelectedTab == "Pastas")
+            {
+                await LoadFoldersAsync();
+            }
         }
 
-        // Message handlers - CORRIGIDOS
+        private async Task RefreshCurrentTabAsync()
+        {
+            if (_refreshSemaphore.CurrentCount == 0)
+                return;
+
+            await _refreshSemaphore.WaitAsync();
+
+            try
+            {
+                IsRefreshing = true;
+
+                if (SelectedTab == "Itens")
+                {
+                    await LoadAccountsAsync(refresh: true);
+                }
+                else if (SelectedTab == "Pastas")
+                {
+                    await LoadFoldersAsync(refresh: true);
+                }
+            }
+            finally
+            {
+                IsRefreshing = false;
+                _refreshSemaphore.Release();
+            }
+        }
+
+        private void UpdateEmptyState()
+        {
+            IsEmpty = (Accounts?.Count ?? 0) == 0 && (Folders?.Count ?? 0) == 0;
+        }
+
         public async void Receive(AccountSavedMessage message)
         {
             if (message.Value)
             {
-                // Limpar cache
-                _cacheService.ClearAccountsCache();
-
-                // Executar na UI thread e aguardar
-                await MainThread.InvokeOnMainThreadAsync(async () =>
-                {
-                    await LoadAccountsAsync(refresh: true);
-                });
+                await RefreshCurrentTabAsync();
             }
         }
 
@@ -414,14 +392,7 @@ namespace PassVault.ViewModels
         {
             if (message.Value)
             {
-                // Limpar cache
-                _cacheService.ClearFoldersCache();
-
-                // Executar na UI thread e aguardar
-                await MainThread.InvokeOnMainThreadAsync(async () =>
-                {
-                    await LoadFoldersAsync(refresh: true);
-                });
+                await RefreshCurrentTabAsync();
             }
         }
 
@@ -439,12 +410,9 @@ namespace PassVault.ViewModels
             if (!_disposed && disposing)
             {
                 WeakReferenceMessenger.Default.UnregisterAll(this);
-
                 Accounts?.Clear();
                 Folders?.Clear();
-
                 _refreshSemaphore?.Dispose();
-
                 _disposed = true;
             }
         }

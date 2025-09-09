@@ -54,18 +54,32 @@ namespace PassVault.ViewModels
         private List<Folder> _folders = new();
 
         [ObservableProperty]
-        private string _selectedFolderName = "Selecione a Pasta";
+        private string _selectedFolderName = "Selecionar Pasta";
 
-        //Campos selecionados.
+        // Campos selecionados
+        [ObservableProperty]
+        private bool isUsernameVisible = true;
 
-        [ObservableProperty] private bool isUsernameVisible = true;
-        [ObservableProperty] private bool isEmailVisible = true;
+        [ObservableProperty]
+        private bool isEmailVisible = true;
+
+        // Novas propriedades para subpastas
+        [ObservableProperty]
+        private Folder _selectedParentFolder;
+
+        [ObservableProperty]
+        private List<Folder> _subFolders = new();
+
+        [ObservableProperty]
+        private string _selectedSubFolderName = "Selecionar Subpasta";
+
+        [ObservableProperty]
+        private bool _hasSubFolderButtonVisible = false;
 
         public EditAccountPageViewModel(AccountDatabase database, FolderDatabase folderDatabase)
         {
             _database = database;
             IsEditing = false;
-
             _folderDatabase = folderDatabase;
 
             WeakReferenceMessenger.Default.Register<PasswordGeneratedMessage>(this, async (r, m) =>
@@ -78,7 +92,7 @@ namespace PassVault.ViewModels
         [RelayCommand]
         private async Task SelectFolderAsync()
         {
-            Folders = await _folderDatabase.GetFoldersAsync();
+            Folders = await _folderDatabase.GetRootFoldersAsync(); // Carregar apenas pastas raiz
 
             if (Folders == null || Folders.Count == 0)
             {
@@ -107,9 +121,94 @@ namespace PassVault.ViewModels
 
                 if (confirm)
                 {
-                    SelectedFolderName = chosenOption;
-                    _currentAccount.FolderId = chosenOption == "Sem Pasta" ? null : Folders.First(f => f.Title == chosenOption).Id;
+                    if (chosenOption == "Sem Pasta")
+                    {
+                        // Limpar seleções
+                        SelectedFolderName = "Sem Pasta";
+                        SelectedParentFolder = null;
+                        SelectedSubFolderName = "Selecionar Subpasta";
+                        HasSubFolderButtonVisible = false;
+                        SubFolders.Clear();
+                        _currentAccount.FolderId = null;
+                    }
+                    else
+                    {
+                        // Pasta selecionada
+                        SelectedFolderName = chosenOption;
+                        SelectedParentFolder = Folders.First(f => f.Title == chosenOption);
+                        _currentAccount.FolderId = SelectedParentFolder.Id;
+
+                        // Resetar subpasta
+                        SelectedSubFolderName = "Selecionar Subpasta";
+
+                        // Carregar subpastas e mostrar botão
+                        await LoadSubFoldersAsync();
+                    }
                 }
+            }
+        }
+
+        [RelayCommand]
+        private async Task SelectSubFolderAsync()
+        {
+            if (SelectedParentFolder == null || SubFolders == null || SubFolders.Count == 0)
+            {
+                await Shell.Current.DisplayAlert("Atenção", "Nenhuma subpasta encontrada nesta pasta.", "OK");
+                return;
+            }
+
+            var sortedSubFolders = SubFolders
+                .OrderBy(f => f.Title, StringComparer.OrdinalIgnoreCase)
+                .ToList();
+
+            var subFolderNames = sortedSubFolders.Select(f => f.Title).ToList();
+            subFolderNames.Insert(0, "Manter na Pasta Principal");
+
+            string chosenOption = await Shell.Current.DisplayActionSheet("Selecione uma subpasta", "Cancelar", null, subFolderNames.ToArray());
+
+            if (chosenOption != null && chosenOption != "Cancelar")
+            {
+                bool confirm = await Shell.Current.DisplayAlert(
+                    "Confirmação",
+                    $"Tem certeza que deseja mover esta conta para a subpasta {chosenOption}?",
+                    "Sim",
+                    "Cancelar"
+                );
+
+                if (confirm)
+                {
+                    if (chosenOption == "Manter na Pasta Principal")
+                    {
+                        SelectedSubFolderName = "Pasta Principal";
+                        _currentAccount.FolderId = SelectedParentFolder.Id;
+                    }
+                    else
+                    {
+                        SelectedSubFolderName = chosenOption;
+                        var selectedSubFolder = sortedSubFolders.First(f => f.Title == chosenOption);
+                        _currentAccount.FolderId = selectedSubFolder.Id;
+                    }
+                }
+            }
+        }
+
+        private async Task LoadSubFoldersAsync()
+        {
+            if (SelectedParentFolder == null)
+            {
+                HasSubFolderButtonVisible = false;
+                return;
+            }
+
+            try
+            {
+                SubFolders = await _folderDatabase.GetSubFoldersAsync(SelectedParentFolder.Id);
+                HasSubFolderButtonVisible = SubFolders != null && SubFolders.Count > 0;
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlert("Erro", $"Erro ao carregar subpastas: {ex.Message}", "OK");
+                HasSubFolderButtonVisible = false;
             }
         }
 
@@ -123,15 +222,12 @@ namespace PassVault.ViewModels
                     await Shell.Current.DisplayAlert("Erro", "Preencha os campos obrigatórios", "OK");
                     return;
                 }
-                else
-                {
-                    _currentAccount.Title = Title;
-                    _currentAccount.Username = Username;
-                    _currentAccount.Email = Email;
-                    _currentAccount.Password = Password;
-                    _currentAccount.Color = SelectedColor.ToHex();
-                }
-                ;
+
+                _currentAccount.Title = Title;
+                _currentAccount.Username = Username;
+                _currentAccount.Email = Email;
+                _currentAccount.Password = Password;
+                _currentAccount.Color = SelectedColor.ToHex();
 
                 await _database.SaveAccountAsync(_currentAccount);
                 await Shell.Current.DisplayAlert("Sucesso", "Conta atualizada com sucesso", "OK");
@@ -161,15 +257,13 @@ namespace PassVault.ViewModels
         {
             try
             {
-                //if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                //{
-                //    return true;
-                //}
-
                 var config = new AuthenticationRequestConfiguration("Autenticação necessária", "Desbloqueie o Dispositivo.")
                 {
                     AllowAlternativeAuthentication = true,
+                    CancelTitle = "Cancelar",
+                    FallbackTitle = "Use Senha"
                 };
+
                 var authResult = await CrossFingerprint.Current.AuthenticateAsync(config);
 
                 if (authResult.Authenticated)
@@ -185,14 +279,13 @@ namespace PassVault.ViewModels
             }
             catch (Exception ex)
             {
-                await Shell.Current.DisplayAlert("Erro", ex.Message, "OK");
+                await Shell.Current.DisplayAlert("Erro", $"Erro na autenticação: {ex.Message}", "OK");
                 return false;
             }
         }
 
         partial void OnSelectedColorChanged(Color value)
         {
-            // Força a atualização da interface
             SelectedColorHex = value.ToHex();
             OnPropertyChanged(nameof(SelectedColor));
         }
@@ -213,28 +306,71 @@ namespace PassVault.ViewModels
         {
             if (query.ContainsKey("accountId") && int.TryParse(query["accountId"]?.ToString(), out int accountId))
             {
+                AccountId = accountId;
                 _currentAccount = await _database.GetAccountAsync(accountId);
+
                 if (_currentAccount != null)
                 {
                     Title = _currentAccount.Title;
-                    Username = _currentAccount.Username;
-                    Email = _currentAccount.Email;
+                    Username = _currentAccount.Username ?? string.Empty;
+                    Email = _currentAccount.Email ?? string.Empty;
                     Password = _currentAccount.Password;
                     SelectedColor = Color.FromArgb(_currentAccount.Color);
+
+                    // Configurar pasta/subpasta baseado no FolderId
+                    await ConfigureFolderDisplayAsync();
+                }
+
+                if (query.ContainsKey("selectedFields") && query["selectedFields"] is Dictionary<string, bool> selectedFields)
+                {
+                    IsUsernameVisible = selectedFields.GetValueOrDefault("Username", true);
+                    IsEmailVisible = selectedFields.GetValueOrDefault("Email", true);
                 }
             }
+        }
 
-            //Query dos campos selecionados para visibilidade
-            if (query.ContainsKey("selectedFields"))
+        private async Task ConfigureFolderDisplayAsync()
+        {
+            if (_currentAccount.FolderId == null)
             {
-                if (query["selectedFields"] is Dictionary<string, bool> fields)
-                {
-                    if (fields.TryGetValue("Username", out bool usernameVisible))
-                        IsUsernameVisible = usernameVisible;
+                SelectedFolderName = "Sem Pasta";
+                SelectedParentFolder = null;
+                SelectedSubFolderName = "Selecionar Subpasta";
+                HasSubFolderButtonVisible = false;
+                return;
+            }
 
-                    if (fields.TryGetValue("Email", out bool emailVisible))
-                        IsEmailVisible = emailVisible;
+            try
+            {
+                var currentFolder = await _folderDatabase.GetFolderAsync(_currentAccount.FolderId.Value);
+
+                if (currentFolder == null)
+                {
+                    SelectedFolderName = "Pasta não encontrada";
+                    return;
                 }
+
+                if (currentFolder.ParentFolderId == null)
+                {
+                    // É uma pasta raiz
+                    SelectedFolderName = currentFolder.Title;
+                    SelectedParentFolder = currentFolder;
+                    SelectedSubFolderName = "Pasta Principal";
+                    await LoadSubFoldersAsync();
+                }
+                else
+                {
+                    // É uma subpasta
+                    var parentFolder = await _folderDatabase.GetFolderAsync(currentFolder.ParentFolderId.Value);
+                    SelectedFolderName = parentFolder?.Title ?? "Pasta não encontrada";
+                    SelectedParentFolder = parentFolder;
+                    SelectedSubFolderName = currentFolder.Title;
+                    await LoadSubFoldersAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlert("Erro", $"Erro ao carregar informações da pasta: {ex.Message}", "OK");
             }
         }
     }

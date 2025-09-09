@@ -22,9 +22,10 @@ namespace PassVault.Data
                 _database = new SQLiteAsyncConnection(Constants.DatabasePath, Constants.Flags);
                 await _database.CreateTableAsync<Folder>();
 
-                // Adicionar índices
+                // Índices otimizados para hierarquia
                 await _database.ExecuteAsync("CREATE INDEX IF NOT EXISTS IX_Folder_Title ON Folder(Title)");
                 await _database.ExecuteAsync("CREATE INDEX IF NOT EXISTS IX_Folder_Created ON Folder(Created)");
+                await _database.ExecuteAsync("CREATE INDEX IF NOT EXISTS IX_Folder_ParentId ON Folder(ParentFolderId)");
             }
             finally
             {
@@ -32,18 +33,38 @@ namespace PassVault.Data
             }
         }
 
-        public async Task<List<Folder>> GetFoldersAsync()
+        // Buscar pastas raiz (sem pai)
+        public async Task<List<Folder>> GetRootFoldersAsync()
         {
             await Init();
             if (_database == null)
                 throw new InvalidOperationException("Database not initialized");
 
             return await _database.Table<Folder>()
+                .Where(f => f.ParentFolderId == null)
                 .OrderBy(f => f.Title)
                 .ToListAsync();
         }
 
-        // Nova versão com paginação
+        // Buscar subpastas de uma pasta pai
+        public async Task<List<Folder>> GetSubFoldersAsync(int parentId)
+        {
+            await Init();
+            if (_database == null)
+                throw new InvalidOperationException("Database not initialized");
+
+            return await _database.Table<Folder>()
+                .Where(f => f.ParentFolderId == parentId)
+                .OrderBy(f => f.Title)
+                .ToListAsync();
+        }
+
+        // Método existente mantido para compatibilidade - agora retorna apenas pastas raiz
+        public async Task<List<Folder>> GetFoldersAsync()
+        {
+            return await GetRootFoldersAsync();
+        }
+
         public async Task<List<Folder>> GetFoldersPagedAsync(int skip = 0, int take = 50)
         {
             await Init();
@@ -51,6 +72,7 @@ namespace PassVault.Data
                 throw new InvalidOperationException("Database not initialized");
 
             return await _database.Table<Folder>()
+                .Where(f => f.ParentFolderId == null)
                 .OrderBy(f => f.Title)
                 .Skip(skip)
                 .Take(take)
@@ -97,11 +119,32 @@ namespace PassVault.Data
                 // Primeiro, deletar todas as contas da pasta
                 tran.Execute("DELETE FROM Account WHERE FolderId = ?", folder.Id);
 
-                // Depois, deletar a pasta
+                // Deletar todas as subpastas e suas contas recursivamente
+                DeleteSubFoldersRecursive(tran, folder.Id);
+
+                // Depois, deletar a pasta principal
                 result = tran.Delete(folder);
             });
 
             return result;
+        }
+
+        private void DeleteSubFoldersRecursive(SQLiteConnection tran, int parentId)
+        {
+            // Buscar subpastas
+            var subFolders = tran.Query<Folder>("SELECT * FROM Folder WHERE ParentFolderId = ?", parentId);
+
+            foreach (var subFolder in subFolders)
+            {
+                // Deletar contas da subpasta
+                tran.Execute("DELETE FROM Account WHERE FolderId = ?", subFolder.Id);
+
+                // Deletar subpastas recursivamente
+                DeleteSubFoldersRecursive(tran, subFolder.Id);
+
+                // Deletar a subpasta
+                tran.Delete(subFolder);
+            }
         }
 
         // Versão otimizada - não carrega todas as contas, apenas conta
@@ -112,6 +155,7 @@ namespace PassVault.Data
                 throw new InvalidOperationException("Database not initialized");
 
             var folders = await _database.Table<Folder>()
+                .Where(f => f.ParentFolderId == null)
                 .OrderBy(f => f.Title)
                 .ToListAsync();
 
@@ -141,6 +185,7 @@ namespace PassVault.Data
                 throw new InvalidOperationException("Database not initialized");
 
             var folders = await _database.Table<Folder>()
+                .Where(f => f.ParentFolderId == null)
                 .OrderBy(f => f.Title)
                 .ToListAsync();
 
@@ -175,14 +220,41 @@ namespace PassVault.Data
                 searchTerm, take, skip);
         }
 
-        // Contar total de pastas
+        // Contar total de pastas raiz
         public async Task<int> GetFoldersCountAsync()
         {
             await Init();
             if (_database == null)
                 throw new InvalidOperationException("Database not initialized");
 
-            return await _database.Table<Folder>().CountAsync();
+            return await _database.Table<Folder>()
+                .Where(f => f.ParentFolderId == null)
+                .CountAsync();
+        }
+
+        // Verificar se a pasta pode ser movida (evitar loops)
+        public async Task<bool> CanMoveFolderAsync(int folderId, int? newParentId)
+        {
+            if (!newParentId.HasValue) return true; // Pode mover para raiz
+            if (folderId == newParentId.Value) return false; // Não pode ser pai de si mesmo
+
+            // Verificar se newParentId é descendente de folderId
+            return !await IsDescendantAsync(newParentId.Value, folderId);
+        }
+
+        private async Task<bool> IsDescendantAsync(int potentialDescendant, int ancestorId)
+        {
+            await Init();
+            var folder = await GetFolderAsync(potentialDescendant);
+
+            while (folder?.ParentFolderId != null)
+            {
+                if (folder.ParentFolderId == ancestorId)
+                    return true;
+                folder = await GetFolderAsync(folder.ParentFolderId.Value);
+            }
+
+            return false;
         }
 
         public void Dispose()

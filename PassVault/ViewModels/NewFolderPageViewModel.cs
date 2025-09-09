@@ -8,9 +8,12 @@ using PassVault.Models;
 
 namespace PassVault.ViewModels
 {
-    public partial class NewFolderPageViewModel : ObservableValidator
+    public partial class NewFolderPageViewModel : ObservableValidator, IQueryAttributable
     {
         private readonly FolderDatabase _database;
+
+        [ObservableProperty]
+        private int? parentFolderId;
 
         [ObservableProperty]
         [Required(ErrorMessage = "Título é obrigatório")]
@@ -45,6 +48,7 @@ namespace PassVault.ViewModels
                 {
                     Title = Title,
                     Color = SelectedColor.ToHex(),
+                    ParentFolderId = ParentFolderId // Nova propriedade
                 };
 
                 await _database.SaveFolderAsync(folder);
@@ -70,6 +74,14 @@ namespace PassVault.ViewModels
             IsColorPickerVisible = false;
         }
 
+        public async void ApplyQueryAttributes(IDictionary<string, object> query)
+        {
+            if (query.ContainsKey("parentFolderId") && int.TryParse(query["parentFolderId"]?.ToString(), out int parentId))
+            {
+                ParentFolderId = parentId;
+            }
+        }
+
         partial void OnSelectedColorChanged(Color value)
         {
             // Força a atualização da interface
@@ -90,4 +102,3 @@ namespace PassVault.ViewModels
         }
     }
 }
-
