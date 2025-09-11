@@ -28,18 +28,49 @@
             <Grid RowDefinitions="Auto,Auto" RowSpacing="24">
 
                 <!-- Welcome Section -->
-                <StackLayout Grid.Row="0" Spacing="8">
-                    <Label Text="PassVault"
-                           Style="{StaticResource HeadlineStyle}"
-                           FontSize="28"
-                           TextColor="{StaticResource Primary}"
-                           HorizontalTextAlignment="Center" />
+                <Grid Grid.Row="0">
 
-                    <Label Text="Suas senhas seguras em um só lugar"
-                           Style="{StaticResource CaptionStyle}"
-                           HorizontalTextAlignment="Center"
-                           Opacity="0.8" />
-                </StackLayout>
+                    <!-- Conteúdo principal centralizado -->
+                    <StackLayout Spacing="8" HorizontalOptions="Center" VerticalOptions="Center">
+                        <Label Text="PassVault"
+                               Style="{StaticResource HeadlineStyle}"
+                               FontSize="28"
+                               TextColor="{StaticResource Primary}"
+                               HorizontalTextAlignment="Center" />
+
+                        <Label Text="Suas senhas seguras em um só lugar"
+                               Style="{StaticResource CaptionStyle}"
+                               HorizontalTextAlignment="Center"
+                               Opacity="0.8" />
+                    </StackLayout>
+
+                    <!-- Botão de Configurações posicionado no canto -->
+                    <Border WidthRequest="40" HeightRequest="40"
+                            BackgroundColor="{StaticResource ElevatedSurface}"
+                            StrokeShape="RoundRectangle 12"
+                            Stroke="{StaticResource BorderPrimary}"
+                            StrokeThickness="0.5"
+                            HorizontalOptions="End"
+                            VerticalOptions="Start"
+                            Margin="24,4,24,0">
+
+                        <Border.Shadow>
+                            <Shadow Brush="#30000000" Offset="0,4" Radius="12" Opacity="0.1" />
+                        </Border.Shadow>
+
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding GoToSettingsCommand}" />
+                        </Border.GestureRecognizers>
+
+                        <Label Text="settings"
+                               FontFamily="MaterialIcons"
+                               FontSize="18"
+                               TextColor="{StaticResource Primary}"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center" />
+                    </Border>
+
+                </Grid>
 
                 <!-- Modern Tab Selector -->
                 <Border Grid.Row="1" 

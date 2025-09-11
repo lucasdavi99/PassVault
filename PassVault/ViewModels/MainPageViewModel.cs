@@ -240,8 +240,20 @@ namespace PassVault.ViewModels
         }
 
         [RelayCommand]
-        private async Task Help() =>
-            await Shell.Current.DisplayAlert("Ajuda", "Para deletar uma conta ou pasta, arraste para o lado esquerdo.", "OK");
+        private async Task Help() => await Shell.Current.DisplayAlert("Ajuda", "Para deletar uma conta ou pasta, arraste para o lado esquerdo.", "OK");
+
+        [RelayCommand]
+        private async Task GoToSettings()
+        {
+            try
+            {
+                await Shell.Current.GoToAsync(nameof(SettingsPage));
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlert("Erro", $"Erro ao navegar para configurações: {ex.Message}", "OK");
+            }
+        }
 
         // Métodos de carregamento com paginação
         private async Task LoadAccountsAsync(bool refresh = false)
