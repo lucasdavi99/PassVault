@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using PassVault.Data;
+using PassVault.Interfaces;
 using PassVault.Services;
 using System.Collections.ObjectModel;
 
@@ -11,6 +12,8 @@ namespace PassVault.ViewModels
         private readonly AccountDatabase _accountDatabase;
         private readonly FolderDatabase _folderDatabase;
         private readonly CacheService _cacheService;
+        // ✅ ADICIONADO: Campo do serviço de localização
+        private readonly ILocalizationService _localizationService;
 
         [ObservableProperty]
         private ObservableCollection<string> availableLanguages = new()
@@ -32,17 +35,44 @@ namespace PassVault.ViewModels
         [ObservableProperty]
         private string buildNumber;
 
+        // ✅ ADICIONADO: Propriedades localizadas
+        [ObservableProperty]
+        private string settingsTitle;
+
+        [ObservableProperty]
+        private string settingsSubtitle;
+
+        [ObservableProperty]
+        private string languageTitle;
+
+        [ObservableProperty]
+        private string languageSubtitle;
+
+        [ObservableProperty]
+        private string currentLanguageText;
+
+        [ObservableProperty]
+        private string applyLanguageText;
+
+        // ✅ MODIFICADO: Construtor com novo parâmetro
         public SettingsPageViewModel(
             AccountDatabase accountDatabase,
             FolderDatabase folderDatabase,
-            CacheService cacheService)
+            CacheService cacheService,
+            ILocalizationService localizationService)
         {
             _accountDatabase = accountDatabase;
             _folderDatabase = folderDatabase;
             _cacheService = cacheService;
+            // ✅ ADICIONADO: Inicialização do serviço
+            _localizationService = localizationService;
 
             LoadCurrentLanguage();
             LoadAppInfo();
+
+            // ✅ ADICIONADO: Configuração da localização
+            UpdateLocalizedTexts();
+            _localizationService.LanguageChanged += OnLanguageChanged;
         }
 
         private void LoadCurrentLanguage()
@@ -61,17 +91,22 @@ namespace PassVault.ViewModels
         {
             try
             {
-                AppVersion = AppInfo.VersionString;    
+                AppVersion = AppInfo.VersionString;
+                AppName = AppInfo.Name;
+                BuildNumber = AppInfo.BuildString;
             }
             catch (Exception ex)
             {
                 // Fallback caso não consiga acessar as informações
                 AppVersion = "1.2.0";
+                AppName = "PassVault";
+                BuildNumber = "1";
 
                 System.Diagnostics.Debug.WriteLine($"Erro ao carregar AppInfo: {ex.Message}");
             }
         }
 
+        // ✅ MODIFICADO: Método ApplyLanguage atualizado
         [RelayCommand]
         private async Task ApplyLanguage()
         {
@@ -83,120 +118,114 @@ namespace PassVault.ViewModels
                     _ => "pt-BR"
                 };
 
-                // Salvar nas preferências
-                Preferences.Set("AppLanguage", languageCode);
+                // Aplicar o idioma através do serviço
+                await _localizationService.SetLanguageAsync(languageCode);
 
-                await Shell.Current.DisplayAlert(
-                    "Idioma Alterado",
-                    "O idioma será aplicado na próxima vez que você abrir o aplicativo.",
-                    "OK");
+                // Mostrar mensagem de confirmação
+                var title = L.Text("settings.language.changed");
+                var message = L.Text("settings.language.restart_message");
+                var okText = L.Text("common.ok");
+
+                await Shell.Current.DisplayAlert(title, message, okText);
             }
             catch (Exception ex)
             {
-                await Shell.Current.DisplayAlert(
-                    "Erro",
-                    $"Erro ao aplicar idioma: {ex.Message}",
-                    "OK");
+                System.Diagnostics.Debug.WriteLine($"Erro ao aplicar idioma: {ex.Message}");
+
+                var errorTitle = L.Text("common.error");
+                var errorMessage = "Erro ao aplicar o idioma. Tente novamente.";
+                var okText = L.Text("common.ok");
+
+                await Shell.Current.DisplayAlert(errorTitle, errorMessage, okText);
             }
         }
 
+        // ✅ ADICIONADO: Métodos de localização
+        private void UpdateLocalizedTexts()
+        {
+            SettingsTitle = L.Text("settings.title");
+            SettingsSubtitle = L.Text("settings.subtitle");
+            LanguageTitle = L.Text("settings.language.title");
+            LanguageSubtitle = L.Text("settings.language.subtitle");
+            CurrentLanguageText = L.Text("settings.language.current");
+            ApplyLanguageText = L.Text("settings.language.apply");
+        }
+
+        private void OnLanguageChanged(object sender, EventArgs e)
+        {
+            UpdateLocalizedTexts();
+        }
+
+        // ✅ ADICIONADO: Método para reset do app (se necessário)
         [RelayCommand]
         private async Task ResetApp()
         {
             try
             {
-                // Primeira confirmação
-                bool confirm = await Shell.Current.DisplayAlert(
-                    "⚠️ Confirmação",
-                    "Tem certeza que deseja resetar o aplicativo?\n\n" +
-                    "Esta ação irá:\n" +
-                    "• Apagar todas as contas\n" +
-                    "• Apagar todas as pastas\n" +
-                    "• Limpar todas as configurações\n" +
-                    "• Voltar ao tutorial inicial\n\n" +
-                    "Esta ação NÃO pode ser desfeita!",
-                    "Sim, resetar",
-                    "Cancelar");
+                var title = "Redefinir Aplicativo";
+                var message = "Tem certeza de que deseja limpar todos os dados? Esta ação não pode ser desfeita.";
+                var yesText = L.Text("common.yes");
+                var noText = L.Text("common.no");
 
-                if (!confirm) return;
+                var result = await Shell.Current.DisplayAlert(title, message, yesText, noText);
 
-                // Segunda confirmação (extra segurança)
-                bool finalConfirm = await Shell.Current.DisplayAlert(
-                    "🚨 Última Confirmação",
-                    "ATENÇÃO: Você está prestes a apagar TODOS os seus dados!\n\n" +
-                    "Esta é sua última chance de cancelar.",
-                    "RESETAR TUDO",
-                    "Cancelar");
+                if (result)
+                {
+                    // 1. Limpar cache
+                    _cacheService.ClearAll();
 
-                if (!finalConfirm) return;
+                    // 2. Deletar todas as contas
+                    var accounts = await _accountDatabase.GetAccountsAsync();
+                    foreach (var account in accounts)
+                    {
+                        await _accountDatabase.DeleteAccountAsync(account);
+                    }
 
-                // Mostrar loading
-                await Shell.Current.DisplayAlert(
-                    "Processando...",
-                    "Resetando aplicativo, aguarde...",
-                    "OK");
+                    // 3. Deletar todas as pastas
+                    var folders = await _folderDatabase.GetFoldersAsync();
+                    foreach (var folder in folders)
+                    {
+                        await _folderDatabase.DeleteFolderAsync(folder);
+                    }
 
-                // Executar reset
-                await PerformReset();
+                    // 4. Limpar todas as preferências (exceto o idioma se quiser manter)
+                    var currentLanguage = Preferences.Get("AppLanguage", "pt-BR");
 
-                // Sucesso
-                await Shell.Current.DisplayAlert(
-                    "✅ Reset Concluído",
-                    "O aplicativo foi resetado com sucesso!\n\n" +
-                    "Você será direcionado para o tutorial inicial.",
-                    "OK");
+                    Preferences.Clear();
 
-                // Navegar para o tutorial
-                await Shell.Current.GoToAsync("//TutorialPage1");
+                    // Restaurar configurações iniciais
+                    Preferences.Set("IsNewUser", true);
+                    Preferences.Set("AppLanguage", currentLanguage); // Manter idioma se quiser
+
+                    // 5. Forçar coleta de lixo
+                    GC.Collect();
+                    GC.WaitForPendingFinalizers();
+                    GC.Collect();
+
+                    var successTitle = L.Text("common.success");
+                    var successMessage = "Dados limpos com sucesso!";
+                    var okText = L.Text("common.ok");
+
+                    await Shell.Current.DisplayAlert(successTitle, successMessage, okText);
+                }
             }
             catch (Exception ex)
             {
-                await Shell.Current.DisplayAlert(
-                    "Erro",
-                    $"Erro ao resetar aplicativo: {ex.Message}",
-                    "OK");
+                System.Diagnostics.Debug.WriteLine($"Erro ao resetar app: {ex.Message}");
+
+                var errorTitle = L.Text("common.error");
+                var errorMessage = "Erro ao limpar os dados. Tente novamente.";
+                var okText = L.Text("common.ok");
+
+                await Shell.Current.DisplayAlert(errorTitle, errorMessage, okText);
             }
         }
 
-        private async Task PerformReset()
+        // ✅ ADICIONADO: Dispose para limpar eventos
+        public void Dispose()
         {
-            try
-            {
-                // 1. Limpar cache
-                _cacheService.ClearAll();
-
-                // 2. Deletar todas as contas
-                var accounts = await _accountDatabase.GetAccountsAsync();
-                foreach (var account in accounts)
-                {
-                    await _accountDatabase.DeleteAccountAsync(account);
-                }
-
-                // 3. Deletar todas as pastas
-                var folders = await _folderDatabase.GetFoldersAsync();
-                foreach (var folder in folders)
-                {
-                    await _folderDatabase.DeleteFolderAsync(folder);
-                }
-
-                // 4. Limpar todas as preferências (exceto o idioma se quiser manter)
-                var currentLanguage = Preferences.Get("AppLanguage", "pt-BR");
-
-                Preferences.Clear();
-
-                // Restaurar configurações iniciais
-                Preferences.Set("IsNewUser", true);
-                Preferences.Set("AppLanguage", currentLanguage); // Manter idioma se quiser
-
-                // 5. Forçar coleta de lixo
-                GC.Collect();
-                GC.WaitForPendingFinalizers();
-                GC.Collect();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Falha no processo de reset: {ex.Message}");
-            }
+            if (_localizationService != null)
+                _localizationService.LanguageChanged -= OnLanguageChanged;
         }
     }
 }

@@ -1,7 +1,8 @@
 ﻿using CommunityToolkit.Maui;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 using PassVault.Data;
+using PassVault.Interfaces;
 using PassVault.Services;
 using PassVault.ViewModels;
 using PassVault.Views;
@@ -35,6 +36,9 @@ namespace PassVault
             // Services como Singleton para melhor performance
             builder.Services.AddSingleton<IMemoryCache, MemoryCache>();
             builder.Services.AddSingleton<CacheService>();
+
+            // Serviço de Localização
+            builder.Services.AddSingleton<ILocalizationService, LocalizationService>();
 
             // Database services - mantém como Singleton
             builder.Services.AddSingleton<AccountDatabase>();
@@ -76,6 +80,10 @@ namespace PassVault
 
             // Build da aplicação
             var app = builder.Build();
+
+            // Inicializar o serviço de localização global
+            var localizationService = app.Services.GetRequiredService<ILocalizationService>();
+            L.Initialize(localizationService);
 
             // Inicialização em background dos services críticos
             Task.Run(async () =>

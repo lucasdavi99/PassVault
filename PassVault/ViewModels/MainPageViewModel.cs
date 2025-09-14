@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Maui.Controls.PlatformConfiguration.GTKSpecific;
 using PassVault.Data;
+using PassVault.Interfaces;
 using PassVault.Messages;
 using PassVault.Models;
 using PassVault.Services;
@@ -16,6 +17,7 @@ namespace PassVault.ViewModels
         private readonly AccountDatabase _database;
         private readonly FolderDatabase _folderDatabase;
         private readonly CacheService _cacheService;
+        private readonly ILocalizationService _localizationService;
 
         // Paginação
         private int _currentAccountPage = 0;
@@ -47,6 +49,28 @@ namespace PassVault.ViewModels
         [ObservableProperty]
         private bool isEmpty;
 
+        // Localização de idioma
+        [ObservableProperty]
+        private string appTitle;
+
+        [ObservableProperty]
+        private string appSubtitle;
+
+        [ObservableProperty]
+        private string noAccountsTitle;
+
+        [ObservableProperty]
+        private string noAccountsDescription;
+
+        [ObservableProperty]
+        private string noFoldersTitle;
+
+        [ObservableProperty]
+        private string noFoldersDescription;
+
+        [ObservableProperty]
+        private string deleteText;
+
         private readonly SemaphoreSlim _refreshSemaphore = new(1, 1);
 
         public IRelayCommand SelectTabCommand { get; }
@@ -54,16 +78,20 @@ namespace PassVault.ViewModels
         public IAsyncRelayCommand LoadMoreFoldersCommand { get; }
         public IAsyncRelayCommand RefreshCommand { get; }
 
-        public MainPageViewModel(AccountDatabase database, FolderDatabase folderDatabase, CacheService cacheService)
+        public MainPageViewModel(AccountDatabase database, FolderDatabase folderDatabase, CacheService cacheService, ILocalizationService localizationService)
         {
             _database = database;
             _folderDatabase = folderDatabase;
             _cacheService = cacheService;
+            _localizationService = localizationService;
+            _localizationService.LanguageChanged += OnLanguageChanged;
+
 
             SelectTabCommand = new AsyncRelayCommand<string>(OnTabSelected);
             LoadMoreAccountsCommand = new AsyncRelayCommand(LoadMoreAccountsAsync);
             LoadMoreFoldersCommand = new AsyncRelayCommand(LoadMoreFoldersAsync);
             RefreshCommand = new AsyncRelayCommand(RefreshCurrentTabAsync);
+            UpdateLocalizedTexts();
 
             SelectedTab = "Itens";
             TabPosition = 0;
@@ -302,6 +330,8 @@ namespace PassVault.ViewModels
             }
         }
 
+
+
         private async Task LoadFoldersAsync(bool refresh = false)
         {
             if (_isLoadingFolders || (!refresh && !_hasMoreFolders))
@@ -390,6 +420,22 @@ namespace PassVault.ViewModels
         private void UpdateEmptyState()
         {
             IsEmpty = (Accounts?.Count ?? 0) == 0 && (Folders?.Count ?? 0) == 0;
+        }
+
+        private void UpdateLocalizedTexts()
+        {
+            AppTitle = L.Text("main.title");
+            AppSubtitle = L.Text("main.subtitle");
+            NoAccountsTitle = L.Text("main.no_accounts_title");
+            NoAccountsDescription = L.Text("main.no_accounts_description");
+            NoFoldersTitle = L.Text("main.no_folders_title");
+            NoFoldersDescription = L.Text("main.no_folders_description");
+            DeleteText = L.Text("common.delete");
+        }
+
+        private void OnLanguageChanged(object sender, EventArgs e)
+        {
+            UpdateLocalizedTexts();
         }
 
         public async void Receive(AccountSavedMessage message)

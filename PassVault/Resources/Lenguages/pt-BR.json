@@ -1,0 +1,117 @@
+{
+  "app": {
+    "name": "PassVault",
+    "welcome": "Bem-vindo ao PassVault",
+    "version": "Versão"
+  },
+  "common": {
+    "save": "Salvar",
+    "cancel": "Cancelar",
+    "delete": "Excluir",
+    "edit": "Editar",
+    "add": "Adicionar",
+    "confirm": "Confirmar",
+    "close": "Fechar",
+    "ok": "OK",
+    "yes": "Sim",
+    "no": "Não",
+    "back": "Voltar",
+    "next": "Próximo",
+    "previous": "Anterior",
+    "loading": "Carregando...",
+    "error": "Erro",
+    "success": "Sucesso",
+    "warning": "Aviso",
+    "info": "Informação"
+  },
+  "navigation": {
+    "home": "Início",
+    "accounts": "Contas",
+    "folders": "Pastas",
+    "settings": "Configurações",
+    "tutorial": "Tutorial"
+  },
+  "settings": {
+    "title": "Configurações",
+    "subtitle": "Personalize e gerencie seu app",
+    "language": {
+      "title": "Idioma",
+      "subtitle": "Escolha o idioma do aplicativo",
+      "current": "Idioma Atual",
+      "select": "Selecione o idioma",
+      "apply": "Aplicar Idioma",
+      "changed": "Idioma Alterado",
+      "restart_message": "O idioma será aplicado na próxima vez que você abrir o aplicativo."
+    },
+    "reset": {
+      "title": "Redefinir",
+      "subtitle": "Limpar dados do aplicativo"
+    }
+  },
+  "accounts": {
+    "title": "Contas",
+    "new_account": "Nova Conta",
+    "edit_account": "Editar Conta",
+    "name": "Nome",
+    "username": "Nome de usuário",
+    "email": "E-mail",
+    "password": "Senha",
+    "website": "Site",
+    "notes": "Observações",
+    "folder": "Pasta",
+    "select_folder": "Selecionar pasta",
+    "generate_password": "Gerar senha",
+    "copy_password": "Copiar senha",
+    "show_password": "Mostrar senha",
+    "hide_password": "Ocultar senha"
+  },
+  "folders": {
+    "title": "Pastas",
+    "new_folder": "Nova Pasta",
+    "edit_folder": "Editar Pasta",
+    "name": "Nome da pasta",
+    "color": "Cor",
+    "hex_code": "Código Hexadecimal",
+    "confirm_color": "Confirmar Cor",
+    "select_color": "Selecionar cor"
+  },
+  "security": {
+    "master_password": "Senha mestre",
+    "confirm_password": "Confirmar senha",
+    "passwords_dont_match": "As senhas não coincidem",
+    "weak_password": "Senha fraca",
+    "medium_password": "Senha média",
+    "strong_password": "Senha forte",
+    "biometric_auth": "Autenticação biométrica",
+    "fingerprint": "Impressão digital",
+    "face_id": "Face ID"
+  },
+  "tutorial": {
+    "welcome": "Bem-vindo",
+    "security_title": "Segurança Avançada",
+    "organization_title": "Organização Inteligente",
+    "privacy_title": "Privacidade Total",
+    "get_started": "Começar",
+    "next": "Próximo",
+    "skip": "Pular",
+    "finish": "Finalizar"
+  },
+  "messages": {
+    "account_saved": "Conta salva com sucesso!",
+    "account_deleted": "Conta excluída com sucesso!",
+    "folder_saved": "Pasta salva com sucesso!",
+    "folder_deleted": "Pasta excluída com sucesso!",
+    "password_copied": "Senha copiada para a área de transferência!",
+    "invalid_data": "Dados inválidos",
+    "connection_error": "Erro de conexão",
+    "file_not_found": "Arquivo não encontrado",
+    "permission_denied": "Permissão negada"
+  },
+  "validation": {
+    "required_field": "Este campo é obrigatório",
+    "invalid_email": "E-mail inválido",
+    "password_too_short": "A senha deve ter pelo menos 8 caracteres",
+    "invalid_url": "URL inválida",
+    "field_too_long": "Campo muito longo"
+  }
+}

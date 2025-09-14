@@ -38,7 +38,7 @@
                                TextColor="{StaticResource Primary}"
                                HorizontalTextAlignment="Center" />
 
-                        <Label Text="Suas senhas seguras em um só lugar"
+                        <Label Text="{Binding AppSubtitle}"
                                Style="{StaticResource CaptionStyle}"
                                HorizontalTextAlignment="Center"
                                Opacity="0.8" />
@@ -175,7 +175,7 @@
                         <StackLayout IsVisible="{Binding Accounts.Count, Converter={StaticResource TabVisibilityConverter}, ConverterParameter=0}"
                                      Spacing="24" 
                                      Padding="40,60"
-                                     VerticalOptions="CenterAndExpand">
+                                     VerticalOptions="Center">
 
                             <Border WidthRequest="100" HeightRequest="100"
                                     BackgroundColor="{StaticResource ElevatedSurface}"
@@ -311,7 +311,7 @@
                         <StackLayout IsVisible="{Binding Folders.Count, Converter={StaticResource TabVisibilityConverter}, ConverterParameter=0}"
                                      Spacing="24" 
                                      Padding="40,60"
-                                     VerticalOptions="CenterAndExpand">
+                                     VerticalOptions="Center">
 
                             <Border WidthRequest="100" HeightRequest="100"
                                     BackgroundColor="{StaticResource ElevatedSurface}"

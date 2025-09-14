@@ -40,6 +40,16 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Lenguages\en-US.json" />
+	  <None Remove="Resources\Lenguages\pt-BR.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Include="Resources\Lenguages\en-US.json" />
+	  <EmbeddedResource Include="Resources\Lenguages\pt-BR.json" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Maui" Version="11.2.0" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.60" />

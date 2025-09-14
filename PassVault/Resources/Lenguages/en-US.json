@@ -1,0 +1,117 @@
+{
+  "app": {
+    "name": "PassVault",
+    "welcome": "Welcome to PassVault",
+    "version": "Version"
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "confirm": "Confirm",
+    "close": "Close",
+    "ok": "OK",
+    "yes": "Yes",
+    "no": "No",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "warning": "Warning",
+    "info": "Information"
+  },
+  "navigation": {
+    "home": "Home",
+    "accounts": "Accounts",
+    "folders": "Folders",
+    "settings": "Settings",
+    "tutorial": "Tutorial"
+  },
+  "settings": {
+    "title": "Settings",
+    "subtitle": "Customize and manage your app",
+    "language": {
+      "title": "Language",
+      "subtitle": "Choose the application language",
+      "current": "Current Language",
+      "select": "Select language",
+      "apply": "Apply Language",
+      "changed": "Language Changed",
+      "restart_message": "The language will be applied the next time you open the application."
+    },
+    "reset": {
+      "title": "Reset",
+      "subtitle": "Clear application data"
+    }
+  },
+  "accounts": {
+    "title": "Accounts",
+    "new_account": "New Account",
+    "edit_account": "Edit Account",
+    "name": "Name",
+    "username": "Username",
+    "email": "Email",
+    "password": "Password",
+    "website": "Website",
+    "notes": "Notes",
+    "folder": "Folder",
+    "select_folder": "Select folder",
+    "generate_password": "Generate password",
+    "copy_password": "Copy password",
+    "show_password": "Show password",
+    "hide_password": "Hide password"
+  },
+  "folders": {
+    "title": "Folders",
+    "new_folder": "New Folder",
+    "edit_folder": "Edit Folder",
+    "name": "Folder name",
+    "color": "Color",
+    "hex_code": "Hex Code",
+    "confirm_color": "Confirm Color",
+    "select_color": "Select color"
+  },
+  "security": {
+    "master_password": "Master password",
+    "confirm_password": "Confirm password",
+    "passwords_dont_match": "Passwords don't match",
+    "weak_password": "Weak password",
+    "medium_password": "Medium password",
+    "strong_password": "Strong password",
+    "biometric_auth": "Biometric authentication",
+    "fingerprint": "Fingerprint",
+    "face_id": "Face ID"
+  },
+  "tutorial": {
+    "welcome": "Welcome",
+    "security_title": "Advanced Security",
+    "organization_title": "Smart Organization",
+    "privacy_title": "Total Privacy",
+    "get_started": "Get Started",
+    "next": "Next",
+    "skip": "Skip",
+    "finish": "Finish"
+  },
+  "messages": {
+    "account_saved": "Account saved successfully!",
+    "account_deleted": "Account deleted successfully!",
+    "folder_saved": "Folder saved successfully!",
+    "folder_deleted": "Folder deleted successfully!",
+    "password_copied": "Password copied to clipboard!",
+    "invalid_data": "Invalid data",
+    "connection_error": "Connection error",
+    "file_not_found": "File not found",
+    "permission_denied": "Permission denied"
+  },
+  "validation": {
+    "required_field": "This field is required",
+    "invalid_email": "Invalid email",
+    "password_too_short": "Password must be at least 8 characters",
+    "invalid_url": "Invalid URL",
+    "field_too_long": "Field too long"
+  }
+}
