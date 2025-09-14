@@ -12,7 +12,6 @@ namespace PassVault.ViewModels
         private readonly AccountDatabase _accountDatabase;
         private readonly FolderDatabase _folderDatabase;
         private readonly CacheService _cacheService;
-        // ✅ ADICIONADO: Campo do serviço de localização
         private readonly ILocalizationService _localizationService;
 
         [ObservableProperty]
@@ -35,13 +34,14 @@ namespace PassVault.ViewModels
         [ObservableProperty]
         private string buildNumber;
 
-        // ✅ ADICIONADO: Propriedades localizadas
+        // Propriedades localizadas - Configurações
         [ObservableProperty]
         private string settingsTitle;
 
         [ObservableProperty]
         private string settingsSubtitle;
 
+        // Propriedades localizadas - Idioma
         [ObservableProperty]
         private string languageTitle;
 
@@ -54,7 +54,35 @@ namespace PassVault.ViewModels
         [ObservableProperty]
         private string applyLanguageText;
 
-        // ✅ MODIFICADO: Construtor com novo parâmetro
+        // Propriedades localizadas - Reset
+        [ObservableProperty]
+        private string resetTitle;
+
+        [ObservableProperty]
+        private string resetSubtitle;
+
+        [ObservableProperty]
+        private string warningTitle;
+
+        [ObservableProperty]
+        private string warningMessage;
+
+        [ObservableProperty]
+        private string resetAppText;
+
+        // Propriedades localizadas - Sobre
+        [ObservableProperty]
+        private string aboutTitle;
+
+        [ObservableProperty]
+        private string aboutSubtitle;
+
+        [ObservableProperty]
+        private string versionText;
+
+        [ObservableProperty]
+        private string developerText;
+
         public SettingsPageViewModel(
             AccountDatabase accountDatabase,
             FolderDatabase folderDatabase,
@@ -64,13 +92,12 @@ namespace PassVault.ViewModels
             _accountDatabase = accountDatabase;
             _folderDatabase = folderDatabase;
             _cacheService = cacheService;
-            // ✅ ADICIONADO: Inicialização do serviço
             _localizationService = localizationService;
 
             LoadCurrentLanguage();
             LoadAppInfo();
 
-            // ✅ ADICIONADO: Configuração da localização
+            // Configuração da localização
             UpdateLocalizedTexts();
             _localizationService.LanguageChanged += OnLanguageChanged;
         }
@@ -106,7 +133,6 @@ namespace PassVault.ViewModels
             }
         }
 
-        // ✅ MODIFICADO: Método ApplyLanguage atualizado
         [RelayCommand]
         private async Task ApplyLanguage()
         {
@@ -140,30 +166,47 @@ namespace PassVault.ViewModels
             }
         }
 
-        // ✅ ADICIONADO: Métodos de localização
         private void UpdateLocalizedTexts()
         {
+            // Configurações gerais
             SettingsTitle = L.Text("settings.title");
             SettingsSubtitle = L.Text("settings.subtitle");
+            
+            // Seção de idioma
             LanguageTitle = L.Text("settings.language.title");
             LanguageSubtitle = L.Text("settings.language.subtitle");
             CurrentLanguageText = L.Text("settings.language.current");
             ApplyLanguageText = L.Text("settings.language.apply");
+            
+            // Seção de reset
+            ResetTitle = L.Text("settings.reset.title");
+            ResetSubtitle = L.Text("settings.reset.subtitle");
+            WarningTitle = L.Text("settings.reset.warning_title");
+            WarningMessage = L.Text("settings.reset.warning_message");
+            ResetAppText = L.Text("settings.reset.button");
+            
+            // Seção sobre
+            AboutTitle = L.Text("settings.about.title");
+            AboutSubtitle = L.Text("settings.about.subtitle");
+            VersionText = L.Text("settings.about.version");
+            DeveloperText = L.Text("settings.about.developer");
         }
 
         private void OnLanguageChanged(object sender, EventArgs e)
         {
-            UpdateLocalizedTexts();
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                UpdateLocalizedTexts();
+            });
         }
 
-        // ✅ ADICIONADO: Método para reset do app (se necessário)
         [RelayCommand]
         private async Task ResetApp()
         {
             try
             {
-                var title = "Redefinir Aplicativo";
-                var message = "Tem certeza de que deseja limpar todos os dados? Esta ação não pode ser desfeita.";
+                var title = L.Text("settings.reset.confirm_title");
+                var message = L.Text("settings.reset.confirm_message");
                 var yesText = L.Text("common.yes");
                 var noText = L.Text("common.no");
 
@@ -195,7 +238,7 @@ namespace PassVault.ViewModels
 
                     // Restaurar configurações iniciais
                     Preferences.Set("IsNewUser", true);
-                    Preferences.Set("AppLanguage", currentLanguage); // Manter idioma se quiser
+                    Preferences.Set("AppLanguage", currentLanguage); // Manter idioma
 
                     // 5. Forçar coleta de lixo
                     GC.Collect();
@@ -203,7 +246,7 @@ namespace PassVault.ViewModels
                     GC.Collect();
 
                     var successTitle = L.Text("common.success");
-                    var successMessage = "Dados limpos com sucesso!";
+                    var successMessage = L.Text("settings.reset.success_message");
                     var okText = L.Text("common.ok");
 
                     await Shell.Current.DisplayAlert(successTitle, successMessage, okText);
@@ -214,15 +257,15 @@ namespace PassVault.ViewModels
                 System.Diagnostics.Debug.WriteLine($"Erro ao resetar app: {ex.Message}");
 
                 var errorTitle = L.Text("common.error");
-                var errorMessage = "Erro ao limpar os dados. Tente novamente.";
+                var errorMessage = L.Text("settings.reset.error_message");
                 var okText = L.Text("common.ok");
 
                 await Shell.Current.DisplayAlert(errorTitle, errorMessage, okText);
             }
         }
 
-        // ✅ ADICIONADO: Dispose para limpar eventos
-        public void Dispose()
+        // Dispose para limpar eventos
+        ~SettingsPageViewModel()
         {
             if (_localizationService != null)
                 _localizationService.LanguageChanged -= OnLanguageChanged;

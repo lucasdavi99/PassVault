@@ -2,7 +2,11 @@
   "app": {
     "name": "PassVault",
     "welcome": "Bem-vindo ao PassVault",
-    "version": "Vers„o"
+    "version": "Vers√£o"
+  },
+  "main": {
+    "title": "PassVault",
+    "subtitle": "Suas senhas seguras em um s√≥ lugar"
   },
   "common": {
     "save": "Salvar",
@@ -14,25 +18,25 @@
     "close": "Fechar",
     "ok": "OK",
     "yes": "Sim",
-    "no": "N„o",
+    "no": "N√£o",
     "back": "Voltar",
-    "next": "PrÛximo",
+    "next": "Pr√≥ximo",
     "previous": "Anterior",
     "loading": "Carregando...",
     "error": "Erro",
     "success": "Sucesso",
     "warning": "Aviso",
-    "info": "InformaÁ„o"
+    "info": "Informa√ß√£o"
   },
   "navigation": {
-    "home": "InÌcio",
+    "home": "In√≠cio",
     "accounts": "Contas",
     "folders": "Pastas",
-    "settings": "ConfiguraÁıes",
+    "settings": "Configura√ß√µes",
     "tutorial": "Tutorial"
   },
   "settings": {
-    "title": "ConfiguraÁıes",
+    "title": "Configura√ß√µes",
     "subtitle": "Personalize e gerencie seu app",
     "language": {
       "title": "Idioma",
@@ -41,11 +45,24 @@
       "select": "Selecione o idioma",
       "apply": "Aplicar Idioma",
       "changed": "Idioma Alterado",
-      "restart_message": "O idioma ser· aplicado na prÛxima vez que vocÍ abrir o aplicativo."
+      "restart_message": "O idioma ser√° aplicado na pr√≥xima vez que voc√™ abrir o aplicativo."
     },
     "reset": {
-      "title": "Redefinir",
-      "subtitle": "Limpar dados do aplicativo"
+      "title": "Reset do Aplicativo",
+      "subtitle": "Limpa todos os dados e volta ao in√≠cio",
+      "warning_title": "Aten√ß√£o!",
+      "warning_message": "Esta a√ß√£o ir√° apagar todas as suas contas e pastas permanentemente.",
+      "button": "Resetar Aplicativo",
+      "confirm_title": "Confirmar Reset",
+      "confirm_message": "Tem certeza de que deseja limpar todos os dados? Esta a√ß√£o n√£o pode ser desfeita.",
+      "success_message": "Dados limpos com sucesso!",
+      "error_message": "Erro ao limpar os dados. Tente novamente."
+    },
+    "about": {
+      "title": "Sobre o PassVault",
+      "subtitle": "Informa√ß√µes do aplicativo",
+      "version": "Vers√£o",
+      "developer": "Desenvolvido por"
     }
   },
   "accounts": {
@@ -53,11 +70,11 @@
     "new_account": "Nova Conta",
     "edit_account": "Editar Conta",
     "name": "Nome",
-    "username": "Nome de usu·rio",
+    "username": "Nome de usu√°rio",
     "email": "E-mail",
     "password": "Senha",
     "website": "Site",
-    "notes": "ObservaÁıes",
+    "notes": "Observa√ß√µes",
     "folder": "Pasta",
     "select_folder": "Selecionar pasta",
     "generate_password": "Gerar senha",
@@ -71,47 +88,47 @@
     "edit_folder": "Editar Pasta",
     "name": "Nome da pasta",
     "color": "Cor",
-    "hex_code": "CÛdigo Hexadecimal",
+    "hex_code": "C√≥digo Hexadecimal",
     "confirm_color": "Confirmar Cor",
     "select_color": "Selecionar cor"
   },
   "security": {
     "master_password": "Senha mestre",
     "confirm_password": "Confirmar senha",
-    "passwords_dont_match": "As senhas n„o coincidem",
+    "passwords_dont_match": "As senhas n√£o coincidem",
     "weak_password": "Senha fraca",
-    "medium_password": "Senha mÈdia",
+    "medium_password": "Senha m√©dia",
     "strong_password": "Senha forte",
-    "biometric_auth": "AutenticaÁ„o biomÈtrica",
-    "fingerprint": "Impress„o digital",
+    "biometric_auth": "Autentica√ß√£o biom√©trica",
+    "fingerprint": "Impress√£o digital",
     "face_id": "Face ID"
   },
   "tutorial": {
     "welcome": "Bem-vindo",
-    "security_title": "SeguranÁa AvanÁada",
-    "organization_title": "OrganizaÁ„o Inteligente",
+    "security_title": "Seguran√ßa Avan√ßada",
+    "organization_title": "Organiza√ß√£o Inteligente",
     "privacy_title": "Privacidade Total",
-    "get_started": "ComeÁar",
-    "next": "PrÛximo",
+    "get_started": "Come√ßar",
+    "next": "Pr√≥ximo",
     "skip": "Pular",
     "finish": "Finalizar"
   },
   "messages": {
     "account_saved": "Conta salva com sucesso!",
-    "account_deleted": "Conta excluÌda com sucesso!",
+    "account_deleted": "Conta exclu√≠da com sucesso!",
     "folder_saved": "Pasta salva com sucesso!",
-    "folder_deleted": "Pasta excluÌda com sucesso!",
-    "password_copied": "Senha copiada para a ·rea de transferÍncia!",
-    "invalid_data": "Dados inv·lidos",
-    "connection_error": "Erro de conex„o",
-    "file_not_found": "Arquivo n„o encontrado",
-    "permission_denied": "Permiss„o negada"
+    "folder_deleted": "Pasta exclu√≠da com sucesso!",
+    "password_copied": "Senha copiada para a √°rea de transfer√™ncia!",
+    "invalid_data": "Dados inv√°lidos",
+    "connection_error": "Erro de conex√£o",
+    "file_not_found": "Arquivo n√£o encontrado",
+    "permission_denied": "Permiss√£o negada"
   },
   "validation": {
-    "required_field": "Este campo È obrigatÛrio",
-    "invalid_email": "E-mail inv·lido",
+    "required_field": "Este campo √© obrigat√≥rio",
+    "invalid_email": "E-mail inv√°lido",
     "password_too_short": "A senha deve ter pelo menos 8 caracteres",
-    "invalid_url": "URL inv·lida",
+    "invalid_url": "URL inv√°lida",
     "field_too_long": "Campo muito longo"
   }
 }

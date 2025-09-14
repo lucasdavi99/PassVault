@@ -4,6 +4,10 @@
     "welcome": "Welcome to PassVault",
     "version": "Version"
   },
+  "main": {
+    "title": "PassVault",
+    "subtitle": "Your secure passwords in one place"
+  },
   "common": {
     "save": "Save",
     "cancel": "Cancel",
@@ -44,8 +48,21 @@
       "restart_message": "The language will be applied the next time you open the application."
     },
     "reset": {
-      "title": "Reset",
-      "subtitle": "Clear application data"
+      "title": "Reset Application",
+      "subtitle": "Clear all data and start over",
+      "warning_title": "Warning!",
+      "warning_message": "This action will permanently delete all your accounts and folders.",
+      "button": "Reset Application",
+      "confirm_title": "Confirm Reset",
+      "confirm_message": "Are you sure you want to clear all data? This action cannot be undone.",
+      "success_message": "Data cleared successfully!",
+      "error_message": "Error clearing data. Please try again."
+    },
+    "about": {
+      "title": "About PassVault",
+      "subtitle": "Application information",
+      "version": "Version",
+      "developer": "Developed by"
     }
   },
   "accounts": {

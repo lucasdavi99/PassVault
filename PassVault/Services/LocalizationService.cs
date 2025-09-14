@@ -21,14 +21,23 @@ namespace PassVault.Services
 
         public LocalizationService()
         {
-            InitializeAsync().ConfigureAwait(false);
+            _ = InitializeAsync();
         }
 
         private async Task InitializeAsync()
         {
-            // Carregar idioma salvo ou usar padrão
-            var savedLanguage = Preferences.Get("AppLanguage", "pt-BR");
-            await SetLanguageAsync(savedLanguage);
+            try
+            {
+                // Carregar idioma salvo ou usar padrão
+                var savedLanguage = Preferences.Get("AppLanguage", "pt-BR");
+                await SetLanguageAsync(savedLanguage);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Erro na inicialização da localização: {ex.Message}");
+                // Fallback para português
+                await SetLanguageAsync("pt-BR");
+            }
         }
 
         public async Task SetLanguageAsync(string languageCode)
@@ -55,6 +64,13 @@ namespace PassVault.Services
                         if (languageCode != "pt-BR")
                         {
                             await SetLanguageAsync("pt-BR");
+                            return;
+                        }
+                        else
+                        {
+                            // Se nem o português conseguir carregar, criar traduções básicas
+                            _currentLanguage = "pt-BR";
+                            _currentTranslations = GetBasicTranslations();
                         }
                         return;
                     }
@@ -65,6 +81,8 @@ namespace PassVault.Services
 
                 // Notificar que o idioma mudou
                 LanguageChanged?.Invoke(this, EventArgs.Empty);
+                
+                System.Diagnostics.Debug.WriteLine($"Idioma alterado para: {languageCode}");
             }
             catch (Exception ex)
             {
@@ -85,16 +103,17 @@ namespace PassVault.Services
                 var assembly = Assembly.GetExecutingAssembly();
                 var resourceName = $"PassVault.Resources.Languages.{languageCode}.json";
 
+                System.Diagnostics.Debug.WriteLine($"Tentando carregar recurso: {resourceName}");
+
                 using var stream = assembly.GetManifestResourceStream(resourceName);
                 if (stream == null)
                 {
-                    // Tentar carregar do sistema de arquivos como fallback
-                    var filePath = Path.Combine(FileSystem.AppDataDirectory, "Languages", $"{languageCode}.json");
-                    if (File.Exists(filePath))
-                    {
-                        var fileContent = await File.ReadAllTextAsync(filePath);
-                        return JsonSerializer.Deserialize<Dictionary<string, object>>(fileContent);
-                    }
+                    System.Diagnostics.Debug.WriteLine($"Recurso não encontrado: {resourceName}");
+                    
+                    // Listar todos os recursos disponíveis para debug
+                    var availableResources = assembly.GetManifestResourceNames();
+                    System.Diagnostics.Debug.WriteLine($"Recursos disponíveis: {string.Join(", ", availableResources)}");
+                    
                     return null;
                 }
 
@@ -106,13 +125,40 @@ namespace PassVault.Services
                     PropertyNameCaseInsensitive = true
                 };
 
-                return JsonSerializer.Deserialize<Dictionary<string, object>>(jsonContent, options);
+                var result = JsonSerializer.Deserialize<Dictionary<string, object>>(jsonContent, options);
+                System.Diagnostics.Debug.WriteLine($"Arquivo de idioma {languageCode} carregado com sucesso. Chaves: {result?.Count ?? 0}");
+                
+                return result;
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"Erro ao carregar arquivo de idioma {languageCode}: {ex.Message}");
                 return null;
             }
+        }
+
+        private Dictionary<string, object> GetBasicTranslations()
+        {
+            // Traduções básicas de fallback
+            return new Dictionary<string, object>
+            {
+                ["common"] = new Dictionary<string, object>
+                {
+                    ["ok"] = "OK",
+                    ["cancel"] = "Cancelar",
+                    ["error"] = "Erro",
+                    ["success"] = "Sucesso"
+                },
+                ["settings"] = new Dictionary<string, object>
+                {
+                    ["title"] = "Configurações",
+                    ["language"] = new Dictionary<string, object>
+                    {
+                        ["changed"] = "Idioma Alterado",
+                        ["restart_message"] = "O idioma será aplicado na próxima vez que você abrir o aplicativo."
+                    }
+                }
+            };
         }
 
         public string GetString(string key)
@@ -123,11 +169,11 @@ namespace PassVault.Services
             try
             {
                 var keys = key.Split('.');
-                var current = _currentTranslations;
+                object current = _currentTranslations;
 
                 foreach (var keyPart in keys)
                 {
-                    if (current.TryGetValue(keyPart, out var value))
+                    if (current is Dictionary<string, object> dict && dict.TryGetValue(keyPart, out var value))
                     {
                         if (value is JsonElement jsonElement)
                         {
@@ -144,15 +190,16 @@ namespace PassVault.Services
                         {
                             return stringValue;
                         }
-                        else if (value is Dictionary<string, object> dictValue)
+                        else
                         {
-                            current = dictValue;
+                            current = value;
                             continue;
                         }
                     }
                     else
                     {
                         // Chave não encontrada, retornar a chave original
+                        System.Diagnostics.Debug.WriteLine($"Chave de tradução não encontrada: {key}");
                         return key;
                     }
                 }
@@ -206,6 +253,5 @@ namespace PassVault.Services
         /// Obtém uma tradução formatada pela chave
         /// </summary>
         public static string Text(string key, params object[] args) => _localizationService?.GetString(key, args) ?? key;
-
     }
 }

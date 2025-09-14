@@ -40,13 +40,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Remove="Resources\Lenguages\en-US.json" />
-	  <None Remove="Resources\Lenguages\pt-BR.json" />
+	  <None Remove="Resources\Languages\en-US.json" />
+	  <None Remove="Resources\Languages\pt-BR.json" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <EmbeddedResource Include="Resources\Lenguages\en-US.json" />
-	  <EmbeddedResource Include="Resources\Lenguages\pt-BR.json" />
+	  <EmbeddedResource Include="Resources\Languages\en-US.json" />
+	  <EmbeddedResource Include="Resources\Languages\pt-BR.json" />
 	</ItemGroup>
 
 	<ItemGroup>

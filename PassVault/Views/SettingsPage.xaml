@@ -4,7 +4,7 @@
              xmlns:viewModels="clr-namespace:PassVault.ViewModels"
              x:DataType="viewModels:SettingsPageViewModel"
              x:Class="PassVault.Views.SettingsPage"
-             Title="Configurações">
+             Title="{Binding SettingsTitle}">
 
     <Grid RowDefinitions="Auto,*">
 
@@ -42,13 +42,13 @@
                                  VerticalOptions="Center"
                                  Spacing="4">
 
-                        <Label Text="Configurações"
+                        <Label Text="{Binding SettingsTitle}"
                                Style="{StaticResource HeadlineStyle}"
                                FontSize="24"
                                TextColor="{StaticResource Primary}"
                                HorizontalTextAlignment="Start" />
 
-                        <Label Text="Personalize e gerencie seu app"
+                        <Label Text="{Binding SettingsSubtitle}"
                                Style="{StaticResource CaptionStyle}"
                                HorizontalTextAlignment="Start"
                                Opacity="0.8" />
@@ -82,12 +82,12 @@
                             </Border>
 
                             <StackLayout Grid.Column="1" Spacing="4">
-                                <Label Text="Idioma"
+                                <Label Text="{Binding LanguageTitle}"
                                        Style="{StaticResource TitleStyle}"
                                        FontSize="16"
                                        TextColor="{StaticResource Primary}" />
 
-                                <Label Text="Escolha o idioma do aplicativo"
+                                <Label Text="{Binding LanguageSubtitle}"
                                        Style="{StaticResource CaptionStyle}"
                                        Opacity="0.8" />
                             </StackLayout>
@@ -95,7 +95,7 @@
 
                         <!-- Language Selection -->
                         <StackLayout Spacing="12">
-                            <Label Text="Idioma Atual"
+                            <Label Text="{Binding CurrentLanguageText}"
                                    Style="{StaticResource CaptionStyle}"
                                    FontAttributes="Bold"
                                    TextColor="{StaticResource Primary}" />
@@ -110,7 +110,7 @@
                         </StackLayout>
 
                         <!-- Apply Language Button -->
-                        <Button Text="Aplicar Idioma"
+                        <Button Text="{Binding ApplyLanguageText}"
                                 Style="{StaticResource ModernButtonStyle}"
                                 Command="{Binding ApplyLanguageCommand}">
 
@@ -145,12 +145,12 @@
                             </Border>
 
                             <StackLayout Grid.Column="1" Spacing="4">
-                                <Label Text="Reset do Aplicativo"
+                                <Label Text="{Binding ResetTitle}"
                                        Style="{StaticResource TitleStyle}"
                                        FontSize="16"
                                        TextColor="{StaticResource Primary}" />
 
-                                <Label Text="Limpa todos os dados e volta ao início"
+                                <Label Text="{Binding ResetSubtitle}"
                                        Style="{StaticResource CaptionStyle}"
                                        Opacity="0.8" />
                             </StackLayout>
@@ -170,12 +170,12 @@
                                        VerticalOptions="Center" />
 
                                 <StackLayout Grid.Column="1" Spacing="4">
-                                    <Label Text="Atenção!"
+                                    <Label Text="{Binding WarningTitle}"
                                            Style="{StaticResource CaptionStyle}"
                                            FontAttributes="Bold"
                                            TextColor="{StaticResource PrimaryDarkText}" />
 
-                                    <Label Text="Esta ação irá apagar todas as suas contas e pastas permanentemente."
+                                    <Label Text="{Binding WarningMessage}"
                                            Style="{StaticResource CaptionStyle}"
                                            FontSize="12"
                                            TextColor="{StaticResource PrimaryDarkText}"
@@ -185,7 +185,7 @@
                         </Border>
 
                         <!-- Reset Button -->
-                        <Button Text="Resetar Aplicativo"
+                        <Button Text="{Binding ResetAppText}"
                                 Style="{StaticResource DangerButtonStyle}"
                                 Command="{Binding ResetAppCommand}">
 
@@ -200,7 +200,7 @@
                     </StackLayout>
                 </Border>
 
-                <!-- About Section (para future expansion) -->
+                <!-- About Section -->
                 <Border Style="{StaticResource ElevatedCardStyle}">
                     <StackLayout Spacing="20">
 
@@ -220,12 +220,12 @@
                             </Border>
 
                             <StackLayout Grid.Column="1" Spacing="4">
-                                <Label Text="Sobre o PassVault"
+                                <Label Text="{Binding AboutTitle}"
                                        Style="{StaticResource TitleStyle}"
                                        FontSize="16"
                                        TextColor="{StaticResource Primary}" />
 
-                                <Label Text="Informações do aplicativo"
+                                <Label Text="{Binding AboutSubtitle}"
                                        Style="{StaticResource CaptionStyle}"
                                        Opacity="0.8" />
                             </StackLayout>
@@ -235,7 +235,7 @@
                         <StackLayout Spacing="12">
                             <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
                                 <Label Grid.Column="0"
-                                       Text="Versão"
+                                       Text="{Binding VersionText}"
                                        Style="{StaticResource CaptionStyle}"
                                        VerticalOptions="Center" />
 
@@ -252,7 +252,7 @@
 
                             <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
                                 <Label Grid.Column="0"
-                                       Text="Desenvolvido por"
+                                       Text="{Binding DeveloperText}"
                                        Style="{StaticResource CaptionStyle}"
                                        VerticalOptions="Center" />
 
