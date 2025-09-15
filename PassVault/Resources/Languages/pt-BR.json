@@ -6,7 +6,17 @@
   },
   "main": {
     "title": "PassVault",
-    "subtitle": "Suas senhas seguras em um só lugar"
+    "subtitle": "Suas senhas seguras em um só lugar",
+    "items_tab": "Itens",
+    "folders_tab": "Pastas",
+    "no_accounts_title": "Nenhuma conta ainda",
+    "no_accounts_description": "Toque no botão + para adicionar sua primeira conta",
+    "no_folders_title": "Nenhuma pasta criada",
+    "no_folders_description": "Organize suas contas criando pastas personalizadas",
+    "folder_item_subtitle": "Pasta de contas",
+    "created_at_format": "Criado em {0:dd/MM/yyyy}",
+    "help_title": "Ajuda",
+    "help_message": "Para deletar uma conta ou pasta, arraste o item para o lado esquerdo."
   },
   "common": {
     "save": "Salvar",

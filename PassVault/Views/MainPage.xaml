@@ -32,7 +32,7 @@
 
                     <!-- Conteúdo principal centralizado -->
                     <StackLayout Spacing="8" HorizontalOptions="Center" VerticalOptions="Center">
-                        <Label Text="PassVault"
+                        <Label Text="{Binding AppTitle}"
                                Style="{StaticResource HeadlineStyle}"
                                FontSize="28"
                                TextColor="{StaticResource Primary}"
@@ -107,7 +107,7 @@
                                 <TapGestureRecognizer Command="{Binding SelectTabCommand}" CommandParameter="Itens"/>
                             </Border.GestureRecognizers>
 
-                            <Label Text="Itens"
+                            <Label Text="{Binding ItemsTabText}"
                                    Style="{StaticResource CaptionStyle}"
                                    FontAttributes="Bold"
                                    HorizontalTextAlignment="Center"
@@ -139,7 +139,7 @@
                                 <TapGestureRecognizer Command="{Binding SelectTabCommand}" CommandParameter="Pastas"/>
                             </Border.GestureRecognizers>
 
-                            <Label Text="Pastas"
+                            <Label Text="{Binding FoldersTabText}"
                                    Style="{StaticResource CaptionStyle}"
                                    FontAttributes="Bold"
                                    HorizontalTextAlignment="Center"
@@ -196,12 +196,12 @@
                             </Border>
 
                             <StackLayout Spacing="12">
-                                <Label Text="Nenhuma conta ainda"
+                                <Label Text="{Binding NoAccountsTitle}"
                                        Style="{StaticResource TitleStyle}"
                                        HorizontalTextAlignment="Center"
                                        TextColor="{StaticResource TextSecondary}" />
 
-                                <Label Text="Toque no botão + para adicionar sua primeira conta"
+                                <Label Text="{Binding NoAccountsDescription}"
                                        Style="{StaticResource BodyStyle}"
                                        HorizontalTextAlignment="Center"
                                        Opacity="0.8" />
@@ -220,9 +220,9 @@
                                     <SwipeView>
                                         <SwipeView.RightItems>
                                             <SwipeItems>
-                                                <SwipeItem Text="Excluir"
+                                                <SwipeItem Text="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}, Path=DeleteText}"
                                                            BackgroundColor="{StaticResource Error}"
-                                                           Command="{Binding x:DataType='viewModels:MainPageViewModel',Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}, Path=DeleteAccountCommand}"
+                                                           Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}, Path=DeleteAccountCommand}"
                                                            CommandParameter="{Binding .}" />
                                             </SwipeItems>
                                         </SwipeView.RightItems>
@@ -230,7 +230,7 @@
                                         <Border Style="{StaticResource PremiumListItemStyle}">
 
                                             <Border.GestureRecognizers>
-                                                <TapGestureRecognizer Command="{Binding x:DataType='viewModels:MainPageViewModel',Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}, Path=EditAccountCommand}"
+                                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}, Path=EditAccountCommand}"
                                                                       CommandParameter="{Binding .}" />
                                             </Border.GestureRecognizers>
 
@@ -266,15 +266,15 @@
 
                                                     <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
                                                         <Label Grid.Column="0"
-                                                               Text="schedule"
-                                                               FontFamily="MaterialIcons"
-                                                               FontSize="14"
-                                                               TextColor="{StaticResource TextTertiary}"
-                                                               VerticalOptions="Center" />
+                                                           Text="schedule"
+                                                           FontFamily="MaterialIcons"
+                                                           FontSize="14"
+                                                           TextColor="{StaticResource TextTertiary}"
+                                                           VerticalOptions="Center" />
 
                                                         <Label Grid.Column="1"
-                                                               Text="{Binding Created, StringFormat='Criado em {0:dd/MM/yyyy}'}"
-                                                               Style="{StaticResource CaptionStyle}" />
+                                                           Text="{Binding FormattedCreatedDate}"
+                                                           Style="{StaticResource CaptionStyle}" />
                                                     </Grid>
 
                                                 </StackLayout>
@@ -332,12 +332,12 @@
                             </Border>
 
                             <StackLayout Spacing="12">
-                                <Label Text="Nenhuma pasta criada"
+                                <Label Text="{Binding NoFoldersTitle}"
                                        Style="{StaticResource TitleStyle}"
                                        HorizontalTextAlignment="Center"
                                        TextColor="{StaticResource TextSecondary}" />
 
-                                <Label Text="Organize suas contas criando pastas personalizadas"
+                                <Label Text="{Binding NoFoldersDescription}"
                                        Style="{StaticResource BodyStyle}"
                                        HorizontalTextAlignment="Center"
                                        Opacity="0.8" />
@@ -356,9 +356,9 @@
                                     <SwipeView>
                                         <SwipeView.RightItems>
                                             <SwipeItems>
-                                                <SwipeItem Text="Excluir"
+                                                <SwipeItem Text="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}, Path=DeleteText}"
                                                            BackgroundColor="{StaticResource Error}"
-                                                           Command="{Binding x:DataType='viewModels:MainPageViewModel',Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}, Path=DeleteFolderCommand}"
+                                                           Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}, Path=DeleteFolderCommand}"
                                                            CommandParameter="{Binding .}" />
                                             </SwipeItems>
                                         </SwipeView.RightItems>
@@ -366,7 +366,7 @@
                                         <Border Style="{StaticResource PremiumListItemStyle}">
 
                                             <Border.GestureRecognizers>
-                                                <TapGestureRecognizer Command="{Binding x:DataType='viewModels:MainPageViewModel', Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}, Path=OpenFolderCommand}"
+                                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}, Path=OpenFolderCommand}"
                                                                       CommandParameter="{Binding .}" />
                                             </Border.GestureRecognizers>
 
@@ -409,7 +409,7 @@
                                                                VerticalOptions="Center" />
 
                                                         <Label Grid.Column="1"
-                                                               Text="Pasta de contas"
+                                                               Text="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}, Path=FolderItemSubtitle}"
                                                                Style="{StaticResource CaptionStyle}" />
                                                     </Grid>
 

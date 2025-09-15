@@ -57,6 +57,12 @@ namespace PassVault.ViewModels
         private string appSubtitle;
 
         [ObservableProperty]
+        private string itemsTabText;
+
+        [ObservableProperty]
+        private string foldersTabText;
+
+        [ObservableProperty]
         private string noAccountsTitle;
 
         [ObservableProperty]
@@ -70,6 +76,18 @@ namespace PassVault.ViewModels
 
         [ObservableProperty]
         private string deleteText;
+
+        [ObservableProperty]
+        private string folderItemSubtitle;
+
+        [ObservableProperty]
+        private string createdAtFormat;
+
+        [ObservableProperty]
+        private string helpTitle;
+
+        [ObservableProperty]
+        private string helpMessage;
 
         private readonly SemaphoreSlim _refreshSemaphore = new(1, 1);
 
@@ -268,7 +286,7 @@ namespace PassVault.ViewModels
         }
 
         [RelayCommand]
-        private async Task Help() => await Shell.Current.DisplayAlert("Ajuda", "Para deletar uma conta ou pasta, arraste para o lado esquerdo.", "OK");
+        private async Task Help() => await Shell.Current.DisplayAlert(HelpTitle, HelpMessage, L.Text("common.ok"));
 
         [RelayCommand]
         private async Task GoToSettings()
@@ -310,6 +328,8 @@ namespace PassVault.ViewModels
                 var sortedAccounts = newAccounts
                     .OrderBy(account => account.Title, StringComparer.OrdinalIgnoreCase)
                     .ToList();
+
+                FormatAccountDates(sortedAccounts);
 
                 await MainThread.InvokeOnMainThreadAsync(() =>
                 {
@@ -426,16 +446,23 @@ namespace PassVault.ViewModels
         {
             AppTitle = L.Text("main.title");
             AppSubtitle = L.Text("main.subtitle");
+            ItemsTabText = L.Text("main.items_tab");
+            FoldersTabText = L.Text("main.folders_tab");
             NoAccountsTitle = L.Text("main.no_accounts_title");
             NoAccountsDescription = L.Text("main.no_accounts_description");
             NoFoldersTitle = L.Text("main.no_folders_title");
             NoFoldersDescription = L.Text("main.no_folders_description");
             DeleteText = L.Text("common.delete");
+            FolderItemSubtitle = L.Text("main.folder_item_subtitle");
+            CreatedAtFormat = L.Text("main.created_at_format");
+            HelpTitle = L.Text("main.help_title");
+            HelpMessage = L.Text("main.help_message");
         }
 
-        private void OnLanguageChanged(object sender, EventArgs e)
+        private async void OnLanguageChanged(object sender, EventArgs e)
         {
             UpdateLocalizedTexts();
+            await RefreshCurrentTabAsync();
         }
 
         public async void Receive(AccountSavedMessage message)
@@ -451,6 +478,15 @@ namespace PassVault.ViewModels
             if (message.Value)
             {
                 await RefreshCurrentTabAsync();
+            }
+        }
+
+        private void FormatAccountDates(IEnumerable<Account> accounts)
+        {
+            if (accounts == null) return;
+            foreach (var account in accounts)
+            {
+                account.FormattedCreatedDate = string.Format(CreatedAtFormat, account.Created);
             }
         }
 

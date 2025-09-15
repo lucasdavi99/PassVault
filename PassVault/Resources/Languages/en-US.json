@@ -6,7 +6,17 @@
   },
   "main": {
     "title": "PassVault",
-    "subtitle": "Your secure passwords in one place"
+    "subtitle": "Your secure passwords in one place",
+    "items_tab": "Items",
+    "folders_tab": "Folders",
+    "no_accounts_title": "No accounts yet",
+    "no_accounts_description": "Tap the + button to add your first account",
+    "no_folders_title": "No folders created",
+    "no_folders_description": "Organize your accounts by creating custom folders",
+    "folder_item_subtitle": "Account folder",
+    "created_at_format": "Created on {0:MM/dd/yyyy}",
+    "help_title": "Help",
+    "help_message": "To delete an account or folder, swipe the item to the left."
   },
   "common": {
     "save": "Save",
