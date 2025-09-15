@@ -45,7 +45,8 @@
     "folders": "Folders",
     "settings": "Settings",
     "tutorial": "Tutorial",
-    "fields_selection": "Customize Fields"
+    "fields_selection": "Customize Fields",
+    "new_account_page_title": "Create Account"
   },
   "fields_selection": {
     "title": "Customize Fields",
@@ -62,6 +63,26 @@
     "preview_username": "Username ✓",
     "preview_email": "Email ✓",
     "preview_password": "Password ✓"
+  },
+  "new_account": {
+    "title": "New Account",
+    "subtitle": "Add a new account securely",
+    "account_title_label": "Account Title *",
+    "account_title_placeholder": "Ex: Gmail, Instagram, GitHub...",
+    "username_label": "Username",
+    "username_placeholder": "Enter your username",
+    "email_label": "Email",
+    "email_placeholder": "example@email.com",
+    "password_label": "Password *",
+    "password_placeholder": "Enter a secure password",
+    "color_id_label": "Identification Color",
+    "color_id_subtitle": "Choose a color to easily identify this account",
+    "color_id_tap_here": "Tap the circle to choose a custom color",
+    "save_button_text": "Save Account",
+    "validation_error": "Please fill the fields correctly",
+    "color_picker_title": "Choose Color",
+    "color_picker_subtitle": "Select the perfect color for your account",
+    "hex_code_placeholder": "#FF5733"
   },
   "settings": {
     "title": "Settings",

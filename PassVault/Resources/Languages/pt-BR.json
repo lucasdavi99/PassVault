@@ -45,7 +45,8 @@
     "folders": "Pastas",
     "settings": "Configurações",
     "tutorial": "Tutorial",
-    "fields_selection": "Personalizar Campos"
+    "fields_selection": "Personalizar Campos",
+    "new_account_page_title": "Criar Conta"
   },
   "fields_selection": {
     "title": "Personalizar Campos",
@@ -62,6 +63,26 @@
     "preview_username": "Nome de Usuário ✓",
     "preview_email": "E-mail ✓",
     "preview_password": "Senha ✓"
+  },
+  "new_account": {
+    "title": "Nova Conta",
+    "subtitle": "Adicione uma nova conta com segurança",
+    "account_title_label": "Título da Conta *",
+    "account_title_placeholder": "Ex: Gmail, Instagram, GitHub...",
+    "username_label": "Nome de Usuário",
+    "username_placeholder": "Digite seu nome de usuário",
+    "email_label": "E-mail",
+    "email_placeholder": "exemplo@email.com",
+    "password_label": "Senha *",
+    "password_placeholder": "Digite uma senha segura",
+    "color_id_label": "Cor de Identificação",
+    "color_id_subtitle": "Escolha uma cor para identificar facilmente esta conta",
+    "color_id_tap_here": "Toque no círculo para escolher uma cor personalizada",
+    "save_button_text": "Salvar Conta",
+    "validation_error": "Preencha os campos corretamente",
+    "color_picker_title": "Escolher Cor",
+    "color_picker_subtitle": "Selecione a cor perfeita para sua conta",
+    "hex_code_placeholder": "#FF5733"
   },
   "settings": {
     "title": "Configurações",
