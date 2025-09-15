@@ -36,14 +36,32 @@
     "error": "Erro",
     "success": "Sucesso",
     "warning": "Aviso",
-    "info": "Informação"
+    "info": "Informação",
+    "continue_button": "Continuar"
   },
   "navigation": {
     "home": "Início",
     "accounts": "Contas",
     "folders": "Pastas",
     "settings": "Configurações",
-    "tutorial": "Tutorial"
+    "tutorial": "Tutorial",
+    "fields_selection": "Personalizar Campos"
+  },
+  "fields_selection": {
+    "title": "Personalizar Campos",
+    "subtitle": "Escolha quais campos incluir na sua conta",
+    "required_fields_title": "Campos Obrigatórios",
+    "required_fields_message": "Título e Senha são sempre incluídos. Selecione abaixo os campos opcionais que deseja adicionar.",
+    "username_title": "Nome de Usuário",
+    "username_description": "Campo para armazenar username ou login da conta",
+    "email_title": "E-mail",
+    "email_description": "Campo para armazenar endereço de e-mail da conta",
+    "preview_title": "Prévia dos Campos",
+    "preview_subtitle": "Campos que aparecerão no formulário",
+    "preview_account_title": "Título da Conta ✓",
+    "preview_username": "Nome de Usuário ✓",
+    "preview_email": "E-mail ✓",
+    "preview_password": "Senha ✓"
   },
   "settings": {
     "title": "Configurações",

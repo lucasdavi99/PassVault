@@ -36,14 +36,32 @@
     "error": "Error",
     "success": "Success",
     "warning": "Warning",
-    "info": "Information"
+    "info": "Information",
+    "continue_button": "Continue"
   },
   "navigation": {
     "home": "Home",
     "accounts": "Accounts",
     "folders": "Folders",
     "settings": "Settings",
-    "tutorial": "Tutorial"
+    "tutorial": "Tutorial",
+    "fields_selection": "Customize Fields"
+  },
+  "fields_selection": {
+    "title": "Customize Fields",
+    "subtitle": "Choose which fields to include in your account",
+    "required_fields_title": "Required Fields",
+    "required_fields_message": "Title and Password are always included. Select the optional fields you want to add below.",
+    "username_title": "Username",
+    "username_description": "Field to store the account's username or login",
+    "email_title": "Email",
+    "email_description": "Field to store the account's email address",
+    "preview_title": "Fields Preview",
+    "preview_subtitle": "Fields that will appear on the form",
+    "preview_account_title": "Account Title ✓",
+    "preview_username": "Username ✓",
+    "preview_email": "Email ✓",
+    "preview_password": "Password ✓"
   },
   "settings": {
     "title": "Settings",

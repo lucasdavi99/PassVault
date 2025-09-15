@@ -4,7 +4,7 @@
              xmlns:viewModels="clr-namespace:PassVault.ViewModels"
              x:DataType="viewModels:FieldsSelectionViewModel"
              x:Class="PassVault.Views.FieldsSelection"
-             Title="Personalizar Campos">
+             Title="{Binding PageTitle}">
 
     <Grid RowDefinitions="Auto,*,Auto">
 
@@ -42,13 +42,13 @@
                                  VerticalOptions="Center"
                                  Spacing="4">
 
-                        <Label Text="Personalizar Campos"
+                        <Label Text="{Binding PageTitle}"
                                Style="{StaticResource HeadlineStyle}"
                                FontSize="24"
                                TextColor="{StaticResource Primary}"
                                HorizontalTextAlignment="Start" />
 
-                        <Label Text="Escolha quais campos incluir na sua conta"
+                        <Label Text="{Binding PageSubtitle}"
                                Style="{StaticResource CaptionStyle}"
                                HorizontalTextAlignment="Start"
                                Opacity="0.8" />
@@ -84,12 +84,12 @@
                         </Border>
 
                         <StackLayout Grid.Column="1" Spacing="8">
-                            <Label Text="Campos Obrigatórios"
+                            <Label Text="{Binding RequiredFieldsTitle}"
                                    Style="{StaticResource TitleStyle}"
                                    FontSize="16"
                                    TextColor="{StaticResource Info}" />
 
-                            <Label Text="Título e Senha são sempre incluídos. Selecione abaixo os campos opcionais que deseja adicionar."
+                            <Label Text="{Binding RequiredFieldsMessage}"
                                    Style="{StaticResource BodyStyle}"
                                    FontSize="14" />
                         </StackLayout>
@@ -141,11 +141,11 @@
 
                             <!-- Info -->
                             <StackLayout Grid.Column="1" VerticalOptions="Center" Spacing="6">
-                                <Label Text="Nome de Usuário"
+                                <Label Text="{Binding UsernameTitle}"
                                        Style="{StaticResource TitleStyle}"
                                        FontSize="18" />
 
-                                <Label Text="Campo para armazenar username ou login da conta"
+                                <Label Text="{Binding UsernameDescription}"
                                        Style="{StaticResource CaptionStyle}"
                                        Opacity="0.8" />
                             </StackLayout>
@@ -219,11 +219,11 @@
 
                             <!-- Info -->
                             <StackLayout Grid.Column="1" VerticalOptions="Center" Spacing="6">
-                                <Label Text="E-mail"
+                                <Label Text="{Binding EmailTitle}"
                                        Style="{StaticResource TitleStyle}"
                                        FontSize="18" />
 
-                                <Label Text="Campo para armazenar endereço de e-mail da conta"
+                                <Label Text="{Binding EmailDescription}"
                                        Style="{StaticResource CaptionStyle}"
                                        Opacity="0.8" />
                             </StackLayout>
@@ -274,12 +274,12 @@
                                    VerticalOptions="Center" />
 
                             <StackLayout Grid.Column="1" Spacing="2">
-                                <Label Text="Prévia dos Campos"
+                                <Label Text="{Binding PreviewTitle}"
                                        Style="{StaticResource TitleStyle}"
                                        FontSize="16"
                                        TextColor="{StaticResource Primary}" />
 
-                                <Label Text="Campos que aparecerão no formulário"
+                                <Label Text="{Binding PreviewSubtitle}"
                                        Style="{StaticResource CaptionStyle}"
                                        Opacity="0.8" />
                             </StackLayout>
@@ -304,7 +304,7 @@
                                 </Border>
 
                                 <Label Grid.Column="1"
-                                       Text="Título da Conta ✓"
+                                       Text="{Binding PreviewAccountTitle}"
                                        Style="{StaticResource BodyStyle}"
                                        FontAttributes="Bold"
                                        VerticalOptions="Center" />
@@ -327,7 +327,7 @@
                                 </Border>
 
                                 <Label Grid.Column="1"
-                                       Text="Nome de Usuário ✓"
+                                       Text="{Binding PreviewUsername}"
                                        Style="{StaticResource BodyStyle}"
                                        VerticalOptions="Center" />
                             </Grid>
@@ -349,7 +349,7 @@
                                 </Border>
 
                                 <Label Grid.Column="1"
-                                       Text="E-mail ✓"
+                                       Text="{Binding PreviewEmail}"
                                        Style="{StaticResource BodyStyle}"
                                        VerticalOptions="Center" />
                             </Grid>
@@ -370,7 +370,7 @@
                                 </Border>
 
                                 <Label Grid.Column="1"
-                                       Text="Senha ✓"
+                                       Text="{Binding PreviewPassword}"
                                        Style="{StaticResource BodyStyle}"
                                        FontAttributes="Bold"
                                        VerticalOptions="Center" />
@@ -395,7 +395,7 @@
                 <Shadow Brush="#40000000" Offset="0,-4" Radius="16" Opacity="0.1" />
             </Border.Shadow>
 
-            <Button Text="Continuar"
+            <Button Text="{Binding ContinueButtonText}"
                     Style="{StaticResource ModernButtonStyle}"
                     FontSize="18"
                     HeightRequest="60"
