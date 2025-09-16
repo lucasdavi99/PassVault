@@ -36,53 +36,14 @@
     "error": "Erro",
     "success": "Sucesso",
     "warning": "Aviso",
-    "info": "Informação",
-    "continue_button": "Continuar"
+    "info": "Informação"
   },
   "navigation": {
     "home": "Início",
     "accounts": "Contas",
     "folders": "Pastas",
     "settings": "Configurações",
-    "tutorial": "Tutorial",
-    "fields_selection": "Personalizar Campos",
-    "new_account_page_title": "Criar Conta"
-  },
-  "fields_selection": {
-    "title": "Personalizar Campos",
-    "subtitle": "Escolha quais campos incluir na sua conta",
-    "required_fields_title": "Campos Obrigatórios",
-    "required_fields_message": "Título e Senha são sempre incluídos. Selecione abaixo os campos opcionais que deseja adicionar.",
-    "username_title": "Nome de Usuário",
-    "username_description": "Campo para armazenar username ou login da conta",
-    "email_title": "E-mail",
-    "email_description": "Campo para armazenar endereço de e-mail da conta",
-    "preview_title": "Prévia dos Campos",
-    "preview_subtitle": "Campos que aparecerão no formulário",
-    "preview_account_title": "Título da Conta ✓",
-    "preview_username": "Nome de Usuário ✓",
-    "preview_email": "E-mail ✓",
-    "preview_password": "Senha ✓"
-  },
-  "new_account": {
-    "title": "Nova Conta",
-    "subtitle": "Adicione uma nova conta com segurança",
-    "account_title_label": "Título da Conta *",
-    "account_title_placeholder": "Ex: Gmail, Instagram, GitHub...",
-    "username_label": "Nome de Usuário",
-    "username_placeholder": "Digite seu nome de usuário",
-    "email_label": "E-mail",
-    "email_placeholder": "exemplo@email.com",
-    "password_label": "Senha *",
-    "password_placeholder": "Digite uma senha segura",
-    "color_id_label": "Cor de Identificação",
-    "color_id_subtitle": "Escolha uma cor para identificar facilmente esta conta",
-    "color_id_tap_here": "Toque no círculo para escolher uma cor personalizada",
-    "save_button_text": "Salvar Conta",
-    "validation_error": "Preencha os campos corretamente",
-    "color_picker_title": "Escolher Cor",
-    "color_picker_subtitle": "Selecione a cor perfeita para sua conta",
-    "hex_code_placeholder": "#FF5733"
+    "tutorial": "Tutorial"
   },
   "settings": {
     "title": "Configurações",
@@ -151,6 +112,41 @@
     "biometric_auth": "Autenticação biométrica",
     "fingerprint": "Impressão digital",
     "face_id": "Face ID"
+  },
+  "backup": {
+    "title": "Backup",
+    "page_title": "Backup e Restauração",
+    "page_subtitle": "Mantenha suas senhas seguras em qualquer lugar",
+    "export_title": "Exportar Backup",
+    "export_subtitle": "Crie um backup criptografado dos seus dados",
+    "export_password_label": "Senha de Exportação",
+    "export_button_text": "Exportar Backup",
+    "import_title": "Importar Backup",
+    "import_subtitle": "Restaure seus dados a partir de um backup existente",
+    "import_button_text": "Importar Backup",
+    "security_info_title": "Informações de Segurança",
+    "security_info1": "• Os backups são criptografados com AES-256",
+    "security_info2": "• Apenas a senha de exportação pode descriptografar os dados",
+    "security_info3": "• Backups expiram automaticamente em 24 horas",
+    "security_info4": "• Guarde sua senha em local seguro",
+    "export": {
+      "confirm_title": "Confirmação",
+      "confirm_message": "Você concluiu o compartilhamento do backup?",
+      "success_title": "Backup exportado!",
+      "success_message": "Atenção: este backup será válido apenas por 24 horas.",
+      "cancel_title": "Exportação Cancelada",
+      "cancel_message": "A exportação foi cancelada.",
+      "empty_message": "Não há contas ou pastas para exportar."
+    },
+    "import": {
+      "picker_title": "Selecione o arquivo de backup",
+      "password_prompt_title": "Senha de Importação",
+      "password_prompt_message": "Digite a senha para importar o backup:",
+      "password_required": "A senha é obrigatória para importar o backup.",
+      "success_title": "Importado",
+      "success_message": "Backup importado com sucesso!",
+      "wrong_password": "A senha fornecida está incorreta."
+    }
   },
   "tutorial": {
     "welcome": "Bem-vindo",

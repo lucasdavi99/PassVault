@@ -3,9 +3,11 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using PassVault.Data;
 using PassVault.exceptions;
+using PassVault.Interfaces;
 using PassVault.Messages;
 using PassVault.Models;
 using PassVault.Services;
+using System.Security.AccessControl;
 
 namespace PassVault.ViewModels
 {
@@ -15,29 +17,67 @@ namespace PassVault.ViewModels
         private readonly ImportService _importService;
         private readonly AccountDatabase _accountDatabase;
         private readonly FolderDatabase _folderDatabase;
+        private readonly ILocalizationService _localizationService;
 
-        [ObservableProperty]
-        private string exportFilePath;
+        [ObservableProperty] private string exportFilePath;
+        [ObservableProperty] private string exportPassword;
+        [ObservableProperty] private string importFilePath;
+        [ObservableProperty] private string importPassword;
+        [ObservableProperty] private bool isPasswordVisible;
 
-        [ObservableProperty]
-        private string exportPassword;
+        // Propriedades localizadas
+        [ObservableProperty] private string backupTitle;
+        [ObservableProperty] private string pageTitle;
+        [ObservableProperty] private string pageSubtitle;
+        [ObservableProperty] private string exportTitle;
+        [ObservableProperty] private string exportSubtitle;
+        [ObservableProperty] private string exportPasswordLabel;
+        [ObservableProperty] private string exportButtonText;
+        [ObservableProperty] private string importTitle;
+        [ObservableProperty] private string importSubtitle;
+        [ObservableProperty] private string importButtonText;
+        [ObservableProperty] private string securityInfoTitle;
+        [ObservableProperty] private string securityInfo1;
+        [ObservableProperty] private string securityInfo2;
+        [ObservableProperty] private string securityInfo3;
+        [ObservableProperty] private string securityInfo4;
 
-        [ObservableProperty]
-        private string importFilePath;
 
-        [ObservableProperty]
-        private string importPassword;
-
-        [ObservableProperty]
-        private bool isPasswordVisible;
-
-        public BackupViewModel(ExportService exportService, ImportService importService, AccountDatabase accountDatabase, FolderDatabase folderDatabase)
+        public BackupViewModel(ExportService exportService, ImportService importService, AccountDatabase accountDatabase, FolderDatabase folderDatabase, ILocalizationService localizationService)
         {
             _exportService = exportService;
             _importService = importService;
             _accountDatabase = accountDatabase;
             _folderDatabase = folderDatabase;
+            _localizationService = localizationService;
             IsPasswordVisible = false;
+
+            UpdateLocalizedTexts();
+            _localizationService.LanguageChanged += OnLanguageChanged;
+        }
+
+        private void OnLanguageChanged(object sender, EventArgs e)
+        {
+            MainThread.BeginInvokeOnMainThread(UpdateLocalizedTexts);
+        }
+
+        private void UpdateLocalizedTexts()
+        {
+            BackupTitle = L.Text("backup.title");
+            PageTitle = L.Text("backup.page_title");
+            PageSubtitle = L.Text("backup.page_subtitle");
+            ExportTitle = L.Text("backup.export_title");
+            ExportSubtitle = L.Text("backup.export_subtitle");
+            ExportPasswordLabel = L.Text("backup.export_password_label");
+            ExportButtonText = L.Text("backup.export_button_text");
+            ImportTitle = L.Text("backup.import_title");
+            ImportSubtitle = L.Text("backup.import_subtitle");
+            ImportButtonText = L.Text("backup.import_button_text");
+            SecurityInfoTitle = L.Text("backup.security_info_title");
+            SecurityInfo1 = L.Text("backup.security_info1");
+            SecurityInfo2 = L.Text("backup.security_info2");
+            SecurityInfo3 = L.Text("backup.security_info3");
+            SecurityInfo4 = L.Text("backup.security_info4");
         }
 
         [RelayCommand]
@@ -52,16 +92,14 @@ namespace PassVault.ViewModels
 
                 ExportFilePath = filePath;
                 ExportPassword = password;
-                // A senha permanece oculta até a confirmação
                 IsPasswordVisible = false;
 
-                bool sharingCompleted = await Shell.Current.DisplayAlert("Confirmação", "Você concluiu o compartilhamento do backup?", "Sim", "Não");
+                bool sharingCompleted = await Shell.Current.DisplayAlert(L.Text("backup.export.confirm_title"), L.Text("backup.export.confirm_message"), L.Text("common.yes"), L.Text("common.no"));
 
                 if (sharingCompleted)
                 {
-                    // Só mostra a senha após a confirmação positiva
                     IsPasswordVisible = true;
-                    await Shell.Current.DisplayAlert("Backup exportado!", "Atenção: este backup será válido apenas por 24 horas.", "OK");
+                    await Shell.Current.DisplayAlert(L.Text("backup.export.success_title"), L.Text("backup.export.success_message"), L.Text("common.ok"));
                 }
                 else
                 {
@@ -70,12 +108,12 @@ namespace PassVault.ViewModels
                         File.Delete(ExportFilePath);
                     }
                     ExportPassword = string.Empty;
-                    await Shell.Current.DisplayAlert("Exportação Cancelada", "A exportação foi cancelada.", "OK");
+                    await Shell.Current.DisplayAlert(L.Text("backup.export.cancel_title"), L.Text("backup.export.cancel_message"), L.Text("common.ok"));
                 }
             }
             else
             {
-                await Shell.Current.DisplayAlert("Erro", "Não há contas ou pastas para exportar.", "OK");
+                await Shell.Current.DisplayAlert(L.Text("common.error"), L.Text("backup.export.empty_message"), L.Text("common.ok"));
             }
         }
 
@@ -86,7 +124,7 @@ namespace PassVault.ViewModels
             {
                 var result = await FilePicker.PickAsync(new PickOptions
                 {
-                    PickerTitle = "Selecione o arquivo de backup",
+                    PickerTitle = L.Text("backup.import.picker_title"),
                     FileTypes = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
                     {
                         { DevicePlatform.Android, new[] { "application/octet-stream" } },
@@ -109,12 +147,12 @@ namespace PassVault.ViewModels
 
                 ImportFilePath = filePath;
 
-                string senha = await Shell.Current.DisplayPromptAsync("Senha de Importação", "Digite a senha para importar o backup:");
+                string senha = await Shell.Current.DisplayPromptAsync(L.Text("backup.import.password_prompt_title"), L.Text("backup.import.password_prompt_message"));
                 ImportPassword = senha;
 
                 if (string.IsNullOrWhiteSpace(senha))
                 {
-                    await Shell.Current.DisplayAlert("Erro", "A senha é obrigatória para importar o backup.", "OK");
+                    await Shell.Current.DisplayAlert(L.Text("common.error"), L.Text("backup.import.password_required"), L.Text("common.ok"));
                     return;
                 }
 
@@ -151,17 +189,23 @@ namespace PassVault.ViewModels
                 WeakReferenceMessenger.Default.Send(new AccountSavedMessage(true));
                 WeakReferenceMessenger.Default.Send(new FolderSavedMessage(true));
 
-                await Shell.Current.DisplayAlert("Importado", "Backup importado com sucesso!", "OK");
+                await Shell.Current.DisplayAlert(L.Text("backup.import.success_title"), L.Text("backup.import.success_message"), L.Text("common.ok"));
                 await Shell.Current.Navigation.PopAsync();
             }
             catch (InvalidImportPasswordException)
             {
-                await Shell.Current.DisplayAlert("Erro", "A senha fornecida está incorreta.", "OK");
+                await Shell.Current.DisplayAlert(L.Text("common.error"), L.Text("backup.import.wrong_password"), L.Text("common.ok"));
             }
             catch (Exception ex)
             {
-                await Shell.Current.DisplayAlert("Erro", ex.Message, "OK");
+                await Shell.Current.DisplayAlert(L.Text("common.error"), ex.Message, L.Text("common.ok"));
             }
+        }
+
+        ~BackupViewModel()
+        {
+            if (_localizationService != null)
+                _localizationService.LanguageChanged -= OnLanguageChanged;
         }
     }
 }
