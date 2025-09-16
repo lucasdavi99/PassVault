@@ -90,7 +90,12 @@
     "generate_password": "Gerar senha",
     "copy_password": "Copiar senha",
     "show_password": "Mostrar senha",
-    "hide_password": "Ocultar senha"
+    "hide_password": "Ocultar senha",
+    "select_subfolder": "Selecionar Subpasta",
+    "no_folder": "Sem Pasta",
+    "keep_in_main_folder": "Manter na Pasta Principal",
+    "main_folder": "Pasta Principal",
+    "folder_not_found": "Pasta não encontrada"
   },
   "folders": {
     "title": "Pastas",
@@ -148,6 +153,33 @@
       "wrong_password": "A senha fornecida está incorreta."
     }
   },
+  "edit_account_page": {
+    "title": "Visualizar e Editar",
+    "header_title": "Detalhes da Conta",
+    "header_subtitle_view": "Visualize ou edite as informações",
+    "header_subtitle_edit": "Editando dados da conta",
+    "form_title": "Informações da Conta",
+    "form_subtitle": "Edite os dados necessários",
+    "account_name_label": "Nome da Conta *",
+    "account_name_placeholder": "Ex: Gmail, Netflix...",
+    "username_label": "Nome de Usuário",
+    "username_placeholder": "Digite o nome de usuário",
+    "email_label": "E-mail",
+    "email_placeholder": "seu@email.com",
+    "password_label": "Senha *",
+    "password_placeholder": "Digite sua senha",
+    "color_label": "Cor de Identificação",
+    "organization_label": "Organização",
+    "main_folder_label": "Pasta Principal",
+    "subfolder_label": "Subpasta (Opcional)",
+    "edit_button": "Editar",
+    "cancel_button": "Cancelar",
+    "save_button": "Salvar",
+    "custom_color_title": "Cor Personalizada",
+    "custom_color_subtitle": "Escolha uma cor única para sua conta",
+    "selected_color_label": "Cor Selecionada",
+    "apply_color_button": "Aplicar Cor"
+  },
   "tutorial": {
     "welcome": "Bem-vindo",
     "security_title": "Segurança Avançada",
@@ -167,7 +199,21 @@
     "invalid_data": "Dados inválidos",
     "connection_error": "Erro de conexão",
     "file_not_found": "Arquivo não encontrado",
-    "permission_denied": "Permissão negada"
+    "permission_denied": "Permissão negada",
+    "confirm_move_account_title": "Confirmação",
+    "confirm_move_account": "Tem certeza que deseja mover esta conta para {0}?",
+    "confirm_move_account_subfolder": "Tem certeza que deseja mover esta conta para a subpasta {0}?",
+    "no_folders_found": "Nenhuma pasta encontrada.",
+    "no_subfolders_found": "Nenhuma subpasta encontrada nesta pasta.",
+    "error_loading_folders": "Erro ao carregar informações da pasta: {0}",
+    "error_loading_subfolders": "Erro ao carregar subpastas: {0}",
+    "auth_needed_title": "Autenticação necessária",
+    "auth_needed_message": "Desbloqueie o Dispositivo.",
+    "auth_failed": "Falha na autenticação",
+    "auth_error": "Erro na autenticação: {0}",
+    "password_applied_success": "Nova senha aplicada",
+    "account_updated_success": "Conta atualizada com sucesso",
+    "fill_required_fields": "Preencha os campos obrigatórios"
   },
   "validation": {
     "required_field": "Este campo é obrigatório",

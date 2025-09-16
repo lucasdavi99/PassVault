@@ -90,7 +90,12 @@
     "generate_password": "Generate password",
     "copy_password": "Copy password",
     "show_password": "Show password",
-    "hide_password": "Hide password"
+    "hide_password": "Hide password",
+    "select_subfolder": "Select Subfolder",
+    "no_folder": "No Folder",
+    "keep_in_main_folder": "Keep in Main Folder",
+    "main_folder": "Main Folder",
+    "folder_not_found": "Folder not found"
   },
   "folders": {
     "title": "Folders",
@@ -148,6 +153,33 @@
       "wrong_password": "The provided password is incorrect."
     }
   },
+  "edit_account_page": {
+    "title": "View and Edit",
+    "header_title": "Account Details",
+    "header_subtitle_view": "View or edit the information",
+    "header_subtitle_edit": "Editing account data",
+    "form_title": "Account Information",
+    "form_subtitle": "Edit the necessary data",
+    "account_name_label": "Account Name *",
+    "account_name_placeholder": "Ex: Gmail, Netflix...",
+    "username_label": "Username",
+    "username_placeholder": "Enter username",
+    "email_label": "Email",
+    "email_placeholder": "your@email.com",
+    "password_label": "Password *",
+    "password_placeholder": "Enter your password",
+    "color_label": "Identification Color",
+    "organization_label": "Organization",
+    "main_folder_label": "Main Folder",
+    "subfolder_label": "Subfolder (Optional)",
+    "edit_button": "Edit",
+    "cancel_button": "Cancel",
+    "save_button": "Save",
+    "custom_color_title": "Custom Color",
+    "custom_color_subtitle": "Choose a unique color for your account",
+    "selected_color_label": "Selected Color",
+    "apply_color_button": "Apply Color"
+  },
   "tutorial": {
     "welcome": "Welcome",
     "security_title": "Advanced Security",
@@ -167,7 +199,21 @@
     "invalid_data": "Invalid data",
     "connection_error": "Connection error",
     "file_not_found": "File not found",
-    "permission_denied": "Permission denied"
+    "permission_denied": "Permission denied",
+    "confirm_move_account_title": "Confirmation",
+    "confirm_move_account": "Are you sure you want to move this account to {0}?",
+    "confirm_move_account_subfolder": "Are you sure you want to move this account to the subfolder {0}?",
+    "no_folders_found": "No folders found.",
+    "no_subfolders_found": "No subfolders found in this folder.",
+    "error_loading_folders": "Error loading folder information: {0}",
+    "error_loading_subfolders": "Error loading subfolders: {0}",
+    "auth_needed_title": "Authentication required",
+    "auth_needed_message": "Unlock the Device.",
+    "auth_failed": "Authentication failed",
+    "auth_error": "Authentication error: {0}",
+    "password_applied_success": "New password applied",
+    "account_updated_success": "Account updated successfully",
+    "fill_required_fields": "Fill in the required fields"
   },
   "validation": {
     "required_field": "This field is required",
