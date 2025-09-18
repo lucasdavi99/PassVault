@@ -262,5 +262,22 @@
     "preview_username": "Username",
     "preview_email": "Email",
     "preview_password": "Password"
+  },
+  "folder_page": {
+    "page_subtitle": "Manage accounts and folders",
+    "accounts_tab": "Accounts",
+    "folders_tab": "Folders",
+    "empty_folder_title": "Folder is Empty",
+    "empty_folder_message": "This folder has no accounts or subfolders yet. Use the + buttons to add items.",
+    "subfolder_item_subtitle": "Subfolder",
+    "delete_account_confirm_title": "Confirm Deletion",
+    "delete_account_confirm_message": "Are you sure you want to delete this item?",
+    "delete_account_success": "Item deleted successfully",
+    "delete_folder_confirm_message": "Are you sure you want to delete this folder? All items and subfolders within will be deleted.",
+    "delete_folder_success": "Folder deleted successfully.",
+    "error_loading_data": "Error loading data: {0}",
+    "error_deleting_account": "Error deleting account: {0}",
+    "error_deleting_folder": "Error deleting folder: {0}",
+    "error_opening_folder": "Error opening folder: {0}"
   }
 }

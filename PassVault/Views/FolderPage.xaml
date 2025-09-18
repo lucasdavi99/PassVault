@@ -60,7 +60,7 @@
                                        FontSize="20"
                                        TextColor="{StaticResource Primary}" />
 
-                                <Label Text="Gerencie contas e pastas"
+                                <Label Text="{Binding PageSubtitle}"
                                        Style="{StaticResource CaptionStyle}"
                                        Opacity="0.8" 
                                        HorizontalTextAlignment="Center"
@@ -139,7 +139,7 @@
                             </Label.Triggers>
                         </Label>
 
-                        <Label Text="Contas"
+                        <Label Text="{Binding AccountsTabText}"
                                Style="{StaticResource TitleStyle}"
                                FontSize="14"
                                FontAttributes="Bold"
@@ -194,7 +194,7 @@
                             </Label.Triggers>
                         </Label>
 
-                        <Label Text="Pastas"
+                        <Label Text="{Binding FoldersTabText}"
                                Style="{StaticResource TitleStyle}"
                                FontSize="14"
                                VerticalOptions="Center">
@@ -241,7 +241,7 @@
                                    TextColor="{StaticResource TextTertiary}"
                                    HorizontalOptions="Center" />
 
-                            <Label Text="folder_add"
+                            <Label Text="add_circle_outline"
                                    FontFamily="MaterialIcons"
                                    FontSize="24"
                                    TextColor="{StaticResource Primary}"
@@ -250,13 +250,13 @@
                     </Border>
 
                     <StackLayout Spacing="16">
-                        <Label Text="Pasta Vazia"
+                        <Label Text="{Binding EmptyTitle}"
                                Style="{StaticResource TitleStyle}"
                                FontSize="22"
                                HorizontalTextAlignment="Center"
                                TextColor="{StaticResource TextSecondary}" />
 
-                        <Label Text="Esta pasta ainda não possui contas ou subpastas. Use os botões + para adicionar itens."
+                        <Label Text="{Binding EmptyMessage}"
                                Style="{StaticResource BodyStyle}"
                                HorizontalTextAlignment="Center"
                                Opacity="0.8" />
@@ -276,7 +276,7 @@
                                 <SwipeView>
                                     <SwipeView.RightItems>
                                         <SwipeItems>
-                                            <SwipeItem Text="Excluir"
+                                            <SwipeItem Text="{Binding Source={RelativeSource AncestorType={x:Type viewModels:FolderPageViewModel}}, Path=DeleteText}"
                                                        BackgroundColor="{StaticResource Error}"
                                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:FolderPageViewModel}}, Path=DeleteAccountInFolderCommand}"
                                                        CommandParameter="{Binding .}" />
@@ -327,8 +327,8 @@
                                                            VerticalOptions="Center" />
 
                                                     <Label Grid.Column="1"
-                                                           Text="{Binding Created, StringFormat='Criado em {0:dd/MM/yyyy}'}"
-                                                           Style="{StaticResource CaptionStyle}" /> 
+                                                           Text="{Binding FormattedCreatedDate}"
+                                                           Style="{StaticResource CaptionStyle}" />
                                                 </Grid>
                                             </StackLayout>
 
@@ -359,7 +359,7 @@
                                 <SwipeView>
                                     <SwipeView.RightItems>
                                         <SwipeItems>
-                                            <SwipeItem Text="Excluir"
+                                            <SwipeItem Text="{Binding Source={RelativeSource AncestorType={x:Type viewModels:FolderPageViewModel}}, Path=DeleteText}"
                                                        BackgroundColor="{StaticResource Error}"
                                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:FolderPageViewModel}}, Path=DeleteSubFolderCommand}"
                                                        CommandParameter="{Binding .}" />
@@ -402,7 +402,7 @@
                                                        FontSize="16"
                                                        TextColor="{StaticResource TextPrimary}" />
 
-                                                <Label Text="Subpasta"
+                                                <Label Text="{Binding Source={RelativeSource AncestorType={x:Type viewModels:FolderPageViewModel}}, Path=SubfolderItemSubtitle}"
                                                        Style="{StaticResource CaptionStyle}"
                                                        Opacity="0.8" />
                                             </StackLayout>

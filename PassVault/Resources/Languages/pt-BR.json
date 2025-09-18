@@ -262,5 +262,22 @@
     "preview_username": "Nome de Usuário",
     "preview_email": "E-mail",
     "preview_password": "Senha"
+  },
+  "folder_page": {
+    "page_subtitle": "Gerencie contas e pastas",
+    "accounts_tab": "Contas",
+    "folders_tab": "Pastas",
+    "empty_folder_title": "Pasta Vazia",
+    "empty_folder_message": "Esta pasta ainda não possui contas ou subpastas. Use os botões + para adicionar itens.",
+    "subfolder_item_subtitle": "Subpasta",
+    "delete_account_confirm_title": "Confirmar Exclusão",
+    "delete_account_confirm_message": "Deseja realmente excluir este item?",
+    "delete_account_success": "Item excluído com sucesso",
+    "delete_folder_confirm_message": "Deseja realmente excluir essa pasta? Todos os itens e subpastas dentro serão excluídos.",
+    "delete_folder_success": "Pasta excluída com sucesso.",
+    "error_loading_data": "Erro ao carregar dados: {0}",
+    "error_deleting_account": "Erro ao excluir conta: {0}",
+    "error_deleting_folder": "Erro ao excluir pasta: {0}",
+    "error_opening_folder": "Erro ao abrir pasta: {0}"
   }
 }
