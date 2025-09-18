@@ -36,7 +36,8 @@
     "error": "Erro",
     "success": "Sucesso",
     "warning": "Aviso",
-    "info": "Informação"
+    "info": "Informação",
+    "continue_button": "Continuar"
   },
   "navigation": {
     "home": "Início",
@@ -133,25 +134,25 @@
     "security_info1": "• Os backups são criptografados com AES-256",
     "security_info2": "• Apenas a senha de exportação pode descriptografar os dados",
     "security_info3": "• Backups expiram automaticamente em 24 horas",
-    "security_info4": "• Guarde sua senha em local seguro",
-    "export": {
-      "confirm_title": "Confirmação",
-      "confirm_message": "Você concluiu o compartilhamento do backup?",
-      "success_title": "Backup exportado!",
-      "success_message": "Atenção: este backup será válido apenas por 24 horas.",
-      "cancel_title": "Exportação Cancelada",
-      "cancel_message": "A exportação foi cancelada.",
-      "empty_message": "Não há contas ou pastas para exportar."
-    },
-    "import": {
-      "picker_title": "Selecione o arquivo de backup",
-      "password_prompt_title": "Senha de Importação",
-      "password_prompt_message": "Digite a senha para importar o backup:",
-      "password_required": "A senha é obrigatória para importar o backup.",
-      "success_title": "Importado",
-      "success_message": "Backup importado com sucesso!",
-      "wrong_password": "A senha fornecida está incorreta."
-    }
+    "security_info4": "• Guarde sua senha em local seguro"
+  },
+  "export": {
+    "confirm_title": "Confirmação",
+    "confirm_message": "Você concluiu o compartilhamento do backup?",
+    "success_title": "Backup exportado!",
+    "success_message": "Atenção: este backup será válido apenas por 24 horas.",
+    "cancel_title": "Exportação Cancelada",
+    "cancel_message": "A exportação foi cancelada.",
+    "empty_message": "Não há contas ou pastas para exportar."
+  },
+  "import": {
+    "picker_title": "Selecione o arquivo de backup",
+    "password_prompt_title": "Senha de Importação",
+    "password_prompt_message": "Digite a senha para importar o backup:",
+    "password_required": "A senha é obrigatória para importar o backup.",
+    "success_title": "Importado",
+    "success_message": "Backup importado com sucesso!",
+    "wrong_password": "A senha fornecida está incorreta."
   },
   "edit_account_page": {
     "title": "Visualizar e Editar",
@@ -245,5 +246,21 @@
     "password_too_short": "A senha deve ter pelo menos 8 caracteres",
     "invalid_url": "URL inválida",
     "field_too_long": "Campo muito longo"
+  },
+  "fields_selection": {
+    "title": "Selecionar Campos",
+    "subtitle": "Escolha os campos para a nova conta",
+    "required_fields_title": "Campos Obrigatórios",
+    "required_fields_message": "Os campos 'Título da Conta' e 'Senha' são sempre obrigatórios.",
+    "username_title": "Nome de Usuário",
+    "username_description": "Para logins em sites e apps.",
+    "email_title": "E-mail",
+    "email_description": "Endereço de e-mail associado.",
+    "preview_title": "Prévia dos Campos",
+    "preview_subtitle": "Assim ficará a tela de criação",
+    "preview_account_title": "Título da Conta",
+    "preview_username": "Nome de Usuário",
+    "preview_email": "E-mail",
+    "preview_password": "Senha"
   }
 }

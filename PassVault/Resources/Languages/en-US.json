@@ -36,7 +36,8 @@
     "error": "Error",
     "success": "Success",
     "warning": "Warning",
-    "info": "Information"
+    "info": "Information",
+    "continue_button": "Continue"
   },
   "navigation": {
     "home": "Home",
@@ -133,25 +134,25 @@
     "security_info1": "• Backups are encrypted with AES-256",
     "security_info2": "• Only the export password can decrypt the data",
     "security_info3": "• Backups automatically expire in 24 hours",
-    "security_info4": "• Keep your password in a safe place",
-    "export": {
-      "confirm_title": "Confirmation",
-      "confirm_message": "Have you completed sharing the backup?",
-      "success_title": "Backup Exported!",
-      "success_message": "Warning: this backup will only be valid for 24 hours.",
-      "cancel_title": "Export Canceled",
-      "cancel_message": "The export was canceled.",
-      "empty_message": "There are no accounts or folders to export."
-    },
-    "import": {
-      "picker_title": "Select the backup file",
-      "password_prompt_title": "Import Password",
-      "password_prompt_message": "Enter the password to import the backup:",
-      "password_required": "The password is required to import the backup.",
-      "success_title": "Imported",
-      "success_message": "Backup imported successfully!",
-      "wrong_password": "The provided password is incorrect."
-    }
+    "security_info4": "• Keep your password in a safe place"
+  },
+  "export": {
+    "confirm_title": "Confirmation",
+    "confirm_message": "Have you completed sharing the backup?",
+    "success_title": "Backup Exported!",
+    "success_message": "Warning: this backup will only be valid for 24 hours.",
+    "cancel_title": "Export Canceled",
+    "cancel_message": "The export was canceled.",
+    "empty_message": "There are no accounts or folders to export."
+  },
+  "import": {
+    "picker_title": "Select the backup file",
+    "password_prompt_title": "Import Password",
+    "password_prompt_message": "Enter the password to import the backup:",
+    "password_required": "The password is required to import the backup.",
+    "success_title": "Imported",
+    "success_message": "Backup imported successfully!",
+    "wrong_password": "The provided password is incorrect."
   },
   "edit_account_page": {
     "title": "View and Edit",
@@ -245,5 +246,21 @@
     "password_too_short": "Password must be at least 8 characters",
     "invalid_url": "Invalid URL",
     "field_too_long": "Field too long"
+  },
+  "fields_selection": {
+    "title": "Select Fields",
+    "subtitle": "Choose the fields for the new account",
+    "required_fields_title": "Required Fields",
+    "required_fields_message": "'Account Title' and 'Password' fields are always required.",
+    "username_title": "Username",
+    "username_description": "For logins on websites and apps.",
+    "email_title": "Email",
+    "email_description": "Associated email address.",
+    "preview_title": "Fields Preview",
+    "preview_subtitle": "This is how the creation screen will look",
+    "preview_account_title": "Account Title",
+    "preview_username": "Username",
+    "preview_email": "Email",
+    "preview_password": "Password"
   }
 }
