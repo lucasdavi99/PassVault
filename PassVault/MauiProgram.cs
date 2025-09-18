@@ -60,6 +60,7 @@ namespace PassVault
             builder.Services.AddTransient<BackupViewModel>();
             builder.Services.AddTransient<FieldsSelectionViewModel>();
             builder.Services.AddTransient<SettingsPageViewModel>();
+            builder.Services.AddTransient<LockScreenViewModel>();
 
             // Pages com ViewModels
             builder.Services.AddTransient<MainPage>();
@@ -73,6 +74,7 @@ namespace PassVault
             builder.Services.AddTransient<BackupPage>();
             builder.Services.AddTransient<FieldsSelection>();
             builder.Services.AddTransient<SettingsPage>();
+            builder.Services.AddTransient<LockScreen>();
 
 #if DEBUG
             builder.Logging.AddDebug();

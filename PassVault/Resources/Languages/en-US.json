@@ -279,5 +279,13 @@
     "error_deleting_account": "Error deleting account: {0}",
     "error_deleting_folder": "Error deleting folder: {0}",
     "error_opening_folder": "Error opening folder: {0}"
+  },
+  "lockscreen": {
+    "title": "Welcome!",
+    "button_text": "Use phone password",
+    "auth": {
+      "title": "Authentication required",
+      "message": "Unlock the Device."
+    }
   }
 }

@@ -1,9 +1,12 @@
+using PassVault.ViewModels;
+
 namespace PassVault.Views;
 
 public partial class LockScreen : ContentPage
 {
-    public LockScreen()
+    public LockScreen(LockScreenViewModel viewModel)
     {
         InitializeComponent();
+        BindingContext = viewModel;
     }
 }

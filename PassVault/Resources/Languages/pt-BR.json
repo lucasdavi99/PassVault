@@ -279,5 +279,13 @@
     "error_deleting_account": "Erro ao excluir conta: {0}",
     "error_deleting_folder": "Erro ao excluir pasta: {0}",
     "error_opening_folder": "Erro ao abrir pasta: {0}"
+  },
+  "lockscreen": {
+    "title": "Bem vindo!",
+    "button_text": "Usar senha do celular",
+    "auth": {
+      "title": "Autenticação necessária",
+      "message": "Desbloqueie o Dispositivo."
+    }
   }
 }
