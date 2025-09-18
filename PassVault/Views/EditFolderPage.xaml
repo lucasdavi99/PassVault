@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:viewmodel="clr-namespace:PassVault.ViewModels"
-             xmlns:converters="clr-namespace:PassVault.Converters"
-             xmlns:controls="clr-namespace:Maui.ColorPicker;assembly=Maui.ColorPicker"
-             x:DataType="viewmodel:EditFolderPageViewModel"
-             x:Class="PassVault.Views.EditFolderPage"
-             Shell.NavBarIsVisible="False"
-             Title="Editar Pasta">
+<ContentPage 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewmodel="clr-namespace:PassVault.ViewModels"
+    xmlns:converters="clr-namespace:PassVault.Converters"
+    xmlns:controls="clr-namespace:Maui.ColorPicker;assembly=Maui.ColorPicker"
+    x:Class="PassVault.Views.EditFolderPage"
+    x:DataType="viewmodel:EditFolderPageViewModel"
+    Title="{Binding PageTitle}">
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -16,216 +16,77 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <Grid RowDefinitions="Auto,*">
+    <Grid RowDefinitions="Auto,*,Auto">
 
-        <!-- Modern Header - COPIADO DA EditAccountPage -->
+        <!-- Modern Header -->
         <Border Grid.Row="0" 
-        Background="{StaticResource SurfaceGradient}"
-        Padding="0,50,0,32"
-        StrokeShape="RoundRectangle 0,0,28,28">
+                Background="{StaticResource SurfaceGradient}"
+                Padding="0,50,0,32"
+                StrokeShape="RoundRectangle 0,0,28,28">
 
             <StackLayout Spacing="20">
 
-                <!-- Title with Toggle Visibility - MESMO GRID DA EditAccountPage -->
                 <Grid ColumnDefinitions="Auto,*,Auto" 
-              ColumnSpacing="16"
-              HorizontalOptions="Center">
+                      ColumnSpacing="16"
+                      HorizontalOptions="Center">
 
                     <Border Grid.Column="0"
-                    WidthRequest="48" HeightRequest="48"
-                    BackgroundColor="{StaticResource Primary}"
-                    StrokeShape="RoundRectangle 16">
+                            WidthRequest="48" HeightRequest="48"
+                            BackgroundColor="{StaticResource Primary}"
+                            StrokeShape="RoundRectangle 16">
 
                         <Border.Shadow>
                             <Shadow Brush="{StaticResource Primary}" Offset="0,4" Radius="12" Opacity="0.3" />
                         </Border.Shadow>
 
                         <Label Text="folder"
-                       FontFamily="MaterialIcons"
-                       FontSize="24"
-                       TextColor="{StaticResource PrimaryDarkText}"
-                       HorizontalOptions="Center"
-                       VerticalOptions="Center" />
+                               FontFamily="MaterialIcons"
+                               FontSize="24"
+                               TextColor="{StaticResource PrimaryDarkText}"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center" />
                     </Border>
 
                     <StackLayout Grid.Column="1" 
-                         VerticalOptions="Center"
-                         Spacing="4">
+                                 VerticalOptions="Center"
+                                 Spacing="4">
 
-                        <Label Text="Detalhes da Pasta"
-                       Style="{StaticResource HeadlineStyle}"
-                       FontSize="24"
-                       TextColor="{StaticResource Primary}"
-                       HorizontalTextAlignment="Start" />
+                        <Label Text="{Binding HeaderTitle}"
+                               Style="{StaticResource HeadlineStyle}"
+                               FontSize="24"
+                               TextColor="{StaticResource Primary}"
+                               HorizontalTextAlignment="Start" />
 
-                        <Label Style="{StaticResource CaptionStyle}"
-                       HorizontalTextAlignment="Start"
-                       Opacity="0.8">
-                            <Label.Triggers>
-                                <DataTrigger TargetType="Label" Binding="{Binding IsEditing}" Value="False">
-                                    <Setter Property="Text" Value="Visualize ou edite os dados da pasta" />
-                                </DataTrigger>
-                                <DataTrigger TargetType="Label" Binding="{Binding IsEditing}" Value="True">
-                                    <Setter Property="Text" Value="Editando dados da pasta" />
-                                </DataTrigger>
-                            </Label.Triggers>
-                        </Label>
+                        <Label Text="{Binding HeaderSubtitle}"
+                               Style="{StaticResource CaptionStyle}"
+                               Opacity="0.8"
+                               HorizontalTextAlignment="Start" />
+
                     </StackLayout>
-
-                    <!-- Terceiro elemento para balancear o layout (pode ficar vazio ou com um botão) -->
-                    <Border Grid.Column="2"
-                    WidthRequest="40" HeightRequest="40"
-                    BackgroundColor="Transparent"
-                    VerticalOptions="Center">
-
-                        <!-- Espaço vazio para balancear, ou você pode colocar um ícone aqui -->
-                        <Label Text=""
-                       FontFamily="MaterialIcons"
-                       FontSize="20"
-                       TextColor="Transparent" />
-                    </Border>
                 </Grid>
-
-                <!-- Mode Indicator -->
-                <Border WidthRequest="120" HeightRequest="40"
-                BackgroundColor="{StaticResource ElevatedSurface}"
-                StrokeShape="RoundRectangle 16"
-                HorizontalOptions="Center">
-
-                    <Border.Triggers>
-                        <DataTrigger TargetType="Border" Binding="{Binding IsEditing}" Value="True">
-                            <Setter Property="BackgroundColor" Value="{StaticResource Warning}" />
-                        </DataTrigger>
-                    </Border.Triggers>
-
-                    <Label Style="{StaticResource CaptionStyle}"
-                   FontSize="12"
-                   FontAttributes="Bold"
-                   HorizontalTextAlignment="Center"
-                   VerticalTextAlignment="Center">
-                        <Label.Triggers>
-                            <DataTrigger TargetType="Label" Binding="{Binding IsEditing}" Value="False">
-                                <Setter Property="Text" Value="MODO VISUALIZAÇÃO" />
-                                <Setter Property="TextColor" Value="{StaticResource TextTertiary}" />
-                            </DataTrigger>
-                            <DataTrigger TargetType="Label" Binding="{Binding IsEditing}" Value="True">
-                                <Setter Property="Text" Value="MODO EDIÇÃO" />
-                                <Setter Property="TextColor" Value="White" />
-                            </DataTrigger>
-                        </Label.Triggers>
-                    </Label>
-                </Border>
-
             </StackLayout>
         </Border>
 
-
-        <!-- Main Content -->
-        <ScrollView Grid.Row="1">
-            <StackLayout Spacing="28" Padding="24,24,24,120">
-
-                <!-- Folder Preview Card -->
+        <!-- Scrollable Content -->
+        <ScrollView Grid.Row="1" Padding="24,20,24,20">
+            <StackLayout Spacing="32">
+                <!-- Main Information Card -->
                 <Border Style="{StaticResource ElevatedCardStyle}">
-                    <StackLayout Spacing="24" HorizontalOptions="Center">
-
-                        <!-- Preview Header -->
-                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
-                            <Label Grid.Column="0"
-                                   Text="preview"
-                                   FontFamily="MaterialIcons"
-                                   FontSize="20"
-                                   TextColor="{StaticResource Primary}"
-                                   VerticalOptions="Center" />
-
-                            <StackLayout Grid.Column="1" Spacing="4">
-                                <Label Text="Prévia da Pasta"
-                                       Style="{StaticResource TitleStyle}"
-                                       FontSize="16"
-                                       TextColor="{StaticResource Primary}" />
-
-                                <Label Text="Como sua pasta aparece no app"
-                                       Style="{StaticResource CaptionStyle}"
-                                       Opacity="0.8" />
-                            </StackLayout>
-                        </Grid>
-
-                        <!-- Folder Icon Preview -->
-                        <Border WidthRequest="100" HeightRequest="100"
-                                Background="{Binding SelectedColor}"
-                                StrokeShape="RoundRectangle 20"
-                                StrokeThickness="2"
-                                Stroke="{StaticResource BorderPrimary}">
-
-                            <Border.Shadow>
-                                <Shadow Brush="{Binding SelectedColor}" Offset="0,8" Radius="24" Opacity="0.3" />
-                            </Border.Shadow>
-
-                            <Grid>
-                                <!-- Background for better contrast -->
-                                <Ellipse WidthRequest="40" HeightRequest="40"
-                                         Fill="#30FFFFFF"
-                                         HorizontalOptions="Center"
-                                         VerticalOptions="Center" />
-
-                                <Label Text="folder"
-                                       FontFamily="MaterialIcons"
-                                       FontSize="48"
-                                       TextColor="{StaticResource PrimaryDarkText}"
-                                       HorizontalOptions="Center"
-                                       VerticalOptions="Center" />
-                            </Grid>
-
-                        </Border>
-
-                        <!-- Folder Name Preview -->
-                        <Border BackgroundColor="{StaticResource SurfaceBackground}"
-                                StrokeShape="RoundRectangle 12"
-                                Padding="16,8"
-                                MinimumWidthRequest="180">
-
-                            <Label Text="{Binding Title, TargetNullValue='Nome da Pasta'}"
-                                   Style="{StaticResource TitleStyle}"
-                                   FontSize="16"
-                                   HorizontalTextAlignment="Center"
-                                   TextColor="{StaticResource TextPrimary}">
-                                <Label.Triggers>
-                                    <DataTrigger TargetType="Label" Binding="{Binding Title}" Value="">
-                                        <Setter Property="Text" Value="Nome da Pasta" />
-                                        <Setter Property="TextColor" Value="{StaticResource TextTertiary}" />
-                                        <Setter Property="FontAttributes" Value="Italic" />
-                                    </DataTrigger>
-                                    <DataTrigger TargetType="Label" Binding="{Binding Title}" Value="{x:Null}">
-                                        <Setter Property="Text" Value="Nome da Pasta" />
-                                        <Setter Property="TextColor" Value="{StaticResource TextTertiary}" />
-                                        <Setter Property="FontAttributes" Value="Italic" />
-                                    </DataTrigger>
-                                </Label.Triggers>
-                            </Label>
-                        </Border>
-
-                    </StackLayout>
-                </Border>
-
-                <!-- Edit Form Card -->
-                <Border Style="{StaticResource ElevatedCardStyle}">
-                    <StackLayout Spacing="24">
-
+                    <StackLayout Spacing="28">
                         <!-- Form Header -->
                         <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
                             <Label Grid.Column="0"
-                                   Text="edit"
+                                   Text="edit_note"
                                    FontFamily="MaterialIcons"
                                    FontSize="20"
                                    TextColor="{StaticResource Primary}"
                                    VerticalOptions="Center" />
-
                             <StackLayout Grid.Column="1" Spacing="4">
-                                <Label Text="Editar Informações"
+                                <Label Text="{Binding FormSectionTitle}"
                                        Style="{StaticResource TitleStyle}"
                                        FontSize="16"
                                        TextColor="{StaticResource Primary}" />
-
-                                <Label Text="Modifique nome e cor da pasta"
+                                <Label Text="{Binding FormSectionSubtitle}"
                                        Style="{StaticResource CaptionStyle}"
                                        Opacity="0.8" />
                             </StackLayout>
@@ -235,69 +96,48 @@
                         <StackLayout Spacing="12">
                             <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
                                 <Label Grid.Column="0"
-                                       Text="title"
+                                       Text="drive_file_rename_outline"
                                        FontFamily="MaterialIcons"
                                        FontSize="16"
                                        TextColor="{StaticResource Primary}"
                                        VerticalOptions="Center" />
-
                                 <Label Grid.Column="1"
-                                       Text="Nome da Pasta *"
+                                       Text="{Binding FolderNameLabel}"
                                        Style="{StaticResource CaptionStyle}"
                                        FontAttributes="Bold"
                                        TextColor="{StaticResource Primary}"
                                        VerticalOptions="Center" />
                             </Grid>
-
                             <Border Style="{StaticResource EntryContainerStyle}">
-                                <Entry Placeholder="Nome da pasta"
-                                       Style="{StaticResource ModernEntryStyle}"
+                                <Entry Placeholder="{Binding FolderNamePlaceholder}"
                                        Text="{Binding Title}"
-                                       TextColor="{Binding IsEditing, Converter={StaticResource EditingModeToColorConverter}}"
-                                       IsReadOnly="{Binding IsEditing, Converter={StaticResource InverseBooleanConverter}}" />
+                                       IsReadOnly="{Binding IsEditing, Converter={StaticResource InverseBooleanConverter}}"
+                                       Style="{StaticResource DefaultEntryStyle}" />
                             </Border>
                         </StackLayout>
 
                         <!-- Color Selection -->
-                        <StackLayout Spacing="16">
-                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
-                                <Label Grid.Column="0"
-                                       Text="palette"
-                                       FontFamily="MaterialIcons"
-                                       FontSize="16"
-                                       TextColor="{StaticResource Primary}"
-                                       VerticalOptions="Center" />
-
-                                <Label Grid.Column="1"
-                                       Text="Cor de Identificação"
-                                       Style="{StaticResource CaptionStyle}"
-                                       FontAttributes="Bold"
-                                       TextColor="{StaticResource Primary}"
-                                       VerticalOptions="Center" />
-                            </Grid>
-
-                            <!-- Current Color Display -->
-                            <Border WidthRequest="80" HeightRequest="80"
-                                    Background="{Binding SelectedColor}"
+                        <StackLayout Spacing="12" HorizontalOptions="Center">
+                            <Label Text="{Binding ColorLabel}"
+                                   Style="{StaticResource CaptionStyle}"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource TextSecondary}"
+                                   HorizontalTextAlignment="Center" />
+                            <Border WidthRequest="60" HeightRequest="60"
+                                    BackgroundColor="{Binding SelectedColor}"
                                     StrokeShape="RoundRectangle 20"
-                                    StrokeThickness="2"
-                                    Stroke="{StaticResource BorderPrimary}"
-                                    HorizontalOptions="Center">
-
+                                    IsEnabled="{Binding IsEditing}">
                                 <Border.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding ToggleColorPickerCommand}" />
                                 </Border.GestureRecognizers>
-
                                 <Border.Shadow>
-                                    <Shadow Brush="{Binding SelectedColor}" Offset="0,8" Radius="20" Opacity="0.4" />
+                                    <Shadow Brush="{Binding SelectedColor}" Offset="0,6" Radius="16" Opacity="0.4" />
                                 </Border.Shadow>
-
                                 <Grid>
                                     <Ellipse WidthRequest="32" HeightRequest="32"
                                              Fill="#40FFFFFF"
                                              HorizontalOptions="Center"
                                              VerticalOptions="Center" />
-
                                     <Label Text="palette"
                                            FontFamily="MaterialIcons"
                                            FontSize="20"
@@ -305,43 +145,77 @@
                                            HorizontalOptions="Center"
                                            VerticalOptions="Center" />
                                 </Grid>
-
                             </Border>
-
-                            <!-- Color Selection Info -->
-                            <Label Text="Toque no círculo para escolher uma cor personalizada"
-                                   Style="{StaticResource CaptionStyle}"
-                                   HorizontalTextAlignment="Center"
-                                   Opacity="0.7" />
-
                         </StackLayout>
 
+                        <!-- Parent Folder Selection -->
+                        <StackLayout Spacing="16">
+                            <Label Text="{Binding OrganizationLabel}"
+                                   Style="{StaticResource CaptionStyle}"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource TextSecondary}" />
+                            <StackLayout Spacing="8">
+                                <Label Text="{Binding ParentFolderLabel}"
+                                       Style="{StaticResource CaptionStyle}"
+                                       FontSize="12"
+                                       TextColor="{StaticResource TextTertiary}" />
+                                <Border Style="{StaticResource EntryContainerStyle}"
+                                        IsEnabled="{Binding IsEditing}">
+                                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12" Padding="4,0">
+                                        <Label Grid.Column="0"
+                                               Text="folder_open"
+                                               FontFamily="MaterialIcons"
+                                               FontSize="18"
+                                               TextColor="{StaticResource Primary}"
+                                               VerticalOptions="Center" />
+                                        <Label Grid.Column="1"
+                                               Text="{Binding SelectedFolderName}"
+                                               Style="{StaticResource BodyStyle}"
+                                               VerticalOptions="Center" />
+                                        <Label Grid.Column="2"
+                                               Text="arrow_drop_down"
+                                               FontFamily="MaterialIcons"
+                                               FontSize="24"
+                                               TextColor="{StaticResource TextTertiary}"
+                                               VerticalOptions="Center" />
+                                    </Grid>
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding SelectFolderCommand}" />
+                                    </Border.GestureRecognizers>
+                                </Border>
+                            </StackLayout>
+                        </StackLayout>
                     </StackLayout>
                 </Border>
-
             </StackLayout>
         </ScrollView>
 
         <!-- Fixed Action Buttons -->
         <Border Grid.Row="2"
                 VerticalOptions="End"
+                HorizontalOptions="Fill"
                 BackgroundColor="{StaticResource Background}"
                 Padding="24,16,24,32">
-
             <Border.Shadow>
                 <Shadow Brush="#40000000" Offset="0,-4" Radius="16" Opacity="0.1" />
             </Border.Shadow>
-
             <Grid ColumnDefinitions="*,*" ColumnSpacing="16">
-
-                <!-- Cancel/Close Button -->
+                <!-- Edit/Cancel Button -->
                 <Button Grid.Column="0"
                         Style="{StaticResource SecondaryButtonStyle}"
-                        Command="{Binding CloseCommand}">
-
+                        Command="{Binding ToggleEditModeCommand}">
                     <Button.Triggers>
                         <DataTrigger TargetType="Button" Binding="{Binding IsEditing}" Value="False">
-                            <Setter Property="Text" Value="Fechar"/>
+                            <Setter Property="Text" Value="{Binding EditButtonText}"/>
+                            <Setter Property="ImageSource">
+                                <FontImageSource FontFamily="MaterialIcons"
+                                                 Glyph="edit"
+                                                 Color="{StaticResource TextPrimary}"
+                                                 Size="18" />
+                            </Setter>
+                        </DataTrigger>
+                        <DataTrigger TargetType="Button" Binding="{Binding IsEditing}" Value="True">
+                            <Setter Property="Text" Value="{Binding CancelButtonText}"/>
                             <Setter Property="ImageSource">
                                 <FontImageSource FontFamily="MaterialIcons"
                                                  Glyph="close"
@@ -349,49 +223,15 @@
                                                  Size="18" />
                             </Setter>
                         </DataTrigger>
-                        <DataTrigger TargetType="Button" Binding="{Binding IsEditing}" Value="True">
-                            <Setter Property="Text" Value="Cancelar"/>
-                            <Setter Property="ImageSource">
-                                <FontImageSource FontFamily="MaterialIcons"
-                                                 Glyph="cancel"
-                                                 Color="{StaticResource TextPrimary}"
-                                                 Size="18" />
-                            </Setter>
-                        </DataTrigger>
                     </Button.Triggers>
-
                 </Button>
-
                 <!-- Save Button -->
                 <Button Grid.Column="1"
-                        Style="{StaticResource ModernButtonStyle}"
-                        Command="{Binding SaveEditFolderCommand}">
-
-                    <Button.Triggers>
-                        <DataTrigger TargetType="Button" Binding="{Binding IsEditing}" Value="False">
-                            <Setter Property="Text" Value="Editar"/>
-                            <Setter Property="Command" Value="{Binding ToggleEditModeCommand}"/>
-                            <Setter Property="ImageSource">
-                                <FontImageSource FontFamily="MaterialIcons"
-                                                 Glyph="edit"
-                                                 Color="{StaticResource PrimaryDarkText}"
-                                                 Size="18" />
-                            </Setter>
-                        </DataTrigger>
-                        <DataTrigger TargetType="Button" Binding="{Binding IsEditing}" Value="True">
-                            <Setter Property="Text" Value="Salvar"/>
-                            <Setter Property="Command" Value="{Binding SaveEditFolderCommand}"/>
-                            <Setter Property="ImageSource">
-                                <FontImageSource FontFamily="MaterialIcons"
-                                                 Glyph="save"
-                                                 Color="{StaticResource PrimaryDarkText}"
-                                                 Size="18" />
-                            </Setter>
-                        </DataTrigger>
-                    </Button.Triggers>
-
-                </Button>
-
+                        Text="{Binding SaveButtonText}"
+                        Style="{StaticResource PrimaryButtonStyle}"
+                        Command="{Binding SaveFolderCommand}"
+                        IsVisible="{Binding IsEditing}"
+                        ImageSource="{FontImageSource FontFamily=MaterialIcons, Glyph=save, Color={StaticResource PrimaryDarkText}, Size=18}" />
             </Grid>
         </Border>
 
@@ -399,42 +239,34 @@
         <Grid Grid.Row="0" Grid.RowSpan="3"
               IsVisible="{Binding IsColorPickerVisible}"
               BackgroundColor="#80000000">
-
             <Grid.GestureRecognizers>
                 <TapGestureRecognizer Command="{Binding CloseColorPickerCommand}" />
             </Grid.GestureRecognizers>
-
             <!-- Color Picker Card -->
             <Border Style="{StaticResource FloatingCardStyle}"
                     MaximumWidthRequest="380"
                     HorizontalOptions="Center"
                     VerticalOptions="Center"
                     Margin="24">
-
                 <StackLayout Spacing="24">
-
                     <!-- Modal Header -->
                     <Grid ColumnDefinitions="*,Auto">
                         <StackLayout Grid.Column="0" Spacing="4">
-                            <Label Text="Escolher Cor"
+                            <Label Text="{Binding CustomColorTitle}"
                                    Style="{StaticResource TitleStyle}"
                                    FontSize="20"
                                    TextColor="{StaticResource Primary}" />
-
-                            <Label Text="Personalize a cor de identificação da pasta"
+                            <Label Text="{Binding CustomColorSubtitle}"
                                    Style="{StaticResource CaptionStyle}"
                                    Opacity="0.8" />
                         </StackLayout>
-
                         <Border Grid.Column="1"
                                 WidthRequest="32" HeightRequest="32"
                                 BackgroundColor="{StaticResource SurfaceBackground}"
                                 StrokeShape="RoundRectangle 10">
-
                             <Border.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding CloseColorPickerCommand}" />
                             </Border.GestureRecognizers>
-
                             <Label Text="close"
                                    FontFamily="MaterialIcons"
                                    FontSize="16"
@@ -443,51 +275,39 @@
                                    VerticalOptions="Center" />
                         </Border>
                     </Grid>
-
-                    <!-- Color Picker -->
-                    <controls:ColorPicker x:Name="ColorPicker"
-                                          ColorFlowDirection="Horizontal"
-                                          WidthRequest="320"
-                                          HeightRequest="200"
-                                          ColorSpectrumStyle="ShadeToHueToTintStyle"
-                                          PointerRingBorderUnits="0.3"
-                                          PointerRingDiameterUnits="0.7"
-                                          HorizontalOptions="Center"
-                                          PickedColor="{Binding SelectedColor, Mode=TwoWay}" />
-
-                    <!-- Hex Input -->
-                    <StackLayout Spacing="8">
-                        <Label Text="Código Hexadecimal"
-                               Style="{StaticResource CaptionStyle}"
-                               FontAttributes="Bold"
-                               TextColor="{StaticResource TextSecondary}" />
-
-                        <Border Style="{StaticResource EntryContainerStyle}">
-                            <Entry Placeholder="Código hexadecimal"
-                                   Text="{Binding SelectedColorHex, Mode=TwoWay}"
-                                   Style="{StaticResource ModernEntryStyle}"
-                                   Keyboard="Text"
-                                   HorizontalTextAlignment="Center" />
+                    <!-- Color Picker Control -->
+                    <controls:ColorPicker 
+                        PickedColor="{Binding SelectedColor, Mode=TwoWay}"
+                        WidthRequest="300"
+                        HeightRequest="200" />
+                    <!-- Color Preview -->
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="16">
+                        <Border Grid.Column="0"
+                                WidthRequest="60" HeightRequest="60"
+                                BackgroundColor="{Binding SelectedColor}"
+                                StrokeShape="RoundRectangle 20"
+                                Stroke="{StaticResource BorderPrimary}">
+                            <Border.Shadow>
+                                <Shadow Brush="{Binding SelectedColor}" Offset="0,4" Radius="12" Opacity="0.3" />
+                            </Border.Shadow>
                         </Border>
-                    </StackLayout>
-
-                    <!-- Confirm Button -->
-                    <Button Text="Confirmar Cor"
-                            Style="{StaticResource ModernButtonStyle}"
-                            Command="{Binding CloseColorPickerCommand}">
-
-                        <Button.ImageSource>
-                            <FontImageSource FontFamily="MaterialIcons"
-                                             Glyph="check"
-                                             Color="{StaticResource PrimaryDarkText}"
-                                             Size="18" />
-                        </Button.ImageSource>
-
-                    </Button>
-
+                        <StackLayout Grid.Column="1" VerticalOptions="Center" Spacing="4">
+                            <Label Text="{Binding SelectedColorLabel}"
+                                   Style="{StaticResource CaptionStyle}"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource Primary}" />
+                            <Label Text="{Binding SelectedColorHex}"
+                                   Style="{StaticResource CaptionStyle}"
+                                   Opacity="0.8" />
+                        </StackLayout>
+                    </Grid>
+                    <!-- Action Button -->
+                    <Button Text="{Binding ApplyColorButtonText}"
+                            Style="{StaticResource PrimaryButtonStyle}"
+                            Command="{Binding CloseColorPickerCommand}"
+                            ImageSource="{FontImageSource FontFamily=MaterialIcons, Glyph=check, Color={StaticResource PrimaryDarkText}, Size=18}" />
                 </StackLayout>
             </Border>
         </Grid>
-
     </Grid>
 </ContentPage>

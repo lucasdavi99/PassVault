@@ -180,6 +180,26 @@
     "selected_color_label": "Selected Color",
     "apply_color_button": "Apply Color"
   },
+  "edit_folder_page": {
+    "title": "Edit Folder",
+    "header_title": "Folder Details",
+    "header_subtitle_view": "View the information",
+    "header_subtitle_edit": "Editing folder data",
+    "form_title": "Folder Information",
+    "form_subtitle": "Edit the necessary data",
+    "folder_name_label": "Folder Name *",
+    "folder_name_placeholder": "Ex: Social Media, Emails...",
+    "color_label": "Identification Color",
+    "organization_label": "Organization",
+    "parent_folder_label": "Parent Folder (Optional)",
+    "edit_button": "Edit",
+    "cancel_button": "Cancel",
+    "save_button": "Save",
+    "custom_color_title": "Custom Color",
+    "custom_color_subtitle": "Choose a unique color for your folder",
+    "selected_color_label": "Selected Color",
+    "apply_color_button": "Apply Color"
+  },
   "tutorial": {
     "welcome": "Welcome",
     "security_title": "Advanced Security",
@@ -213,7 +233,11 @@
     "auth_error": "Authentication error: {0}",
     "password_applied_success": "New password applied",
     "account_updated_success": "Account updated successfully",
-    "fill_required_fields": "Fill in the required fields"
+    "fill_required_fields": "Fill in the required fields",
+    "no_root_folders_found": "No root folders found.",
+    "confirm_move_folder_title": "Confirmation",
+    "confirm_move_folder": "Are you sure you want to move this folder to {0}?",
+    "folder_updated_success": "Folder updated successfully"
   },
   "validation": {
     "required_field": "This field is required",

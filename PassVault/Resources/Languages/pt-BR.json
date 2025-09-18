@@ -180,6 +180,26 @@
     "selected_color_label": "Cor Selecionada",
     "apply_color_button": "Aplicar Cor"
   },
+  "edit_folder_page": {
+    "title": "Editar Pasta",
+    "header_title": "Detalhes da Pasta",
+    "header_subtitle_view": "Visualize as informações",
+    "header_subtitle_edit": "Editando dados da pasta",
+    "form_title": "Informações da Pasta",
+    "form_subtitle": "Edite os dados necessários",
+    "folder_name_label": "Nome da Pasta *",
+    "folder_name_placeholder": "Ex: Redes Sociais, E-mails...",
+    "color_label": "Cor de Identificação",
+    "organization_label": "Organização",
+    "parent_folder_label": "Pasta Principal (Opcional)",
+    "edit_button": "Editar",
+    "cancel_button": "Cancelar",
+    "save_button": "Salvar",
+    "custom_color_title": "Cor Personalizada",
+    "custom_color_subtitle": "Escolha uma cor única para sua pasta",
+    "selected_color_label": "Cor Selecionada",
+    "apply_color_button": "Aplicar Cor"
+  },
   "tutorial": {
     "welcome": "Bem-vindo",
     "security_title": "Segurança Avançada",
@@ -213,7 +233,11 @@
     "auth_error": "Erro na autenticação: {0}",
     "password_applied_success": "Nova senha aplicada",
     "account_updated_success": "Conta atualizada com sucesso",
-    "fill_required_fields": "Preencha os campos obrigatórios"
+    "fill_required_fields": "Preencha os campos obrigatórios",
+    "no_root_folders_found": "Nenhuma pasta raiz encontrada.",
+    "confirm_move_folder_title": "Confirmação",
+    "confirm_move_folder": "Tem certeza que deseja mover esta pasta para {0}?",
+    "folder_updated_success": "Pasta atualizada com sucesso"
   },
   "validation": {
     "required_field": "Este campo é obrigatório",
