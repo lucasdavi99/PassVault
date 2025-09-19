@@ -201,6 +201,23 @@
     "selected_color_label": "Cor Selecionada",
     "apply_color_button": "Aplicar Cor"
   },
+  "new_folder": {
+    "title": "Nova Pasta",
+    "subtitle": "Organize suas contas criando uma pasta",
+    "preview_title": "Prévia da Pasta",
+    "preview_subtitle": "Veja como sua pasta ficará",
+    "preview_name_placeholder": "Nome da Pasta",
+    "form_title": "Informações da Pasta",
+    "form_subtitle": "Defina nome e cor da pasta",
+    "name_label": "Nome da Pasta *",
+    "name_placeholder": "Ex: Trabalho, Pessoal, Redes Sociais...",
+    "color_label": "Cor de Identificação",
+    "color_tap_here": "Toque no círculo para escolher uma cor personalizada",
+    "create_button": "Criar Pasta",
+    "color_picker_title": "Cor Personalizada",
+    "color_picker_subtitle": "Escolha uma cor única para sua pasta",
+    "hex_code_placeholder": "#FF5733"
+  },
   "tutorial": {
     "welcome": "Bem-vindo",
     "security_title": "Segurança Avançada",
@@ -238,7 +255,9 @@
     "no_root_folders_found": "Nenhuma pasta raiz encontrada.",
     "confirm_move_folder_title": "Confirmação",
     "confirm_move_folder": "Tem certeza que deseja mover esta pasta para {0}?",
-    "folder_updated_success": "Pasta atualizada com sucesso"
+    "folder_updated_success": "Pasta atualizada com sucesso",
+    "folder_title_required": "O campo Titulo é obrigatório",
+    "folder_created": "Pasta criada com sucesso"
   },
   "validation": {
     "required_field": "Este campo é obrigatório",

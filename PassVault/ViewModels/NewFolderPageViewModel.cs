@@ -1,16 +1,20 @@
-﻿using System.ComponentModel.DataAnnotations;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using PassVault.Data;
+using PassVault.Interfaces;
 using PassVault.Messages;
 using PassVault.Models;
+using PassVault.Services;
+using System.ComponentModel.DataAnnotations;
+using System.Xml;
 
 namespace PassVault.ViewModels
 {
     public partial class NewFolderPageViewModel : ObservableValidator, IQueryAttributable
     {
         private readonly FolderDatabase _database;
+        private readonly ILocalizationService _localizationService;
 
         [ObservableProperty]
         private int? parentFolderId;
@@ -28,9 +32,53 @@ namespace PassVault.ViewModels
         [ObservableProperty]
         private bool _isColorPickerVisible = false;
 
-        public NewFolderPageViewModel(FolderDatabase database)
+        // Localized Properties
+        [ObservableProperty] private string pageTitle;
+        [ObservableProperty] private string pageSubtitle;
+        [ObservableProperty] private string previewTitle;
+        [ObservableProperty] private string previewSubtitle;
+        [ObservableProperty] private string previewNamePlaceholder;
+        [ObservableProperty] private string formTitle;
+        [ObservableProperty] private string formSubtitle;
+        [ObservableProperty] private string nameLabel;
+        [ObservableProperty] private string namePlaceholder;
+        [ObservableProperty] private string colorLabel;
+        [ObservableProperty] private string colorTapHere;
+        [ObservableProperty] private string createButton;
+        [ObservableProperty] private string colorPickerTitle;
+        [ObservableProperty] private string colorPickerSubtitle;
+        [ObservableProperty] private string hexCodeLabel;
+        [ObservableProperty] private string hexCodePlaceholder;
+        [ObservableProperty] private string confirmColorButton;
+
+
+        public NewFolderPageViewModel(FolderDatabase database, ILocalizationService localizationService)
         {
             _database = database;
+            _localizationService = localizationService;
+            UpdateLocalizedTexts();
+            _localizationService.LanguageChanged += (s, e) => UpdateLocalizedTexts();
+        }
+
+        private void UpdateLocalizedTexts()
+        {
+            PageTitle = L.Text("new_folder.title");
+            PageSubtitle = L.Text("new_folder.subtitle");
+            PreviewTitle = L.Text("new_folder.preview_title");
+            PreviewSubtitle = L.Text("new_folder.preview_subtitle");
+            PreviewNamePlaceholder = L.Text("new_folder.preview_name_placeholder");
+            FormTitle = L.Text("new_folder.form_title");
+            FormSubtitle = L.Text("new_folder.form_subtitle");
+            NameLabel = L.Text("new_folder.name_label");
+            NamePlaceholder = L.Text("new_folder.name_placeholder");
+            ColorLabel = L.Text("new_folder.color_label");
+            ColorTapHere = L.Text("new_folder.color_tap_here");
+            CreateButton = L.Text("new_folder.create_button");
+            ColorPickerTitle = L.Text("new_folder.color_picker_title");
+            ColorPickerSubtitle = L.Text("new_folder.color_picker_subtitle");
+            HexCodeLabel = L.Text("folders.hex_code");
+            HexCodePlaceholder = L.Text("new_folder.hex_code_placeholder");
+            ConfirmColorButton = L.Text("folders.confirm_color");
         }
 
         [RelayCommand]
@@ -40,7 +88,7 @@ namespace PassVault.ViewModels
             {
                 if (string.IsNullOrEmpty(Title))
                 {
-                    await Shell.Current.DisplayAlert("Erro", "O campo Titulo é obrigatório", "OK");
+                    await Shell.Current.DisplayAlert(L.Text("common.error"), L.Text("messages.folder_title_required"), L.Text("common.ok"));
                     return;
                 }
 
@@ -48,17 +96,17 @@ namespace PassVault.ViewModels
                 {
                     Title = Title,
                     Color = SelectedColor.ToHex(),
-                    ParentFolderId = ParentFolderId // Nova propriedade
+                    ParentFolderId = ParentFolderId
                 };
 
                 await _database.SaveFolderAsync(folder);
-                await Shell.Current.DisplayAlert("Sucesso", "Pasta criada com sucesso", "OK");
+                await Shell.Current.DisplayAlert(L.Text("common.success"), L.Text("messages.folder_created"), L.Text("common.ok"));
                 WeakReferenceMessenger.Default.Send(new FolderSavedMessage(true));
                 await Shell.Current.Navigation.PopAsync();
             }
             catch (Exception ex)
             {
-                await Shell.Current.DisplayAlert("Erro", ex.Message, "OK");
+                await Shell.Current.DisplayAlert(L.Text("common.error"), ex.Message, L.Text("common.ok"));
             }
         }
 

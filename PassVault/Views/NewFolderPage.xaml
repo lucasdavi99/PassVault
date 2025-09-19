@@ -4,8 +4,15 @@
              xmlns:viewmodel="clr-namespace:PassVault.ViewModels"
              x:DataType="viewmodel:NewFolderPageViewModel"
              xmlns:controls="clr-namespace:Maui.ColorPicker;assembly=Maui.ColorPicker"
+             xmlns:converters="clr-namespace:PassVault.Converters"
              x:Class="PassVault.Views.NewFolderPage"
-             Title="Nova Pasta">
+             Title="{Binding PageTitle}">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:StringIsNotNullOrEmptyConverter x:Key="StringIsNotNullOrEmptyConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
 
     <Grid RowDefinitions="Auto,*,Auto">
 
@@ -43,13 +50,13 @@
                                  VerticalOptions="Center"
                                  Spacing="4">
 
-                        <Label Text="Nova Pasta"
+                        <Label Text="{Binding PageTitle}"
                                Style="{StaticResource HeadlineStyle}"
                                FontSize="24"
                                TextColor="{StaticResource Primary}"
                                HorizontalTextAlignment="Start" />
 
-                        <Label Text="Organize suas contas criando uma pasta"
+                        <Label Text="{Binding PageSubtitle}"
                                Style="{StaticResource CaptionStyle}"
                                HorizontalTextAlignment="Start"
                                Opacity="0.8" />
@@ -69,13 +76,13 @@
 
                         <!-- Preview Header -->
                         <StackLayout Spacing="8">
-                            <Label Text="Prévia da Pasta"
+                            <Label Text="{Binding PreviewTitle}"
                                    Style="{StaticResource TitleStyle}"
                                    FontSize="18"
                                    TextColor="{StaticResource Primary}"
                                    HorizontalTextAlignment="Center" />
 
-                            <Label Text="Veja como sua pasta ficará"
+                            <Label Text="{Binding PreviewSubtitle}"
                                    Style="{StaticResource CaptionStyle}"
                                    HorizontalTextAlignment="Center"
                                    Opacity="0.8" />
@@ -115,21 +122,17 @@
                                 Padding="16,8"
                                 MinimumWidthRequest="200">
 
-                            <Label Text="{Binding Title, TargetNullValue='Nome da Pasta'}"
+                            <Label Text="{Binding PreviewNamePlaceholder}"
                                    Style="{StaticResource TitleStyle}"
                                    FontSize="16"
                                    HorizontalTextAlignment="Center"
-                                   TextColor="{StaticResource TextPrimary}">
+                                   TextColor="{StaticResource TextTertiary}"
+                                   FontAttributes="Italic">
                                 <Label.Triggers>
-                                    <DataTrigger TargetType="Label" Binding="{Binding Title}" Value="">
-                                        <Setter Property="Text" Value="Nome da Pasta" />
-                                        <Setter Property="TextColor" Value="{StaticResource TextTertiary}" />
-                                        <Setter Property="FontAttributes" Value="Italic" />
-                                    </DataTrigger>
-                                    <DataTrigger TargetType="Label" Binding="{Binding Title}" Value="{x:Null}">
-                                        <Setter Property="Text" Value="Nome da Pasta" />
-                                        <Setter Property="TextColor" Value="{StaticResource TextTertiary}" />
-                                        <Setter Property="FontAttributes" Value="Italic" />
+                                    <DataTrigger TargetType="Label" Binding="{Binding Title, Converter={StaticResource StringIsNotNullOrEmptyConverter}}" Value="True">
+                                        <Setter Property="Text" Value="{Binding Title}" />
+                                        <Setter Property="TextColor" Value="{StaticResource TextPrimary}" />
+                                        <Setter Property="FontAttributes" Value="None" />
                                     </DataTrigger>
                                 </Label.Triggers>
                             </Label>
@@ -152,12 +155,12 @@
                                    VerticalOptions="Center" />
 
                             <StackLayout Grid.Column="1" Spacing="4">
-                                <Label Text="Informações da Pasta"
+                                <Label Text="{Binding FormTitle}"
                                        Style="{StaticResource TitleStyle}"
                                        FontSize="16"
                                        TextColor="{StaticResource Primary}" />
 
-                                <Label Text="Defina nome e cor da pasta"
+                                <Label Text="{Binding FormSubtitle}"
                                        Style="{StaticResource CaptionStyle}"
                                        Opacity="0.8" />
                             </StackLayout>
@@ -174,7 +177,7 @@
                                        VerticalOptions="Center" />
 
                                 <Label Grid.Column="1"
-                                       Text="Nome da Pasta *"
+                                       Text="{Binding NameLabel}"
                                        Style="{StaticResource CaptionStyle}"
                                        FontAttributes="Bold"
                                        TextColor="{StaticResource Primary}"
@@ -182,7 +185,7 @@
                             </Grid>
 
                             <Border Style="{StaticResource EntryContainerStyle}">
-                                <Entry Placeholder="Ex: Trabalho, Pessoal, Redes Sociais..."
+                                <Entry Placeholder="{Binding NamePlaceholder}"
                                        Style="{StaticResource ModernEntryStyle}"
                                        Text="{Binding Title, Mode=TwoWay}"
                                        FontSize="18" />
@@ -200,7 +203,7 @@
                                        VerticalOptions="Center" />
 
                                 <Label Grid.Column="1"
-                                       Text="Cor de Identificação"
+                                       Text="{Binding ColorLabel}"
                                        Style="{StaticResource CaptionStyle}"
                                        FontAttributes="Bold"
                                        TextColor="{StaticResource Primary}"
@@ -240,7 +243,7 @@
                             </Border>
 
                             <!-- Color Selection Info -->
-                            <Label Text="Toque no círculo para escolher uma cor personalizada"
+                            <Label Text="{Binding ColorTapHere}"
                                    Style="{StaticResource CaptionStyle}"
                                    HorizontalTextAlignment="Center"
                                    Opacity="0.7" />
@@ -265,10 +268,10 @@
             </Border.Shadow>
 
             <Grid ColumnDefinitions="*,*" ColumnSpacing="16">
-               
+
                 <!-- Create Button -->
                 <Button Grid.Column="1"
-                        Text="Criar Pasta"
+                        Text="{Binding CreateButton}"
                         Style="{StaticResource ModernButtonStyle}"
                         Command="{Binding SaveFolderCommand}">
 
@@ -305,12 +308,12 @@
                     <!-- Modal Header -->
                     <Grid ColumnDefinitions="*,Auto">
                         <StackLayout Grid.Column="0" Spacing="4">
-                            <Label Text="Cor Personalizada"
+                            <Label Text="{Binding ColorPickerTitle}"
                                    Style="{StaticResource TitleStyle}"
                                    FontSize="20"
                                    TextColor="{StaticResource Primary}" />
 
-                            <Label Text="Escolha uma cor única para sua pasta"
+                            <Label Text="{Binding ColorPickerSubtitle}"
                                    Style="{StaticResource CaptionStyle}"
                                    Opacity="0.8" />
                         </StackLayout>
@@ -346,13 +349,13 @@
 
                     <!-- Hex Input -->
                     <StackLayout Spacing="8">
-                        <Label Text="Código Hexadecimal"
+                        <Label Text="{Binding HexCodeLabel}"
                                Style="{StaticResource CaptionStyle}"
                                FontAttributes="Bold"
                                TextColor="{StaticResource TextSecondary}" />
 
                         <Border Style="{StaticResource EntryContainerStyle}">
-                            <Entry Placeholder="#FF5733"
+                            <Entry Placeholder="{Binding HexCodePlaceholder}"
                                    Text="{Binding SelectedColorHex, Mode=TwoWay}"
                                    Style="{StaticResource ModernEntryStyle}"
                                    Keyboard="Text"
@@ -361,7 +364,7 @@
                     </StackLayout>
 
                     <!-- Confirm Button -->
-                    <Button Text="Confirmar Cor"
+                    <Button Text="{Binding ConfirmColorButton}"
                             Style="{StaticResource ModernButtonStyle}"
                             Command="{Binding CloseColorPickerCommand}">
 

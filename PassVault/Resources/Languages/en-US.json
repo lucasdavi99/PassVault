@@ -201,6 +201,23 @@
     "selected_color_label": "Selected Color",
     "apply_color_button": "Apply Color"
   },
+  "new_folder": {
+    "title": "New Folder",
+    "subtitle": "Organize your accounts by creating a folder",
+    "preview_title": "Folder Preview",
+    "preview_subtitle": "See how your folder will look",
+    "preview_name_placeholder": "Folder Name",
+    "form_title": "Folder Information",
+    "form_subtitle": "Set the folder name and color",
+    "name_label": "Folder Name *",
+    "name_placeholder": "Ex: Work, Personal, Social Media...",
+    "color_label": "Identification Color",
+    "color_tap_here": "Tap the circle to choose a custom color",
+    "create_button": "Create Folder",
+    "color_picker_title": "Custom Color",
+    "color_picker_subtitle": "Choose a unique color for your folder",
+    "hex_code_placeholder": "#FF5733"
+  },
   "tutorial": {
     "welcome": "Welcome",
     "security_title": "Advanced Security",
@@ -238,7 +255,9 @@
     "no_root_folders_found": "No root folders found.",
     "confirm_move_folder_title": "Confirmation",
     "confirm_move_folder": "Are you sure you want to move this folder to {0}?",
-    "folder_updated_success": "Folder updated successfully"
+    "folder_updated_success": "Folder updated successfully",
+    "folder_title_required": "The Title field is required",
+    "folder_created": "Folder created successfully"
   },
   "validation": {
     "required_field": "This field is required",
