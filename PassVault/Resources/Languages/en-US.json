@@ -343,6 +343,22 @@
     "error_deleting_folder": "Error deleting folder: {0}",
     "error_opening_folder": "Error opening folder: {0}"
   },
+  "search": {
+    "page_title": "Search Accounts",
+    "page_subtitle": "Find your accounts quickly",
+    "placeholder": "Enter account name...",
+    "no_results_title": "No accounts found",
+    "no_results_message": "Try using other search terms or check your spelling",
+    "no_results_for": "No results for \"{0}\"",
+    "initial_search_title": "Search Accounts",
+    "initial_search_message": "Enter the name of an account in the field above to find it quickly",
+    "tips_title": "Search Tips",
+    "tip1": "• Type part of the account name",
+    "tip2": "• The search is instant",
+    "tip3": "• Works with any word",
+    "results_count_format": "Results found: {0}",
+    "search_for_format": "Search for \"{0}\""
+  },
   "lockscreen": {
     "title": "Welcome!",
     "button_text": "Use phone password",
