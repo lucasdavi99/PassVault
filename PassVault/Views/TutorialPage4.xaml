@@ -7,10 +7,6 @@
              Shell.NavBarIsVisible="False"
              Title="TutorialPage4">
 
-    <ContentPage.BindingContext>
-        <viewModels:TutorialPage4ViewModel />
-    </ContentPage.BindingContext>
-
     <Grid RowDefinitions="*,*,Auto">
 
         <!-- Hero Section -->
@@ -105,12 +101,12 @@
                             </Border>
 
                             <StackLayout Grid.Column="1" Spacing="4">
-                                <Label Text="Compromisso com a Privacidade"
+                                <Label Text="{Binding PrivacyCommitmentTitle}"
                                        Style="{StaticResource TitleStyle}"
                                        FontSize="18"
                                        TextColor="{StaticResource Info}" />
 
-                                <Label Text="Seus dados são exclusivamente seus"
+                                <Label Text="{Binding YourDataIsYours}"
                                        Style="{StaticResource CaptionStyle}"
                                        Opacity="0.8" />
                             </StackLayout>
@@ -147,13 +143,13 @@
                                    TextColor="{StaticResource Primary}"
                                    HorizontalOptions="Center" />
 
-                            <Label Text="Local"
+                            <Label Text="{Binding Local}"
                                    Style="{StaticResource CaptionStyle}"
                                    FontAttributes="Bold"
                                    FontSize="14"
                                    HorizontalTextAlignment="Center" />
 
-                            <Label Text="Armazenado apenas no seu dispositivo"
+                            <Label Text="{Binding StoredOnDevice}"
                                    Style="{StaticResource CaptionStyle}"
                                    FontSize="11"
                                    HorizontalTextAlignment="Center"
@@ -175,13 +171,13 @@
                                    TextColor="{StaticResource Warning}"
                                    HorizontalOptions="Center" />
 
-                            <Label Text="Sem Nuvem"
+                            <Label Text="{Binding NoCloud}"
                                    Style="{StaticResource CaptionStyle}"
                                    FontAttributes="Bold"
                                    FontSize="14"
                                    HorizontalTextAlignment="Center" />
 
-                            <Label Text="Nenhum dado enviado para servidores"
+                            <Label Text="{Binding NoDataToServer}"
                                    Style="{StaticResource CaptionStyle}"
                                    FontSize="11"
                                    HorizontalTextAlignment="Center"
@@ -203,13 +199,13 @@
                                    TextColor="{StaticResource Error}"
                                    HorizontalOptions="Center" />
 
-                            <Label Text="Sem Rastreio"
+                            <Label Text="{Binding NoTracking}"
                                    Style="{StaticResource CaptionStyle}"
                                    FontAttributes="Bold"
                                    FontSize="14"
                                    HorizontalTextAlignment="Center" />
 
-                            <Label Text="Não coletamos informações pessoais"
+                            <Label Text="{Binding NoPersonalInfo}"
                                    Style="{StaticResource CaptionStyle}"
                                    FontSize="11"
                                    HorizontalTextAlignment="Center"
@@ -231,13 +227,13 @@
                                    TextColor="{StaticResource Success}"
                                    HorizontalOptions="Center" />
 
-                            <Label Text="Transparente"
+                            <Label Text="{Binding Transparent}"
                                    Style="{StaticResource CaptionStyle}"
                                    FontAttributes="Bold"
                                    FontSize="14"
                                    HorizontalTextAlignment="Center" />
 
-                            <Label Text="Código auditável e verificável"
+                            <Label Text="{Binding AuditableCode}"
                                    Style="{StaticResource CaptionStyle}"
                                    FontSize="11"
                                    HorizontalTextAlignment="Center"
@@ -264,13 +260,13 @@
                                VerticalOptions="Center" />
 
                         <StackLayout Grid.Column="1" Spacing="4">
-                            <Label Text="100% Privado"
+                            <Label Text="{Binding Private100}"
                                    Style="{StaticResource TitleStyle}"
                                    FontSize="16"
                                    FontAttributes="Bold"
                                    TextColor="White" />
 
-                            <Label Text="Desenvolvido com foco na sua privacidade"
+                            <Label Text="{Binding PrivacyFocused}"
                                    Style="{StaticResource CaptionStyle}"
                                    FontSize="12"
                                    TextColor="White"
@@ -292,7 +288,7 @@
 
             <!-- Progress Indicator -->
             <StackLayout Spacing="12" HorizontalOptions="Center">
-                <Label Text="4 de 5"
+                <Label Text="{Binding ProgressText}"
                        Style="{StaticResource CaptionStyle}"
                        FontAttributes="Bold"
                        TextColor="{StaticResource Primary}"
@@ -352,7 +348,7 @@
 
                     <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8" VerticalOptions="Center" HorizontalOptions="Center">
                         <Label Grid.Column="0"
-                               Text="Próximo"
+                               Text="{Binding NextButtonText}"
                                Style="{StaticResource CaptionStyle}"
                                FontAttributes="Bold"
                                FontSize="16"

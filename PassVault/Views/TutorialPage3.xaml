@@ -7,10 +7,6 @@
              Shell.NavBarIsVisible="False"
              Title="TutorialPage3">
 
-    <ContentPage.BindingContext>
-        <viewModels:TutorialPage3ViewModel />
-    </ContentPage.BindingContext>
-
     <Grid RowDefinitions="Auto,*,Auto">
 
         <!-- Hero Section -->
@@ -76,12 +72,12 @@
                                    VerticalOptions="Center" />
 
                             <StackLayout Grid.Column="1" Spacing="2">
-                                <Label Text="Impressão Digital"
+                                <Label Text="{Binding Fingerprint}"
                                        Style="{StaticResource CaptionStyle}"
                                        FontAttributes="Bold"
                                        FontSize="14" />
 
-                                <Label Text="Desbloqueio com o dedo"
+                                <Label Text="{Binding UnlockWithFinger}"
                                        Style="{StaticResource CaptionStyle}"
                                        FontSize="12"
                                        Opacity="0.7" />
@@ -103,12 +99,12 @@
                                    VerticalOptions="Center" />
 
                             <StackLayout Grid.Column="1" Spacing="2">
-                                <Label Text="Reconhecimento Facial"
+                                <Label Text="{Binding FaceId}"
                                        Style="{StaticResource CaptionStyle}"
                                        FontAttributes="Bold"
                                        FontSize="14" />
 
-                                <Label Text="Desbloqueio com o rosto"
+                                <Label Text="{Binding UnlockWithFace}"
                                        Style="{StaticResource CaptionStyle}"
                                        FontSize="12"
                                        Opacity="0.7" />
@@ -130,12 +126,12 @@
                                    VerticalOptions="Center" />
 
                             <StackLayout Grid.Column="1" Spacing="2">
-                                <Label Text="PIN ou Padrão"
+                                <Label Text="{Binding PinOrPattern}"
                                        Style="{StaticResource CaptionStyle}"
                                        FontAttributes="Bold"
                                        FontSize="14" />
 
-                                <Label Text="Senha padrão do dispositivo"
+                                <Label Text="{Binding DefaultDevicePassword}"
                                        Style="{StaticResource CaptionStyle}"
                                        FontSize="12"
                                        Opacity="0.7" />
@@ -171,14 +167,14 @@
                                VerticalOptions="Center" />
 
                         <StackLayout Grid.Column="1" Spacing="2">
-                            <Label Text="Autorizar Acesso"
+                            <Label Text="{Binding AuthorizeAccess}"
                                    Style="{StaticResource TitleStyle}"
                                    FontSize="16"
                                    TextColor="White"
                                    FontAttributes="Bold"
                                    HorizontalTextAlignment="Center" />
 
-                            <Label Text="Toque para configurar"
+                            <Label Text="{Binding TapToSetup}"
                                    Style="{StaticResource CaptionStyle}"
                                    FontSize="12"
                                    TextColor="White"
@@ -212,7 +208,7 @@
                                VerticalOptions="Center" />
 
                         <Label Grid.Column="1"
-                               Text="Este passo é necessário para acessar o aplicativo"
+                               Text="{Binding RequiredStepMessage}"
                                Style="{StaticResource CaptionStyle}"
                                FontSize="12"
                                VerticalOptions="Center"
@@ -222,7 +218,7 @@
 
                 <!-- Progress Indicator -->
                 <StackLayout Spacing="12" HorizontalOptions="Center" Margin="0,24,0,0">
-                    <Label Text="3 de 5"
+                    <Label Text="{Binding ProgressText}"
                            Style="{StaticResource CaptionStyle}"
                            FontAttributes="Bold"
                            TextColor="{StaticResource Primary}"
@@ -283,7 +279,7 @@
 
                 <!-- Continue Note -->
                 <Label Grid.Column="2"
-                       Text="Configure acima ↑"
+                       Text="{Binding ConfigureAbove}"
                        Style="{StaticResource CaptionStyle}"
                        FontSize="12"
                        TextColor="{StaticResource Warning}"

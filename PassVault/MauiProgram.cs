@@ -49,6 +49,11 @@ namespace PassVault
             builder.Services.AddSingleton<ImportService>();
 
             // ViewModels como Transient para melhor gestão de memória
+            builder.Services.AddSingleton<TutorialPage1ViewModel>();
+            builder.Services.AddSingleton<TutorialPage2ViewModel>();
+            builder.Services.AddSingleton<TutorialPage3ViewModel>();
+            builder.Services.AddSingleton<TutorialPage4ViewModel>();
+            builder.Services.AddSingleton<TutorialPage5ViewModel>();
             builder.Services.AddTransient<MainPageViewModel>();
             builder.Services.AddTransient<NewAccountPageViewModel>();
             builder.Services.AddTransient<EditAccountPageViewModel>();
@@ -63,6 +68,11 @@ namespace PassVault
             builder.Services.AddTransient<LockScreenViewModel>();
 
             // Pages com ViewModels
+            builder.Services.AddTransient<TutorialPage1>();
+            builder.Services.AddTransient<TutorialPage2>();
+            builder.Services.AddTransient<TutorialPage3>();
+            builder.Services.AddTransient<TutorialPage4>();
+            builder.Services.AddTransient<TutorialPage5>();
             builder.Services.AddTransient<MainPage>();
             builder.Services.AddTransient<NewAccountPage>();
             builder.Services.AddTransient<EditAccountPage>();
