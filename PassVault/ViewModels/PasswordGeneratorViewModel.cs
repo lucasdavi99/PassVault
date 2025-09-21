@@ -2,12 +2,16 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using PassVault.Interfaces;
 using PassVault.Messages;
+using PassVault.Services;
 
 namespace PassVault.ViewModels
 {
     public partial class PasswordGeneratorViewModel : ObservableObject
     {
+        private readonly ILocalizationService _localizationService;
+
         [ObservableProperty]
         private string _generatedPassword = string.Empty;
 
@@ -23,10 +27,60 @@ namespace PassVault.ViewModels
         [ObservableProperty]
         private bool _includeSpecialChars = true;
 
+        // Localized Properties
+        [ObservableProperty] private string pageTitle;
+        [ObservableProperty] private string pageSubtitle;
+        [ObservableProperty] private string configTitle;
+        [ObservableProperty] private string minLengthLabel;
+        [ObservableProperty] private string minLengthPlaceholder;
+        [ObservableProperty] private string maxLengthLabel;
+        [ObservableProperty] private string maxLengthPlaceholder;
+        [ObservableProperty] private string includeNumbersLabel;
+        [ObservableProperty] private string includeSpecialCharsLabel;
+        [ObservableProperty] private string generateButtonText;
+        [ObservableProperty] private string generatedPasswordTitle;
+        [ObservableProperty] private string copyPasswordButtonText;
+        [ObservableProperty] private string copyPasswordTooltip;
+        [ObservableProperty] private string securityTipsTitle;
+        [ObservableProperty] private string tip1;
+        [ObservableProperty] private string tip2;
+        [ObservableProperty] private string tip3;
+        [ObservableProperty] private string tip4;
+
         private const string LowerCase = "abcdefghijklmnopqrstuvwxyz";
         private const string UpperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         private const string Numbers = "0123456789";
         private const string SpecialChars = "!@#$%^&*()_+-=[]{}|;:,.<>?";
+
+        public PasswordGeneratorViewModel(ILocalizationService localizationService)
+        {
+            _localizationService = localizationService;
+            UpdateLocalizedTexts();
+            _localizationService.LanguageChanged += (s, e) => UpdateLocalizedTexts();
+        }
+
+        private void UpdateLocalizedTexts()
+        {
+            PageTitle = L.Text("password_generator.title");
+            PageSubtitle = L.Text("password_generator.subtitle");
+            ConfigTitle = L.Text("password_generator.config_title");
+            MinLengthLabel = L.Text("password_generator.min_length");
+            MinLengthPlaceholder = L.Text("password_generator.min_length_placeholder");
+            MaxLengthLabel = L.Text("password_generator.max_length");
+            MaxLengthPlaceholder = L.Text("password_generator.max_length_placeholder");
+            IncludeNumbersLabel = L.Text("password_generator.include_numbers");
+            IncludeSpecialCharsLabel = L.Text("password_generator.include_special_chars");
+            GenerateButtonText = L.Text("password_generator.generate_button");
+            GeneratedPasswordTitle = L.Text("password_generator.generated_password_title");
+            CopyPasswordButtonText = L.Text("password_generator.copy_button");
+            CopyPasswordTooltip = L.Text("password_generator.copy_tooltip");
+            SecurityTipsTitle = L.Text("password_generator.security_tips_title");
+            Tip1 = L.Text("password_generator.tip1");
+            Tip2 = L.Text("password_generator.tip2");
+            Tip3 = L.Text("password_generator.tip3");
+            Tip4 = L.Text("password_generator.tip4");
+        }
+
 
         [RelayCommand]
         private async Task GeneratePasswordAsync()
@@ -38,14 +92,14 @@ namespace PassVault.ViewModels
 
                 if (OperatingSystem.IsWindowsVersionAtLeast(10, 0, 17763))
                 {
-                    await Shell.Current.DisplayAlert("Sucesso", "Senha gerada com sucesso!", "OK");
+                    await Shell.Current.DisplayAlert(L.Text("common.success"), L.Text("password_generator.success_message"), L.Text("common.ok"));
                 }
             }
             catch (Exception ex)
             {
                 if (OperatingSystem.IsWindowsVersionAtLeast(10, 0, 17763))
                 {
-                    await Shell.Current.DisplayAlert("Erro", $"Falha ao gerar senha: {ex.Message}", "OK");
+                    await Shell.Current.DisplayAlert(L.Text("common.error"), string.Format(L.Text("password_generator.error_message"), ex.Message), L.Text("common.ok"));
                 }
             }
         }
@@ -104,7 +158,7 @@ namespace PassVault.ViewModels
             {
                 if (OperatingSystem.IsWindowsVersionAtLeast(10, 0, 17763))
                 {
-                    Shell.Current.DisplayAlert("Erro", "O comprimento mínimo deve ser pelo menos 4 caracteres", "OK");
+                    Shell.Current.DisplayAlert(L.Text("common.error"), L.Text("password_generator.min_length_error"), L.Text("common.ok"));
                 }
                 return false;
             }
@@ -113,7 +167,7 @@ namespace PassVault.ViewModels
             {
                 if (OperatingSystem.IsWindowsVersionAtLeast(10, 0, 17763))
                 {
-                    Shell.Current.DisplayAlert("Erro", "O comprimento máximo deve ser maior ou igual a o mínimo", "OK");
+                    Shell.Current.DisplayAlert(L.Text("common.error"), L.Text("password_generator.max_length_error"), L.Text("common.ok"));
                 }
                 return false;
             }

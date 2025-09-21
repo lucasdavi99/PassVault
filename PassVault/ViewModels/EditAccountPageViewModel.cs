@@ -3,8 +3,10 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using PassVault.Data;
+using PassVault.Interfaces;
 using PassVault.Messages;
 using PassVault.Models;
+using PassVault.Services;
 using PassVault.Views;
 using Plugin.Fingerprint;
 using Plugin.Fingerprint.Abstractions;
@@ -15,88 +17,117 @@ namespace PassVault.ViewModels
     {
         private readonly AccountDatabase _database;
         private readonly FolderDatabase _folderDatabase;
+        private readonly ILocalizationService _localizationService;
         private Account _currentAccount;
 
-        [ObservableProperty]
-        private int _accountId;
+        [ObservableProperty] private int _accountId;
+        [ObservableProperty][Required(ErrorMessage = "Título é obrigatório")] private string _title;
+        [ObservableProperty] private string _username;
+        [ObservableProperty][EmailAddress(ErrorMessage = "E-mail inválido")] private string _email;
+        [ObservableProperty][Required(ErrorMessage = "Senha é obrigatória")] private string _password;
+        [ObservableProperty] private Color _selectedColor = Colors.Purple;
+        [ObservableProperty] private string _selectedColorHex = Colors.Purple.ToHex();
+        [ObservableProperty] private bool _isColorPickerVisible = false;
+        [ObservableProperty] private bool _isEditing;
+        [ObservableProperty] private bool _isPasswordVisible = true;
+        [ObservableProperty] private List<Folder> _folders = new();
+        [ObservableProperty] private string _selectedFolderName;
+        [ObservableProperty] private bool isUsernameVisible = true;
+        [ObservableProperty] private bool isEmailVisible = true;
+        [ObservableProperty] private Folder _selectedParentFolder;
+        [ObservableProperty] private List<Folder> _subFolders = new();
+        [ObservableProperty] private string _selectedSubFolderName;
+        [ObservableProperty] private bool _hasSubFolderButtonVisible = false;
 
-        [ObservableProperty]
-        [Required(ErrorMessage = "Título é obrigatório")]
-        private string _title;
+        // Localized Properties
+        [ObservableProperty] private string pageTitle;
+        [ObservableProperty] private string headerTitle;
+        [ObservableProperty] private string headerSubtitle;
+        [ObservableProperty] private string formSectionTitle;
+        [ObservableProperty] private string formSectionSubtitle;
+        [ObservableProperty] private string accountNameLabel;
+        [ObservableProperty] private string accountNamePlaceholder;
+        [ObservableProperty] private string usernameLabel;
+        [ObservableProperty] private string usernamePlaceholder;
+        [ObservableProperty] private string emailLabel;
+        [ObservableProperty] private string emailPlaceholder;
+        [ObservableProperty] private string passwordLabel;
+        [ObservableProperty] private string passwordPlaceholder;
+        [ObservableProperty] private string colorLabel;
+        [ObservableProperty] private string organizationLabel;
+        [ObservableProperty] private string mainFolderLabel;
+        [ObservableProperty] private string subFolderLabel;
+        [ObservableProperty] private string editButtonText;
+        [ObservableProperty] private string cancelButtonText;
+        [ObservableProperty] private string saveButtonText;
+        [ObservableProperty] private string customColorTitle;
+        [ObservableProperty] private string customColorSubtitle;
+        [ObservableProperty] private string selectedColorLabel;
+        [ObservableProperty] private string applyColorButtonText;
 
-        [ObservableProperty]
-        private string _username;
 
-        [ObservableProperty]
-        [EmailAddress(ErrorMessage = "E-mail inválido")]
-        private string _email;
-
-        [ObservableProperty]
-        [Required(ErrorMessage = "Senha é obrigatória")]
-        private string _password;
-
-        [ObservableProperty]
-        private Color _selectedColor = Colors.Purple;
-
-        [ObservableProperty]
-        private string _selectedColorHex = Colors.Purple.ToHex();
-
-        [ObservableProperty]
-        private bool _isColorPickerVisible = false;
-
-        [ObservableProperty]
-        private bool _isEditing;
-
-        [ObservableProperty]
-        private bool _isPasswordVisible = true;
-
-        [ObservableProperty]
-        private List<Folder> _folders = new();
-
-        [ObservableProperty]
-        private string _selectedFolderName = "Selecionar Pasta";
-
-        // Campos selecionados
-        [ObservableProperty]
-        private bool isUsernameVisible = true;
-
-        [ObservableProperty]
-        private bool isEmailVisible = true;
-
-        // Novas propriedades para subpastas
-        [ObservableProperty]
-        private Folder _selectedParentFolder;
-
-        [ObservableProperty]
-        private List<Folder> _subFolders = new();
-
-        [ObservableProperty]
-        private string _selectedSubFolderName = "Selecionar Subpasta";
-
-        [ObservableProperty]
-        private bool _hasSubFolderButtonVisible = false;
-
-        public EditAccountPageViewModel(AccountDatabase database, FolderDatabase folderDatabase)
+        public EditAccountPageViewModel(AccountDatabase database, FolderDatabase folderDatabase, ILocalizationService localizationService)
         {
             _database = database;
-            IsEditing = false;
             _folderDatabase = folderDatabase;
+            _localizationService = localizationService;
+            IsEditing = false;
+
+            UpdateLocalizedTexts();
+            _localizationService.LanguageChanged += OnLanguageChanged;
 
             WeakReferenceMessenger.Default.Register<PasswordGeneratedMessage>(this, async (r, m) =>
             {
-                await Shell.Current.DisplayAlert("Sucesso", "Nova senha aplicada", "OK");
+                await Shell.Current.DisplayAlert(L.Text("common.success"), L.Text("messages.password_applied_success"), L.Text("common.ok"));
                 Password = m.Value;
             });
         }
 
+        private void OnLanguageChanged(object sender, EventArgs e)
+        {
+            MainThread.BeginInvokeOnMainThread(UpdateLocalizedTexts);
+        }
+
+        private void UpdateLocalizedTexts()
+        {
+            PageTitle = L.Text("edit_account_page.title");
+            HeaderTitle = L.Text("edit_account_page.header_title");
+            HeaderSubtitle = IsEditing ? L.Text("edit_account_page.header_subtitle_edit") : L.Text("edit_account_page.header_subtitle_view");
+            FormSectionTitle = L.Text("edit_account_page.form_title");
+            FormSectionSubtitle = L.Text("edit_account_page.form_subtitle");
+            AccountNameLabel = L.Text("edit_account_page.account_name_label");
+            AccountNamePlaceholder = L.Text("edit_account_page.account_name_placeholder");
+            UsernameLabel = L.Text("edit_account_page.username_label");
+            UsernamePlaceholder = L.Text("edit_account_page.username_placeholder");
+            EmailLabel = L.Text("edit_account_page.email_label");
+            EmailPlaceholder = L.Text("edit_account_page.email_placeholder");
+            PasswordLabel = L.Text("edit_account_page.password_label");
+            PasswordPlaceholder = L.Text("edit_account_page.password_placeholder");
+            ColorLabel = L.Text("edit_account_page.color_label");
+            OrganizationLabel = L.Text("edit_account_page.organization_label");
+            MainFolderLabel = L.Text("edit_account_page.main_folder_label");
+            SubFolderLabel = L.Text("edit_account_page.subfolder_label");
+            EditButtonText = L.Text("edit_account_page.edit_button");
+            CancelButtonText = L.Text("edit_account_page.cancel_button");
+            SaveButtonText = L.Text("edit_account_page.save_button");
+            CustomColorTitle = L.Text("edit_account_page.custom_color_title");
+            CustomColorSubtitle = L.Text("edit_account_page.custom_color_subtitle");
+            SelectedColorLabel = L.Text("edit_account_page.selected_color_label");
+            ApplyColorButtonText = L.Text("edit_account_page.apply_color_button");
+
+            SelectedFolderName = L.Text("accounts.select_folder");
+            SelectedSubFolderName = L.Text("accounts.select_subfolder");
+        }
+
+
         [RelayCommand]
         private async Task SelectFolderAsync()
         {
-            Folders = await _folderDatabase.GetRootFoldersAsync(); // Carregar apenas pastas raiz
+            Folders = await _folderDatabase.GetRootFoldersAsync();
 
             if (Folders == null || Folders.Count == 0)
             {
-                await Shell.Current.DisplayAlert("Atenção", "Nenhuma pasta encontrada.", "OK");
+                await Shell.Current.DisplayAlert(L.Text("common.warning"), L.Text("messages.no_folders_found"), L.Text("common.ok"));
                 return;
             }
 
@@ -106,42 +137,36 @@ namespace PassVault.ViewModels
             Folders = sortedFolders;
 
             var folderNames = Folders.Select(f => f.Title).ToList();
-            folderNames.Insert(0, "Sem Pasta");
+            folderNames.Insert(0, L.Text("accounts.no_folder"));
 
-            string chosenOption = await Shell.Current.DisplayActionSheet("Selecione uma pasta", "Cancelar", null, folderNames.ToArray());
+            string chosenOption = await Shell.Current.DisplayActionSheet(L.Text("accounts.select_folder"), L.Text("common.cancel"), null, folderNames.ToArray());
 
-            if (chosenOption != null && chosenOption != "Cancelar")
+            if (chosenOption != null && chosenOption != L.Text("common.cancel"))
             {
                 bool confirm = await Shell.Current.DisplayAlert(
-                    "Confirmação",
-                    $"Tem certeza que deseja mover esta conta para {chosenOption}?",
-                    "Sim",
-                    "Cancelar"
+                    L.Text("messages.confirm_move_account_title"),
+                    string.Format(L.Text("messages.confirm_move_account"), chosenOption),
+                    L.Text("common.yes"),
+                    L.Text("common.cancel")
                 );
 
                 if (confirm)
                 {
-                    if (chosenOption == "Sem Pasta")
+                    if (chosenOption == L.Text("accounts.no_folder"))
                     {
-                        // Limpar seleções
-                        SelectedFolderName = "Sem Pasta";
+                        SelectedFolderName = L.Text("accounts.no_folder");
                         SelectedParentFolder = null;
-                        SelectedSubFolderName = "Selecionar Subpasta";
+                        SelectedSubFolderName = L.Text("accounts.select_subfolder");
                         HasSubFolderButtonVisible = false;
                         SubFolders.Clear();
                         _currentAccount.FolderId = null;
                     }
                     else
                     {
-                        // Pasta selecionada
                         SelectedFolderName = chosenOption;
                         SelectedParentFolder = Folders.First(f => f.Title == chosenOption);
                         _currentAccount.FolderId = SelectedParentFolder.Id;
-
-                        // Resetar subpasta
-                        SelectedSubFolderName = "Selecionar Subpasta";
-
-                        // Carregar subpastas e mostrar botão
+                        SelectedSubFolderName = L.Text("accounts.select_subfolder");
                         await LoadSubFoldersAsync();
                     }
                 }
@@ -153,7 +178,7 @@ namespace PassVault.ViewModels
         {
             if (SelectedParentFolder == null || SubFolders == null || SubFolders.Count == 0)
             {
-                await Shell.Current.DisplayAlert("Atenção", "Nenhuma subpasta encontrada nesta pasta.", "OK");
+                await Shell.Current.DisplayAlert(L.Text("common.warning"), L.Text("messages.no_subfolders_found"), L.Text("common.ok"));
                 return;
             }
 
@@ -162,24 +187,24 @@ namespace PassVault.ViewModels
                 .ToList();
 
             var subFolderNames = sortedSubFolders.Select(f => f.Title).ToList();
-            subFolderNames.Insert(0, "Manter na Pasta Principal");
+            subFolderNames.Insert(0, L.Text("accounts.keep_in_main_folder"));
 
-            string chosenOption = await Shell.Current.DisplayActionSheet("Selecione uma subpasta", "Cancelar", null, subFolderNames.ToArray());
+            string chosenOption = await Shell.Current.DisplayActionSheet(L.Text("accounts.select_subfolder"), L.Text("common.cancel"), null, subFolderNames.ToArray());
 
-            if (chosenOption != null && chosenOption != "Cancelar")
+            if (chosenOption != null && chosenOption != L.Text("common.cancel"))
             {
                 bool confirm = await Shell.Current.DisplayAlert(
-                    "Confirmação",
-                    $"Tem certeza que deseja mover esta conta para a subpasta {chosenOption}?",
-                    "Sim",
-                    "Cancelar"
+                    L.Text("messages.confirm_move_account_title"),
+                    string.Format(L.Text("messages.confirm_move_account_subfolder"), chosenOption),
+                    L.Text("common.yes"),
+                    L.Text("common.cancel")
                 );
 
                 if (confirm)
                 {
-                    if (chosenOption == "Manter na Pasta Principal")
+                    if (chosenOption == L.Text("accounts.keep_in_main_folder"))
                     {
-                        SelectedSubFolderName = "Pasta Principal";
+                        SelectedSubFolderName = L.Text("accounts.main_folder");
                         _currentAccount.FolderId = SelectedParentFolder.Id;
                     }
                     else
@@ -207,7 +232,7 @@ namespace PassVault.ViewModels
             }
             catch (Exception ex)
             {
-                await Shell.Current.DisplayAlert("Erro", $"Erro ao carregar subpastas: {ex.Message}", "OK");
+                await Shell.Current.DisplayAlert(L.Text("common.error"), string.Format(L.Text("messages.error_loading_subfolders"), ex.Message), L.Text("common.ok"));
                 HasSubFolderButtonVisible = false;
             }
         }
@@ -219,7 +244,7 @@ namespace PassVault.ViewModels
             {
                 if (string.IsNullOrWhiteSpace(Title) || string.IsNullOrWhiteSpace(Password))
                 {
-                    await Shell.Current.DisplayAlert("Erro", "Preencha os campos obrigatórios", "OK");
+                    await Shell.Current.DisplayAlert(L.Text("common.error"), L.Text("messages.fill_required_fields"), L.Text("common.ok"));
                     return;
                 }
 
@@ -230,13 +255,13 @@ namespace PassVault.ViewModels
                 _currentAccount.Color = SelectedColor.ToHex();
 
                 await _database.SaveAccountAsync(_currentAccount);
-                await Shell.Current.DisplayAlert("Sucesso", "Conta atualizada com sucesso", "OK");
+                await Shell.Current.DisplayAlert(L.Text("common.success"), L.Text("messages.account_updated_success"), L.Text("common.ok"));
                 WeakReferenceMessenger.Default.Send(new AccountSavedMessage(true));
                 await Shell.Current.Navigation.PopAsync();
             }
             catch (Exception ex)
             {
-                await Shell.Current.DisplayAlert("Erro", ex.Message, "OK");
+                await Shell.Current.DisplayAlert(L.Text("common.error"), ex.Message, L.Text("common.ok"));
             }
         }
 
@@ -257,11 +282,11 @@ namespace PassVault.ViewModels
         {
             try
             {
-                var config = new AuthenticationRequestConfiguration("Autenticação necessária", "Desbloqueie o Dispositivo.")
+                var config = new AuthenticationRequestConfiguration(L.Text("messages.auth_needed_title"), L.Text("messages.auth_needed_message"))
                 {
                     AllowAlternativeAuthentication = true,
-                    CancelTitle = "Cancelar",
-                    FallbackTitle = "Use Senha"
+                    CancelTitle = L.Text("common.cancel"),
+                    FallbackTitle = L.Text("security.master_password")
                 };
 
                 var authResult = await CrossFingerprint.Current.AuthenticateAsync(config);
@@ -269,17 +294,18 @@ namespace PassVault.ViewModels
                 if (authResult.Authenticated)
                 {
                     IsEditing = !IsEditing;
+                    HeaderSubtitle = IsEditing ? L.Text("edit_account_page.header_subtitle_edit") : L.Text("edit_account_page.header_subtitle_view");
                     return true;
                 }
                 else
                 {
-                    await Shell.Current.DisplayAlert("Erro", "Falha na autenticação", "OK");
+                    await Shell.Current.DisplayAlert(L.Text("common.error"), L.Text("messages.auth_failed"), L.Text("common.ok"));
                     return false;
                 }
             }
             catch (Exception ex)
             {
-                await Shell.Current.DisplayAlert("Erro", $"Erro na autenticação: {ex.Message}", "OK");
+                await Shell.Current.DisplayAlert(L.Text("common.error"), string.Format(L.Text("messages.auth_error"), ex.Message), L.Text("common.ok"));
                 return false;
             }
         }
@@ -316,8 +342,6 @@ namespace PassVault.ViewModels
                     Email = _currentAccount.Email ?? string.Empty;
                     Password = _currentAccount.Password;
                     SelectedColor = Color.FromArgb(_currentAccount.Color);
-
-                    // Configurar pasta/subpasta baseado no FolderId
                     await ConfigureFolderDisplayAsync();
                 }
 
@@ -333,9 +357,9 @@ namespace PassVault.ViewModels
         {
             if (_currentAccount.FolderId == null)
             {
-                SelectedFolderName = "Sem Pasta";
+                SelectedFolderName = L.Text("accounts.no_folder");
                 SelectedParentFolder = null;
-                SelectedSubFolderName = "Selecionar Subpasta";
+                SelectedSubFolderName = L.Text("accounts.select_subfolder");
                 HasSubFolderButtonVisible = false;
                 return;
             }
@@ -346,23 +370,21 @@ namespace PassVault.ViewModels
 
                 if (currentFolder == null)
                 {
-                    SelectedFolderName = "Pasta não encontrada";
+                    SelectedFolderName = L.Text("accounts.folder_not_found");
                     return;
                 }
 
                 if (currentFolder.ParentFolderId == null)
                 {
-                    // É uma pasta raiz
                     SelectedFolderName = currentFolder.Title;
                     SelectedParentFolder = currentFolder;
-                    SelectedSubFolderName = "Pasta Principal";
+                    SelectedSubFolderName = L.Text("accounts.main_folder");
                     await LoadSubFoldersAsync();
                 }
                 else
                 {
-                    // É uma subpasta
                     var parentFolder = await _folderDatabase.GetFolderAsync(currentFolder.ParentFolderId.Value);
-                    SelectedFolderName = parentFolder?.Title ?? "Pasta não encontrada";
+                    SelectedFolderName = parentFolder?.Title ?? L.Text("accounts.folder_not_found");
                     SelectedParentFolder = parentFolder;
                     SelectedSubFolderName = currentFolder.Title;
                     await LoadSubFoldersAsync();
@@ -370,8 +392,14 @@ namespace PassVault.ViewModels
             }
             catch (Exception ex)
             {
-                await Shell.Current.DisplayAlert("Erro", $"Erro ao carregar informações da pasta: {ex.Message}", "OK");
+                await Shell.Current.DisplayAlert(L.Text("common.error"), string.Format(L.Text("messages.error_loading_folders"), ex.Message), L.Text("common.ok"));
             }
+        }
+
+        ~EditAccountPageViewModel()
+        {
+            if (_localizationService != null)
+                _localizationService.LanguageChanged -= OnLanguageChanged;
         }
     }
 }

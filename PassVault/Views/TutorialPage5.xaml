@@ -7,10 +7,6 @@
              Shell.NavBarIsVisible="False"
              Title="TutorialPage5">
 
-    <ContentPage.BindingContext>
-        <viewModels:TutorialPage5ViewModel />
-    </ContentPage.BindingContext>
-
     <Grid RowDefinitions="Auto,*,Auto">
 
         <!-- Hero Section with Celebration -->
@@ -77,7 +73,7 @@
 
             <!-- Congratulations Title -->
             <StackLayout Spacing="12" HorizontalOptions="Center">
-                <Label Text="Parabéns!"
+                <Label Text="{Binding Congratulations}"
                        Style="{StaticResource DisplayStyle}"
                        FontSize="32"
                        TextColor="{StaticResource Success}"
@@ -105,7 +101,7 @@
             <StackLayout Spacing="24">
 
                 <!-- Ready to Start -->
-                <Label Text="Agora você pode gerenciar suas senhas com total segurança e praticidade!"
+                <Label Text="{Binding ReadyToStartMessage}"
                        Style="{StaticResource BodyStyle}"
                        FontSize="16"
                        HorizontalTextAlignment="Center"
@@ -124,7 +120,7 @@
                                VerticalOptions="Center" />
 
                         <Label Grid.Column="1"
-                               Text="Criar e organizar contas"
+                               Text="{Binding CreateAndOrganize}"
                                Style="{StaticResource CaptionStyle}"
                                FontSize="14"
                                VerticalOptions="Center" />
@@ -139,7 +135,7 @@
                                VerticalOptions="Center" />
 
                         <Label Grid.Column="1"
-                               Text="Gerar senhas seguras"
+                               Text="{Binding GenerateSecurePasswords}"
                                Style="{StaticResource CaptionStyle}"
                                FontSize="14"
                                VerticalOptions="Center" />
@@ -154,7 +150,7 @@
                                VerticalOptions="Center" />
 
                         <Label Grid.Column="1"
-                               Text="Buscar e acessar rapidamente"
+                               Text="{Binding SearchAndAccess}"
                                Style="{StaticResource CaptionStyle}"
                                FontSize="14"
                                VerticalOptions="Center" />
@@ -169,7 +165,7 @@
                                VerticalOptions="Center" />
 
                         <Label Grid.Column="1"
-                               Text="Fazer backup dos dados"
+                               Text="{Binding BackupData}"
                                Style="{StaticResource CaptionStyle}"
                                FontSize="14"
                                VerticalOptions="Center" />
@@ -197,13 +193,13 @@
                                VerticalOptions="Center" />
 
                         <StackLayout Grid.Column="1" Spacing="2">
-                            <Label Text="Bem-vindo!"
+                            <Label Text="{Binding Welcome}"
                                    Style="{StaticResource TitleStyle}"
                                    FontSize="14"
                                    FontAttributes="Bold"
                                    TextColor="{StaticResource PrimaryDarkText}" />
 
-                            <Label Text="Você agora é um usuário PassVault"
+                            <Label Text="{Binding YouAreNowAUser}"
                                    Style="{StaticResource CaptionStyle}"
                                    FontSize="11"
                                    TextColor="{StaticResource PrimaryDarkText}"
@@ -216,7 +212,7 @@
 
                 <!-- Progress Indicator - Complete -->
                 <StackLayout Spacing="12" HorizontalOptions="Center" Margin="0,24,0,0">
-                    <Label Text="5 de 5 - Concluído!"
+                    <Label Text="{Binding ProgressText}"
                            Style="{StaticResource CaptionStyle}"
                            FontAttributes="Bold"
                            TextColor="{StaticResource Success}"
@@ -279,7 +275,7 @@
                     <TapGestureRecognizer Command="{Binding NextPageCommand}"/>
                 </Border.GestureRecognizers>
 
-                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8" VerticalOptions="Center" HorizontalOptions="Center">
+                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12" VerticalOptions="Center" HorizontalOptions="Center">
                     <Label Grid.Column="0"
                            Text="rocket_launch"
                            FontFamily="MaterialIcons"
@@ -289,14 +285,14 @@
                            HorizontalOptions="Center" />
 
                     <StackLayout Grid.Column="1" Spacing="0" VerticalOptions="Center" HorizontalOptions="Center">
-                        <Label Text="Vamos começar!"
+                        <Label Text="{Binding GetStartedButton}"
                                Style="{StaticResource TitleStyle}"
                                FontSize="16"
                                FontAttributes="Bold"
                                TextColor="White"
                                HorizontalTextAlignment="Center"
                                VerticalOptions="Center" />
-                        <Label Text="Acessar o PassVault"
+                        <Label Text="{Binding AccessPassVault}"
                                Style="{StaticResource CaptionStyle}"
                                FontSize="12"
                                TextColor="White"

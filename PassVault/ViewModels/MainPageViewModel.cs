@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Maui.Controls.PlatformConfiguration.GTKSpecific;
 using PassVault.Data;
+using PassVault.Interfaces;
 using PassVault.Messages;
 using PassVault.Models;
 using PassVault.Services;
@@ -16,6 +17,7 @@ namespace PassVault.ViewModels
         private readonly AccountDatabase _database;
         private readonly FolderDatabase _folderDatabase;
         private readonly CacheService _cacheService;
+        private readonly ILocalizationService _localizationService;
 
         // Paginação
         private int _currentAccountPage = 0;
@@ -47,6 +49,46 @@ namespace PassVault.ViewModels
         [ObservableProperty]
         private bool isEmpty;
 
+        // Localização de idioma
+        [ObservableProperty]
+        private string appTitle;
+
+        [ObservableProperty]
+        private string appSubtitle;
+
+        [ObservableProperty]
+        private string itemsTabText;
+
+        [ObservableProperty]
+        private string foldersTabText;
+
+        [ObservableProperty]
+        private string noAccountsTitle;
+
+        [ObservableProperty]
+        private string noAccountsDescription;
+
+        [ObservableProperty]
+        private string noFoldersTitle;
+
+        [ObservableProperty]
+        private string noFoldersDescription;
+
+        [ObservableProperty]
+        private string deleteText;
+
+        [ObservableProperty]
+        private string folderItemSubtitle;
+
+        [ObservableProperty]
+        private string createdAtFormat;
+
+        [ObservableProperty]
+        private string helpTitle;
+
+        [ObservableProperty]
+        private string helpMessage;
+
         private readonly SemaphoreSlim _refreshSemaphore = new(1, 1);
 
         public IRelayCommand SelectTabCommand { get; }
@@ -54,16 +96,20 @@ namespace PassVault.ViewModels
         public IAsyncRelayCommand LoadMoreFoldersCommand { get; }
         public IAsyncRelayCommand RefreshCommand { get; }
 
-        public MainPageViewModel(AccountDatabase database, FolderDatabase folderDatabase, CacheService cacheService)
+        public MainPageViewModel(AccountDatabase database, FolderDatabase folderDatabase, CacheService cacheService, ILocalizationService localizationService)
         {
             _database = database;
             _folderDatabase = folderDatabase;
             _cacheService = cacheService;
+            _localizationService = localizationService;
+            _localizationService.LanguageChanged += OnLanguageChanged;
+
 
             SelectTabCommand = new AsyncRelayCommand<string>(OnTabSelected);
             LoadMoreAccountsCommand = new AsyncRelayCommand(LoadMoreAccountsAsync);
             LoadMoreFoldersCommand = new AsyncRelayCommand(LoadMoreFoldersAsync);
             RefreshCommand = new AsyncRelayCommand(RefreshCurrentTabAsync);
+            UpdateLocalizedTexts();
 
             SelectedTab = "Itens";
             TabPosition = 0;
@@ -240,8 +286,20 @@ namespace PassVault.ViewModels
         }
 
         [RelayCommand]
-        private async Task Help() =>
-            await Shell.Current.DisplayAlert("Ajuda", "Para deletar uma conta ou pasta, arraste para o lado esquerdo.", "OK");
+        private async Task Help() => await Shell.Current.DisplayAlert(HelpTitle, HelpMessage, L.Text("common.ok"));
+
+        [RelayCommand]
+        private async Task GoToSettings()
+        {
+            try
+            {
+                await Shell.Current.GoToAsync(nameof(SettingsPage));
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlert("Erro", $"Erro ao navegar para configurações: {ex.Message}", "OK");
+            }
+        }
 
         // Métodos de carregamento com paginação
         private async Task LoadAccountsAsync(bool refresh = false)
@@ -271,6 +329,8 @@ namespace PassVault.ViewModels
                     .OrderBy(account => account.Title, StringComparer.OrdinalIgnoreCase)
                     .ToList();
 
+                FormatAccountDates(sortedAccounts);
+
                 await MainThread.InvokeOnMainThreadAsync(() =>
                 {
                     foreach (var account in sortedAccounts)
@@ -289,6 +349,8 @@ namespace PassVault.ViewModels
                 _isLoadingAccounts = false;
             }
         }
+
+
 
         private async Task LoadFoldersAsync(bool refresh = false)
         {
@@ -380,6 +442,29 @@ namespace PassVault.ViewModels
             IsEmpty = (Accounts?.Count ?? 0) == 0 && (Folders?.Count ?? 0) == 0;
         }
 
+        private void UpdateLocalizedTexts()
+        {
+            AppTitle = L.Text("main.title");
+            AppSubtitle = L.Text("main.subtitle");
+            ItemsTabText = L.Text("main.items_tab");
+            FoldersTabText = L.Text("main.folders_tab");
+            NoAccountsTitle = L.Text("main.no_accounts_title");
+            NoAccountsDescription = L.Text("main.no_accounts_description");
+            NoFoldersTitle = L.Text("main.no_folders_title");
+            NoFoldersDescription = L.Text("main.no_folders_description");
+            DeleteText = L.Text("common.delete");
+            FolderItemSubtitle = L.Text("main.folder_item_subtitle");
+            CreatedAtFormat = L.Text("main.created_at_format");
+            HelpTitle = L.Text("main.help_title");
+            HelpMessage = L.Text("main.help_message");
+        }
+
+        private async void OnLanguageChanged(object sender, EventArgs e)
+        {
+            UpdateLocalizedTexts();
+            await RefreshCurrentTabAsync();
+        }
+
         public async void Receive(AccountSavedMessage message)
         {
             if (message.Value)
@@ -393,6 +478,15 @@ namespace PassVault.ViewModels
             if (message.Value)
             {
                 await RefreshCurrentTabAsync();
+            }
+        }
+
+        private void FormatAccountDates(IEnumerable<Account> accounts)
+        {
+            if (accounts == null) return;
+            foreach (var account in accounts)
+            {
+                account.FormattedCreatedDate = string.Format(CreatedAtFormat, account.Created);
             }
         }
 

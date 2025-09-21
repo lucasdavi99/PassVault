@@ -1,19 +1,43 @@
-﻿using System.Runtime.InteropServices;
-using System.Windows.Input;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using PassVault.Interfaces;
+using PassVault.Services;
 using Plugin.Fingerprint;
 using Plugin.Fingerprint.Abstractions;
+using System.Runtime.InteropServices;
+using System.Windows.Input;
 
 namespace PassVault.ViewModels
 {
-    internal class LockScreenViewModel
+    public partial class LockScreenViewModel : ObservableObject
     {
-        public string Title => "Bem vindo!";
+        private readonly ILocalizationService _localizationService;
+
+        [ObservableProperty]
+        private string title;
+
+        [ObservableProperty]
+        private string buttonText;
+
         public ICommand NextPageCommand { get; }
 
-        public LockScreenViewModel()
+        public LockScreenViewModel(ILocalizationService localizationService)
         {
+            _localizationService = localizationService;
+            UpdateLocalizedTexts();
+            _localizationService.LanguageChanged += OnLanguageChanged;
             NextPageCommand = new RelayCommand(OnNextPageClicked);
+        }
+
+        private void OnLanguageChanged(object sender, EventArgs e)
+        {
+            MainThread.BeginInvokeOnMainThread(UpdateLocalizedTexts);
+        }
+
+        private void UpdateLocalizedTexts()
+        {
+            Title = L.Text("lockscreen.title");
+            ButtonText = L.Text("lockscreen.button_text");
         }
 
         private async void OnNextPageClicked()
@@ -36,7 +60,7 @@ namespace PassVault.ViewModels
                 }
 
                 var config = new AuthenticationRequestConfiguration(
-                    "Autenticação necessária", "Desbloqueie o Dispositivo.")
+                    L.Text("lockscreen.auth.title"), L.Text("lockscreen.auth.message"))
                 {
                     AllowAlternativeAuthentication = true,
                 };
@@ -46,9 +70,15 @@ namespace PassVault.ViewModels
             }
             catch (Exception ex)
             {
-                await Shell.Current.DisplayAlert("Erro", ex.Message, "OK");
+                await Shell.Current.DisplayAlert(L.Text("common.error"), ex.Message, L.Text("common.ok"));
                 return false;
             }
+        }
+
+        ~LockScreenViewModel()
+        {
+            if (_localizationService != null)
+                _localizationService.LanguageChanged -= OnLanguageChanged;
         }
     }
 }
