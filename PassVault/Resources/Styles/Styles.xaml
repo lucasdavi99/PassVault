@@ -52,7 +52,7 @@
     <Style x:Key="ModernButtonStyle" TargetType="Button">
         <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
         <Setter Property="TextColor" Value="{StaticResource PrimaryDarkText}" />
-        <Setter Property="FontFamily" Value="Roboto" />
+        <Setter Property="FontFamily" Value="Nunito" />
         <Setter Property="FontSize" Value="16" />
         <Setter Property="FontAttributes" Value="Bold" />
         <Setter Property="BorderWidth" Value="0" />
@@ -92,7 +92,7 @@
     <Style x:Key="SecondaryButtonStyle" TargetType="Button">
         <Setter Property="BackgroundColor" Value="{StaticResource ElevatedSurface}" />
         <Setter Property="TextColor" Value="{StaticResource TextPrimary}" />
-        <Setter Property="FontFamily" Value="Roboto" />
+        <Setter Property="FontFamily" Value="Nunito" />
         <Setter Property="FontSize" Value="16" />
         <Setter Property="FontAttributes" Value="Bold" />
         <Setter Property="BorderWidth" Value="1" />
@@ -189,7 +189,7 @@
     <Style x:Key="ModernEntryStyle" TargetType="Entry">
         <Setter Property="TextColor" Value="{StaticResource TextPrimary}" />
         <Setter Property="BackgroundColor" Value="Transparent" />
-        <Setter Property="FontFamily" Value="Roboto" />
+        <Setter Property="FontFamily" Value="Nunito" />
         <Setter Property="FontSize" Value="16" />
         <Setter Property="PlaceholderColor" Value="{StaticResource TextTertiary}" />
         <Setter Property="MinimumHeightRequest" Value="24" />
@@ -394,7 +394,7 @@
     <Style TargetType="Button">
         <Setter Property="TextColor" Value="{StaticResource PrimaryDarkText}" />
         <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
-        <Setter Property="FontFamily" Value="Roboto"/>
+        <Setter Property="FontFamily" Value="Nunito"/>
         <Setter Property="FontSize" Value="16"/>
         <Setter Property="FontAttributes" Value="Bold"/>
         <Setter Property="BorderWidth" Value="0"/>
@@ -429,7 +429,7 @@
     <Style TargetType="Entry">
         <Setter Property="TextColor" Value="{StaticResource TextPrimary}" />
         <Setter Property="BackgroundColor" Value="Transparent" />
-        <Setter Property="FontFamily" Value="Roboto"/>
+        <Setter Property="FontFamily" Value="Nunito"/>
         <Setter Property="FontSize" Value="16" />
         <Setter Property="PlaceholderColor" Value="{StaticResource TextTertiary}" />
         <Setter Property="MinimumHeightRequest" Value="24"/>
@@ -438,7 +438,7 @@
     <Style TargetType="Label">
         <Setter Property="TextColor" Value="{StaticResource TextPrimary}" />
         <Setter Property="BackgroundColor" Value="Transparent" />
-        <Setter Property="FontFamily" Value="Roboto" />
+        <Setter Property="FontFamily" Value="Nunito" />
         <Setter Property="FontSize" Value="16" />
         <Setter Property="LineHeight" Value="1.5" />
     </Style>
