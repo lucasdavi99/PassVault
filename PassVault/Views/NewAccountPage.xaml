@@ -6,7 +6,7 @@
     xmlns:controls="clr-namespace:Maui.ColorPicker;assembly=Maui.ColorPicker"
     x:Class="PassVault.Views.NewAccountPage"
     x:DataType="viewmodel:NewAccountPageViewModel"
-    Title="Criar Conta">
+    Title="{Binding PageTitle}">
 
     <Grid RowDefinitions="Auto,*">
 
@@ -44,13 +44,13 @@
                                  VerticalOptions="Center"
                                  Spacing="4">
 
-                        <Label Text="Nova Conta"
+                        <Label Text="{Binding PageTitle}"
                                Style="{StaticResource HeadlineStyle}"
                                FontSize="24"
                                TextColor="{StaticResource Primary}"
                                HorizontalTextAlignment="Start" />
 
-                        <Label Text="Adicione uma nova conta com segurança"
+                        <Label Text="{Binding PageSubtitle}"
                                Style="{StaticResource CaptionStyle}"
                                HorizontalTextAlignment="Start"
                                Opacity="0.8" />
@@ -79,7 +79,7 @@
                                        VerticalOptions="Center" />
 
                                 <Label Grid.Column="1"
-                                       Text="Título da Conta *"
+                                       Text="{Binding AccountTitleLabel}"
                                        Style="{StaticResource CaptionStyle}"
                                        FontAttributes="Bold"
                                        TextColor="{StaticResource Primary}"
@@ -87,7 +87,7 @@
                             </Grid>
 
                             <Border Style="{StaticResource EntryContainerStyle}">
-                                <Entry Placeholder="Ex: Gmail, Instagram, GitHub..."
+                                <Entry Placeholder="{Binding AccountTitlePlaceholder}"
                                        Style="{StaticResource ModernEntryStyle}"
                                        Text="{Binding Title}" />
                             </Border>
@@ -104,7 +104,7 @@
                                        VerticalOptions="Center" />
 
                                 <Label Grid.Column="1"
-                                       Text="Nome de Usuário"
+                                       Text="{Binding UsernameLabel}"
                                        Style="{StaticResource CaptionStyle}"
                                        FontAttributes="Bold"
                                        TextColor="{StaticResource TextSecondary}"
@@ -112,7 +112,7 @@
                             </Grid>
 
                             <Border Style="{StaticResource EntryContainerStyle}">
-                                <Entry Placeholder="Digite seu nome de usuário"
+                                <Entry Placeholder="{Binding UsernamePlaceholder}"
                                        Style="{StaticResource ModernEntryStyle}"
                                        Text="{Binding Username}" />
                             </Border>
@@ -129,7 +129,7 @@
                                        VerticalOptions="Center" />
 
                                 <Label Grid.Column="1"
-                                       Text="E-mail"
+                                       Text="{Binding EmailLabel}"
                                        Style="{StaticResource CaptionStyle}"
                                        FontAttributes="Bold"
                                        TextColor="{StaticResource TextSecondary}"
@@ -137,7 +137,7 @@
                             </Grid>
 
                             <Border Style="{StaticResource EntryContainerStyle}">
-                                <Entry Placeholder="exemplo@email.com"
+                                <Entry Placeholder="{Binding EmailPlaceholder}"
                                        Style="{StaticResource ModernEntryStyle}"
                                        Text="{Binding Email}"
                                        Keyboard="Email" />
@@ -155,7 +155,7 @@
                                        VerticalOptions="Center" />
 
                                 <Label Grid.Column="1"
-                                       Text="Senha *"
+                                       Text="{Binding PasswordLabel}"
                                        Style="{StaticResource CaptionStyle}"
                                        FontAttributes="Bold"
                                        TextColor="{StaticResource Primary}"
@@ -164,7 +164,7 @@
 
                             <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
                                 <Border Style="{StaticResource EntryContainerStyle}" Grid.Column="0">
-                                    <Entry Placeholder="Digite uma senha segura"
+                                    <Entry Placeholder="{Binding PasswordPlaceholder}"
                                            Style="{StaticResource ModernEntryStyle}"
                                            Text="{Binding Password}" />
                                 </Border>
@@ -210,12 +210,12 @@
                                    VerticalOptions="Center" />
 
                             <StackLayout Grid.Column="1" Spacing="4">
-                                <Label Text="Cor de Identificação"
+                                <Label Text="{Binding ColorIdLabel}"
                                        Style="{StaticResource TitleStyle}"
                                        FontSize="16"
                                        TextColor="{StaticResource Primary}" />
 
-                                <Label Text="Escolha uma cor para identificar facilmente esta conta"
+                                <Label Text="{Binding ColorIdSubtitle}"
                                        Style="{StaticResource CaptionStyle}"
                                        Opacity="0.8" />
                             </StackLayout>
@@ -255,7 +255,7 @@
                         </Border>
 
                         <!-- Color Info -->
-                        <Label Text="Toque no círculo para escolher uma cor personalizada"
+                        <Label Text="{Binding ColorIdTapHere}"
                                Style="{StaticResource CaptionStyle}"
                                HorizontalTextAlignment="Center"
                                Opacity="0.7" />
@@ -281,7 +281,7 @@
 
                 <!-- Save Button -->
                 <Button Grid.Column="1"
-                        Text="Salvar Conta"
+                        Text="{Binding SaveButtonText}"
                         Style="{StaticResource ModernButtonStyle}"
                         Command="{Binding SaveAccountCommand}">
 
@@ -318,12 +318,12 @@
                     <!-- Modal Header -->
                     <Grid ColumnDefinitions="*,Auto">
                         <StackLayout Grid.Column="0" Spacing="4">
-                            <Label Text="Escolher Cor"
+                            <Label Text="{Binding ColorPickerTitle}"
                                    Style="{StaticResource TitleStyle}"
                                    FontSize="20"
                                    TextColor="{StaticResource Primary}" />
 
-                            <Label Text="Selecione a cor perfeita para sua conta"
+                            <Label Text="{Binding ColorPickerSubtitle}"
                                    Style="{StaticResource CaptionStyle}"
                                    Opacity="0.8" />
                         </StackLayout>
@@ -359,13 +359,13 @@
 
                     <!-- Hex Input -->
                     <StackLayout Spacing="8">
-                        <Label Text="Código Hexadecimal"
+                        <Label Text="{Binding HexCodeLabel}"
                                Style="{StaticResource CaptionStyle}"
                                FontAttributes="Bold"
                                TextColor="{StaticResource TextSecondary}" />
 
                         <Border Style="{StaticResource EntryContainerStyle}">
-                            <Entry Placeholder="#FF5733"
+                            <Entry Placeholder="{Binding HexCodePlaceholder}"
                                    Text="{Binding SelectedColorHex, Mode=TwoWay}"
                                    Style="{StaticResource ModernEntryStyle}"
                                    Keyboard="Text"
@@ -374,7 +374,7 @@
                     </StackLayout>
 
                     <!-- Confirm Button -->
-                    <Button Text="Confirmar Cor"
+                    <Button Text="{Binding ConfirmColorButtonText}"
                             Style="{StaticResource ModernButtonStyle}"
                             Command="{Binding CloseColorPickerCommand}">
 

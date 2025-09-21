@@ -3,12 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModels="clr-namespace:PassVault.ViewModels"
              x:Class="PassVault.Views.LockScreen"
+             x:DataType="viewModels:LockScreenViewModel"
              Shell.NavBarIsVisible="False"
              Title="LockScreen">
-
-    <ContentPage.BindingContext>
-        <viewModels:LockScreenViewModel />
-    </ContentPage.BindingContext>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -35,7 +32,7 @@
                VerticalOptions="Center"
                Grid.Row="1"/>
 
-        <Button Text="Usar senha do celular"
+        <Button Text="{Binding ButtonText}"
                 TextColor="Black"
                 FontSize="20"
                 BackgroundColor="{StaticResource Primary}"

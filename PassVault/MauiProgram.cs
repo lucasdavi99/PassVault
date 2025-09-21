@@ -1,7 +1,8 @@
 ﻿using CommunityToolkit.Maui;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 using PassVault.Data;
+using PassVault.Interfaces;
 using PassVault.Services;
 using PassVault.ViewModels;
 using PassVault.Views;
@@ -36,6 +37,9 @@ namespace PassVault
             builder.Services.AddSingleton<IMemoryCache, MemoryCache>();
             builder.Services.AddSingleton<CacheService>();
 
+            // Serviço de Localização
+            builder.Services.AddSingleton<ILocalizationService, LocalizationService>();
+
             // Database services - mantém como Singleton
             builder.Services.AddSingleton<AccountDatabase>();
             builder.Services.AddSingleton<FolderDatabase>();
@@ -45,6 +49,11 @@ namespace PassVault
             builder.Services.AddSingleton<ImportService>();
 
             // ViewModels como Transient para melhor gestão de memória
+            builder.Services.AddSingleton<TutorialPage1ViewModel>();
+            builder.Services.AddSingleton<TutorialPage2ViewModel>();
+            builder.Services.AddSingleton<TutorialPage3ViewModel>();
+            builder.Services.AddSingleton<TutorialPage4ViewModel>();
+            builder.Services.AddSingleton<TutorialPage5ViewModel>();
             builder.Services.AddTransient<MainPageViewModel>();
             builder.Services.AddTransient<NewAccountPageViewModel>();
             builder.Services.AddTransient<EditAccountPageViewModel>();
@@ -55,8 +64,15 @@ namespace PassVault
             builder.Services.AddTransient<SearchPageViewModel>();
             builder.Services.AddTransient<BackupViewModel>();
             builder.Services.AddTransient<FieldsSelectionViewModel>();
+            builder.Services.AddTransient<SettingsPageViewModel>();
+            builder.Services.AddTransient<LockScreenViewModel>();
 
             // Pages com ViewModels
+            builder.Services.AddTransient<TutorialPage1>();
+            builder.Services.AddTransient<TutorialPage2>();
+            builder.Services.AddTransient<TutorialPage3>();
+            builder.Services.AddTransient<TutorialPage4>();
+            builder.Services.AddTransient<TutorialPage5>();
             builder.Services.AddTransient<MainPage>();
             builder.Services.AddTransient<NewAccountPage>();
             builder.Services.AddTransient<EditAccountPage>();
@@ -67,13 +83,21 @@ namespace PassVault
             builder.Services.AddTransient<SearchPage>();
             builder.Services.AddTransient<BackupPage>();
             builder.Services.AddTransient<FieldsSelection>();
+            builder.Services.AddTransient<SettingsPage>();
+            builder.Services.AddTransient<LockScreen>();
 
 #if DEBUG
             builder.Logging.AddDebug();
+            // Força o tutorial a ser exibido em modo de depuração para testes
+            //Preferences.Set("IsNewUser", true);
 #endif
 
             // Build da aplicação
             var app = builder.Build();
+
+            // Inicializar o serviço de localização global
+            var localizationService = app.Services.GetRequiredService<ILocalizationService>();
+            L.Initialize(localizationService);
 
             // Inicialização em background dos services críticos
             Task.Run(async () =>

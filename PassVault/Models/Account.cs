@@ -13,5 +13,8 @@ namespace PassVault.Models
         public DateTime Created { get; set; }
         public string Color { get; set; } = "#FFFFFF";
         public int? FolderId { get; set; }
+
+        [Ignore]
+        public string FormattedCreatedDate { get; set; }
     }
 }

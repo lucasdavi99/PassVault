@@ -7,7 +7,7 @@
             x:Class="PassVault.Views.SearchPage"  
             x:DataType="viewModels:SearchPageViewModel"
             Shell.NavBarIsVisible="True"
-            Title="Buscar">
+            Title="{Binding PageTitle}">
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -53,13 +53,13 @@
                                  VerticalOptions="Center"
                                  Spacing="4">
 
-                        <Label Text="Buscar Contas"
+                        <Label Text="{Binding PageTitle}"
                                Style="{StaticResource HeadlineStyle}"
                                FontSize="24"
                                TextColor="{StaticResource Primary}"
                                HorizontalTextAlignment="Start" />
 
-                        <Label Text="Encontre suas contas rapidamente"
+                        <Label Text="{Binding PageSubtitle}"
                                Style="{StaticResource CaptionStyle}"
                                HorizontalTextAlignment="Start"
                                Opacity="0.8" />
@@ -84,7 +84,7 @@
 
                         <!-- Search Entry -->
                         <Entry Grid.Column="1"
-                               Placeholder="Digite o nome da conta..."
+                               Placeholder="{Binding SearchPlaceholder}"
                                Text="{Binding SearchText, Mode=TwoWay}"
                                Style="{StaticResource ModernEntryStyle}"
                                FontSize="16" />
@@ -149,23 +149,17 @@
                                   FontSize="48"
                                   TextColor="{StaticResource Primary}"
                                   HorizontalOptions="Center" />
-
-                            <Label Text="manage_search"
-                                  FontFamily="MaterialIcons"
-                                  FontSize="24"
-                                  TextColor="{StaticResource TextTertiary}"
-                                  HorizontalOptions="Center" />
                         </StackLayout>
                     </Border>
 
                     <StackLayout Spacing="16">
-                        <Label Text="Buscar Contas"
+                        <Label Text="{Binding InitialSearchTitle}"
                               Style="{StaticResource TitleStyle}"
                               FontSize="22"
                               HorizontalTextAlignment="Center"
                               TextColor="{StaticResource TextSecondary}" />
 
-                        <Label Text="Digite o nome de uma conta no campo acima para encontrá-la rapidamente"
+                        <Label Text="{Binding InitialSearchMessage}"
                               Style="{StaticResource BodyStyle}"
                               HorizontalTextAlignment="Center"
                               LineHeight="1.4"
@@ -187,21 +181,21 @@
                                       VerticalOptions="Start" />
 
                                 <Label Grid.Column="1"
-                                      Text="Dicas de Busca"
+                                      Text="{Binding TipsTitle}"
                                       Style="{StaticResource TitleStyle}"
                                       FontSize="16"
                                       TextColor="{StaticResource Warning}" />
                             </Grid>
 
-                            <Label Text="• Digite parte do nome da conta"
+                            <Label Text="{Binding Tip1}"
                                   Style="{StaticResource CaptionStyle}"
                                   FontSize="12" />
 
-                            <Label Text="• A busca é instantânea"
+                            <Label Text="{Binding Tip2}"
                                   Style="{StaticResource CaptionStyle}"
                                   FontSize="12" />
 
-                            <Label Text="• Funciona com qualquer palavra"
+                            <Label Text="{Binding Tip3}"
                                   Style="{StaticResource CaptionStyle}"
                                   FontSize="12" />
                         </StackLayout>
@@ -250,19 +244,19 @@
                     </Border>
 
                     <StackLayout Spacing="16">
-                        <Label Text="Nenhuma conta encontrada"
+                        <Label Text="{Binding NoResultsTitle}"
                               Style="{StaticResource TitleStyle}"
                               FontSize="22"
                               HorizontalTextAlignment="Center"
                               TextColor="{StaticResource TextSecondary}" />
 
-                        <Label Text="{Binding SearchText, StringFormat='Nenhum resultado para &quot;{0}&quot;'}"
+                        <Label Text="{Binding NoResultsForText}"
                               Style="{StaticResource BodyStyle}"
                               HorizontalTextAlignment="Center"
                               FontAttributes="Italic"
                               Opacity="0.8" />
 
-                        <Label Text="Tente usar outros termos de busca ou verifique a ortografia"
+                        <Label Text="{Binding NoResultsMessage}"
                               Style="{StaticResource CaptionStyle}"
                               HorizontalTextAlignment="Center"
                               Opacity="0.7" />
@@ -294,12 +288,12 @@
                                   VerticalOptions="Center" />
 
                             <StackLayout Grid.Column="1" Spacing="2">
-                                <Label Text="{Binding FilteredAccounts.Count, StringFormat='Resultados encontrados: {0}'}"
+                                <Label Text="{Binding ResultsCountText}"
                                       Style="{StaticResource CaptionStyle}"
                                       FontAttributes="Bold"
                                       TextColor="{StaticResource Primary}" />
 
-                                <Label Text="{Binding SearchText, StringFormat='Busca por &quot;{0}&quot;'}"
+                                <Label Text="{Binding SearchForText}"
                                       Style="{StaticResource CaptionStyle}"
                                       FontSize="12"
                                       Opacity="0.8" />

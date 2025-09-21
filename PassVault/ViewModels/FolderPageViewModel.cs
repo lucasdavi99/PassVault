@@ -3,8 +3,10 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using PassVault.Data;
+using PassVault.Interfaces;
 using PassVault.Messages;
 using PassVault.Models;
+using PassVault.Services;
 using PassVault.Views;
 
 namespace PassVault.ViewModels
@@ -13,6 +15,7 @@ namespace PassVault.ViewModels
     {
         private readonly AccountDatabase _accountDatabase;
         private readonly FolderDatabase _folderDatabase;
+        private readonly ILocalizationService _localizationService;
 
         [ObservableProperty]
         private int folderId;
@@ -43,19 +46,49 @@ namespace PassVault.ViewModels
         [ObservableProperty]
         private bool isFoldersTabActive = false;
 
-        public FolderPageViewModel(AccountDatabase accountDatabase, FolderDatabase folderDatabase)
+        // Localized Properties
+        [ObservableProperty] private string pageSubtitle;
+        [ObservableProperty] private string accountsTabText;
+        [ObservableProperty] private string foldersTabText;
+        [ObservableProperty] private string emptyTitle;
+        [ObservableProperty] private string emptyMessage;
+        [ObservableProperty] private string createdAtFormat;
+        [ObservableProperty] private string subfolderItemSubtitle;
+        [ObservableProperty] private string deleteText;
+
+        public FolderPageViewModel(AccountDatabase accountDatabase, FolderDatabase folderDatabase, ILocalizationService localizationService)
         {
             _accountDatabase = accountDatabase;
             _folderDatabase = folderDatabase;
+            _localizationService = localizationService;
             Accounts = new ObservableCollection<Account>();
             SubFolders = new ObservableCollection<Folder>();
 
             // Registrar para receber mensagens
             WeakReferenceMessenger.Default.Register<AccountSavedMessage>(this);
             WeakReferenceMessenger.Default.Register<FolderSavedMessage>(this);
+            _localizationService.LanguageChanged += OnLanguageChanged;
 
-            // Inicializar propriedades de visibilidade
+            UpdateLocalizedTexts();
             UpdateVisibilityProperties();
+        }
+
+        private void OnLanguageChanged(object sender, EventArgs e)
+        {
+            UpdateLocalizedTexts();
+            FormatAccountDates(Accounts);
+        }
+
+        private void UpdateLocalizedTexts()
+        {
+            PageSubtitle = L.Text("folder_page.page_subtitle");
+            AccountsTabText = L.Text("folder_page.accounts_tab");
+            FoldersTabText = L.Text("folder_page.folders_tab");
+            EmptyTitle = L.Text("folder_page.empty_folder_title");
+            EmptyMessage = L.Text("folder_page.empty_folder_message");
+            CreatedAtFormat = L.Text("main.created_at_format");
+            SubfolderItemSubtitle = L.Text("folder_page.subfolder_item_subtitle");
+            DeleteText = L.Text("common.delete");
         }
 
         [RelayCommand]
@@ -84,7 +117,7 @@ namespace PassVault.ViewModels
             }
             catch (Exception ex)
             {
-                await Shell.Current.DisplayAlert("Erro", $"Erro ao abrir pasta: {ex.Message}", "OK");
+                await Shell.Current.DisplayAlert(L.Text("common.error"), string.Format(L.Text("folder_page.error_opening_folder"), ex.Message), L.Text("common.ok"));
             }
         }
 
@@ -110,13 +143,17 @@ namespace PassVault.ViewModels
         {
             if (account != null)
             {
-                bool confirm = await Shell.Current.DisplayAlert("Confirmação", "Deseja realmente excluir este item?", "Sim", "Não");
+                bool confirm = await Shell.Current.DisplayAlert(
+                    L.Text("folder_page.delete_account_confirm_title"),
+                    L.Text("folder_page.delete_account_confirm_message"),
+                    L.Text("common.yes"),
+                    L.Text("common.no"));
 
                 if (confirm)
                 {
                     await _accountDatabase.DeleteAccountAsync(account);
                     Accounts.Remove(account);
-                    await Shell.Current.DisplayAlert("Sucesso", "Item excluído com sucesso", "OK");
+                    await Shell.Current.DisplayAlert(L.Text("common.success"), L.Text("folder_page.delete_account_success"), L.Text("common.ok"));
                     UpdateVisibilityProperties();
                 }
             }
@@ -129,19 +166,23 @@ namespace PassVault.ViewModels
 
             try
             {
-                bool confirm = await Shell.Current.DisplayAlert("Confirmação", "Deseja realmente excluir essa pasta? Todos os itens e subpastas dentro serão excluídos", "Sim", "Não");
+                bool confirm = await Shell.Current.DisplayAlert(
+                    L.Text("folder_page.delete_account_confirm_title"),
+                    L.Text("folder_page.delete_folder_confirm_message"),
+                    L.Text("common.yes"),
+                    L.Text("common.no"));
 
                 if (confirm)
                 {
                     await _folderDatabase.DeleteFolderAsync(subFolder);
                     SubFolders.Remove(subFolder);
-                    await Shell.Current.DisplayAlert("Sucesso", "Pasta excluída com sucesso.", "OK");
+                    await Shell.Current.DisplayAlert(L.Text("common.success"), L.Text("folder_page.delete_folder_success"), L.Text("common.ok"));
                     UpdateVisibilityProperties();
                 }
             }
             catch (Exception ex)
             {
-                await Shell.Current.DisplayAlert("Erro", $"Erro ao excluir pasta: {ex.Message}", "OK");
+                await Shell.Current.DisplayAlert(L.Text("common.error"), string.Format(L.Text("folder_page.error_deleting_folder"), ex.Message), L.Text("common.ok"));
             }
         }
 
@@ -182,6 +223,7 @@ namespace PassVault.ViewModels
                 {
                     Accounts.Add(item);
                 }
+                FormatAccountDates(Accounts);
 
                 // Carregar subpastas
                 var subFolders = await _folderDatabase.GetSubFoldersAsync(FolderId);
@@ -196,7 +238,16 @@ namespace PassVault.ViewModels
             }
             catch (Exception ex)
             {
-                await Shell.Current.DisplayAlert("Erro", $"Erro ao carregar dados: {ex.Message}", "OK");
+                await Shell.Current.DisplayAlert(L.Text("common.error"), string.Format(L.Text("folder_page.error_loading_data"), ex.Message), L.Text("common.ok"));
+            }
+        }
+
+        private void FormatAccountDates(IEnumerable<Account> accounts)
+        {
+            if (accounts == null) return;
+            foreach (var account in accounts)
+            {
+                account.FormattedCreatedDate = string.Format(CreatedAtFormat, account.Created);
             }
         }
 
@@ -270,6 +321,7 @@ namespace PassVault.ViewModels
             if (!_disposed && disposing)
             {
                 WeakReferenceMessenger.Default.UnregisterAll(this);
+                _localizationService.LanguageChanged -= OnLanguageChanged;
                 Accounts?.Clear();
                 SubFolders?.Clear();
                 _disposed = true;

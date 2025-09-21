@@ -7,7 +7,7 @@
     xmlns:controls="clr-namespace:Maui.ColorPicker;assembly=Maui.ColorPicker"
     x:Class="PassVault.Views.EditAccountPage"
     x:DataType="viewmodel:EditAccountPageViewModel"
-    Title="Visualizar e Editar">
+    Title="{Binding PageTitle}">
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -52,13 +52,13 @@
                                  VerticalOptions="Center"
                                  Spacing="4">
 
-                        <Label Text="Detalhes da Conta"
+                        <Label Text="{Binding HeaderTitle}"
                                Style="{StaticResource HeadlineStyle}"
                                FontSize="24"
                                TextColor="{StaticResource Primary}"
                                HorizontalTextAlignment="Start" />
 
-                        <Label Text="Visualize e edite as informações"
+                        <Label Text="{Binding HeaderSubtitle}"
                                Style="{StaticResource CaptionStyle}"
                                Opacity="0.8"
                                HorizontalTextAlignment="Start" />
@@ -115,12 +115,12 @@
                                    VerticalOptions="Center" />
 
                             <StackLayout Grid.Column="1" Spacing="4">
-                                <Label Text="Informações da Conta"
+                                <Label Text="{Binding FormSectionTitle}"
                                        Style="{StaticResource TitleStyle}"
                                        FontSize="16"
                                        TextColor="{StaticResource Primary}" />
 
-                                <Label Text="Edite os dados necessários"
+                                <Label Text="{Binding FormSectionSubtitle}"
                                        Style="{StaticResource CaptionStyle}"
                                        Opacity="0.8" />
                             </StackLayout>
@@ -137,7 +137,7 @@
                                        VerticalOptions="Center" />
 
                                 <Label Grid.Column="1"
-                                       Text="Nome da Conta *"
+                                       Text="{Binding AccountNameLabel}"
                                        Style="{StaticResource CaptionStyle}"
                                        FontAttributes="Bold"
                                        TextColor="{StaticResource Primary}"
@@ -145,7 +145,7 @@
                             </Grid>
 
                             <Border Style="{StaticResource EntryContainerStyle}">
-                                <Entry Placeholder="Ex: Gmail, Netflix..."
+                                <Entry Placeholder="{Binding AccountNamePlaceholder}"
                                        Text="{Binding Title}"
                                        IsReadOnly="{Binding IsEditing, Converter={StaticResource InverseBooleanConverter}}"
                                        Style="{StaticResource PremiumEntryStyle}" />
@@ -163,7 +163,7 @@
                                        VerticalOptions="Center" />
 
                                 <Label Grid.Column="1"
-                                       Text="Nome de Usuário"
+                                       Text="{Binding UsernameLabel}"
                                        Style="{StaticResource CaptionStyle}"
                                        FontAttributes="Bold"
                                        TextColor="{StaticResource Primary}"
@@ -171,7 +171,7 @@
                             </Grid>
 
                             <Border Style="{StaticResource EntryContainerStyle}">
-                                <Entry Placeholder="Digite o nome de usuário"
+                                <Entry Placeholder="{Binding UsernamePlaceholder}"
                                        Text="{Binding Username}"
                                        IsReadOnly="{Binding IsEditing, Converter={StaticResource InverseBooleanConverter}}"
                                        Style="{StaticResource PremiumEntryStyle}" />
@@ -189,7 +189,7 @@
                                        VerticalOptions="Center" />
 
                                 <Label Grid.Column="1"
-                                       Text="E-mail"
+                                       Text="{Binding EmailLabel}"
                                        Style="{StaticResource CaptionStyle}"
                                        FontAttributes="Bold"
                                        TextColor="{StaticResource Primary}"
@@ -197,7 +197,7 @@
                             </Grid>
 
                             <Border Style="{StaticResource EntryContainerStyle}">
-                                <Entry Placeholder="seu@email.com"
+                                <Entry Placeholder="{Binding EmailPlaceholder}"
                                        Text="{Binding Email}"
                                        Keyboard="Email"
                                        IsReadOnly="{Binding IsEditing, Converter={StaticResource InverseBooleanConverter}}"
@@ -216,7 +216,7 @@
                                        VerticalOptions="Center" />
 
                                 <Label Grid.Column="1"
-                                       Text="Senha *"
+                                       Text="{Binding PasswordLabel}"
                                        Style="{StaticResource CaptionStyle}"
                                        FontAttributes="Bold"
                                        TextColor="{StaticResource Primary}"
@@ -236,7 +236,7 @@
                             </Grid>
 
                             <Border Style="{StaticResource EntryContainerStyle}">
-                                <Entry Placeholder="Digite sua senha"
+                                <Entry Placeholder="{Binding PasswordPlaceholder}"
                                        Text="{Binding Password}"
                                        IsPassword="{Binding IsPasswordVisible, Converter={StaticResource InverseBooleanConverter}}"
                                        IsReadOnly="{Binding IsEditing, Converter={StaticResource InverseBooleanConverter}}"
@@ -246,7 +246,7 @@
 
                         <!-- Color Selection -->
                         <StackLayout Spacing="12">
-                            <Label Text="Cor de Identificação"
+                            <Label Text="{Binding ColorLabel}"
                                    Style="{StaticResource CaptionStyle}"
                                    FontAttributes="Bold"
                                    TextColor="{StaticResource TextSecondary}" />
@@ -284,14 +284,14 @@
 
                         <!-- Folder Selection - Seção Completamente Renovada -->
                         <StackLayout Spacing="16">
-                            <Label Text="Organização"
+                            <Label Text="{Binding OrganizationLabel}"
                                    Style="{StaticResource CaptionStyle}"
                                    FontAttributes="Bold"
                                    TextColor="{StaticResource TextSecondary}" />
 
                             <!-- Seleção de Pasta Principal -->
                             <StackLayout Spacing="8">
-                                <Label Text="Pasta Principal"
+                                <Label Text="{Binding MainFolderLabel}"
                                        Style="{StaticResource CaptionStyle}"
                                        FontSize="12"
                                        TextColor="{StaticResource TextTertiary}" />
@@ -329,7 +329,7 @@
                             <!-- Seleção de Subpasta - Só aparece quando uma pasta estiver selecionada -->
                             <StackLayout Spacing="8" 
                                          IsVisible="{Binding HasSubFolderButtonVisible}">
-                                <Label Text="Subpasta (Opcional)"
+                                <Label Text="{Binding SubFolderLabel}"
                                        Style="{StaticResource CaptionStyle}"
                                        FontSize="12"
                                        TextColor="{StaticResource TextTertiary}" />
@@ -389,10 +389,9 @@
                 <Button Grid.Column="0"
                         Style="{StaticResource SecondaryButtonStyle}"
                         Command="{Binding ToggleEditModeCommand}">
-
                     <Button.Triggers>
                         <DataTrigger TargetType="Button" Binding="{Binding IsEditing}" Value="False">
-                            <Setter Property="Text" Value="Editar"/>
+                            <Setter Property="Text" Value="{Binding EditButtonText}"/>
                             <Setter Property="ImageSource">
                                 <FontImageSource FontFamily="MaterialIcons"
                                                  Glyph="edit"
@@ -401,7 +400,7 @@
                             </Setter>
                         </DataTrigger>
                         <DataTrigger TargetType="Button" Binding="{Binding IsEditing}" Value="True">
-                            <Setter Property="Text" Value="Cancelar"/>
+                            <Setter Property="Text" Value="{Binding CancelButtonText}"/>
                             <Setter Property="ImageSource">
                                 <FontImageSource FontFamily="MaterialIcons"
                                                  Glyph="close"
@@ -410,12 +409,11 @@
                             </Setter>
                         </DataTrigger>
                     </Button.Triggers>
-
                 </Button>
 
                 <!-- Save Button -->
                 <Button Grid.Column="1"
-                        Text="Salvar"
+                        Text="{Binding SaveButtonText}"
                         Style="{StaticResource PrimaryButtonStyle}"
                         Command="{Binding SaveEditAccountCommand}"
                         IsVisible="{Binding IsEditing}"
@@ -445,12 +443,12 @@
                     <!-- Modal Header -->
                     <Grid ColumnDefinitions="*,Auto">
                         <StackLayout Grid.Column="0" Spacing="4">
-                            <Label Text="Cor Personalizada"
+                            <Label Text="{Binding CustomColorTitle}"
                                    Style="{StaticResource TitleStyle}"
                                    FontSize="20"
                                    TextColor="{StaticResource Primary}" />
 
-                            <Label Text="Escolha uma cor única para sua conta"
+                            <Label Text="{Binding CustomColorSubtitle}"
                                    Style="{StaticResource CaptionStyle}"
                                    Opacity="0.8" />
                         </StackLayout>
@@ -493,7 +491,7 @@
                         </Border>
 
                         <StackLayout Grid.Column="1" VerticalOptions="Center" Spacing="4">
-                            <Label Text="Cor Selecionada"
+                            <Label Text="{Binding SelectedColorLabel}"
                                    Style="{StaticResource CaptionStyle}"
                                    FontAttributes="Bold"
                                    TextColor="{StaticResource Primary}" />
@@ -505,7 +503,7 @@
                     </Grid>
 
                     <!-- Action Button -->
-                    <Button Text="Aplicar Cor"
+                    <Button Text="{Binding ApplyColorButtonText}"
                             Style="{StaticResource PrimaryButtonStyle}"
                             Command="{Binding CloseColorPickerCommand}"
                             ImageSource="{FontImageSource FontFamily=MaterialIcons, Glyph=check, Color={StaticResource PrimaryDarkText}, Size=18}" />
