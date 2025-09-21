@@ -89,7 +89,7 @@ namespace PassVault
 #if DEBUG
             builder.Logging.AddDebug();
             // Força o tutorial a ser exibido em modo de depuração para testes
-            Preferences.Set("IsNewUser", true);
+            //Preferences.Set("IsNewUser", true);
 #endif
 
             // Build da aplicação
