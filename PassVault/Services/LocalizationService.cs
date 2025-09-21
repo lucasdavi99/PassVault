@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -28,15 +29,28 @@ namespace PassVault.Services
         {
             try
             {
-                // Carregar idioma salvo ou usar padrão
-                var savedLanguage = Preferences.Get("AppLanguage", "pt-BR");
-                await SetLanguageAsync(savedLanguage);
+                // 1. Tenta carregar o idioma salvo pelo usuário
+                var savedLanguage = Preferences.Get("AppLanguage", string.Empty);
+
+                if (!string.IsNullOrEmpty(savedLanguage))
+                {
+                    await SetLanguageAsync(savedLanguage);
+                }
+                else
+                {
+                    // 2. Se não houver idioma salvo, detecta o do dispositivo
+                    var deviceLanguage = CultureInfo.CurrentUICulture.Name; // ex: "en-US", "pt-BR"
+
+                    // 3. Define pt-BR se for o idioma do dispositivo, caso contrário, o padrão será en-US
+                    var initialLanguage = deviceLanguage == "pt-BR" ? "pt-BR" : "en-US";
+                    await SetLanguageAsync(initialLanguage);
+                }
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"Erro na inicialização da localização: {ex.Message}");
-                // Fallback para português
-                await SetLanguageAsync("pt-BR");
+                // Fallback final para inglês em caso de erro inesperado
+                await SetLanguageAsync("en-US");
             }
         }
 
@@ -44,10 +58,10 @@ namespace PassVault.Services
         {
             try
             {
-                if (_translations.ContainsKey(languageCode))
+                if (_translations.TryGetValue(languageCode, out var cachedTranslations))
                 {
                     _currentLanguage = languageCode;
-                    _currentTranslations = _translations[languageCode];
+                    _currentTranslations = cachedTranslations;
                 }
                 else
                 {
@@ -60,38 +74,46 @@ namespace PassVault.Services
                     }
                     else
                     {
-                        // Fallback para português se não conseguir carregar
-                        if (languageCode != "pt-BR")
+                        // Lógica de Fallback: Se o idioma não for encontrado, tenta o inglês.
+                        System.Diagnostics.Debug.WriteLine($"Arquivo de tradução para '{languageCode}' não encontrado.");
+                        if (languageCode != "en-US")
                         {
+                            System.Diagnostics.Debug.WriteLine("Tentando fallback para 'en-US'.");
+                            await SetLanguageAsync("en-US");
+                        }
+                        else if (languageCode != "pt-BR")
+                        {
+                            // Se o inglês (padrão) também falhar, tenta o pt-BR como último recurso
+                            System.Diagnostics.Debug.WriteLine("Fallback para 'en-US' falhou. Tentando 'pt-BR'.");
                             await SetLanguageAsync("pt-BR");
-                            return;
                         }
                         else
                         {
-                            // Se nem o português conseguir carregar, criar traduções básicas
+                            // Se tudo falhar, carrega traduções básicas
+                            System.Diagnostics.Debug.WriteLine("Todos os fallbacks falharam. Carregando traduções básicas.");
                             _currentLanguage = "pt-BR";
                             _currentTranslations = GetBasicTranslations();
                         }
-                        return;
+                        return; // Evita salvar a preferência de um idioma que falhou em carregar
                     }
                 }
 
-                // Salvar a preferência
+                // Salva a preferência do idioma carregado com sucesso
                 Preferences.Set("AppLanguage", languageCode);
 
-                // Notificar que o idioma mudou
+                // Notifica que o idioma mudou
                 LanguageChanged?.Invoke(this, EventArgs.Empty);
-                
+
                 System.Diagnostics.Debug.WriteLine($"Idioma alterado para: {languageCode}");
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"Erro ao definir idioma {languageCode}: {ex.Message}");
 
-                // Fallback para português
-                if (languageCode != "pt-BR")
+                // Fallback de exceção para inglês
+                if (languageCode != "en-US")
                 {
-                    await SetLanguageAsync("pt-BR");
+                    await SetLanguageAsync("en-US");
                 }
             }
         }
@@ -109,11 +131,11 @@ namespace PassVault.Services
                 if (stream == null)
                 {
                     System.Diagnostics.Debug.WriteLine($"Recurso não encontrado: {resourceName}");
-                    
+
                     // Listar todos os recursos disponíveis para debug
                     var availableResources = assembly.GetManifestResourceNames();
                     System.Diagnostics.Debug.WriteLine($"Recursos disponíveis: {string.Join(", ", availableResources)}");
-                    
+
                     return null;
                 }
 
@@ -127,7 +149,7 @@ namespace PassVault.Services
 
                 var result = JsonSerializer.Deserialize<Dictionary<string, object>>(jsonContent, options);
                 System.Diagnostics.Debug.WriteLine($"Arquivo de idioma {languageCode} carregado com sucesso. Chaves: {result?.Count ?? 0}");
-                
+
                 return result;
             }
             catch (Exception ex)
@@ -145,17 +167,17 @@ namespace PassVault.Services
                 ["common"] = new Dictionary<string, object>
                 {
                     ["ok"] = "OK",
-                    ["cancel"] = "Cancelar",
-                    ["error"] = "Erro",
-                    ["success"] = "Sucesso"
+                    ["cancel"] = "Cancel",
+                    ["error"] = "Error",
+                    ["success"] = "Success"
                 },
                 ["settings"] = new Dictionary<string, object>
                 {
-                    ["title"] = "Configurações",
+                    ["title"] = "Settings",
                     ["language"] = new Dictionary<string, object>
                     {
-                        ["changed"] = "Idioma Alterado",
-                        ["restart_message"] = "O idioma será aplicado na próxima vez que você abrir o aplicativo."
+                        ["changed"] = "Language Changed",
+                        ["restart_message"] = "The language will be applied the next time you open the app."
                     }
                 }
             };

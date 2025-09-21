@@ -263,7 +263,7 @@
     "max_length_error": "O comprimento máximo deve ser maior ou igual ao mínimo."
   },
   "tutorial": {
-    "welcome_title": "Bem Vindo\r\n ao \r\nPassVault",
+    "welcome_title": "Bem Vindo\r\n ao",
     "welcome_description": "Aqui você pode criar e registrar suas senhas de forma segura.",
     "page_title": "Gerenciador de Senhas",
     "page_subtitle": "Segurança e praticidade em um só lugar",
