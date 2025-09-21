@@ -275,7 +275,7 @@
                     <TapGestureRecognizer Command="{Binding NextPageCommand}"/>
                 </Border.GestureRecognizers>
 
-                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8" VerticalOptions="Center" HorizontalOptions="Center">
+                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12" VerticalOptions="Center" HorizontalOptions="Center">
                     <Label Grid.Column="0"
                            Text="rocket_launch"
                            FontFamily="MaterialIcons"

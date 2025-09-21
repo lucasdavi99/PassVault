@@ -157,7 +157,7 @@
                         <Shadow Brush="{StaticResource Warning}" Offset="0,6" Radius="20" Opacity="0.3" />
                     </Border.Shadow>
 
-                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="16">
+                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
 
                         <Label Grid.Column="0"
                                Text="fingerprint"
@@ -166,7 +166,7 @@
                                TextColor="White"
                                VerticalOptions="Center" />
 
-                        <StackLayout Grid.Column="1" Spacing="2">
+                        <StackLayout Grid.Column="1" Spacing="4">
                             <Label Text="{Binding AuthorizeAccess}"
                                    Style="{StaticResource TitleStyle}"
                                    FontSize="16"

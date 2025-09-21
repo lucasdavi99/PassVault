@@ -263,7 +263,7 @@
     "max_length_error": "Maximum length must be greater than or equal to the minimum."
   },
   "tutorial": {
-    "welcome_title": "Welcome\r\n to \r\nPassVault",
+    "welcome_title": "Welcome\r\n to",
     "welcome_description": "Here you can securely create and register your passwords.",
     "page_title": "Password Manager",
     "page_subtitle": "Security and convenience in one place",

@@ -346,7 +346,7 @@
                         <TapGestureRecognizer Command="{Binding NextPageCommand}"/>
                     </Border.GestureRecognizers>
 
-                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8" VerticalOptions="Center" HorizontalOptions="Center">
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12" VerticalOptions="Center" HorizontalOptions="Center">
                         <Label Grid.Column="0"
                                Text="{Binding NextButtonText}"
                                Style="{StaticResource CaptionStyle}"

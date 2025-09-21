@@ -75,7 +75,7 @@
 
         <!-- Content Section -->
         <ScrollView Grid.Row="1" Padding="24,16,24,24">
-            <StackLayout Spacing="24" VerticalOptions="FillAndExpand">
+            <StackLayout Spacing="24" VerticalOptions="Fill">
 
                 <!-- Description Card -->
                 <Border Style="{StaticResource ElevatedCardStyle}"
@@ -300,7 +300,7 @@
                         <TapGestureRecognizer Command="{Binding NextPageCommand}"/>
                     </Border.GestureRecognizers>
 
-                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8" VerticalOptions="Center" HorizontalOptions="Center">
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12" VerticalOptions="Center" HorizontalOptions="Center">
                         <Label Grid.Column="0"
                                Text="{Binding NextButtonText}"
                                Style="{StaticResource CaptionStyle}"

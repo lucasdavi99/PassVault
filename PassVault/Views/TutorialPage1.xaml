@@ -37,7 +37,7 @@
             </Border>
 
             <!-- Welcome Title -->
-            <StackLayout Spacing="16" HorizontalOptions="Center">
+            <StackLayout HorizontalOptions="Center">
                 <Label Text="{Binding Title}"
                        Style="{StaticResource HeadlineStyle}"
                        FontSize="32"
@@ -46,10 +46,11 @@
 
                 <Label Text="PassVault"
                        Style="{StaticResource DisplayStyle}"
-                       FontSize="48"
+                       FontSize="32"
                        TextColor="{StaticResource Primary}"
                        FontAttributes="Bold"
-                       HorizontalTextAlignment="Center">
+                       HorizontalTextAlignment="Center"
+                       Margin="0,0,0,0">
 
                     <Label.Shadow>
                         <Shadow Brush="{StaticResource Primary}" Offset="0,4" Radius="16" Opacity="0.3" />
@@ -63,8 +64,9 @@
         <!-- Content Section -->
         <StackLayout Grid.Row="1" 
                      Spacing="32" 
-                     VerticalOptions="Center"
-                     Padding="24">
+                     VerticalOptions="Start"
+                     Padding="24"
+                     Margin="0,20,0,0">
 
             <!-- Description Card -->
             <Border Style="{StaticResource ElevatedCardStyle}"
@@ -122,7 +124,8 @@
                             <Label Text="{Binding CreateAndOrganizeText}"
                                    Style="{StaticResource CaptionStyle}"
                                    FontSize="14"
-                                   VerticalOptions="Center" />
+                                   VerticalOptions="Center" 
+                                   Margin="30, 0, 0, 0"/>
                         </Grid>
 
                         <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
@@ -136,7 +139,8 @@
                             <Label Text="{Binding SecureStorageText}"
                                    Style="{StaticResource CaptionStyle}"
                                    FontSize="14"
-                                   VerticalOptions="Center" />
+                                   VerticalOptions="Center" 
+                                   Margin="30, 0, 0, 0" />
                         </Grid>
 
                         <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
@@ -150,7 +154,8 @@
                             <Label Text="{Binding PasswordGeneratorText}"
                                    Style="{StaticResource CaptionStyle}"
                                    FontSize="14"
-                                   VerticalOptions="Center" />
+                                   VerticalOptions="Center" 
+                                   Margin="30, 0, 0, 0" />
                         </Grid>
 
                     </StackLayout>
@@ -226,7 +231,7 @@
                         <TapGestureRecognizer Command="{Binding NextPageCommand}"/>
                     </Border.GestureRecognizers>
 
-                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                    <Grid ColumnDefinitions="Auto,Auto" HorizontalOptions="Center" VerticalOptions="Center" ColumnSpacing="16">
                         <Label Grid.Column="0"
                                Text="{Binding NextButtonText}"
                                Style="{StaticResource CaptionStyle}"
@@ -241,7 +246,8 @@
                                FontFamily="MaterialIcons"
                                FontSize="20"
                                TextColor="{StaticResource PrimaryDarkText}"
-                               VerticalOptions="Center" />
+                               VerticalOptions="Center"
+                               HorizontalOptions="Center"/>
                     </Grid>
 
                 </Border>
