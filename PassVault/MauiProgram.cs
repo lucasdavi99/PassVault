@@ -21,7 +21,8 @@ namespace PassVault
                 .UseMauiCommunityToolkit()
                 .ConfigureFonts(fonts =>
                 {
-                    fonts.AddFont("Nunito.ttf", "Nunito");
+                    fonts.AddFont("Nunito-Medium.ttf", "Nunito-Medium");
+                    fonts.AddFont("Nunito-Bold.ttf", "Nunito-Bold");
                     fonts.AddFont("MaterialIcons-Regular.ttf", "MaterialIcons");
                 });
 

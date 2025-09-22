@@ -148,7 +148,7 @@
                                 <Entry Placeholder="{Binding AccountNamePlaceholder}"
                                        Text="{Binding Title}"
                                        IsReadOnly="{Binding IsEditing, Converter={StaticResource InverseBooleanConverter}}"
-                                       Style="{StaticResource PremiumEntryStyle}" />
+                                       Style="{StaticResource ModernEntryStyle}" />
                             </Border>
                         </StackLayout>
 
@@ -174,7 +174,7 @@
                                 <Entry Placeholder="{Binding UsernamePlaceholder}"
                                        Text="{Binding Username}"
                                        IsReadOnly="{Binding IsEditing, Converter={StaticResource InverseBooleanConverter}}"
-                                       Style="{StaticResource PremiumEntryStyle}" />
+                                       Style="{StaticResource ModernEntryStyle}" />
                             </Border>
                         </StackLayout>
 
@@ -201,7 +201,7 @@
                                        Text="{Binding Email}"
                                        Keyboard="Email"
                                        IsReadOnly="{Binding IsEditing, Converter={StaticResource InverseBooleanConverter}}"
-                                       Style="{StaticResource PremiumEntryStyle}" />
+                                       Style="{StaticResource ModernEntryStyle}" />
                             </Border>
                         </StackLayout>
 
@@ -240,7 +240,7 @@
                                        Text="{Binding Password}"
                                        IsPassword="{Binding IsPasswordVisible, Converter={StaticResource InverseBooleanConverter}}"
                                        IsReadOnly="{Binding IsEditing, Converter={StaticResource InverseBooleanConverter}}"
-                                       Style="{StaticResource PremiumEntryStyle}" />
+                                       Style="{StaticResource ModernEntryStyle}" />
                             </Border>
                         </StackLayout>
 
@@ -414,7 +414,7 @@
                 <!-- Save Button -->
                 <Button Grid.Column="1"
                         Text="{Binding SaveButtonText}"
-                        Style="{StaticResource PrimaryButtonStyle}"
+                        Style="{StaticResource ModernButtonStyle}"
                         Command="{Binding SaveEditAccountCommand}"
                         IsVisible="{Binding IsEditing}"
                         ImageSource="{FontImageSource FontFamily=MaterialIcons, Glyph=save, Color={StaticResource PrimaryDarkText}, Size=18}" />
@@ -504,7 +504,7 @@
 
                     <!-- Action Button -->
                     <Button Text="{Binding ApplyColorButtonText}"
-                            Style="{StaticResource PrimaryButtonStyle}"
+                            Style="{StaticResource ModernButtonStyle}"
                             Command="{Binding CloseColorPickerCommand}"
                             ImageSource="{FontImageSource FontFamily=MaterialIcons, Glyph=check, Color={StaticResource PrimaryDarkText}, Size=18}" />
 

@@ -94,12 +94,12 @@ namespace PassVault.ViewModels
                 ExportPassword = password;
                 IsPasswordVisible = false;
 
-                bool sharingCompleted = await Shell.Current.DisplayAlert(L.Text("backup.export.confirm_title"), L.Text("backup.export.confirm_message"), L.Text("common.yes"), L.Text("common.no"));
+                bool sharingCompleted = await Shell.Current.DisplayAlert(L.Text("export.confirm_title"), L.Text("export.confirm_message"), L.Text("common.yes"), L.Text("common.no"));
 
                 if (sharingCompleted)
                 {
                     IsPasswordVisible = true;
-                    await Shell.Current.DisplayAlert(L.Text("backup.export.success_title"), L.Text("backup.export.success_message"), L.Text("common.ok"));
+                    await Shell.Current.DisplayAlert(L.Text("export.success_title"), L.Text("export.success_message"), L.Text("common.ok"));
                 }
                 else
                 {
@@ -108,12 +108,12 @@ namespace PassVault.ViewModels
                         File.Delete(ExportFilePath);
                     }
                     ExportPassword = string.Empty;
-                    await Shell.Current.DisplayAlert(L.Text("backup.export.cancel_title"), L.Text("backup.export.cancel_message"), L.Text("common.ok"));
+                    await Shell.Current.DisplayAlert(L.Text("export.cancel_title"), L.Text("export.cancel_message"), L.Text("common.ok"));
                 }
             }
             else
             {
-                await Shell.Current.DisplayAlert(L.Text("common.error"), L.Text("backup.export.empty_message"), L.Text("common.ok"));
+                await Shell.Current.DisplayAlert(L.Text("common.error"), L.Text("export.empty_message"), L.Text("common.ok"));
             }
         }
 
@@ -124,7 +124,7 @@ namespace PassVault.ViewModels
             {
                 var result = await FilePicker.PickAsync(new PickOptions
                 {
-                    PickerTitle = L.Text("backup.import.picker_title"),
+                    PickerTitle = L.Text("import.picker_title"),
                     FileTypes = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
                     {
                         { DevicePlatform.Android, new[] { "application/octet-stream" } },
@@ -147,12 +147,12 @@ namespace PassVault.ViewModels
 
                 ImportFilePath = filePath;
 
-                string senha = await Shell.Current.DisplayPromptAsync(L.Text("backup.import.password_prompt_title"), L.Text("backup.import.password_prompt_message"));
+                string senha = await Shell.Current.DisplayPromptAsync(L.Text("import.password_prompt_title"), L.Text("import.password_prompt_message"));
                 ImportPassword = senha;
 
                 if (string.IsNullOrWhiteSpace(senha))
                 {
-                    await Shell.Current.DisplayAlert(L.Text("common.error"), L.Text("backup.import.password_required"), L.Text("common.ok"));
+                    await Shell.Current.DisplayAlert(L.Text("common.error"), L.Text("import.password_required"), L.Text("common.ok"));
                     return;
                 }
 
@@ -189,12 +189,12 @@ namespace PassVault.ViewModels
                 WeakReferenceMessenger.Default.Send(new AccountSavedMessage(true));
                 WeakReferenceMessenger.Default.Send(new FolderSavedMessage(true));
 
-                await Shell.Current.DisplayAlert(L.Text("backup.import.success_title"), L.Text("backup.import.success_message"), L.Text("common.ok"));
+                await Shell.Current.DisplayAlert(L.Text("import.success_title"), L.Text("import.success_message"), L.Text("common.ok"));
                 await Shell.Current.Navigation.PopAsync();
             }
             catch (InvalidImportPasswordException)
             {
-                await Shell.Current.DisplayAlert(L.Text("common.error"), L.Text("backup.import.wrong_password"), L.Text("common.ok"));
+                await Shell.Current.DisplayAlert(L.Text("common.error"), L.Text("import.wrong_password"), L.Text("common.ok"));
             }
             catch (Exception ex)
             {

@@ -71,7 +71,6 @@
 
                                 <Label Text="{Binding ExportPassword}"
                                        Style="{StaticResource BodyStyle}"
-                                       FontFamily="Courier"
                                        FontAttributes="Bold"
                                        FontSize="16" />
                             </StackLayout>
