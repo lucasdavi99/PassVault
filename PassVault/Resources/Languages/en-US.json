@@ -357,7 +357,9 @@
     "folder_title_required": "The Title field is required",
     "folder_created": "Folder created successfully",
     "no_password_configured": "Your device does not have a password configured. Please set one to continue.",
-    "auth_success": "Authentication successful!"
+    "auth_success": "Authentication successful!",
+    "duplicate_folder_name": "A folder with this name already exists in the same location. Please choose a different name.",
+    "duplicate_account_name": "An account with this name already exists in the same folder. Please choose a different name."
   },
   "validation": {
     "required_field": "This field is required",

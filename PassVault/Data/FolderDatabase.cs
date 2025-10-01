@@ -90,6 +90,26 @@ namespace PassVault.Data
                 .FirstOrDefaultAsync();
         }
 
+        // Verificar se já existe uma pasta com o mesmo nome no mesmo local
+        public async Task<bool> FolderNameExistsAsync(string title, int? parentFolderId, int? excludeFolderId = null)
+        {
+            await Init();
+            if (_database == null)
+                throw new InvalidOperationException("Database not initialized");
+
+            var query = _database.Table<Folder>()
+                .Where(f => f.Title.ToLower() == title.ToLower() && f.ParentFolderId == parentFolderId);
+
+            // Excluir a pasta atual da verificação (para edição)
+            if (excludeFolderId.HasValue)
+            {
+                query = query.Where(f => f.Id != excludeFolderId.Value);
+            }
+
+            var existingFolder = await query.FirstOrDefaultAsync();
+            return existingFolder != null;
+        }
+
         public async Task<int> SaveFolderAsync(Folder folder)
         {
             await Init();

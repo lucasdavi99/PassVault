@@ -357,7 +357,9 @@
     "folder_title_required": "O campo Titulo é obrigatório",
     "folder_created": "Pasta criada com sucesso",
     "no_password_configured": "Seu dispositivo não possui uma senha configurada. Configure uma senha para continuar.",
-    "auth_success": "Autenticação realizada com sucesso!"
+    "auth_success": "Autenticação realizada com sucesso!",
+    "duplicate_folder_name": "Já existe uma pasta com este nome no mesmo local. Por favor, escolha um nome diferente.",
+    "duplicate_account_name": "Já existe uma conta com este nome. Por favor, escolha um nome diferente."
   },
   "validation": {
     "required_field": "Este campo é obrigatório",

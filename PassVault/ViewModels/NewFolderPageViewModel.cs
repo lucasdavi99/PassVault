@@ -92,6 +92,15 @@ namespace PassVault.ViewModels
                     return;
                 }
 
+                // Verificar se já existe uma pasta com o mesmo nome no mesmo local
+                bool folderExists = await _database.FolderNameExistsAsync(Title, ParentFolderId);
+                
+                if (folderExists)
+                {
+                    await Shell.Current.DisplayAlert(L.Text("common.error"), L.Text("messages.duplicate_folder_name"), L.Text("common.ok"));
+                    return;
+                }
+
                 var folder = new Folder
                 {
                     Title = Title,

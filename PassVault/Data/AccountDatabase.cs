@@ -84,6 +84,26 @@ namespace PassVault.Data
                 .FirstOrDefaultAsync();
         }
 
+        // Verificar se já existe uma conta com o mesmo nome na mesma pasta
+        public async Task<bool> AccountNameExistsAsync(string title, int? folderId, int? excludeAccountId = null)
+        {
+            await Init();
+            if (_database == null)
+                throw new InvalidOperationException("Database not initialized");
+
+            var query = _database.Table<Account>()
+                .Where(a => a.Title.ToLower() == title.ToLower() && a.FolderId == folderId);
+
+            // Excluir a conta atual da verificação (para edição)
+            if (excludeAccountId.HasValue)
+            {
+                query = query.Where(a => a.Id != excludeAccountId.Value);
+            }
+
+            var existingAccount = await query.FirstOrDefaultAsync();
+            return existingAccount != null;
+        }
+
         public async Task<int> SaveAccountAsync(Account account)
         {
             await Init();

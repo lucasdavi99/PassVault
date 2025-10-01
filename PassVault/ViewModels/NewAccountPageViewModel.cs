@@ -120,6 +120,15 @@ namespace PassVault.ViewModels
                     return;
                 }
 
+                // Verificar se já existe uma conta com o mesmo nome na mesma pasta
+                bool accountExists = await _database.AccountNameExistsAsync(Title, FolderId);
+                
+                if (accountExists)
+                {
+                    await Shell.Current.DisplayAlert(L.Text("common.error"), L.Text("messages.duplicate_account_name"), L.Text("common.ok"));
+                    return;
+                }
+
                 var account = new Account
                 {
                     Title = Title,
