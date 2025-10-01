@@ -131,6 +131,7 @@
     "import_subtitle": "Restaure seus dados a partir de um backup existente",
     "import_button_text": "Importar Backup",
     "security_info_title": "Informações de Segurança",
+    "copy_password_button": "Senha copiada!",
     "security_info1": "• Os backups são criptografados com AES-256",
     "security_info2": "• Apenas a senha de exportação pode descriptografar os dados",
     "security_info3": "• Backups expiram automaticamente em 24 horas",

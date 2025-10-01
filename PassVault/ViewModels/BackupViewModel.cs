@@ -1,13 +1,14 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Maui.ApplicationModel.DataTransfer;
 using PassVault.Data;
 using PassVault.exceptions;
 using PassVault.Interfaces;
 using PassVault.Messages;
 using PassVault.Models;
 using PassVault.Services;
-using System.Security.AccessControl;
+using CommunityToolkit.Maui.Alerts;
 
 namespace PassVault.ViewModels
 {
@@ -37,6 +38,7 @@ namespace PassVault.ViewModels
         [ObservableProperty] private string importSubtitle;
         [ObservableProperty] private string importButtonText;
         [ObservableProperty] private string securityInfoTitle;
+        [ObservableProperty] private string copyPasswordButton;
         [ObservableProperty] private string securityInfo1;
         [ObservableProperty] private string securityInfo2;
         [ObservableProperty] private string securityInfo3;
@@ -74,6 +76,7 @@ namespace PassVault.ViewModels
             ImportSubtitle = L.Text("backup.import_subtitle");
             ImportButtonText = L.Text("backup.import_button_text");
             SecurityInfoTitle = L.Text("backup.security_info_title");
+            CopyPasswordButton = L.Text("backup.copy_password_button");
             SecurityInfo1 = L.Text("backup.security_info1");
             SecurityInfo2 = L.Text("backup.security_info2");
             SecurityInfo3 = L.Text("backup.security_info3");
@@ -199,6 +202,16 @@ namespace PassVault.ViewModels
             catch (Exception ex)
             {
                 await Shell.Current.DisplayAlert(L.Text("common.error"), ex.Message, L.Text("common.ok"));
+            }
+        }
+
+        [RelayCommand]
+        private async Task CopyExportPasswordAsync()
+        {
+            if (!string.IsNullOrEmpty(ExportPassword))
+            {
+                await Clipboard.SetTextAsync(ExportPassword);
+                await Snackbar.Make(CopyPasswordButton, duration: TimeSpan.FromSeconds(2)).Show();
             }
         }
 

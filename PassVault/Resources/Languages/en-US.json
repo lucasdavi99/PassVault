@@ -131,6 +131,7 @@
     "import_subtitle": "Restore your data from an existing backup",
     "import_button_text": "Import Backup",
     "security_info_title": "Security Information",
+    "copy_password_button": "Password copied!",
     "security_info1": "• Backups are encrypted with AES-256",
     "security_info2": "• Only the export password can decrypt the data",
     "security_info3": "• Backups automatically expire in 24 hours",
