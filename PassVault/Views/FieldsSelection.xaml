@@ -387,7 +387,7 @@
         <!-- Fixed Action Button -->
         <Border Grid.Row="2"
                 VerticalOptions="End"
-                HorizontalOptions="FillAndExpand"
+                HorizontalOptions="Fill"
                 BackgroundColor="{StaticResource Background}"
                 Padding="24,16,24,32">
 
@@ -400,13 +400,6 @@
                     FontSize="18"
                     HeightRequest="60"
                     Command="{Binding ConfirmSelectionCommand}">
-
-                <Button.ImageSource>
-                    <FontImageSource FontFamily="MaterialIcons"
-                                     Glyph="arrow_forward"
-                                     Color="{StaticResource PrimaryDarkText}"
-                                     Size="20" />
-                </Button.ImageSource>
 
             </Button>
         </Border>

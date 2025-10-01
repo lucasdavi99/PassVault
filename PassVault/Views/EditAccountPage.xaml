@@ -81,10 +81,10 @@
                                HorizontalOptions="Center"
                                VerticalOptions="Center">
                             <Label.Triggers>
-                                <DataTrigger TargetType="Label" Binding="{Binding IsPasswordVisible}" Value="True">
+                                <DataTrigger TargetType="Label" Binding="{Binding IsPasswordVisible}" Value="False">
                                     <Setter Property="Text" Value="visibility_off" />
                                 </DataTrigger>
-                                <DataTrigger TargetType="Label" Binding="{Binding IsPasswordVisible}" Value="False">
+                                <DataTrigger TargetType="Label" Binding="{Binding IsPasswordVisible}" Value="True">
                                     <Setter Property="Text" Value="visibility" />
                                 </DataTrigger>
                             </Label.Triggers>
@@ -245,17 +245,17 @@
                         </StackLayout>
 
                         <!-- Color Selection -->
-                        <StackLayout Spacing="12">
+                        <StackLayout Spacing="12" HorizontalOptions="Center">
                             <Label Text="{Binding ColorLabel}"
                                    Style="{StaticResource CaptionStyle}"
                                    FontAttributes="Bold"
-                                   TextColor="{StaticResource TextSecondary}" />
+                                   TextColor="{StaticResource TextSecondary}" />            
 
                             <Border WidthRequest="60" HeightRequest="60"
                                     BackgroundColor="{Binding SelectedColor}"
                                     StrokeShape="RoundRectangle 20"
-                                    HorizontalOptions="Start"
-                                    IsEnabled="{Binding IsEditing}">
+                                    HorizontalOptions="Center"
+                                    IsEnabled="{Binding IsEditing}"> 
 
                                 <Border.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding ToggleColorPickerCommand}" />
@@ -278,7 +278,6 @@
                                            HorizontalOptions="Center"
                                            VerticalOptions="Center" />
                                 </Grid>
-
                             </Border>
                         </StackLayout>
 

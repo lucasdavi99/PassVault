@@ -20,7 +20,7 @@
     <Grid RowDefinitions="Auto,*,Auto">
 
         <!-- Modern Header -->
-        <Border Grid.Row="0" 
+        <Border Grid.Row="0"
                 Background="{StaticResource SurfaceGradient}"
                 Padding="0,10,0,28"
                 StrokeShape="RoundRectangle 0,0,32,32">
@@ -28,10 +28,38 @@
             <Grid RowDefinitions="Auto,Auto" RowSpacing="24">
 
                 <!-- Welcome Section -->
-                <Grid Grid.Row="0">
+                <Grid Grid.Row="0"
+                      Padding="24,4,24,0"
+                      ColumnDefinitions="Auto, *, Auto">
 
-                    <!-- Conteúdo principal centralizado -->
-                    <StackLayout Spacing="8" HorizontalOptions="Center" VerticalOptions="Center">
+                    <!-- Botão de Configurações (Esquerda) -->
+                    <Border Grid.Column="0"
+                            WidthRequest="40" HeightRequest="40"
+                            BackgroundColor="{StaticResource ElevatedSurface}"
+                            StrokeShape="RoundRectangle 12"
+                            Stroke="{StaticResource BorderPrimary}"
+                            StrokeThickness="0.5"
+                            HorizontalOptions="Start"
+                            VerticalOptions="Center">
+                        <Border.Shadow>
+                            <Shadow Brush="#30000000" Offset="0,4" Radius="12" Opacity="0.1" />
+                        </Border.Shadow>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding GoToSettingsCommand}" />
+                        </Border.GestureRecognizers>
+                        <Label Text="settings"
+                               FontFamily="MaterialIcons"
+                               FontSize="18"
+                               TextColor="{StaticResource Primary}"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center" />
+                    </Border>
+
+                    <!-- Conteúdo principal (Centro) -->
+                    <StackLayout Grid.Column="1"
+                                 Spacing="8"
+                                 HorizontalOptions="Center"
+                                 VerticalOptions="Center">
                         <Label Text="{Binding AppTitle}"
                                Style="{StaticResource HeadlineStyle}"
                                FontSize="28"
@@ -44,27 +72,24 @@
                                Opacity="0.8" />
                     </StackLayout>
 
-                    <!-- Botão de Configurações posicionado no canto -->
-                    <Border WidthRequest="40" HeightRequest="40"
+                    <!-- Botão de Ajuda (Direita) -->
+                    <Border Grid.Column="2"
+                            WidthRequest="40" HeightRequest="40"
                             BackgroundColor="{StaticResource ElevatedSurface}"
                             StrokeShape="RoundRectangle 12"
                             Stroke="{StaticResource BorderPrimary}"
                             StrokeThickness="0.5"
                             HorizontalOptions="End"
-                            VerticalOptions="Start"
-                            Margin="24,4,24,0">
-
+                            VerticalOptions="Center">
                         <Border.Shadow>
                             <Shadow Brush="#30000000" Offset="0,4" Radius="12" Opacity="0.1" />
                         </Border.Shadow>
-
                         <Border.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding GoToSettingsCommand}" />
+                            <TapGestureRecognizer Command="{Binding HelpCommand}"/>
                         </Border.GestureRecognizers>
-
-                        <Label Text="settings"
+                        <Label Text="help_outline"
                                FontFamily="MaterialIcons"
-                               FontSize="18"
+                               FontSize="20"
                                TextColor="{StaticResource Primary}"
                                HorizontalOptions="Center"
                                VerticalOptions="Center" />
@@ -73,7 +98,7 @@
                 </Grid>
 
                 <!-- Modern Tab Selector -->
-                <Border Grid.Row="1" 
+                <Border Grid.Row="1"
                         BackgroundColor="{StaticResource ElevatedSurface}"
                         StrokeShape="RoundRectangle 20"
                         Stroke="{StaticResource BorderPrimary}"
@@ -81,19 +106,15 @@
                         Padding="6"
                         WidthRequest="200"
                         HorizontalOptions="Center">
-
                     <Border.Shadow>
                         <Shadow Brush="#30000000" Offset="0,4" Radius="16" Opacity="0.1" />
                     </Border.Shadow>
-
                     <Grid ColumnDefinitions="*,*">
-
                         <!-- Tab Itens -->
                         <Border Grid.Column="0"
                                 BackgroundColor="Transparent"
                                 StrokeShape="RoundRectangle 16"
                                 Padding="16,12">
-
                             <Border.Triggers>
                                 <DataTrigger TargetType="Border" Binding="{Binding SelectedTab}" Value="Itens">
                                     <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
@@ -102,11 +123,9 @@
                                     </Setter>
                                 </DataTrigger>
                             </Border.Triggers>
-
                             <Border.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding SelectTabCommand}" CommandParameter="Itens"/>
                             </Border.GestureRecognizers>
-
                             <Label Text="{Binding ItemsTabText}"
                                    Style="{StaticResource CaptionStyle}"
                                    FontAttributes="Bold"
@@ -119,13 +138,11 @@
                                 </Label.Triggers>
                             </Label>
                         </Border>
-
                         <!-- Tab Pastas -->
                         <Border Grid.Column="1"
                                 BackgroundColor="Transparent"
                                 StrokeShape="RoundRectangle 16"
                                 Padding="16,12">
-
                             <Border.Triggers>
                                 <DataTrigger TargetType="Border" Binding="{Binding SelectedTab}" Value="Pastas">
                                     <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
@@ -134,11 +151,9 @@
                                     </Setter>
                                 </DataTrigger>
                             </Border.Triggers>
-
                             <Border.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding SelectTabCommand}" CommandParameter="Pastas"/>
                             </Border.GestureRecognizers>
-
                             <Label Text="{Binding FoldersTabText}"
                                    Style="{StaticResource CaptionStyle}"
                                    FontAttributes="Bold"
@@ -151,42 +166,34 @@
                                 </Label.Triggers>
                             </Label>
                         </Border>
-
                     </Grid>
                 </Border>
-
             </Grid>
         </Border>
 
         <!-- Conteúdo com RefreshView -->
-        <RefreshView Grid.Row="1" 
+        <RefreshView Grid.Row="1"
                      IsRefreshing="{Binding IsRefreshing}"
                      Command="{Binding RefreshCommand}"
                      RefreshColor="{StaticResource Primary}">
-
             <ScrollView Padding="20,16,20,24">
                 <Grid>
-
                     <!-- Tab Itens -->
-                    <StackLayout IsVisible="{Binding SelectedTab, Converter={StaticResource TabVisibilityConverter}, ConverterParameter=Itens}" 
+                    <StackLayout IsVisible="{Binding SelectedTab, Converter={StaticResource TabVisibilityConverter}, ConverterParameter=Itens}"
                                  Spacing="12">
-
                         <!-- Empty State para Itens -->
                         <StackLayout IsVisible="{Binding Accounts.Count, Converter={StaticResource TabVisibilityConverter}, ConverterParameter=0}"
-                                     Spacing="24" 
+                                     Spacing="24"
                                      Padding="40,60"
                                      VerticalOptions="Center">
-
                             <Border WidthRequest="100" HeightRequest="100"
                                     BackgroundColor="{StaticResource ElevatedSurface}"
                                     StrokeShape="RoundRectangle 32"
                                     Stroke="{StaticResource BorderPrimary}"
                                     HorizontalOptions="Center">
-
                                 <Border.Shadow>
                                     <Shadow Brush="#20000000" Offset="0,8" Radius="24" Opacity="0.1" />
                                 </Border.Shadow>
-
                                 <Label Text="key"
                                        FontFamily="MaterialIcons"
                                        FontSize="48"
@@ -194,19 +201,16 @@
                                        HorizontalOptions="Center"
                                        VerticalOptions="Center" />
                             </Border>
-
                             <StackLayout Spacing="12">
                                 <Label Text="{Binding NoAccountsTitle}"
                                        Style="{StaticResource TitleStyle}"
                                        HorizontalTextAlignment="Center"
                                        TextColor="{StaticResource TextSecondary}" />
-
                                 <Label Text="{Binding NoAccountsDescription}"
                                        Style="{StaticResource BodyStyle}"
                                        HorizontalTextAlignment="Center"
                                        Opacity="0.8" />
                             </StackLayout>
-
                         </StackLayout>
 
                         <!-- Lista de Contas -->
@@ -214,7 +218,6 @@
                             <CollectionView.ItemsLayout>
                                 <LinearItemsLayout Orientation="Vertical" ItemSpacing="12"/>
                             </CollectionView.ItemsLayout>
-
                             <CollectionView.ItemTemplate>
                                 <DataTemplate x:DataType="models:Account">
                                     <SwipeView>
@@ -226,75 +229,59 @@
                                                            CommandParameter="{Binding .}" />
                                             </SwipeItems>
                                         </SwipeView.RightItems>
-
                                         <Border Style="{StaticResource PremiumListItemStyle}">
-
                                             <Border.GestureRecognizers>
                                                 <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}, Path=EditAccountCommand}"
                                                                       CommandParameter="{Binding .}" />
                                             </Border.GestureRecognizers>
-
                                             <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="20">
-
                                                 <!-- Ícone da conta com animação -->
                                                 <Border WidthRequest="52" HeightRequest="52"
                                                         BackgroundColor="{Binding Color, Converter={StaticResource HexToColorConverter}}"
                                                         StrokeShape="RoundRectangle 16"
                                                         Grid.Column="0"
                                                         VerticalOptions="Center">
-
                                                     <Border.Shadow>
-                                                        <Shadow Brush="{Binding Color, Converter={StaticResource HexToColorConverter}}" 
+                                                        <Shadow Brush="{Binding Color, Converter={StaticResource HexToColorConverter}}"
                                                                 Offset="0,4" Radius="16" Opacity="0.3" />
                                                     </Border.Shadow>
-
                                                     <Label Text="key"
                                                            FontFamily="MaterialIcons"
                                                            FontSize="24"
                                                            TextColor="{StaticResource PrimaryDarkText}"
                                                            HorizontalOptions="Center"
                                                            VerticalOptions="Center" />
-
                                                 </Border>
-
                                                 <!-- Informações da conta -->
                                                 <StackLayout Grid.Column="1" VerticalOptions="Center" Spacing="6">
-
                                                     <Label Text="{Binding Title}"
                                                            Style="{StaticResource TitleStyle}"
                                                            FontSize="18" />
-
                                                     <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
                                                         <Label Grid.Column="0"
-                                                           Text="schedule"
-                                                           FontFamily="MaterialIcons"
-                                                           FontSize="14"
-                                                           TextColor="{StaticResource TextTertiary}"
-                                                           VerticalOptions="Center" />
-
+                                                               Text="schedule"
+                                                               FontFamily="MaterialIcons"
+                                                               FontSize="14"
+                                                               TextColor="{StaticResource TextTertiary}"
+                                                               VerticalOptions="Center" />
                                                         <Label Grid.Column="1"
-                                                           Text="{Binding FormattedCreatedDate}"
-                                                           Style="{StaticResource CaptionStyle}" />
+                                                               Text="{Binding FormattedCreatedDate}"
+                                                               Style="{StaticResource CaptionStyle}" />
                                                     </Grid>
-
                                                 </StackLayout>
-
                                                 <!-- Indicador de acesso moderno -->
                                                 <Border Grid.Column="2"
                                                         WidthRequest="32" HeightRequest="32"
                                                         BackgroundColor="{StaticResource SurfaceBackground}"
                                                         StrokeShape="RoundRectangle 10"
                                                         VerticalOptions="Center">
-
                                                     <Label Text="chevron_right"
                                                            FontFamily="MaterialIcons"
                                                            FontSize="18"
                                                            TextColor="{StaticResource Primary}"
                                                            HorizontalOptions="Center"
                                                            VerticalOptions="Center" />
-
                                                 </Border>
-
                                             </Grid>
                                         </Border>
                                     </SwipeView>
@@ -304,25 +291,21 @@
                     </StackLayout>
 
                     <!-- Tab Pastas -->
-                    <StackLayout IsVisible="{Binding SelectedTab, Converter={StaticResource TabVisibilityConverter}, ConverterParameter=Pastas}" 
+                    <StackLayout IsVisible="{Binding SelectedTab, Converter={StaticResource TabVisibilityConverter}, ConverterParameter=Pastas}"
                                  Spacing="12">
-
                         <!-- Empty State para Pastas -->
                         <StackLayout IsVisible="{Binding Folders.Count, Converter={StaticResource TabVisibilityConverter}, ConverterParameter=0}"
-                                     Spacing="24" 
+                                     Spacing="24"
                                      Padding="40,60"
                                      VerticalOptions="Center">
-
                             <Border WidthRequest="100" HeightRequest="100"
                                     BackgroundColor="{StaticResource ElevatedSurface}"
                                     StrokeShape="RoundRectangle 32"
                                     Stroke="{StaticResource BorderPrimary}"
                                     HorizontalOptions="Center">
-
                                 <Border.Shadow>
                                     <Shadow Brush="#20000000" Offset="0,8" Radius="24" Opacity="0.1" />
                                 </Border.Shadow>
-
                                 <Label Text="folder"
                                        FontFamily="MaterialIcons"
                                        FontSize="48"
@@ -330,19 +313,16 @@
                                        HorizontalOptions="Center"
                                        VerticalOptions="Center" />
                             </Border>
-
                             <StackLayout Spacing="12">
                                 <Label Text="{Binding NoFoldersTitle}"
                                        Style="{StaticResource TitleStyle}"
                                        HorizontalTextAlignment="Center"
                                        TextColor="{StaticResource TextSecondary}" />
-
                                 <Label Text="{Binding NoFoldersDescription}"
                                        Style="{StaticResource BodyStyle}"
                                        HorizontalTextAlignment="Center"
                                        Opacity="0.8" />
                             </StackLayout>
-
                         </StackLayout>
 
                         <!-- Lista de Pastas -->
@@ -350,7 +330,6 @@
                             <CollectionView.ItemsLayout>
                                 <LinearItemsLayout Orientation="Vertical" ItemSpacing="12"/>
                             </CollectionView.ItemsLayout>
-
                             <CollectionView.ItemTemplate>
                                 <DataTemplate x:DataType="models:Folder">
                                     <SwipeView>
@@ -362,44 +341,34 @@
                                                            CommandParameter="{Binding .}" />
                                             </SwipeItems>
                                         </SwipeView.RightItems>
-
                                         <Border Style="{StaticResource PremiumListItemStyle}">
-
                                             <Border.GestureRecognizers>
                                                 <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}, Path=OpenFolderCommand}"
                                                                       CommandParameter="{Binding .}" />
                                             </Border.GestureRecognizers>
-
                                             <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="20">
-
                                                 <!-- Ícone da pasta -->
                                                 <Border WidthRequest="52" HeightRequest="52"
                                                         BackgroundColor="{Binding Color, Converter={StaticResource HexToColorConverter}}"
                                                         StrokeShape="RoundRectangle 16"
                                                         Grid.Column="0"
                                                         VerticalOptions="Center">
-
                                                     <Border.Shadow>
-                                                        <Shadow Brush="{Binding Color, Converter={StaticResource HexToColorConverter}}" 
+                                                        <Shadow Brush="{Binding Color, Converter={StaticResource HexToColorConverter}}"
                                                                 Offset="0,4" Radius="16" Opacity="0.3" />
                                                     </Border.Shadow>
-
                                                     <Label Text="folder"
                                                            FontFamily="MaterialIcons"
                                                            FontSize="24"
                                                            TextColor="{StaticResource PrimaryDarkText}"
                                                            HorizontalOptions="Center"
                                                            VerticalOptions="Center" />
-
                                                 </Border>
-
                                                 <!-- Informações da pasta -->
                                                 <StackLayout Grid.Column="1" VerticalOptions="Center" Spacing="6">
-
                                                     <Label Text="{Binding Title}"
                                                            Style="{StaticResource TitleStyle}"
                                                            FontSize="18" />
-
                                                     <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
                                                         <Label Grid.Column="0"
                                                                Text="folder_open"
@@ -407,30 +376,24 @@
                                                                FontSize="14"
                                                                TextColor="{StaticResource TextTertiary}"
                                                                VerticalOptions="Center" />
-
                                                         <Label Grid.Column="1"
                                                                Text="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}, Path=FolderItemSubtitle}"
                                                                Style="{StaticResource CaptionStyle}" />
                                                     </Grid>
-
                                                 </StackLayout>
-
                                                 <!-- Indicador de acesso -->
                                                 <Border Grid.Column="2"
                                                         WidthRequest="32" HeightRequest="32"
                                                         BackgroundColor="{StaticResource SurfaceBackground}"
                                                         StrokeShape="RoundRectangle 10"
                                                         VerticalOptions="Center">
-
                                                     <Label Text="chevron_right"
                                                            FontFamily="MaterialIcons"
                                                            FontSize="18"
                                                            TextColor="{StaticResource Primary}"
                                                            HorizontalOptions="Center"
                                                            VerticalOptions="Center" />
-
                                                 </Border>
-
                                             </Grid>
                                         </Border>
                                     </SwipeView>
@@ -442,36 +405,8 @@
             </ScrollView>
         </RefreshView>
 
-        <!-- Help Button (Floating) -->
-        <Border Grid.Row="2"
-                WidthRequest="40" HeightRequest="40"
-                BackgroundColor="{StaticResource ElevatedSurface}"
-                StrokeShape="RoundRectangle 20"
-                Stroke="{StaticResource BorderPrimary}"
-                StrokeThickness="0.5"
-                HorizontalOptions="End"
-                VerticalOptions="End"
-                Margin="24,0,24,140">
-
-            <Border.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding HelpCommand}"/>
-            </Border.GestureRecognizers>
-
-            <Border.Shadow>
-                <Shadow Brush="#30000000" Offset="0,6" Radius="16" Opacity="0.15" />
-            </Border.Shadow>
-
-            <Label Text="help_outline"
-                   FontFamily="MaterialIcons"
-                   FontSize="20"
-                   TextColor="{StaticResource Primary}"
-                   HorizontalOptions="Center"
-                   VerticalOptions="Center" />
-
-        </Border>
-
         <!-- Modern Floating Action Menu -->
-        <Border Grid.Row="3"
+        <Border Grid.Row="2"
                 Style="{StaticResource NavigationMenuStyle}"
                 WidthRequest="340"
                 HeightRequest="100"
@@ -479,9 +414,7 @@
                 VerticalOptions="End"
                 Margin="0,0,0,32"
                 Padding="24,20">
-
             <Grid ColumnDefinitions="*,Auto,*" ColumnSpacing="24">
-
                 <!-- Export/Import Button -->
                 <Button Grid.Column="0"
                         Style="{StaticResource GhostIconButtonStyle}"
@@ -492,7 +425,6 @@
                         CornerRadius="18"
                         Command="{Binding SelectActionCommand}"
                         CommandParameter="Export/Import" />
-
                 <!-- Add Button (Principal) -->
                 <Border Grid.Column="1"
                         WidthRequest="60" HeightRequest="60"
@@ -500,24 +432,19 @@
                         StrokeShape="RoundRectangle 30"
                         VerticalOptions="Center"
                         HorizontalOptions="Center">
-
                     <Border.Shadow>
                         <Shadow Brush="{StaticResource Primary}" Offset="0,6" Radius="20" Opacity="0.35" />
                     </Border.Shadow>
-
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding SelectActionCommand}" CommandParameter="Add"/>
                     </Border.GestureRecognizers>
-
                     <Label Text="add"
                            FontFamily="MaterialIcons"
                            FontSize="28"
                            TextColor="{StaticResource PrimaryDarkText}"
                            HorizontalOptions="Center"
                            VerticalOptions="Center" />
-
                 </Border>
-
                 <!-- Search Button -->
                 <Button Grid.Column="2"
                         Style="{StaticResource GhostIconButtonStyle}"
@@ -528,7 +455,6 @@
                         CornerRadius="18"
                         Command="{Binding SelectActionCommand}"
                         CommandParameter="Search" />
-
             </Grid>
         </Border>
     </Grid>

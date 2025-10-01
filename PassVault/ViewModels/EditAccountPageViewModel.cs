@@ -29,7 +29,7 @@ namespace PassVault.ViewModels
         [ObservableProperty] private string _selectedColorHex = Colors.Purple.ToHex();
         [ObservableProperty] private bool _isColorPickerVisible = false;
         [ObservableProperty] private bool _isEditing;
-        [ObservableProperty] private bool _isPasswordVisible = true;
+        [ObservableProperty] private bool _isPasswordVisible = false;
         [ObservableProperty] private List<Folder> _folders = new();
         [ObservableProperty] private string _selectedFolderName;
         [ObservableProperty] private bool isUsernameVisible = true;
