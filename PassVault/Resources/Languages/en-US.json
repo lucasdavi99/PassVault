@@ -359,7 +359,7 @@
     "no_password_configured": "Your device does not have a password configured. Please set one to continue.",
     "auth_success": "Authentication successful!",
     "duplicate_folder_name": "A folder with this name already exists in the same location. Please choose a different name.",
-    "duplicate_account_name": "An account with this name already exists in the same folder. Please choose a different name."
+    "duplicate_account_name": "An account with this name already exists. Please choose a different name."
   },
   "validation": {
     "required_field": "This field is required",
