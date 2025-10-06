@@ -38,8 +38,8 @@ namespace PassVault
             builder.Services.AddSingleton<IMemoryCache, MemoryCache>();
             builder.Services.AddSingleton<CacheService>();
 
-            // Serviço de Localização
             builder.Services.AddSingleton<ILocalizationService, LocalizationService>();
+            builder.Services.AddSingleton<IVipService, VipService>();
 
             // Database services - mantém como Singleton
             builder.Services.AddSingleton<AccountDatabase>();

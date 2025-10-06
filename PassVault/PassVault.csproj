@@ -57,6 +57,7 @@
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.4" />
 		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="9.0.4" />
 		<PackageReference Include="nor0x.Maui.ColorPicker" Version="2.0.4" />
+		<PackageReference Include="Plugin.InAppBilling" Version="9.1.0" />
 		<PackageReference Include="SkiaSharp.Views.Maui.Controls" Version="3.116.1" />
 		<PackageReference Include="Plugin.Fingerprint" Version="2.1.5" />
 		<PackageReference Include="sqlite-net-pcl" Version="1.9.172" />
