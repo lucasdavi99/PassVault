@@ -167,6 +167,15 @@ namespace PassVault.Data
             return await _database.Table<Account>().CountAsync();
         }
 
+        // --- NOVO MÉTODO PARA A LÓGICA VIP ---
+        public async Task<int> GetTotalAccountsAsync()
+        {
+            await Init();
+            if (_database == null)
+                throw new InvalidOperationException("Database not initialized");
+            return await _database.Table<Account>().CountAsync();
+        }
+
         // Novo método para contar por pasta
         public async Task<int> GetAccountsCountByFolderAsync(int? folderId)
         {

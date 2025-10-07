@@ -15,6 +15,7 @@ namespace PassVault.ViewModels
     {
         private readonly FolderDatabase _database;
         private readonly ILocalizationService _localizationService;
+        private readonly IVipService _vipService;
 
         [ObservableProperty]
         private int? parentFolderId;
@@ -52,10 +53,11 @@ namespace PassVault.ViewModels
         [ObservableProperty] private string confirmColorButton;
 
 
-        public NewFolderPageViewModel(FolderDatabase database, ILocalizationService localizationService)
+        public NewFolderPageViewModel(FolderDatabase database, ILocalizationService localizationService, IVipService vipService)
         {
             _database = database;
             _localizationService = localizationService;
+            _vipService = vipService;
             UpdateLocalizedTexts();
             _localizationService.LanguageChanged += (s, e) => UpdateLocalizedTexts();
         }
@@ -86,6 +88,30 @@ namespace PassVault.ViewModels
         {
             try
             {
+                if (!_vipService.IsUserVip())
+                {
+                    // Bloquear criação de subpastas
+                    if (ParentFolderId.HasValue)
+                    {
+                        await Shell.Current.DisplayAlert(
+                            L.Text("vip.feature_locked_title"),
+                            L.Text("vip.subfolder_feature_message"),
+                            L.Text("common.ok"));
+                        return;
+                    }
+
+                    // Verificar limite de pastas
+                    var folderCount = await _database.GetTotalFoldersAsync();
+                    if (folderCount >= 2)
+                    {
+                        await Shell.Current.DisplayAlert(
+                            L.Text("vip.limit_reached_title"),
+                            L.Text("vip.folder_limit_message"),
+                            L.Text("common.ok"));
+                        return;
+                    }
+                }
+
                 if (string.IsNullOrEmpty(Title))
                 {
                     await Shell.Current.DisplayAlert(L.Text("common.error"), L.Text("messages.folder_title_required"), L.Text("common.ok"));
@@ -94,7 +120,7 @@ namespace PassVault.ViewModels
 
                 // Verificar se já existe uma pasta com o mesmo nome no mesmo local
                 bool folderExists = await _database.FolderNameExistsAsync(Title, ParentFolderId);
-                
+
                 if (folderExists)
                 {
                     await Shell.Current.DisplayAlert(L.Text("common.error"), L.Text("messages.duplicate_folder_name"), L.Text("common.ok"));

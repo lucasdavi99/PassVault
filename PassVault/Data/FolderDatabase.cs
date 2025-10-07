@@ -252,6 +252,15 @@ namespace PassVault.Data
                 .CountAsync();
         }
 
+        // --- NOVO MÉTODO PARA A LÓGICA VIP ---
+        public async Task<int> GetTotalFoldersAsync()
+        {
+            await Init();
+            if (_database == null)
+                throw new InvalidOperationException("Database not initialized");
+            return await _database.Table<Folder>().CountAsync();
+        }
+
         // Verificar se a pasta pode ser movida (evitar loops)
         public async Task<bool> CanMoveFolderAsync(int folderId, int? newParentId)
         {

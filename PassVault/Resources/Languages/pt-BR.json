@@ -424,5 +424,23 @@
       "title": "Autenticação necessária",
       "message": "Desbloqueie o Dispositivo."
     }
+  },
+  "vip": {
+    "limit_reached_title": "Limite Atingido",
+    "account_limit_message": "Você atingiu o limite de 10 contas da versão gratuita. Faça o upgrade para o VIP para criar contas ilimitadas!",
+    "folder_limit_message": "Você atingiu o limite de 2 pastas da versão gratuita. Faça o upgrade para o VIP para criar pastas ilimitadas!",
+    "feature_locked_title": "Recurso VIP",
+    "subfolder_feature_message": "A criação de subpastas é um recurso exclusivo da versão VIP. Faça o upgrade para organizar suas contas com mais detalhes!"
+  },
+  "upgrade_page": {
+    "title": "Tornar-se VIP",
+    "header_title": "Desbloqueie todo o Potencial",
+    "header_subtitle": "Faça o upgrade para a versão VIP com um pagamento único e aproveite todos os recursos para sempre.",
+    "benefits_title": "Benefícios VIP:",
+    "benefit_unlimited_accounts": "Contas ilimitadas",
+    "benefit_unlimited_folders": "Pastas ilimitadas",
+    "benefit_subfolders": "Suporte a subpastas",
+    "purchase_button": "Tornar-se VIP Agora",
+    "restore_button": "Restaurar Compras"
   }
 }

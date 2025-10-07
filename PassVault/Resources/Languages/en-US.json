@@ -424,5 +424,23 @@
       "title": "Authentication required",
       "message": "Unlock the Device."
     }
+  },
+  "vip": {
+    "limit_reached_title": "Limit Reached",
+    "account_limit_message": "You have reached the 10 account limit of the free version. Upgrade to VIP to create unlimited accounts!",
+    "folder_limit_message": "You have reached the 2 folder limit of the free version. Upgrade to VIP to create unlimited folders!",
+    "feature_locked_title": "VIP Feature",
+    "subfolder_feature_message": "Creating subfolders is a VIP exclusive feature. Upgrade to organize your accounts with more detail!"
+  },
+  "upgrade_page": {
+    "title": "Become VIP",
+    "header_title": "Unlock Full Potential",
+    "header_subtitle": "Upgrade to the VIP version with a single payment and enjoy all features forever.",
+    "benefits_title": "VIP Benefits:",
+    "benefit_unlimited_accounts": "Unlimited accounts",
+    "benefit_unlimited_folders": "Unlimited folders",
+    "benefit_subfolders": "Subfolder support",
+    "purchase_button": "Become VIP Now",
+    "restore_button": "Restore Purchases"
   }
 }
