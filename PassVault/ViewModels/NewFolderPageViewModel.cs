@@ -6,8 +6,8 @@ using PassVault.Interfaces;
 using PassVault.Messages;
 using PassVault.Models;
 using PassVault.Services;
+using PassVault.Views;
 using System.ComponentModel.DataAnnotations;
-using System.Xml;
 
 namespace PassVault.ViewModels
 {
@@ -93,10 +93,16 @@ namespace PassVault.ViewModels
                     // Bloquear criação de subpastas
                     if (ParentFolderId.HasValue)
                     {
-                        await Shell.Current.DisplayAlert(
+                        bool wantsToUpgrade = await Shell.Current.DisplayAlert(
                             L.Text("vip.feature_locked_title"),
                             L.Text("vip.subfolder_feature_message"),
-                            L.Text("common.ok"));
+                            L.Text("vip.upgrade_now"),
+                            L.Text("common.cancel"));
+
+                        if (wantsToUpgrade)
+                        {
+                            await Shell.Current.GoToAsync(nameof(UpgradePage));
+                        }
                         return;
                     }
 
@@ -104,10 +110,16 @@ namespace PassVault.ViewModels
                     var folderCount = await _database.GetTotalFoldersAsync();
                     if (folderCount >= 2)
                     {
-                        await Shell.Current.DisplayAlert(
+                        bool wantsToUpgrade = await Shell.Current.DisplayAlert(
                             L.Text("vip.limit_reached_title"),
                             L.Text("vip.folder_limit_message"),
-                            L.Text("common.ok"));
+                            L.Text("vip.upgrade_now"),
+                            L.Text("common.cancel"));
+
+                        if (wantsToUpgrade)
+                        {
+                            await Shell.Current.GoToAsync(nameof(UpgradePage));
+                        }
                         return;
                     }
                 }
@@ -118,7 +130,6 @@ namespace PassVault.ViewModels
                     return;
                 }
 
-                // Verificar se já existe uma pasta com o mesmo nome no mesmo local
                 bool folderExists = await _database.FolderNameExistsAsync(Title, ParentFolderId);
 
                 if (folderExists)
@@ -167,7 +178,6 @@ namespace PassVault.ViewModels
 
         partial void OnSelectedColorChanged(Color value)
         {
-            // Força a atualização da interface
             SelectedColorHex = value.ToHex();
             OnPropertyChanged(nameof(SelectedColor));
         }

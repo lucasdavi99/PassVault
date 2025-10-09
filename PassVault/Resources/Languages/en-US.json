@@ -49,6 +49,11 @@
   "settings": {
     "title": "Settings",
     "subtitle": "Customize and manage your app",
+    "vip": {
+      "title": "Become VIP",
+      "subtitle": "Unlock all features with a one-time payment.",
+      "button": "See Benefits"
+    },
     "language": {
       "title": "Language",
       "subtitle": "Choose the application language",
@@ -430,7 +435,8 @@
     "account_limit_message": "You have reached the 10 account limit of the free version. Upgrade to VIP to create unlimited accounts!",
     "folder_limit_message": "You have reached the 2 folder limit of the free version. Upgrade to VIP to create unlimited folders!",
     "feature_locked_title": "VIP Feature",
-    "subfolder_feature_message": "Creating subfolders is a VIP exclusive feature. Upgrade to organize your accounts with more detail!"
+    "subfolder_feature_message": "Creating subfolders is a VIP exclusive feature. Upgrade to organize your accounts with more detail!",
+    "upgrade_now": "Upgrade now!"
   },
   "upgrade_page": {
     "title": "Become VIP",

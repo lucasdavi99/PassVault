@@ -120,11 +120,18 @@ namespace PassVault.ViewModels
                     var accountCount = await _database.GetTotalAccountsAsync();
                     if (accountCount >= 10)
                     {
-                        await Shell.Current.DisplayAlert(
+                        // Exibe um alerta com a opção de fazer upgrade
+                        bool wantsToUpgrade = await Shell.Current.DisplayAlert(
                             L.Text("vip.limit_reached_title"),
                             L.Text("vip.account_limit_message"),
-                            L.Text("common.ok"));
-                        return;
+                            L.Text("vip.upgrade_now"),
+                            L.Text("common.cancel"));
+
+                        if (wantsToUpgrade)
+                        {
+                            await Shell.Current.GoToAsync(nameof(UpgradePage));
+                        }
+                        return; // Impede o salvamento da conta
                     }
                 }
 
@@ -136,7 +143,6 @@ namespace PassVault.ViewModels
                     return;
                 }
 
-                // Verificar se já existe uma conta com o mesmo nome na mesma pasta
                 bool accountExists = await _database.AccountNameExistsAsync(Title, FolderId);
 
                 if (accountExists)
@@ -184,7 +190,6 @@ namespace PassVault.ViewModels
 
         partial void OnSelectedColorChanged(Color value)
         {
-            // Força a atualização da interface
             SelectedColorHex = value.ToHex();
             OnPropertyChanged(nameof(SelectedColor));
         }

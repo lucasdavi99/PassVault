@@ -62,6 +62,50 @@
         <ScrollView Grid.Row="1">
             <StackLayout Spacing="24" Padding="24,24,24,120">
 
+                <!-- NOVA SEÇÃO VIP -->
+                <Border Style="{StaticResource ElevatedCardStyle}" IsVisible="{Binding IsNotVip}">
+                    <StackLayout Spacing="20">
+                        <!-- VIP Header -->
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                            <Border Grid.Column="0"
+                                    WidthRequest="40" HeightRequest="40"
+                                    BackgroundColor="{StaticResource Accent}"
+                                    StrokeShape="RoundRectangle 12">
+                                <Label Text="workspace_premium"
+                                       FontFamily="MaterialIcons"
+                                       FontSize="20"
+                                       TextColor="{StaticResource PrimaryDarkText}"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center" />
+                            </Border>
+
+                            <StackLayout Grid.Column="1" Spacing="4">
+                                <Label Text="{Binding VipSectionTitle}"
+                                       Style="{StaticResource TitleStyle}"
+                                       FontSize="16"
+                                       TextColor="{StaticResource Primary}" />
+                                <Label Text="{Binding VipSectionSubtitle}"
+                                       Style="{StaticResource CaptionStyle}"
+                                       Opacity="0.8" />
+                            </StackLayout>
+                        </Grid>
+
+                        <!-- Upgrade Button -->
+                        <Button Text="{Binding GoToUpgradeButtonText}"
+                                Style="{StaticResource ModernButtonStyle}"
+                                Background="{StaticResource AccentGradient}"
+                                Command="{Binding GoToUpgradePageCommand}">
+                            <Button.ImageSource>
+                                <FontImageSource FontFamily="MaterialIcons"
+                                                 Glyph="rocket_launch"
+                                                 Color="{StaticResource PrimaryDarkText}"
+                                                 Size="20" />
+                            </Button.ImageSource>
+                        </Button>
+                    </StackLayout>
+                </Border>
+
+
                 <!-- Language Section -->
                 <Border Style="{StaticResource ElevatedCardStyle}">
                     <StackLayout Spacing="20">
@@ -267,6 +311,14 @@
 
                     </StackLayout>
                 </Border>
+
+                <!-- botão para ativar modo premiun do app, (apenas para dev) -->
+                <Button 
+                    Text="[DEV] Ativar/Desativar VIP"
+                    Command="{Binding ToggleVipStatusCommand}"
+                    BackgroundColor="Orange"
+                    TextColor="White"
+                    Margin="0,20,0,0" />
 
             </StackLayout>
         </ScrollView>

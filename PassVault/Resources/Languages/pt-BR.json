@@ -49,6 +49,11 @@
   "settings": {
     "title": "Configurações",
     "subtitle": "Personalize e gerencie seu app",
+    "vip": {
+      "title": "Torne-se VIP",
+      "subtitle": "Desbloqueie todos os recursos com um pagamento único.",
+      "button": "Ver Vantagens"
+    },
     "language": {
       "title": "Idioma",
       "subtitle": "Escolha o idioma do aplicativo",
@@ -430,7 +435,8 @@
     "account_limit_message": "Você atingiu o limite de 10 contas da versão gratuita. Faça o upgrade para o VIP para criar contas ilimitadas!",
     "folder_limit_message": "Você atingiu o limite de 2 pastas da versão gratuita. Faça o upgrade para o VIP para criar pastas ilimitadas!",
     "feature_locked_title": "Recurso VIP",
-    "subfolder_feature_message": "A criação de subpastas é um recurso exclusivo da versão VIP. Faça o upgrade para organizar suas contas com mais detalhes!"
+    "subfolder_feature_message": "A criação de subpastas é um recurso exclusivo da versão VIP. Faça o upgrade para organizar suas contas com mais detalhes!",
+    "upgrade_now": "Atualize agora!"
   },
   "upgrade_page": {
     "title": "Tornar-se VIP",

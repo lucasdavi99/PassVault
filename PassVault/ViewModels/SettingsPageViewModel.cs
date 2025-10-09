@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using PassVault.Data;
 using PassVault.Interfaces;
 using PassVault.Services;
+using PassVault.Views; // Certifique-se que a view UpgradePage está neste namespace
 using System.Collections.ObjectModel;
 
 namespace PassVault.ViewModels
@@ -13,6 +14,21 @@ namespace PassVault.ViewModels
         private readonly FolderDatabase _folderDatabase;
         private readonly CacheService _cacheService;
         private readonly ILocalizationService _localizationService;
+        private readonly IVipService _vipService; // Serviço VIP injetado
+
+        // --- Novas Propriedades para a Seção VIP ---
+        [ObservableProperty]
+        private bool isNotVip;
+
+        [ObservableProperty]
+        private string vipSectionTitle;
+
+        [ObservableProperty]
+        private string vipSectionSubtitle;
+
+        [ObservableProperty]
+        private string goToUpgradeButtonText;
+        // --- Fim das Propriedades VIP ---
 
         [ObservableProperty]
         private ObservableCollection<string> availableLanguages = new()
@@ -24,7 +40,6 @@ namespace PassVault.ViewModels
         [ObservableProperty]
         private string selectedLanguage = "Português (Brasil)";
 
-        // Propriedades dinâmicas do app
         [ObservableProperty]
         private string appVersion;
 
@@ -34,14 +49,12 @@ namespace PassVault.ViewModels
         [ObservableProperty]
         private string buildNumber;
 
-        // Propriedades localizadas - Configurações
         [ObservableProperty]
         private string settingsTitle;
 
         [ObservableProperty]
         private string settingsSubtitle;
 
-        // Propriedades localizadas - Idioma
         [ObservableProperty]
         private string languageTitle;
 
@@ -54,7 +67,6 @@ namespace PassVault.ViewModels
         [ObservableProperty]
         private string applyLanguageText;
 
-        // Propriedades localizadas - Reset
         [ObservableProperty]
         private string resetTitle;
 
@@ -70,7 +82,6 @@ namespace PassVault.ViewModels
         [ObservableProperty]
         private string resetAppText;
 
-        // Propriedades localizadas - Sobre
         [ObservableProperty]
         private string aboutTitle;
 
@@ -87,26 +98,43 @@ namespace PassVault.ViewModels
             AccountDatabase accountDatabase,
             FolderDatabase folderDatabase,
             CacheService cacheService,
-            ILocalizationService localizationService)
+            ILocalizationService localizationService,
+            IVipService vipService) // Injeção do IVipService
         {
             _accountDatabase = accountDatabase;
             _folderDatabase = folderDatabase;
             _cacheService = cacheService;
             _localizationService = localizationService;
+            _vipService = vipService; // Armazenar a instância
 
             LoadCurrentLanguage();
             LoadAppInfo();
+            LoadVipStatus(); // Carregar o status do VIP
 
-            // Configuração da localização
             UpdateLocalizedTexts();
             _localizationService.LanguageChanged += OnLanguageChanged;
         }
 
+        //Comando para ativar modo premiun (apenas Dev)
+        [RelayCommand]
+        private async Task ToggleVipStatus()
+        {
+            bool isCurrentlyVip = _vipService.IsUserVip();
+            _vipService.SetUserVipStatus(!isCurrentlyVip);
+
+            string status = _vipService.IsUserVip() ? "ATIVADO" : "DESATIVADO";
+            await Shell.Current.DisplayAlert("Status de Teste", $"O modo VIP foi {status}.", "OK");
+            await Shell.Current.Navigation.PopAsync(); // Volta para a tela anterior para ver o resultado
+        }
+
+        private void LoadVipStatus()
+        {
+            IsNotVip = !_vipService.IsUserVip();
+        }
+
         private void LoadCurrentLanguage()
         {
-            // Carregar idioma salvo nas preferências
             var savedLanguage = Preferences.Get("AppLanguage", "pt-BR");
-
             SelectedLanguage = savedLanguage switch
             {
                 "en-US" => "English (US)",
@@ -124,11 +152,9 @@ namespace PassVault.ViewModels
             }
             catch (Exception ex)
             {
-                // Fallback caso não consiga acessar as informações
                 AppVersion = "1.2.0";
                 AppName = "PassVault";
                 BuildNumber = "1";
-
                 System.Diagnostics.Debug.WriteLine($"Erro ao carregar AppInfo: {ex.Message}");
             }
         }
@@ -144,48 +170,44 @@ namespace PassVault.ViewModels
                     _ => "pt-BR"
                 };
 
-                // Aplicar o idioma através do serviço
                 await _localizationService.SetLanguageAsync(languageCode);
 
-                // Mostrar mensagem de confirmação
                 var title = L.Text("settings.language.changed");
                 var message = L.Text("settings.language.restart_message");
                 var okText = L.Text("common.ok");
-
                 await Shell.Current.DisplayAlert(title, message, okText);
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"Erro ao aplicar idioma: {ex.Message}");
-
                 var errorTitle = L.Text("common.error");
                 var errorMessage = "Erro ao aplicar o idioma. Tente novamente.";
                 var okText = L.Text("common.ok");
-
                 await Shell.Current.DisplayAlert(errorTitle, errorMessage, okText);
             }
         }
 
         private void UpdateLocalizedTexts()
         {
-            // Configurações gerais
             SettingsTitle = L.Text("settings.title");
             SettingsSubtitle = L.Text("settings.subtitle");
-            
-            // Seção de idioma
+
+            // Textos da Seção VIP
+            VipSectionTitle = L.Text("settings.vip.title");
+            VipSectionSubtitle = L.Text("settings.vip.subtitle");
+            GoToUpgradeButtonText = L.Text("settings.vip.button");
+
             LanguageTitle = L.Text("settings.language.title");
             LanguageSubtitle = L.Text("settings.language.subtitle");
             CurrentLanguageText = L.Text("settings.language.current");
             ApplyLanguageText = L.Text("settings.language.apply");
-            
-            // Seção de reset
+
             ResetTitle = L.Text("settings.reset.title");
             ResetSubtitle = L.Text("settings.reset.subtitle");
             WarningTitle = L.Text("settings.reset.warning_title");
             WarningMessage = L.Text("settings.reset.warning_message");
             ResetAppText = L.Text("settings.reset.button");
-            
-            // Seção sobre
+
             AboutTitle = L.Text("settings.about.title");
             AboutSubtitle = L.Text("settings.about.subtitle");
             VersionText = L.Text("settings.about.version");
@@ -210,37 +232,28 @@ namespace PassVault.ViewModels
                 var yesText = L.Text("common.yes");
                 var noText = L.Text("common.no");
 
-                var result = await Shell.Current.DisplayAlert(title, message, yesText, noText);
-
-                if (result)
+                if (await Shell.Current.DisplayAlert(title, message, yesText, noText))
                 {
-                    // 1. Limpar cache
                     _cacheService.ClearAll();
 
-                    // 2. Deletar todas as contas
                     var accounts = await _accountDatabase.GetAccountsAsync();
                     foreach (var account in accounts)
                     {
                         await _accountDatabase.DeleteAccountAsync(account);
                     }
 
-                    // 3. Deletar todas as pastas
                     var folders = await _folderDatabase.GetFoldersAsync();
                     foreach (var folder in folders)
                     {
                         await _folderDatabase.DeleteFolderAsync(folder);
                     }
 
-                    // 4. Limpar todas as preferências (exceto o idioma se quiser manter)
                     var currentLanguage = Preferences.Get("AppLanguage", "pt-BR");
-
                     Preferences.Clear();
 
-                    // Restaurar configurações iniciais
                     Preferences.Set("IsNewUser", true);
-                    Preferences.Set("AppLanguage", currentLanguage); // Manter idioma
+                    Preferences.Set("AppLanguage", currentLanguage);
 
-                    // 5. Forçar coleta de lixo
                     GC.Collect();
                     GC.WaitForPendingFinalizers();
                     GC.Collect();
@@ -248,23 +261,29 @@ namespace PassVault.ViewModels
                     var successTitle = L.Text("common.success");
                     var successMessage = L.Text("settings.reset.success_message");
                     var okText = L.Text("common.ok");
-
                     await Shell.Current.DisplayAlert(successTitle, successMessage, okText);
                 }
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"Erro ao resetar app: {ex.Message}");
-
                 var errorTitle = L.Text("common.error");
                 var errorMessage = L.Text("settings.reset.error_message");
                 var okText = L.Text("common.ok");
-
                 await Shell.Current.DisplayAlert(errorTitle, errorMessage, okText);
             }
         }
 
-        // Dispose para limpar eventos
+        // --- Novo Comando para Navegação ---
+        [RelayCommand]
+        private async Task GoToUpgradePage()
+        {
+            if (IsNotVip)
+            {
+                await Shell.Current.GoToAsync(nameof(UpgradePage));
+            }
+        }
+
         ~SettingsPageViewModel()
         {
             if (_localizationService != null)
