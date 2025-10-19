@@ -6,56 +6,141 @@
              x:DataType="viewmodel:UpgradePageViewModel"
              Title="{Binding PageTitle}">
 
-    <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="25">
+    <Grid RowDefinitions="Auto,*">
 
-            <Label 
-                Text="{Binding HeaderTitle}"
-                FontSize="28"
-                FontAttributes="Bold"
-                HorizontalTextAlignment="Center"
-                TextColor="{StaticResource Primary}"/>
-            <Label 
-                Text="{Binding HeaderSubtitle}"
-                FontSize="16"
-                HorizontalTextAlignment="Center"
-                TextColor="{StaticResource Gray500}"/>
+        <!-- Premium Header -->
+        <Border Grid.Row="0"
+                Background="{StaticResource SurfaceGradient}"
+                Padding="0,40,0,28"
+                StrokeShape="RoundRectangle 0,0,28,28">
+            <Grid ColumnDefinitions="Auto,*"
+                  ColumnSpacing="16"
+                  Padding="24,0">
 
-            <Frame Padding="15" CornerRadius="10" BorderColor="{StaticResource Gray200}">
-                <VerticalStackLayout Spacing="15">
-                    <Label Text="{Binding BenefitsTitle}" FontSize="20" FontAttributes="Bold" />
+                <Border Grid.Column="0"
+                        WidthRequest="56" HeightRequest="56"
+                        BackgroundColor="{StaticResource Primary}"
+                        StrokeShape="RoundRectangle 18">
+                    <Border.Shadow>
+                        <Shadow Brush="{StaticResource Primary}" Offset="0,6" Radius="18" Opacity="0.28" />
+                    </Border.Shadow>
 
-                    <HorizontalStackLayout Spacing="10">
-                        <Label Text="✓" TextColor="Green" FontSize="20" VerticalOptions="Center"/>
-                        <Label Text="{Binding BenefitUnlimitedAccounts}" VerticalOptions="Center"/>
-                    </HorizontalStackLayout>
+                    <Label Text="workspace_premium"
+                           FontFamily="MaterialIcons"
+                           FontSize="26"
+                           TextColor="{StaticResource PrimaryDarkText}"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center" />
+                </Border>
 
-                    <HorizontalStackLayout Spacing="10">
-                        <Label Text="✓" TextColor="Green" FontSize="20" VerticalOptions="Center"/>
-                        <Label Text="{Binding BenefitUnlimitedFolders}" VerticalOptions="Center"/>
-                    </HorizontalStackLayout>
+                <StackLayout Grid.Column="1"
+                             Spacing="8"
+                             VerticalOptions="Center">
+                    <Label Text="{Binding HeaderTitle}"
+                           Style="{StaticResource HeadlineStyle}"
+                           FontSize="26"
+                           LineHeight="1.2"
+                           HorizontalOptions="Start"
+                           HorizontalTextAlignment="Start" />
 
-                    <HorizontalStackLayout Spacing="10">
-                        <Label Text="✓" TextColor="Green" FontSize="20" VerticalOptions="Center"/>
-                        <Label Text="{Binding BenefitSubfolders}" VerticalOptions="Center"/>
-                    </HorizontalStackLayout>
+                    <Label Text="{Binding HeaderSubtitle}"
+                           Style="{StaticResource SubtitleStyle}"
+                           FontSize="16"
+                           HorizontalOptions="Start"
+                           HorizontalTextAlignment="Start"
+                           Opacity="0.85" />
+                </StackLayout>
+            </Grid>
+        </Border>
+
+        <!-- Main Content -->
+        <Grid Grid.Row="1">
+            <ScrollView>
+                <VerticalStackLayout Padding="24,24,24,120" Spacing="28">
+
+                    <Border Style="{StaticResource ElevatedCardStyle}">
+                        <VerticalStackLayout Spacing="24">
+                            <StackLayout Spacing="4">
+                                <Label Text="{Binding BenefitsTitle}"
+                                       Style="{StaticResource TitleStyle}"
+                                       FontSize="22"
+                                       TextColor="{StaticResource TextPrimary}" />
+                                <BoxView HeightRequest="1"
+                                         Color="{StaticResource Divider}" />
+                            </StackLayout>
+
+                            <VerticalStackLayout Spacing="16">
+                                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="16">
+                                    <Border WidthRequest="40" HeightRequest="40"
+                                            BackgroundColor="{StaticResource Primary}"
+                                            StrokeShape="RoundRectangle 14">
+                                        <Label Text="done_all"
+                                               FontFamily="MaterialIcons"
+                                               FontSize="20"
+                                               TextColor="{StaticResource PrimaryDarkText}"
+                                               HorizontalOptions="Center"
+                                               VerticalOptions="Center" />
+                                    </Border>
+                                    <Label Grid.Column="1"
+                                           Text="{Binding BenefitUnlimitedAccounts}"
+                                           Style="{StaticResource BodyStyle}"
+                                           TextColor="{StaticResource TextPrimary}" />
+                                </Grid>
+
+                                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="16">
+                                    <Border WidthRequest="40" HeightRequest="40"
+                                            BackgroundColor="{StaticResource Primary}"
+                                            StrokeShape="RoundRectangle 14">
+                                        <Label Text="folder_special"
+                                               FontFamily="MaterialIcons"
+                                               FontSize="20"
+                                               TextColor="{StaticResource PrimaryDarkText}"
+                                               HorizontalOptions="Center"
+                                               VerticalOptions="Center" />
+                                    </Border>
+                                    <Label Grid.Column="1"
+                                           Text="{Binding BenefitUnlimitedFolders}"
+                                           Style="{StaticResource BodyStyle}"
+                                           TextColor="{StaticResource TextPrimary}" />
+                                </Grid>
+
+                                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="16">
+                                    <Border WidthRequest="40" HeightRequest="40"
+                                            BackgroundColor="{StaticResource Primary}"
+                                            StrokeShape="RoundRectangle 14">
+                                        <Label Text="subdirectory_arrow_right"
+                                               FontFamily="MaterialIcons"
+                                               FontSize="20"
+                                               TextColor="{StaticResource PrimaryDarkText}"
+                                               HorizontalOptions="Center"
+                                               VerticalOptions="Center" />
+                                    </Border>
+                                    <Label Grid.Column="1"
+                                           Text="{Binding BenefitSubfolders}"
+                                           Style="{StaticResource BodyStyle}"
+                                           TextColor="{StaticResource TextPrimary}" />
+                                </Grid>
+                            </VerticalStackLayout>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <StackLayout Spacing="16">
+                        <Button Text="{Binding PurchaseButtonText}"
+                                Command="{Binding PurchaseCommand}"
+                                Style="{StaticResource ModernButtonStyle}"
+                                Background="{StaticResource PrimaryGradient}" />
+
+                        <Button Text="{Binding RestoreButtonText}"
+                                Command="{Binding RestoreCommand}"
+                                Style="{StaticResource SecondaryButtonStyle}" />
+                    </StackLayout>
                 </VerticalStackLayout>
-            </Frame>
+            </ScrollView>
 
-            <Button 
-                Text="{Binding PurchaseButtonText}" 
-                Command="{Binding PurchaseCommand}"
-                Style="{StaticResource PrimaryButton}"
-                Margin="0,20,0,0"/>
-
-            <Button 
-                Text="{Binding RestoreButtonText}"
-                Command="{Binding RestoreCommand}"
-                Style="{StaticResource TertiaryButton}"
-                FontSize="14"/>
-
-            <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
-
-        </VerticalStackLayout>
-    </ScrollView>
+            <ActivityIndicator IsRunning="{Binding IsBusy}"
+                               IsVisible="{Binding IsBusy}"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center" />
+        </Grid>
+    </Grid>
 </ContentPage>

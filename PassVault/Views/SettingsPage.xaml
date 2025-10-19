@@ -69,12 +69,12 @@
                         <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
                             <Border Grid.Column="0"
                                     WidthRequest="40" HeightRequest="40"
-                                    BackgroundColor="{StaticResource Accent}"
+                                    Background="{StaticResource PrimaryGradient}"
                                     StrokeShape="RoundRectangle 12">
                                 <Label Text="workspace_premium"
                                        FontFamily="MaterialIcons"
                                        FontSize="20"
-                                       TextColor="{StaticResource PrimaryDarkText}"
+                                       TextColor="{StaticResource TextPrimary}"
                                        HorizontalOptions="Center"
                                        VerticalOptions="Center" />
                             </Border>
@@ -94,11 +94,12 @@
                         <Button Text="{Binding GoToUpgradeButtonText}"
                                 Style="{StaticResource ModernButtonStyle}"
                                 Background="{StaticResource AccentGradient}"
+                                TextColor="{StaticResource TextPrimary}"
                                 Command="{Binding GoToUpgradePageCommand}">
                             <Button.ImageSource>
                                 <FontImageSource FontFamily="MaterialIcons"
                                                  Glyph="rocket_launch"
-                                                 Color="{StaticResource PrimaryDarkText}"
+                                                 Color="{StaticResource TextPrimary}"
                                                  Size="20" />
                             </Button.ImageSource>
                         </Button>

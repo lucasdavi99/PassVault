@@ -63,6 +63,11 @@
         <GradientStop Color="#4BC258" Offset="1.0" />
     </LinearGradientBrush>
 
+    <LinearGradientBrush x:Key="AccentGradient" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#D600AA" Offset="0.0" />
+        <GradientStop Color="#6C63FF" Offset="1.0" />
+    </LinearGradientBrush>
+
     <LinearGradientBrush x:Key="CardGradient" StartPoint="0,0" EndPoint="0,1">
         <GradientStop Color="#2A2732" Offset="0.0" />
         <GradientStop Color="#221F25" Offset="1.0" />
