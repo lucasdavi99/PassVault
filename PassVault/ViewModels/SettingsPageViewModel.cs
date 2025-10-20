@@ -28,6 +28,18 @@ namespace PassVault.ViewModels
 
         [ObservableProperty]
         private string goToUpgradeButtonText;
+
+        [ObservableProperty]
+        private string vipBenefitsTitle;
+
+        [ObservableProperty]
+        private string vipBenefitUnlimitedAccounts;
+
+        [ObservableProperty]
+        private string vipBenefitUnlimitedFolders;
+
+        [ObservableProperty]
+        private string vipBenefitSubfolders;
         // --- Fim das Propriedades VIP ---
 
         [ObservableProperty]
@@ -196,6 +208,10 @@ namespace PassVault.ViewModels
             VipSectionTitle = L.Text("settings.vip.title");
             VipSectionSubtitle = L.Text("settings.vip.subtitle");
             GoToUpgradeButtonText = L.Text("settings.vip.button");
+            VipBenefitsTitle = L.Text("upgrade_page.benefits_title");
+            VipBenefitUnlimitedAccounts = L.Text("upgrade_page.benefit_unlimited_accounts");
+            VipBenefitUnlimitedFolders = L.Text("upgrade_page.benefit_unlimited_folders");
+            VipBenefitSubfolders = L.Text("upgrade_page.benefit_subfolders");
 
             LanguageTitle = L.Text("settings.language.title");
             LanguageSubtitle = L.Text("settings.language.subtitle");
