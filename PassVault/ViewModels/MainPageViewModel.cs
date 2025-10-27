@@ -319,26 +319,28 @@ namespace PassVault.ViewModels
                     await MainThread.InvokeOnMainThreadAsync(() => Accounts.Clear());
                 }
 
-                // Carregar apenas contas sem pasta (da MainPage)
-                var newAccounts = await _database.GetAccountsWithoutFolderAsync(_currentAccountPage * PageSize, PageSize);
-
-                _hasMoreAccounts = newAccounts.Count == PageSize;
-                _currentAccountPage++;
-
-                var sortedAccounts = newAccounts
-                    .OrderBy(account => account.Title, StringComparer.OrdinalIgnoreCase)
-                    .ToList();
-
-                FormatAccountDates(sortedAccounts);
-
-                await MainThread.InvokeOnMainThreadAsync(() =>
+                do
                 {
-                    foreach (var account in sortedAccounts)
+                    var newAccounts = await _database.GetAccountsWithoutFolderAsync(_currentAccountPage * PageSize, PageSize);
+
+                    _hasMoreAccounts = newAccounts.Count == PageSize;
+                    _currentAccountPage++;
+
+                    var sortedAccounts = newAccounts
+                        .OrderBy(account => account.Title, StringComparer.OrdinalIgnoreCase)
+                        .ToList();
+
+                    FormatAccountDates(sortedAccounts);
+
+                    await MainThread.InvokeOnMainThreadAsync(() =>
                     {
-                        Accounts.Add(account);
-                    }
-                    UpdateEmptyState();
-                });
+                        foreach (var account in sortedAccounts)
+                        {
+                            Accounts.Add(account);
+                        }
+                        UpdateEmptyState();
+                    });
+                } while (refresh && _hasMoreAccounts);
             }
             catch (Exception ex)
             {
@@ -369,20 +371,22 @@ namespace PassVault.ViewModels
                     await MainThread.InvokeOnMainThreadAsync(() => Folders.Clear());
                 }
 
-                // Carregar apenas pastas raiz (sem pai)
-                var newFolders = await _folderDatabase.GetFoldersPagedAsync(_currentFolderPage * PageSize, PageSize);
-
-                _hasMoreFolders = newFolders.Count == PageSize;
-                _currentFolderPage++;
-
-                await MainThread.InvokeOnMainThreadAsync(() =>
+                do
                 {
-                    foreach (var folder in newFolders)
+                    var newFolders = await _folderDatabase.GetFoldersPagedAsync(_currentFolderPage * PageSize, PageSize);
+
+                    _hasMoreFolders = newFolders.Count == PageSize;
+                    _currentFolderPage++;
+
+                    await MainThread.InvokeOnMainThreadAsync(() =>
                     {
-                        Folders.Add(folder);
-                    }
-                    UpdateEmptyState();
-                });
+                        foreach (var folder in newFolders)
+                        {
+                            Folders.Add(folder);
+                        }
+                        UpdateEmptyState();
+                    });
+                } while (refresh && _hasMoreFolders);
             }
             catch (Exception ex)
             {
