@@ -214,7 +214,9 @@
                         </StackLayout>
 
                         <!-- Lista de Contas -->
-                        <CollectionView ItemsSource="{Binding Accounts}">
+                        <CollectionView ItemsSource="{Binding Accounts}"
+                                        RemainingItemsThreshold="5"
+                                        RemainingItemsThresholdReachedCommand="{Binding LoadMoreAccountsCommand}">
                             <CollectionView.ItemsLayout>
                                 <LinearItemsLayout Orientation="Vertical" ItemSpacing="12"/>
                             </CollectionView.ItemsLayout>
@@ -326,7 +328,9 @@
                         </StackLayout>
 
                         <!-- Lista de Pastas -->
-                        <CollectionView ItemsSource="{Binding Folders}">
+                        <CollectionView ItemsSource="{Binding Folders}"
+                                        RemainingItemsThreshold="5"
+                                        RemainingItemsThresholdReachedCommand="{Binding LoadMoreFoldersCommand}">
                             <CollectionView.ItemsLayout>
                                 <LinearItemsLayout Orientation="Vertical" ItemSpacing="12"/>
                             </CollectionView.ItemsLayout>
