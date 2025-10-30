@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using PassVault.Data;
 using PassVault.Interfaces;
 using PassVault.Services;
+using PassVault.Services.Security;
 using PassVault.ViewModels;
 using PassVault.Views;
 using SkiaSharp.Views.Maui.Controls.Hosting;
@@ -37,6 +38,7 @@ namespace PassVault
             // Services como Singleton para melhor performance
             builder.Services.AddSingleton<IMemoryCache, MemoryCache>();
             builder.Services.AddSingleton<CacheService>();
+            builder.Services.AddSingleton<IEncryptionService, EncryptionService>();
 
             builder.Services.AddSingleton<ILocalizationService, LocalizationService>();
             builder.Services.AddSingleton<IVipService, VipService>();
