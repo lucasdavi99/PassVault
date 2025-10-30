@@ -447,6 +447,20 @@
     "benefit_unlimited_folders": "Unlimited folders",
     "benefit_subfolders": "Subfolder support",
     "purchase_button": "Become VIP Now",
-    "restore_button": "Restore Purchases"
+    "restore_button": "Restore Purchases",
+    "purchase_success": "Purchase completed! VIP features unlocked.",
+    "purchase_already_owned": "You already own the VIP upgrade. Enjoy your benefits!",
+    "purchase_pending": "Your payment is still pending. We will unlock VIP as soon as the store confirms it.",
+    "pending_title": "Payment Pending",
+    "purchase_cancelled": "Purchase cancelled. No charges were made.",
+    "cancelled_title": "Purchase Cancelled",
+    "purchase_error": "We couldn't complete the purchase. Please try again later.",
+    "restore_success": "VIP benefits restored successfully!",
+    "restore_none": "No previous purchases found for this account.",
+    "restore_title": "Restore Purchase",
+    "billing_unavailable": "The Google Play billing service is currently unavailable.",
+    "network_error": "Could not reach the Play Store. Check your internet connection and try again.",
+    "product_not_found": "VIP product not found. Confirm the SKU configuration in the Play Console.",
+    "not_supported": "Purchases are only available on Android devices at the moment."
   }
 }

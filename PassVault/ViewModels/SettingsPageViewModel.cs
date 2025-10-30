@@ -1,10 +1,13 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using PassVault.Data;
 using PassVault.Interfaces;
+using PassVault.Messages;
 using PassVault.Services;
 using PassVault.Views; // Certifique-se que a view UpgradePage está neste namespace
 using System.Collections.ObjectModel;
+using Microsoft.Maui.ApplicationModel;
 
 namespace PassVault.ViewModels
 {
@@ -123,20 +126,16 @@ namespace PassVault.ViewModels
             LoadAppInfo();
             LoadVipStatus(); // Carregar o status do VIP
 
+            WeakReferenceMessenger.Default.Register<VipStatusChangedMessage>(this, (_, message) =>
+            {
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    IsNotVip = !message.Value;
+                });
+            });
+
             UpdateLocalizedTexts();
             _localizationService.LanguageChanged += OnLanguageChanged;
-        }
-
-        //Comando para ativar modo premiun (apenas Dev)
-        [RelayCommand]
-        private async Task ToggleVipStatus()
-        {
-            bool isCurrentlyVip = _vipService.IsUserVip();
-            _vipService.SetUserVipStatus(!isCurrentlyVip);
-
-            string status = _vipService.IsUserVip() ? "ATIVADO" : "DESATIVADO";
-            await Shell.Current.DisplayAlert("Status de Teste", $"O modo VIP foi {status}.", "OK");
-            await Shell.Current.Navigation.PopAsync(); // Volta para a tela anterior para ver o resultado
         }
 
         private void LoadVipStatus()
@@ -304,6 +303,8 @@ namespace PassVault.ViewModels
         {
             if (_localizationService != null)
                 _localizationService.LanguageChanged -= OnLanguageChanged;
+
+            WeakReferenceMessenger.Default.UnregisterAll(this);
         }
     }
 }

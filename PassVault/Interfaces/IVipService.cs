@@ -9,6 +9,7 @@ namespace PassVault.Interfaces
     public interface IVipService
     {
         bool IsUserVip();
-        void SetUserVipStatus(bool isVip);
+        void SetUserVipStatus(bool isVip, string? purchaseToken = null);
+        string? GetVipPurchaseToken();
     }
 }

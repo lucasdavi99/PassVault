@@ -5,6 +5,7 @@ using PassVault.Data;
 using PassVault.Interfaces;
 using PassVault.Services;
 using PassVault.Services.Security;
+using PassVault.Services.Billing;
 using PassVault.ViewModels;
 using PassVault.Views;
 using SkiaSharp.Views.Maui.Controls.Hosting;
@@ -42,6 +43,7 @@ namespace PassVault
 
             builder.Services.AddSingleton<ILocalizationService, LocalizationService>();
             builder.Services.AddSingleton<IVipService, VipService>();
+            builder.Services.AddSingleton<IBillingService, BillingService>();
 
             // Database services - mantém como Singleton
             builder.Services.AddSingleton<AccountDatabase>();

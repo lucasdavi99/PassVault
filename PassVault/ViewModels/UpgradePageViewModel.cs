@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using PassVault.Interfaces;
 using PassVault.Services;
+using PassVault.Services.Billing;
 
 namespace PassVault.ViewModels
 {
@@ -9,6 +10,7 @@ namespace PassVault.ViewModels
     {
         private readonly ILocalizationService _localizationService;
         private readonly IVipService _vipService;
+        private readonly IBillingService _billingService;
 
         [ObservableProperty]
         private bool _isBusy;
@@ -24,10 +26,11 @@ namespace PassVault.ViewModels
         [ObservableProperty] private string purchaseButtonText;
         [ObservableProperty] private string restoreButtonText;
 
-        public UpgradePageViewModel(ILocalizationService localizationService, IVipService vipService)
+        public UpgradePageViewModel(ILocalizationService localizationService, IVipService vipService, IBillingService billingService)
         {
             _localizationService = localizationService;
             _vipService = vipService;
+            _billingService = billingService;
             UpdateLocalizedTexts();
             _localizationService.LanguageChanged += (s, e) => UpdateLocalizedTexts();
         }
@@ -49,16 +52,22 @@ namespace PassVault.ViewModels
         private async Task PurchaseAsync()
         {
             if (IsBusy) return;
+            if (_vipService.IsUserVip())
+            {
+                await Shell.Current.DisplayAlert(L.Text("common.success"), L.Text("upgrade_page.purchase_already_owned"), L.Text("common.ok"));
+                return;
+            }
 
             try
             {
                 IsBusy = true;
-                // Lógica de compra será implementada aqui
-                await Shell.Current.DisplayAlert("Em Breve", "A funcionalidade de compra será adicionada em breve.", "OK");
+                var result = await _billingService.PurchaseVipAsync();
+
+                await HandleBillingResultAsync(result, isRestore: false);
             }
             catch (Exception ex)
             {
-                await Shell.Current.DisplayAlert("Erro", ex.Message, "OK");
+                await Shell.Current.DisplayAlert(L.Text("common.error"), ex.Message, L.Text("common.ok"));
             }
             finally
             {
@@ -74,16 +83,78 @@ namespace PassVault.ViewModels
             try
             {
                 IsBusy = true;
-                // Lógica de restauração será implementada aqui
-                await Shell.Current.DisplayAlert("Em Breve", "A funcionalidade de restauração será adicionada em breve.", "OK");
+                var result = await _billingService.RestoreVipAsync();
+                await HandleBillingResultAsync(result, isRestore: true);
             }
             catch (Exception ex)
             {
-                await Shell.Current.DisplayAlert("Erro", ex.Message, "OK");
+                await Shell.Current.DisplayAlert(L.Text("common.error"), ex.Message, L.Text("common.ok"));
             }
             finally
             {
                 IsBusy = false;
+            }
+        }
+
+        private async Task HandleBillingResultAsync(BillingResult result, bool isRestore)
+        {
+            var successTitle = L.Text("common.success");
+            var errorTitle = L.Text("common.error");
+            var okText = L.Text("common.ok");
+
+            switch (result.Status)
+            {
+                case BillingResultStatus.Success:
+                    await Shell.Current.DisplayAlert(successTitle,
+                        isRestore ? L.Text("upgrade_page.restore_success") : L.Text("upgrade_page.purchase_success"),
+                        okText);
+                    await Shell.Current.Navigation.PopAsync();
+                    break;
+                case BillingResultStatus.AlreadyOwned:
+                    await Shell.Current.DisplayAlert(successTitle, L.Text("upgrade_page.purchase_already_owned"), okText);
+                    await Shell.Current.Navigation.PopAsync();
+                    break;
+                case BillingResultStatus.Pending:
+                    await Shell.Current.DisplayAlert(L.Text("upgrade_page.pending_title"),
+                        L.Text("upgrade_page.purchase_pending"),
+                        okText);
+                    break;
+                case BillingResultStatus.UserCancelled:
+                    await Shell.Current.DisplayAlert(L.Text("upgrade_page.cancelled_title"),
+                        L.Text("upgrade_page.purchase_cancelled"),
+                        okText);
+                    break;
+                case BillingResultStatus.NoPurchasesFound:
+                    await Shell.Current.DisplayAlert(L.Text("upgrade_page.restore_title"),
+                        L.Text("upgrade_page.restore_none"),
+                        okText);
+                    break;
+                case BillingResultStatus.BillingUnavailable:
+                    await Shell.Current.DisplayAlert(errorTitle,
+                        L.Text("upgrade_page.billing_unavailable"),
+                        okText);
+                    break;
+                case BillingResultStatus.NetworkError:
+                    await Shell.Current.DisplayAlert(errorTitle,
+                        L.Text("upgrade_page.network_error"),
+                        okText);
+                    break;
+                case BillingResultStatus.ProductNotFound:
+                    await Shell.Current.DisplayAlert(errorTitle,
+                        L.Text("upgrade_page.product_not_found"),
+                        okText);
+                    break;
+                case BillingResultStatus.NotSupported:
+                    await Shell.Current.DisplayAlert(errorTitle,
+                        L.Text("upgrade_page.not_supported"),
+                        okText);
+                    break;
+                default:
+                    var message = string.IsNullOrWhiteSpace(result.ErrorMessage)
+                        ? L.Text("upgrade_page.purchase_error")
+                        : result.ErrorMessage;
+                    await Shell.Current.DisplayAlert(errorTitle, message, okText);
+                    break;
             }
         }
     }

@@ -410,14 +410,6 @@
                     </StackLayout>
                 </Border>
 
-                <!-- botão para ativar modo premiun do app, (apenas para dev) -->
-                <Button 
-                    Text="[DEV] Ativar/Desativar VIP"
-                    Command="{Binding ToggleVipStatusCommand}"
-                    BackgroundColor="Orange"
-                    TextColor="White"
-                    Margin="0,20,0,0" />
-
             </StackLayout>
         </ScrollView>
 
