@@ -62,7 +62,7 @@ namespace PassVault.ViewModels
             CreateAndOrganizeText = L.Text("tutorial.create_and_organize_text");
             SecureStorageText = L.Text("tutorial.secure_storage_text");
             PasswordGeneratorText = L.Text("tutorial.password_generator_text");
-            ProgressText = L.Text("tutorial.progress_text_1_of_5");
+            ProgressText = L.Text("tutorial.progress_text_1_of_6");
             NextButtonText = L.Text("common.next");
         }
 

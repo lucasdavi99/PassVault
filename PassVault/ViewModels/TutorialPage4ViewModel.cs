@@ -90,13 +90,13 @@ namespace PassVault.ViewModels
             AuditableCode = L.Text("tutorial.auditable_code");
             Private100 = L.Text("tutorial.private_100");
             PrivacyFocused = L.Text("tutorial.privacy_focused");
-            ProgressText = L.Text("tutorial.progress_4_of_5");
+            ProgressText = L.Text("tutorial.progress_4_of_6");
             NextButtonText = L.Text("common.next");
         }
 
         private async void OnNextPageClicked()
         {
-            await Shell.Current.GoToAsync(nameof(TutorialPage5));
+            await Shell.Current.GoToAsync(nameof(TutorialPrivacyPolicyPage));
         }
     }
 }

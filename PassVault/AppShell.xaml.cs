@@ -31,6 +31,7 @@ namespace PassVault
             Routing.RegisterRoute(nameof(TutorialPage2), typeof(TutorialPage2));
             Routing.RegisterRoute(nameof(TutorialPage3), typeof(TutorialPage3));
             Routing.RegisterRoute(nameof(TutorialPage4), typeof(TutorialPage4));
+            Routing.RegisterRoute(nameof(TutorialPrivacyPolicyPage), typeof(TutorialPrivacyPolicyPage));
             Routing.RegisterRoute(nameof(TutorialPage5), typeof(TutorialPage5));
         }
 

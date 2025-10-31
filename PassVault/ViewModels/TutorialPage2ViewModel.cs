@@ -74,7 +74,7 @@ namespace PassVault.ViewModels
             OnDeviceOnly = L.Text("tutorial.on_device_only");
             ZeroKnowledge = L.Text("tutorial.zero_knowledge");
             WeCantSeeYourData = L.Text("tutorial.we_cant_see_your_data");
-            ProgressText = L.Text("tutorial.progress_2_of_5");
+            ProgressText = L.Text("tutorial.progress_2_of_6");
             NextButtonText = L.Text("common.next");
         }
 
