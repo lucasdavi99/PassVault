@@ -295,7 +295,7 @@
                        HorizontalTextAlignment="Center" />
 
                 <!-- Progress Dots -->
-                <Grid ColumnDefinitions="Auto,Auto,Auto,Auto,Auto" ColumnSpacing="8" HorizontalOptions="Center">
+                <Grid ColumnDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" ColumnSpacing="8" HorizontalOptions="Center">
 
                     <!-- Dot 1 - Completed -->
                     <Ellipse Grid.Column="0"
@@ -322,6 +322,12 @@
 
                     <!-- Dot 5 -->
                     <Ellipse Grid.Column="4"
+                             WidthRequest="8" HeightRequest="8"
+                             Fill="{StaticResource TextTertiary}"
+                             Opacity="0.5" />
+
+                    <!-- Dot 6 -->
+                    <Ellipse Grid.Column="5"
                              WidthRequest="8" HeightRequest="8"
                              Fill="{StaticResource TextTertiary}"
                              Opacity="0.5" />

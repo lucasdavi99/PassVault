@@ -82,7 +82,7 @@ namespace PassVault.ViewModels
             AuthorizeAccess = L.Text("tutorial.authorize_access");
             TapToSetup = L.Text("tutorial.tap_to_setup");
             RequiredStepMessage = L.Text("tutorial.required_step_message");
-            ProgressText = L.Text("tutorial.progress_3_of_5");
+            ProgressText = L.Text("tutorial.progress_3_of_6");
             ConfigureAbove = L.Text("tutorial.configure_above");
         }
 

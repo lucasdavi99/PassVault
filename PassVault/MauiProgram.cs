@@ -58,6 +58,7 @@ namespace PassVault
             builder.Services.AddSingleton<TutorialPage2ViewModel>();
             builder.Services.AddSingleton<TutorialPage3ViewModel>();
             builder.Services.AddSingleton<TutorialPage4ViewModel>();
+            builder.Services.AddSingleton<TutorialPrivacyPolicyPageViewModel>();
             builder.Services.AddSingleton<TutorialPage5ViewModel>();
             builder.Services.AddTransient<MainPageViewModel>();
             builder.Services.AddTransient<NewAccountPageViewModel>();
@@ -78,6 +79,7 @@ namespace PassVault
             builder.Services.AddTransient<TutorialPage2>();
             builder.Services.AddTransient<TutorialPage3>();
             builder.Services.AddTransient<TutorialPage4>();
+            builder.Services.AddTransient<TutorialPrivacyPolicyPage>();
             builder.Services.AddTransient<TutorialPage5>();
             builder.Services.AddTransient<MainPage>();
             builder.Services.AddTransient<NewAccountPage>();

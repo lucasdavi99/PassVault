@@ -219,7 +219,7 @@
                            HorizontalTextAlignment="Center" />
 
                     <!-- Progress Dots - All Complete -->
-                    <Grid ColumnDefinitions="Auto,Auto,Auto,Auto,Auto" ColumnSpacing="8" HorizontalOptions="Center">
+                    <Grid ColumnDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" ColumnSpacing="8" HorizontalOptions="Center">
 
                         <!-- All dots completed -->
                         <Ellipse Grid.Column="0"
@@ -239,6 +239,10 @@
                                  Fill="{StaticResource Success}" />
 
                         <Ellipse Grid.Column="4"
+                                 WidthRequest="10" HeightRequest="10"
+                                 Fill="{StaticResource Success}" />
+
+                        <Ellipse Grid.Column="5"
                                  WidthRequest="10" HeightRequest="10"
                                  Fill="{StaticResource Success}" />
 

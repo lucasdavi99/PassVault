@@ -73,7 +73,7 @@ namespace PassVault.ViewModels
             BackupData = L.Text("tutorial.backup_data");
             Welcome = L.Text("tutorial.welcome");
             YouAreNowAUser = L.Text("tutorial.you_are_now_a_user");
-            ProgressText = L.Text("tutorial.progress_5_of_5");
+            ProgressText = L.Text("tutorial.progress_6_of_6");
             GetStartedButton = L.Text("tutorial.get_started_button");
             AccessPassVault = L.Text("tutorial.access_passvault");
         }
