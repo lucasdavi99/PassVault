@@ -45,7 +45,7 @@ namespace PassVault.Services.Billing
                     return BillingResult.FromStatus(BillingResultStatus.UserCancelled);
                 }
 
-                switch (purchase.PurchaseState)
+                switch (purchase.State)
                 {
                     case PurchaseState.Purchased:
                     case PurchaseState.Restored:
@@ -94,8 +94,8 @@ namespace PassVault.Services.Billing
                     .ConfigureAwait(false);
 
                 var vipPurchase = purchases?.FirstOrDefault(p => p.ProductId == VipProductId &&
-                                                                 (p.PurchaseState == PurchaseState.Purchased ||
-                                                                  p.PurchaseState == PurchaseState.Restored));
+                                                                 (p.State == PurchaseState.Purchased ||
+                                                                  p.State == PurchaseState.Restored));
 
                 if (vipPurchase != null)
                 {
