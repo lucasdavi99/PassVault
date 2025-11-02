@@ -126,6 +126,49 @@
                             </StackLayout>
                         </Grid>
 
+                        <!-- Field Visibility Options -->
+                        <StackLayout Spacing="12"
+                                     IsVisible="{Binding IsEditing}">
+                            <Label Text="{Binding FieldOptionsTitle}"
+                                   Style="{StaticResource CaptionStyle}"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource Primary}" />
+
+                            <Label Text="{Binding FieldOptionsSubtitle}"
+                                   Style="{StaticResource CaptionStyle}"
+                                   TextColor="{StaticResource TextTertiary}" />
+
+                            <Border Style="{StaticResource EntryContainerStyle}">
+                                <Grid ColumnDefinitions="*,Auto"
+                                      RowDefinitions="Auto,Auto"
+                                      RowSpacing="16"
+                                      Padding="0,4">
+
+                                    <Label Grid.Row="0" Grid.Column="0"
+                                           Text="{Binding UsernameToggleLabel}"
+                                           Style="{StaticResource BodyStyle}"
+                                           VerticalOptions="Center" />
+
+                                    <Switch Grid.Row="0" Grid.Column="1"
+                                            IsToggled="{Binding IsUsernameVisible}"
+                                            IsEnabled="{Binding IsEditing}"
+                                            HorizontalOptions="End"
+                                            VerticalOptions="Center" />
+
+                                    <Label Grid.Row="1" Grid.Column="0"
+                                           Text="{Binding EmailToggleLabel}"
+                                           Style="{StaticResource BodyStyle}"
+                                           VerticalOptions="Center" />
+
+                                    <Switch Grid.Row="1" Grid.Column="1"
+                                            IsToggled="{Binding IsEmailVisible}"
+                                            IsEnabled="{Binding IsEditing}"
+                                            HorizontalOptions="End"
+                                            VerticalOptions="Center" />
+                                </Grid>
+                            </Border>
+                        </StackLayout>
+
                         <!-- Title Field -->
                         <StackLayout Spacing="12">
                             <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
