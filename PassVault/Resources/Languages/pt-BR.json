@@ -230,9 +230,6 @@
   "new_folder": {
     "title": "Nova Pasta",
     "subtitle": "Organize suas contas criando uma pasta",
-    "preview_title": "Prévia da Pasta",
-    "preview_subtitle": "Veja como sua pasta ficará",
-    "preview_name_placeholder": "Nome da Pasta",
     "form_title": "Informações da Pasta",
     "form_subtitle": "Defina nome e cor da pasta",
     "name_label": "Nome da Pasta *",

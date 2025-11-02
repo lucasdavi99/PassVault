@@ -425,39 +425,19 @@
                 <Shadow Brush="#40000000" Offset="0,-4" Radius="16" Opacity="0.1" />
             </Border.Shadow>
 
-            <Grid ColumnDefinitions="*,*" ColumnSpacing="16">
+            <Grid>
 
-                <!-- Edit/Cancel Button -->
-                <Button Grid.Column="0"
+                <Button Text="{Binding EditButtonText}"
                         Style="{StaticResource SecondaryButtonStyle}"
-                        Command="{Binding ToggleEditModeCommand}">
-                    <Button.Triggers>
-                        <DataTrigger TargetType="Button" Binding="{Binding IsEditing}" Value="False">
-                            <Setter Property="Text" Value="{Binding EditButtonText}"/>
-                            <Setter Property="ImageSource">
-                                <FontImageSource FontFamily="MaterialIcons"
-                                                 Glyph="edit"
-                                                 Color="{StaticResource TextPrimary}"
-                                                 Size="18" />
-                            </Setter>
-                        </DataTrigger>
-                        <DataTrigger TargetType="Button" Binding="{Binding IsEditing}" Value="True">
-                            <Setter Property="Text" Value="{Binding CancelButtonText}"/>
-                            <Setter Property="ImageSource">
-                                <FontImageSource FontFamily="MaterialIcons"
-                                                 Glyph="close"
-                                                 Color="{StaticResource TextPrimary}"
-                                                 Size="18" />
-                            </Setter>
-                        </DataTrigger>
-                    </Button.Triggers>
-                </Button>
+                        Command="{Binding ToggleEditModeCommand}"
+                        HorizontalOptions="FillAndExpand"
+                        IsVisible="{Binding IsEditing, Converter={StaticResource InverseBooleanConverter}}"
+                        ImageSource="{FontImageSource FontFamily=MaterialIcons, Glyph=edit, Color={StaticResource TextPrimary}, Size=18}" />
 
-                <!-- Save Button -->
-                <Button Grid.Column="1"
-                        Text="{Binding SaveButtonText}"
+                <Button Text="{Binding SaveButtonText}"
                         Style="{StaticResource ModernButtonStyle}"
                         Command="{Binding SaveEditAccountCommand}"
+                        HorizontalOptions="FillAndExpand"
                         IsVisible="{Binding IsEditing}"
                         ImageSource="{FontImageSource FontFamily=MaterialIcons, Glyph=save, Color={StaticResource PrimaryDarkText}, Size=18}" />
 

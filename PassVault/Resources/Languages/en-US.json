@@ -230,9 +230,6 @@
   "new_folder": {
     "title": "New Folder",
     "subtitle": "Organize your accounts by creating a folder",
-    "preview_title": "Folder Preview",
-    "preview_subtitle": "See how your folder will look",
-    "preview_name_placeholder": "Folder Name",
     "form_title": "Folder Information",
     "form_subtitle": "Set the folder name and color",
     "name_label": "Folder Name *",

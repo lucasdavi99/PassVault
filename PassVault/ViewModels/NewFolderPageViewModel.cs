@@ -35,9 +35,6 @@ namespace PassVault.ViewModels
         // Localized Properties
         [ObservableProperty] private string pageTitle;
         [ObservableProperty] private string pageSubtitle;
-        [ObservableProperty] private string previewTitle;
-        [ObservableProperty] private string previewSubtitle;
-        [ObservableProperty] private string previewNamePlaceholder;
         [ObservableProperty] private string formTitle;
         [ObservableProperty] private string formSubtitle;
         [ObservableProperty] private string nameLabel;
@@ -64,9 +61,6 @@ namespace PassVault.ViewModels
         {
             PageTitle = L.Text("new_folder.title");
             PageSubtitle = L.Text("new_folder.subtitle");
-            PreviewTitle = L.Text("new_folder.preview_title");
-            PreviewSubtitle = L.Text("new_folder.preview_subtitle");
-            PreviewNamePlaceholder = L.Text("new_folder.preview_name_placeholder");
             FormTitle = L.Text("new_folder.form_title");
             FormSubtitle = L.Text("new_folder.form_subtitle");
             NameLabel = L.Text("new_folder.name_label");
