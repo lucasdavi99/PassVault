@@ -64,6 +64,10 @@ namespace PassVault.ViewModels
         [ObservableProperty] private string customColorSubtitle;
         [ObservableProperty] private string selectedColorLabel;
         [ObservableProperty] private string applyColorButtonText;
+        [ObservableProperty] private string fieldOptionsTitle;
+        [ObservableProperty] private string fieldOptionsSubtitle;
+        [ObservableProperty] private string usernameToggleLabel;
+        [ObservableProperty] private string emailToggleLabel;
 
 
         public EditAccountPageViewModel(AccountDatabase database, FolderDatabase folderDatabase, ILocalizationService localizationService)
@@ -114,6 +118,10 @@ namespace PassVault.ViewModels
             CustomColorSubtitle = L.Text("edit_account_page.custom_color_subtitle");
             SelectedColorLabel = L.Text("edit_account_page.selected_color_label");
             ApplyColorButtonText = L.Text("edit_account_page.apply_color_button");
+            FieldOptionsTitle = L.Text("edit_account_page.field_options_title");
+            FieldOptionsSubtitle = L.Text("edit_account_page.field_options_subtitle");
+            UsernameToggleLabel = L.Text("edit_account_page.username_toggle_label");
+            EmailToggleLabel = L.Text("edit_account_page.email_toggle_label");
 
             SelectedFolderName = L.Text("accounts.select_folder");
             SelectedSubFolderName = L.Text("accounts.select_subfolder");
@@ -248,8 +256,10 @@ namespace PassVault.ViewModels
                     return;
                 }
 
+                var sanitizedTitle = Title?.Trim();
+
                 // Verificar se já existe uma conta com o mesmo nome na mesma pasta (excluindo a conta atual)
-                bool accountExists = await _database.AccountNameExistsAsync(Title, _currentAccount.FolderId, _currentAccount.Id);
+                bool accountExists = await _database.AccountNameExistsAsync(sanitizedTitle, _currentAccount.FolderId, _currentAccount.Id);
                 
                 if (accountExists)
                 {
@@ -257,9 +267,12 @@ namespace PassVault.ViewModels
                     return;
                 }
 
-                _currentAccount.Title = Title;
-                _currentAccount.Username = Username;
-                _currentAccount.Email = Email;
+                var sanitizedUsername = IsUsernameVisible ? Username?.Trim() : null;
+                var sanitizedEmail = IsEmailVisible ? Email?.Trim() : null;
+
+                _currentAccount.Title = sanitizedTitle;
+                _currentAccount.Username = string.IsNullOrWhiteSpace(sanitizedUsername) ? null : sanitizedUsername;
+                _currentAccount.Email = string.IsNullOrWhiteSpace(sanitizedEmail) ? null : sanitizedEmail;
                 _currentAccount.Password = Password;
                 _currentAccount.Color = SelectedColor.ToHex();
 
@@ -351,6 +364,8 @@ namespace PassVault.ViewModels
                     Email = _currentAccount.Email ?? string.Empty;
                     Password = _currentAccount.Password;
                     SelectedColor = Color.FromArgb(_currentAccount.Color);
+                    IsUsernameVisible = !string.IsNullOrWhiteSpace(_currentAccount.Username);
+                    IsEmailVisible = !string.IsNullOrWhiteSpace(_currentAccount.Email);
                     await ConfigureFolderDisplayAsync();
                 }
 
