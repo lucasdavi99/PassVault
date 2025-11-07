@@ -39,6 +39,7 @@ namespace PassVault
             builder.Services.AddSingleton<IMemoryCache, MemoryCache>();
             builder.Services.AddSingleton<CacheService>();
             builder.Services.AddSingleton<IEncryptionService, EncryptionService>();
+            builder.Services.AddSingleton<IAuthenticationService, AuthenticationService>();
 
             // Serviço de Localização
             builder.Services.AddSingleton<ILocalizationService, LocalizationService>();

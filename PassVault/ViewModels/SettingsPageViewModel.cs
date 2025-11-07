@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using PassVault.Data;
 using PassVault.Interfaces;
 using PassVault.Services;
+using PassVault.Services.Security;
 using System.Collections.ObjectModel;
 
 namespace PassVault.ViewModels
@@ -13,6 +14,7 @@ namespace PassVault.ViewModels
         private readonly FolderDatabase _folderDatabase;
         private readonly CacheService _cacheService;
         private readonly ILocalizationService _localizationService;
+        private readonly IAuthenticationService _authenticationService;
 
         [ObservableProperty]
         private ObservableCollection<string> availableLanguages = new()
@@ -87,12 +89,14 @@ namespace PassVault.ViewModels
             AccountDatabase accountDatabase,
             FolderDatabase folderDatabase,
             CacheService cacheService,
-            ILocalizationService localizationService)
+            ILocalizationService localizationService,
+            IAuthenticationService authenticationService)
         {
             _accountDatabase = accountDatabase;
             _folderDatabase = folderDatabase;
             _cacheService = cacheService;
             _localizationService = localizationService;
+            _authenticationService = authenticationService;
 
             LoadCurrentLanguage();
             LoadAppInfo();
@@ -214,6 +218,9 @@ namespace PassVault.ViewModels
 
                 if (result)
                 {
+                    if (!await EnsureWindowsAuthorizationAsync())
+                        return;
+
                     // 1. Limpar cache
                     _cacheService.ClearAll();
 
@@ -262,6 +269,38 @@ namespace PassVault.ViewModels
 
                 await Shell.Current.DisplayAlert(errorTitle, errorMessage, okText);
             }
+        }
+
+        private async Task<bool> EnsureWindowsAuthorizationAsync()
+        {
+            if (!OperatingSystem.IsWindows())
+                return true;
+
+            var request = new AppAuthenticationRequest
+            {
+                Title = L.Text("messages.auth_needed_title"),
+                Message = L.Text("messages.auth_needed_message"),
+                AllowAlternativeAuthentication = true
+            };
+
+            var result = await _authenticationService.AuthenticateAsync(request);
+
+            if (result.Status == AppAuthenticationStatus.NotAvailable)
+            {
+                await Shell.Current.DisplayAlert(L.Text("common.error"), L.Text("messages.no_password_configured"), L.Text("common.ok"));
+                return false;
+            }
+
+            if (!result.IsSuccessful)
+            {
+                var message = !string.IsNullOrWhiteSpace(result.ErrorMessage)
+                    ? string.Format(L.Text("messages.auth_error"), result.ErrorMessage)
+                    : L.Text("messages.auth_failed");
+
+                await Shell.Current.DisplayAlert(L.Text("common.error"), message, L.Text("common.ok"));
+            }
+
+            return result.IsSuccessful;
         }
 
         // Dispose para limpar eventos

@@ -2,9 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using PassVault.Interfaces;
 using PassVault.Services;
-using Plugin.Fingerprint;
-using Plugin.Fingerprint.Abstractions;
-using System.Runtime.InteropServices;
+using PassVault.Services.Security;
 using System.Windows.Input;
 
 namespace PassVault.ViewModels
@@ -12,6 +10,7 @@ namespace PassVault.ViewModels
     public partial class LockScreenViewModel : ObservableObject
     {
         private readonly ILocalizationService _localizationService;
+        private readonly IAuthenticationService _authenticationService;
 
         [ObservableProperty]
         private string title;
@@ -21,9 +20,10 @@ namespace PassVault.ViewModels
 
         public ICommand NextPageCommand { get; }
 
-        public LockScreenViewModel(ILocalizationService localizationService)
+        public LockScreenViewModel(ILocalizationService localizationService, IAuthenticationService authenticationService)
         {
             _localizationService = localizationService;
+            _authenticationService = authenticationService;
             UpdateLocalizedTexts();
             _localizationService.LanguageChanged += OnLanguageChanged;
             NextPageCommand = new RelayCommand(OnNextPageClicked);
@@ -54,19 +54,31 @@ namespace PassVault.ViewModels
         {
             try
             {
-                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                var request = new AppAuthenticationRequest
                 {
-                    return true;
-                }
-
-                var config = new AuthenticationRequestConfiguration(
-                    L.Text("lockscreen.auth.title"), L.Text("lockscreen.auth.message"))
-                {
+                    Title = L.Text("lockscreen.auth.title"),
+                    Message = L.Text("lockscreen.auth.message"),
                     AllowAlternativeAuthentication = true,
                 };
-                var authResult = await CrossFingerprint.Current.AuthenticateAsync(config);
 
-                return authResult.Authenticated;
+                var result = await _authenticationService.AuthenticateAsync(request);
+
+                if (result.Status == AppAuthenticationStatus.NotAvailable)
+                {
+                    await Shell.Current.DisplayAlert(L.Text("common.error"), L.Text("messages.no_password_configured"), L.Text("common.ok"));
+                    return false;
+                }
+
+                if (!result.IsSuccessful)
+                {
+                    var message = !string.IsNullOrWhiteSpace(result.ErrorMessage)
+                        ? string.Format(L.Text("messages.auth_error"), result.ErrorMessage)
+                        : L.Text("messages.auth_failed");
+
+                    await Shell.Current.DisplayAlert(L.Text("common.error"), message, L.Text("common.ok"));
+                }
+
+                return result.IsSuccessful;
             }
             catch (Exception ex)
             {

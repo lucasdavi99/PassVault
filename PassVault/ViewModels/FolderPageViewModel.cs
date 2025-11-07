@@ -7,6 +7,7 @@ using PassVault.Interfaces;
 using PassVault.Messages;
 using PassVault.Models;
 using PassVault.Services;
+using PassVault.Services.Security;
 using PassVault.Views;
 
 namespace PassVault.ViewModels
@@ -16,6 +17,9 @@ namespace PassVault.ViewModels
         private readonly AccountDatabase _accountDatabase;
         private readonly FolderDatabase _folderDatabase;
         private readonly ILocalizationService _localizationService;
+        private readonly IAuthenticationService _authenticationService;
+
+        public bool ShowDesktopDelete { get; } = System.OperatingSystem.IsWindows();
 
         [ObservableProperty]
         private int folderId;
@@ -56,11 +60,12 @@ namespace PassVault.ViewModels
         [ObservableProperty] private string subfolderItemSubtitle;
         [ObservableProperty] private string deleteText;
 
-        public FolderPageViewModel(AccountDatabase accountDatabase, FolderDatabase folderDatabase, ILocalizationService localizationService)
+        public FolderPageViewModel(AccountDatabase accountDatabase, FolderDatabase folderDatabase, ILocalizationService localizationService, IAuthenticationService authenticationService)
         {
             _accountDatabase = accountDatabase;
             _folderDatabase = folderDatabase;
             _localizationService = localizationService;
+            _authenticationService = authenticationService;
             Accounts = new ObservableCollection<Account>();
             SubFolders = new ObservableCollection<Folder>();
 
@@ -151,10 +156,13 @@ namespace PassVault.ViewModels
 
                 if (confirm)
                 {
-                    await _accountDatabase.DeleteAccountAsync(account);
-                    Accounts.Remove(account);
-                    await Shell.Current.DisplayAlert(L.Text("common.success"), L.Text("folder_page.delete_account_success"), L.Text("common.ok"));
-                    UpdateVisibilityProperties();
+                    if (await EnsureWindowsAuthorizationAsync())
+                    {
+                        await _accountDatabase.DeleteAccountAsync(account);
+                        Accounts.Remove(account);
+                        await Shell.Current.DisplayAlert(L.Text("common.success"), L.Text("folder_page.delete_account_success"), L.Text("common.ok"));
+                        UpdateVisibilityProperties();
+                    }
                 }
             }
         }
@@ -174,10 +182,13 @@ namespace PassVault.ViewModels
 
                 if (confirm)
                 {
-                    await _folderDatabase.DeleteFolderAsync(subFolder);
-                    SubFolders.Remove(subFolder);
-                    await Shell.Current.DisplayAlert(L.Text("common.success"), L.Text("folder_page.delete_folder_success"), L.Text("common.ok"));
-                    UpdateVisibilityProperties();
+                    if (await EnsureWindowsAuthorizationAsync())
+                    {
+                        await _folderDatabase.DeleteFolderAsync(subFolder);
+                        SubFolders.Remove(subFolder);
+                        await Shell.Current.DisplayAlert(L.Text("common.success"), L.Text("folder_page.delete_folder_success"), L.Text("common.ok"));
+                        UpdateVisibilityProperties();
+                    }
                 }
             }
             catch (Exception ex)
@@ -204,6 +215,38 @@ namespace PassVault.ViewModels
         {
             IsAccountsTabActive = false;
             IsFoldersTabActive = true;
+        }
+
+        private async Task<bool> EnsureWindowsAuthorizationAsync()
+        {
+            if (!OperatingSystem.IsWindows())
+                return true;
+
+            var request = new AppAuthenticationRequest
+            {
+                Title = L.Text("messages.auth_needed_title"),
+                Message = L.Text("messages.auth_needed_message"),
+                AllowAlternativeAuthentication = true
+            };
+
+            var result = await _authenticationService.AuthenticateAsync(request);
+
+            if (result.Status == AppAuthenticationStatus.NotAvailable)
+            {
+                await Shell.Current.DisplayAlert(L.Text("common.error"), L.Text("messages.no_password_configured"), L.Text("common.ok"));
+                return false;
+            }
+
+            if (!result.IsSuccessful)
+            {
+                var message = !string.IsNullOrWhiteSpace(result.ErrorMessage)
+                    ? string.Format(L.Text("messages.auth_error"), result.ErrorMessage)
+                    : L.Text("messages.auth_failed");
+
+                await Shell.Current.DisplayAlert(L.Text("common.error"), message, L.Text("common.ok"));
+            }
+
+            return result.IsSuccessful;
         }
 
         public async Task LoadDataAsync()

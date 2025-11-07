@@ -5,8 +5,8 @@ using PassVault.Data;
 using PassVault.Interfaces;
 using PassVault.Models;
 using PassVault.Services;
+using PassVault.Services.Security;
 using PassVault.Views;
-
 
 namespace PassVault.ViewModels
 {
@@ -14,6 +14,9 @@ namespace PassVault.ViewModels
     {
         private readonly AccountDatabase _accountDatabase;
         private readonly ILocalizationService _localizationService;
+        private readonly IAuthenticationService _authenticationService;
+
+        public bool ShowDesktopDelete { get; } = System.OperatingSystem.IsWindows();
 
         [ObservableProperty]
         private string searchText;
@@ -71,10 +74,11 @@ namespace PassVault.ViewModels
 
         public IAsyncRelayCommand ExecuteSearchCommand { get; }
 
-        public SearchPageViewModel(AccountDatabase database, ILocalizationService localizationService)
+        public SearchPageViewModel(AccountDatabase database, ILocalizationService localizationService, IAuthenticationService authenticationService)
         {
             _accountDatabase = database;
             _localizationService = localizationService;
+            _authenticationService = authenticationService;
             ExecuteSearchCommand = new AsyncRelayCommand(SearchAsync);
             _localizationService.LanguageChanged += (s, e) => UpdateLocalizedTexts();
             UpdateLocalizedTexts();
@@ -153,9 +157,12 @@ namespace PassVault.ViewModels
 
                 if (confirm)
                 {
-                    await _accountDatabase.DeleteAccountAsync(account);
-                    await SearchAsync();
-                    await Shell.Current.DisplayAlert("Sucesso", "Conta excluída com sucesso.", "OK");
+                    if (await EnsureWindowsAuthorizationAsync())
+                    {
+                        await _accountDatabase.DeleteAccountAsync(account);
+                        await SearchAsync();
+                        await Shell.Current.DisplayAlert("Sucesso", "Conta excluída com sucesso.", "OK");
+                    }
                 }
             }
         }
@@ -170,6 +177,38 @@ namespace PassVault.ViewModels
         {
             ExecuteSearchCommand.ExecuteAsync(null);
             UpdateResultsInfo();
+        }
+
+        private async Task<bool> EnsureWindowsAuthorizationAsync()
+        {
+            if (!OperatingSystem.IsWindows())
+                return true;
+
+            var request = new AppAuthenticationRequest
+            {
+                Title = L.Text("messages.auth_needed_title"),
+                Message = L.Text("messages.auth_needed_message"),
+                AllowAlternativeAuthentication = true
+            };
+
+            var result = await _authenticationService.AuthenticateAsync(request);
+
+            if (result.Status == AppAuthenticationStatus.NotAvailable)
+            {
+                await Shell.Current.DisplayAlert(L.Text("common.error"), L.Text("messages.no_password_configured"), L.Text("common.ok"));
+                return false;
+            }
+
+            if (!result.IsSuccessful)
+            {
+                var message = !string.IsNullOrWhiteSpace(result.ErrorMessage)
+                    ? string.Format(L.Text("messages.auth_error"), result.ErrorMessage)
+                    : L.Text("messages.auth_failed");
+
+                await Shell.Current.DisplayAlert(L.Text("common.error"), message, L.Text("common.ok"));
+            }
+
+            return result.IsSuccessful;
         }
     }
 }

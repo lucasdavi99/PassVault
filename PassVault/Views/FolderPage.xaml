@@ -332,13 +332,26 @@
                                                 </Grid>
                                             </StackLayout>
 
-                                            <!-- Arrow -->
-                                            <Label Grid.Column="2"
-                                                   Text="chevron_right"
-                                                   FontFamily="MaterialIcons"
-                                                   FontSize="20"
-                                                   TextColor="{StaticResource TextTertiary}"
-                                                   VerticalOptions="Center" />
+                                            <!-- Arrow + desktop delete -->
+                                            <StackLayout Grid.Column="2"
+                                                         Spacing="4"
+                                                         HorizontalOptions="End"
+                                                         VerticalOptions="Center">
+                                                <Label Text="chevron_right"
+                                                       FontFamily="MaterialIcons"
+                                                       FontSize="20"
+                                                       TextColor="{StaticResource TextTertiary}"
+                                                       HorizontalOptions="Center" />
+                                                <Button Text="delete"
+                                                        FontFamily="MaterialIcons"
+                                                        FontSize="16"
+                                                        Padding="0"
+                                                        BackgroundColor="Transparent"
+                                                        TextColor="{StaticResource Error}"
+                                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:FolderPageViewModel}}, Path=DeleteAccountInFolderCommand}"
+                                                        CommandParameter="{Binding .}"
+                                                        IsVisible="{Binding Source={RelativeSource AncestorType={x:Type viewModels:FolderPageViewModel}}, Path=ShowDesktopDelete}" />
+                                            </StackLayout>
                                         </Grid>
                                     </Border>
                                 </SwipeView>
@@ -407,13 +420,26 @@
                                                        Opacity="0.8" />
                                             </StackLayout>
 
-                                            <!-- Arrow -->
-                                            <Label Grid.Column="2"
-                                                   Text="chevron_right"
-                                                   FontFamily="MaterialIcons"
-                                                   FontSize="20"
-                                                   TextColor="{StaticResource TextTertiary}"
-                                                   VerticalOptions="Center" />
+                                            <!-- Arrow + desktop delete -->
+                                            <StackLayout Grid.Column="2"
+                                                         Spacing="4"
+                                                         HorizontalOptions="End"
+                                                         VerticalOptions="Center">
+                                                <Label Text="chevron_right"
+                                                       FontFamily="MaterialIcons"
+                                                       FontSize="20"
+                                                       TextColor="{StaticResource TextTertiary}"
+                                                       HorizontalOptions="Center" />
+                                                <Button Text="delete"
+                                                        FontFamily="MaterialIcons"
+                                                        FontSize="16"
+                                                        Padding="0"
+                                                        BackgroundColor="Transparent"
+                                                        TextColor="{StaticResource Error}"
+                                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:FolderPageViewModel}}, Path=DeleteSubFolderCommand}"
+                                                        CommandParameter="{Binding .}"
+                                                        IsVisible="{Binding Source={RelativeSource AncestorType={x:Type viewModels:FolderPageViewModel}}, Path=ShowDesktopDelete}" />
+                                            </StackLayout>
                                         </Grid>
                                     </Border>
                                 </SwipeView>

@@ -9,9 +9,8 @@ using PassVault.Interfaces;
 using PassVault.Messages;
 using PassVault.Models;
 using PassVault.Services;
+using PassVault.Services.Security;
 using PassVault.Views;
-using Plugin.Fingerprint;
-using Plugin.Fingerprint.Abstractions;
 
 namespace PassVault.ViewModels
 {
@@ -20,6 +19,7 @@ namespace PassVault.ViewModels
         private readonly AccountDatabase _database;
         private readonly FolderDatabase _folderDatabase;
         private readonly ILocalizationService _localizationService;
+        private readonly IAuthenticationService _authenticationService;
         private Account _currentAccount;
 
         [ObservableProperty] private int _accountId;
@@ -72,11 +72,12 @@ namespace PassVault.ViewModels
         [ObservableProperty] private string emailToggleLabel;
 
 
-        public EditAccountPageViewModel(AccountDatabase database, FolderDatabase folderDatabase, ILocalizationService localizationService)
+        public EditAccountPageViewModel(AccountDatabase database, FolderDatabase folderDatabase, ILocalizationService localizationService, IAuthenticationService authenticationService)
         {
             _database = database;
             _folderDatabase = folderDatabase;
             _localizationService = localizationService;
+            _authenticationService = authenticationService;
             IsEditing = false;
 
             UpdateLocalizedTexts();
@@ -316,26 +317,36 @@ namespace PassVault.ViewModels
         {
             try
             {
-                var config = new AuthenticationRequestConfiguration(L.Text("messages.auth_needed_title"), L.Text("messages.auth_needed_message"))
+                var request = new AppAuthenticationRequest
                 {
+                    Title = L.Text("messages.auth_needed_title"),
+                    Message = L.Text("messages.auth_needed_message"),
                     AllowAlternativeAuthentication = true,
                     CancelTitle = L.Text("common.cancel"),
                     FallbackTitle = L.Text("security.master_password")
                 };
 
-                var authResult = await CrossFingerprint.Current.AuthenticateAsync(config);
+                var authResult = await _authenticationService.AuthenticateAsync(request);
 
-                if (authResult.Authenticated)
+                if (authResult.Status == AppAuthenticationStatus.NotAvailable)
+                {
+                    await Shell.Current.DisplayAlert(L.Text("common.error"), L.Text("messages.no_password_configured"), L.Text("common.ok"));
+                    return false;
+                }
+
+                if (authResult.IsSuccessful)
                 {
                     IsEditing = !IsEditing;
                     HeaderSubtitle = IsEditing ? L.Text("edit_account_page.header_subtitle_edit") : L.Text("edit_account_page.header_subtitle_view");
                     return true;
                 }
-                else
-                {
-                    await Shell.Current.DisplayAlert(L.Text("common.error"), L.Text("messages.auth_failed"), L.Text("common.ok"));
-                    return false;
-                }
+
+                var errorMessage = !string.IsNullOrWhiteSpace(authResult.ErrorMessage)
+                    ? string.Format(L.Text("messages.auth_error"), authResult.ErrorMessage)
+                    : L.Text("messages.auth_failed");
+
+                await Shell.Current.DisplayAlert(L.Text("common.error"), errorMessage, L.Text("common.ok"));
+                return false;
             }
             catch (Exception ex)
             {

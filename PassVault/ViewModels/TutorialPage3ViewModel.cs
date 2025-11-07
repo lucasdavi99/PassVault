@@ -2,18 +2,16 @@
 using CommunityToolkit.Mvvm.Input;
 using PassVault.Interfaces;
 using PassVault.Services;
+using PassVault.Services.Security;
 using PassVault.Views;
-using Plugin.Fingerprint;
-using Plugin.Fingerprint.Abstractions;
-using System.Runtime.InteropServices;
 using System.Windows.Input;
-
 
 namespace PassVault.ViewModels
 {
     public partial class TutorialPage3ViewModel : ObservableObject
     {
         private readonly ILocalizationService _localizationService;
+        private readonly IAuthenticationService _authenticationService;
 
         [ObservableProperty]
         private string title;
@@ -56,9 +54,10 @@ namespace PassVault.ViewModels
 
         public ICommand NextPageCommand { get; }
 
-        public TutorialPage3ViewModel(ILocalizationService localizationService)
+        public TutorialPage3ViewModel(ILocalizationService localizationService, IAuthenticationService authenticationService)
         {
             _localizationService = localizationService;
+            _authenticationService = authenticationService;
             _localizationService.LanguageChanged += OnLanguageChanged;
             UpdateLocalizedTexts();
             NextPageCommand = new RelayCommand(OnNextPageClicked);
@@ -104,37 +103,33 @@ namespace PassVault.ViewModels
         {
             try
             {
-                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                var request = new AppAuthenticationRequest
                 {
-                    await Shell.Current.DisplayAlert("Simulation", "Simulated authentication on Windows.", L.Text("common.ok"));
-                    return true;
-                }
-
-                var config = new AuthenticationRequestConfiguration(
-                    L.Text("messages.auth_needed_title"),
-                    L.Text("messages.auth_needed_message"))
-                {
-                    AllowAlternativeAuthentication = true,
+                    Title = L.Text("messages.auth_needed_title"),
+                    Message = L.Text("messages.auth_needed_message"),
+                    AllowAlternativeAuthentication = true
                 };
 
-                var authResult = await CrossFingerprint.Current.AuthenticateAsync(config);
+                var authResult = await _authenticationService.AuthenticateAsync(request);
 
-                if (authResult.Status == FingerprintAuthenticationResultStatus.NotAvailable)
+                if (authResult.Status == AppAuthenticationStatus.NotAvailable)
                 {
                     await Shell.Current.DisplayAlert(L.Text("common.error"), L.Text("messages.no_password_configured"), L.Text("common.ok"));
                     return false;
                 }
 
-                if (authResult.Authenticated)
+                if (authResult.IsSuccessful)
                 {
                     await Shell.Current.DisplayAlert(L.Text("common.success"), L.Text("messages.auth_success"), L.Text("common.ok"));
                     return true;
                 }
-                else
-                {
-                    await Shell.Current.DisplayAlert(L.Text("common.error"), L.Text("messages.auth_failed"), L.Text("common.ok"));
-                    return false;
-                }
+
+                var errorMessage = !string.IsNullOrWhiteSpace(authResult.ErrorMessage)
+                    ? string.Format(L.Text("messages.auth_error"), authResult.ErrorMessage)
+                    : L.Text("messages.auth_failed");
+
+                await Shell.Current.DisplayAlert(L.Text("common.error"), errorMessage, L.Text("common.ok"));
+                return false;
             }
             catch (System.Exception ex)
             {

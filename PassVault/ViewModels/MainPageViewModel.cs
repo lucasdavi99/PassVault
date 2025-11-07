@@ -7,6 +7,7 @@ using PassVault.Interfaces;
 using PassVault.Messages;
 using PassVault.Models;
 using PassVault.Services;
+using PassVault.Services.Security;
 using PassVault.Views;
 using System.Collections.ObjectModel;
 
@@ -18,6 +19,9 @@ namespace PassVault.ViewModels
         private readonly FolderDatabase _folderDatabase;
         private readonly CacheService _cacheService;
         private readonly ILocalizationService _localizationService;
+        private readonly IAuthenticationService _authenticationService;
+
+        public bool ShowDesktopDelete { get; } = System.OperatingSystem.IsWindows();
 
         // Paginação
         private int _currentAccountPage = 0;
@@ -96,12 +100,13 @@ namespace PassVault.ViewModels
         public IAsyncRelayCommand LoadMoreFoldersCommand { get; }
         public IAsyncRelayCommand RefreshCommand { get; }
 
-        public MainPageViewModel(AccountDatabase database, FolderDatabase folderDatabase, CacheService cacheService, ILocalizationService localizationService)
+        public MainPageViewModel(AccountDatabase database, FolderDatabase folderDatabase, CacheService cacheService, ILocalizationService localizationService, IAuthenticationService authenticationService)
         {
             _database = database;
             _folderDatabase = folderDatabase;
             _cacheService = cacheService;
             _localizationService = localizationService;
+            _authenticationService = authenticationService;
             _localizationService.LanguageChanged += OnLanguageChanged;
 
 
@@ -222,16 +227,19 @@ namespace PassVault.ViewModels
 
                 if (confirm)
                 {
-                    await _database.DeleteAccountAsync(account);
+                    if (await EnsureSensitiveActionAuthorizedAsync())
+                    {
+                        await _database.DeleteAccountAsync(account);
 
-                    // Remover da coleção local imediatamente
-                    await MainThread.InvokeOnMainThreadAsync(() => Accounts.Remove(account));
+                        // Remover da coleção local imediatamente
+                        await MainThread.InvokeOnMainThreadAsync(() => Accounts.Remove(account));
 
-                    // Limpar cache
-                    _cacheService.ClearAccountsCache();
+                        // Limpar cache
+                        _cacheService.ClearAccountsCache();
 
-                    await Shell.Current.DisplayAlert("Sucesso", "Conta excluída com sucesso.", "OK");
-                    UpdateEmptyState();
+                        await Shell.Current.DisplayAlert("Sucesso", "Conta excluída com sucesso.", "OK");
+                        UpdateEmptyState();
+                    }
                 }
             }
             catch (Exception ex)
@@ -251,23 +259,58 @@ namespace PassVault.ViewModels
 
                 if (confirm)
                 {
-                    await _folderDatabase.DeleteFolderAsync(folder);
+                    if (await EnsureSensitiveActionAuthorizedAsync())
+                    {
+                        await _folderDatabase.DeleteFolderAsync(folder);
 
-                    // Remover da coleção local imediatamente
-                    await MainThread.InvokeOnMainThreadAsync(() => Folders.Remove(folder));
+                        // Remover da coleção local imediatamente
+                        await MainThread.InvokeOnMainThreadAsync(() => Folders.Remove(folder));
 
-                    // Limpar cache
-                    _cacheService.ClearFoldersCache();
-                    _cacheService.ClearAccountsCache(); // Contas também podem ter sido afetadas
+                        // Limpar cache
+                        _cacheService.ClearFoldersCache();
+                        _cacheService.ClearAccountsCache(); // Contas também podem ter sido afetadas
 
-                    await Shell.Current.DisplayAlert("Sucesso", "Pasta excluída com sucesso.", "OK");
-                    UpdateEmptyState();
+                        await Shell.Current.DisplayAlert("Sucesso", "Pasta excluída com sucesso.", "OK");
+                        UpdateEmptyState();
+                    }
                 }
             }
             catch (Exception ex)
             {
                 await Shell.Current.DisplayAlert("Erro", $"Erro ao excluir pasta: {ex.Message}", "OK");
             }
+        }
+
+        private async Task<bool> EnsureSensitiveActionAuthorizedAsync()
+        {
+            if (!OperatingSystem.IsWindows())
+                return true;
+
+            var request = new AppAuthenticationRequest
+            {
+                Title = L.Text("messages.auth_needed_title"),
+                Message = L.Text("messages.auth_needed_message"),
+                AllowAlternativeAuthentication = true
+            };
+
+            var result = await _authenticationService.AuthenticateAsync(request);
+
+            if (result.Status == AppAuthenticationStatus.NotAvailable)
+            {
+                await Shell.Current.DisplayAlert(L.Text("common.error"), L.Text("messages.no_password_configured"), L.Text("common.ok"));
+                return false;
+            }
+
+            if (!result.IsSuccessful)
+            {
+                var message = !string.IsNullOrWhiteSpace(result.ErrorMessage)
+                    ? string.Format(L.Text("messages.auth_error"), result.ErrorMessage)
+                    : L.Text("messages.auth_failed");
+
+                await Shell.Current.DisplayAlert(L.Text("common.error"), message, L.Text("common.ok"));
+            }
+
+            return result.IsSuccessful;
         }
 
         [RelayCommand]

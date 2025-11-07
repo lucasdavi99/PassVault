@@ -272,18 +272,30 @@
                                                     </Grid>
                                                 </StackLayout>
                                                 <!-- Indicador de acesso moderno -->
-                                                <Border Grid.Column="2"
-                                                        WidthRequest="32" HeightRequest="32"
-                                                        BackgroundColor="{StaticResource SurfaceBackground}"
-                                                        StrokeShape="RoundRectangle 10"
-                                                        VerticalOptions="Center">
-                                                    <Label Text="chevron_right"
-                                                           FontFamily="MaterialIcons"
-                                                           FontSize="18"
-                                                           TextColor="{StaticResource Primary}"
-                                                           HorizontalOptions="Center"
-                                                           VerticalOptions="Center" />
-                                                </Border>
+                                                <StackLayout Grid.Column="2"
+                                                             Spacing="6"
+                                                             VerticalOptions="Center"
+                                                             HorizontalOptions="End">
+                                                    <Border WidthRequest="32" HeightRequest="32"
+                                                            BackgroundColor="{StaticResource SurfaceBackground}"
+                                                            StrokeShape="RoundRectangle 10">
+                                                        <Label Text="chevron_right"
+                                                               FontFamily="MaterialIcons"
+                                                               FontSize="18"
+                                                               TextColor="{StaticResource Primary}"
+                                                               HorizontalOptions="Center"
+                                                               VerticalOptions="Center" />
+                                                    </Border>
+                                                    <Button Text="delete"
+                                                            FontFamily="MaterialIcons"
+                                                            FontSize="16"
+                                                            Padding="0"
+                                                            BackgroundColor="Transparent"
+                                                            TextColor="{StaticResource Error}"
+                                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}, Path=DeleteAccountCommand}"
+                                                            CommandParameter="{Binding .}"
+                                                            IsVisible="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}, Path=ShowDesktopDelete}" />
+                                                </StackLayout>
                                             </Grid>
                                         </Border>
                                     </SwipeView>
@@ -386,18 +398,30 @@
                                                     </Grid>
                                                 </StackLayout>
                                                 <!-- Indicador de acesso -->
-                                                <Border Grid.Column="2"
-                                                        WidthRequest="32" HeightRequest="32"
-                                                        BackgroundColor="{StaticResource SurfaceBackground}"
-                                                        StrokeShape="RoundRectangle 10"
-                                                        VerticalOptions="Center">
-                                                    <Label Text="chevron_right"
-                                                           FontFamily="MaterialIcons"
-                                                           FontSize="18"
-                                                           TextColor="{StaticResource Primary}"
-                                                           HorizontalOptions="Center"
-                                                           VerticalOptions="Center" />
-                                                </Border>
+                                                <StackLayout Grid.Column="2"
+                                                             Spacing="6"
+                                                             VerticalOptions="Center"
+                                                             HorizontalOptions="End">
+                                                    <Border WidthRequest="32" HeightRequest="32"
+                                                            BackgroundColor="{StaticResource SurfaceBackground}"
+                                                            StrokeShape="RoundRectangle 10">
+                                                        <Label Text="chevron_right"
+                                                               FontFamily="MaterialIcons"
+                                                               FontSize="18"
+                                                               TextColor="{StaticResource Primary}"
+                                                               HorizontalOptions="Center"
+                                                               VerticalOptions="Center" />
+                                                    </Border>
+                                                    <Button Text="delete"
+                                                            FontFamily="MaterialIcons"
+                                                            FontSize="16"
+                                                            Padding="0"
+                                                            BackgroundColor="Transparent"
+                                                            TextColor="{StaticResource Error}"
+                                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}, Path=DeleteFolderCommand}"
+                                                            CommandParameter="{Binding .}"
+                                                            IsVisible="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainPageViewModel}}, Path=ShowDesktopDelete}" />
+                                                </StackLayout>
                                             </Grid>
                                         </Border>
                                     </SwipeView>
