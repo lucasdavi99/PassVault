@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Maui.ApplicationModel;
 using PassVault.Interfaces;
 using PassVault.Messages;
 using PassVault.Services;
@@ -107,12 +108,12 @@ namespace PassVault.ViewModels
         [RelayCommand]
         private async Task CopyPassword()
         {
-            if (!string.IsNullOrEmpty(GeneratedPassword))
+            if (string.IsNullOrEmpty(GeneratedPassword))
+                return;
+
+            if (await TryCopyToClipboardAsync(GeneratedPassword))
             {
-                await Clipboard.Default.SetTextAsync(GeneratedPassword);
-
                 WeakReferenceMessenger.Default.Send(new PasswordGeneratedMessage(GeneratedPassword));
-
                 await Shell.Current.GoToAsync("..");
             }
         }
@@ -172,6 +173,20 @@ namespace PassVault.ViewModels
                 return false;
             }
             return true;
+        }
+
+        private static async Task<bool> TryCopyToClipboardAsync(string text)
+        {
+            try
+            {
+                await MainThread.InvokeOnMainThreadAsync(() => Clipboard.Default.SetTextAsync(text));
+                return true;
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlert(L.Text("common.error"), ex.Message, L.Text("common.ok"));
+                return false;
+            }
         }
     }
 }

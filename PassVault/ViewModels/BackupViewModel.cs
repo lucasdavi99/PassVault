@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Maui.ApplicationModel;
 using Microsoft.Maui.ApplicationModel.DataTransfer;
 using PassVault.Data;
 using PassVault.exceptions;
@@ -208,9 +209,11 @@ namespace PassVault.ViewModels
         [RelayCommand]
         private async Task CopyExportPasswordAsync()
         {
-            if (!string.IsNullOrEmpty(ExportPassword))
+            if (string.IsNullOrEmpty(ExportPassword))
+                return;
+
+            if (await TryCopyToClipboardAsync(ExportPassword))
             {
-                await Clipboard.SetTextAsync(ExportPassword);
                 await Snackbar.Make(CopyPasswordButton, duration: TimeSpan.FromSeconds(2)).Show();
             }
         }
@@ -219,6 +222,20 @@ namespace PassVault.ViewModels
         {
             if (_localizationService != null)
                 _localizationService.LanguageChanged -= OnLanguageChanged;
+        }
+
+        private static async Task<bool> TryCopyToClipboardAsync(string text)
+        {
+            try
+            {
+                await MainThread.InvokeOnMainThreadAsync(() => Clipboard.SetTextAsync(text));
+                return true;
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlert(L.Text("common.error"), ex.Message, L.Text("common.ok"));
+                return false;
+            }
         }
     }
 }
