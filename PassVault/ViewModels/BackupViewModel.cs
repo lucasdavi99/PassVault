@@ -214,7 +214,7 @@ namespace PassVault.ViewModels
 
             if (await TryCopyToClipboardAsync(ExportPassword))
             {
-                await Snackbar.Make(CopyPasswordButton, duration: TimeSpan.FromSeconds(2)).Show();
+                await ShowCopyFeedbackAsync(CopyPasswordButton);
             }
         }
 
@@ -236,6 +236,20 @@ namespace PassVault.ViewModels
                 await Shell.Current.DisplayAlert(L.Text("common.error"), ex.Message, L.Text("common.ok"));
                 return false;
             }
+        }
+
+        private static async Task ShowCopyFeedbackAsync(string message)
+        {
+            await MainThread.InvokeOnMainThreadAsync(async () =>
+            {
+                if (OperatingSystem.IsWindowsVersionAtLeast(10, 0, 17763))
+                {
+                    await Shell.Current.DisplayAlert(L.Text("common.success"), message, L.Text("common.ok"));
+                    return;
+                }
+
+                await Snackbar.Make(message, duration: TimeSpan.FromSeconds(2)).Show();
+            });
         }
     }
 }
