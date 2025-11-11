@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
+using PassVault.Configuration;
 using PassVault.Interfaces;
 using PassVault.Messages;
 using System.Security.Cryptography;
@@ -23,6 +24,11 @@ namespace PassVault.Services
         {
             try
             {
+                if (AppBuildSettings.ForceVipForTesting)
+                {
+                    return true;
+                }
+
                 // Calcula os valores esperados em tempo real
                 string expectedHash = CalculateSHA256(VipSecretKey);
                 string expectedLengthCalc = (VipSecretKey.Length * 7).ToString();
@@ -47,6 +53,12 @@ namespace PassVault.Services
 
         public void SetUserVipStatus(bool isVip, string? purchaseToken = null)
         {
+            if (AppBuildSettings.ForceVipForTesting)
+            {
+                WeakReferenceMessenger.Default.Send(new VipStatusChangedMessage(true));
+                return;
+            }
+
             if (isVip)
             {
                 // Calcula e salva o "pacote de segurança"

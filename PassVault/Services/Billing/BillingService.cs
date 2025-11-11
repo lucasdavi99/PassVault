@@ -11,7 +11,7 @@ namespace PassVault.Services.Billing
 {
     public class BillingService : IBillingService
     {
-        private const string VipProductId = "passvault_premium"; // TODO: Atualize com o SKU real cadastrado na Play Store.
+        private const string VipProductId = "passvault.premium";
         private readonly IVipService _vipService;
         private readonly ILogger<BillingService> _logger;
 
