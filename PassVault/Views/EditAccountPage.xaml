@@ -13,6 +13,7 @@
         <ResourceDictionary>
             <converters:EditingModeToColorConverter x:Key="EditingModeToColorConverter" />
             <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+            <converters:StringIsNotNullOrEmptyConverter x:Key="StringIsNotNullOrEmptyConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -279,11 +280,31 @@
                             </Grid>
 
                             <Border Style="{StaticResource EntryContainerStyle}">
-                                <Entry Placeholder="{Binding PasswordPlaceholder}"
-                                       Text="{Binding Password}"
-                                       IsPassword="{Binding IsPasswordVisible, Converter={StaticResource InverseBooleanConverter}}"
-                                       IsReadOnly="{Binding IsEditing, Converter={StaticResource InverseBooleanConverter}}"
-                                       Style="{StaticResource ModernEntryStyle}" />
+                                <Grid ColumnDefinitions="*,Auto">
+                                    <Entry Placeholder="{Binding PasswordPlaceholder}"
+                                           Text="{Binding Password}"
+                                           IsPassword="{Binding IsPasswordVisible, Converter={StaticResource InverseBooleanConverter}}"
+                                           IsReadOnly="{Binding IsEditing, Converter={StaticResource InverseBooleanConverter}}"
+                                           Style="{StaticResource ModernEntryStyle}"
+                                           Margin="0,0,12,0" />
+
+                                    <Border Grid.Column="1"
+                                            WidthRequest="36" HeightRequest="36"
+                                            BackgroundColor="Transparent"
+                                            HorizontalOptions="Center"
+                                            VerticalOptions="Center"
+                                            IsVisible="{Binding Password, Converter={StaticResource StringIsNotNullOrEmptyConverter}}">
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding CopyPasswordCommand}" />
+                                        </Border.GestureRecognizers>
+                                        <Label Text="content_copy"
+                                               FontFamily="MaterialIcons"
+                                               FontSize="18"
+                                               TextColor="{StaticResource Primary}" 
+                                               HorizontalOptions="Center"
+                                               VerticalOptions="Center" />
+                                    </Border>
+                                </Grid>
                             </Border>
                         </StackLayout>
 

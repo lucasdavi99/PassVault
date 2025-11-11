@@ -1,7 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Maui.ApplicationModel;
+using Microsoft.Maui.ApplicationModel.DataTransfer;
 using PassVault.Data;
 using PassVault.Interfaces;
 using PassVault.Messages;
@@ -294,10 +297,36 @@ namespace PassVault.ViewModels
         private void TogglePasswordVisibility() => IsPasswordVisible = !IsPasswordVisible;
 
         [RelayCommand]
+        private async Task CopyPasswordAsync()
+        {
+            if (string.IsNullOrWhiteSpace(Password))
+                return;
+
+            if (await TryCopyToClipboardAsync(Password))
+            {
+                await Snackbar.Make(L.Text("password_copied"), duration: TimeSpan.FromSeconds(2)).Show();
+            }
+        }
+
+        [RelayCommand]
         private void ToggleColorPicker() => IsColorPickerVisible = !IsColorPickerVisible;
 
         [RelayCommand]
         private void CloseColorPicker() => IsColorPickerVisible = false;
+
+        private static async Task<bool> TryCopyToClipboardAsync(string text)
+        {
+            try
+            {
+                await MainThread.InvokeOnMainThreadAsync(() => Clipboard.SetTextAsync(text));
+                return true;
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlert(L.Text("common.error"), ex.Message, L.Text("common.ok"));
+                return false;
+            }
+        }
 
         [RelayCommand]
         private async Task<bool> ToggleEditMode()
