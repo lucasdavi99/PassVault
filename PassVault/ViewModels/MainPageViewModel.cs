@@ -2,15 +2,15 @@
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Maui.Controls.PlatformConfiguration.GTKSpecific;
-using PassVault.Data;
-using PassVault.Interfaces;
-using PassVault.Messages;
-using PassVault.Models;
-using PassVault.Services;
-using PassVault.Views;
+using OrionVault.Data;
+using OrionVault.Interfaces;
+using OrionVault.Messages;
+using OrionVault.Models;
+using OrionVault.Services;
+using OrionVault.Views;
 using System.Collections.ObjectModel;
 
-namespace PassVault.ViewModels
+namespace OrionVault.ViewModels
 {
     public partial class MainPageViewModel : ObservableObject, IRecipient<AccountSavedMessage>, IRecipient<FolderSavedMessage>, IDisposable
     {

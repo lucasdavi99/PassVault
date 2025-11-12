@@ -3,15 +3,15 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Maui.ApplicationModel;
 using Microsoft.Maui.ApplicationModel.DataTransfer;
-using PassVault.Data;
-using PassVault.exceptions;
-using PassVault.Interfaces;
-using PassVault.Messages;
-using PassVault.Models;
-using PassVault.Services;
+using OrionVault.Data;
+using OrionVault.exceptions;
+using OrionVault.Interfaces;
+using OrionVault.Messages;
+using OrionVault.Models;
+using OrionVault.Services;
 using CommunityToolkit.Maui.Alerts;
 
-namespace PassVault.ViewModels
+namespace OrionVault.ViewModels
 {
     public partial class BackupViewModel : ObservableObject
     {

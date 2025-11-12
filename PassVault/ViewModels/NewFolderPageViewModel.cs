@@ -1,15 +1,15 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
-using PassVault.Data;
-using PassVault.Interfaces;
-using PassVault.Messages;
-using PassVault.Models;
-using PassVault.Services;
-using PassVault.Views;
+using OrionVault.Data;
+using OrionVault.Interfaces;
+using OrionVault.Messages;
+using OrionVault.Models;
+using OrionVault.Services;
+using OrionVault.Views;
 using System.ComponentModel.DataAnnotations;
 
-namespace PassVault.ViewModels
+namespace OrionVault.ViewModels
 {
     public partial class NewFolderPageViewModel : ObservableValidator, IQueryAttributable
     {

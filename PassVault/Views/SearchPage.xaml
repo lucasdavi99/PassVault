@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"  
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"  
-            xmlns:viewModels="clr-namespace:PassVault.ViewModels"  
-            xmlns:converters="clr-namespace:PassVault.Converters"  
-            xmlns:models="clr-namespace:PassVault.Models"  
-            x:Class="PassVault.Views.SearchPage"  
+            xmlns:viewModels="clr-namespace:OrionVault.ViewModels"  
+            xmlns:converters="clr-namespace:OrionVault.Converters"  
+            xmlns:models="clr-namespace:OrionVault.Models"  
+            x:Class="OrionVault.Views.SearchPage"  
             x:DataType="viewModels:SearchPageViewModel"
             Shell.NavBarIsVisible="True"
             Title="{Binding PageTitle}">

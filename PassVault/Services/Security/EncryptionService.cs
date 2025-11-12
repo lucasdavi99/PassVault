@@ -1,13 +1,13 @@
 using System.Security.Cryptography;
 using System.Text;
 using Microsoft.Maui.Storage;
-using PassVault.Interfaces;
+using OrionVault.Interfaces;
 
-namespace PassVault.Services.Security
+namespace OrionVault.Services.Security
 {
     public class EncryptionService : IEncryptionService
     {
-        private const string StorageKey = "PassVault_EncryptionKey";
+        private const string StorageKey = "OrionVault_EncryptionKey";
         private const int KeySizeBytes = 32;
         private const int IvSizeBytes = 16;
 

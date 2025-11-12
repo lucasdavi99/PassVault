@@ -1,15 +1,15 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
-using PassVault.Data;
-using PassVault.Interfaces;
-using PassVault.Messages;
-using PassVault.Services;
-using PassVault.Views; // Certifique-se que a view UpgradePage está neste namespace
+using OrionVault.Data;
+using OrionVault.Interfaces;
+using OrionVault.Messages;
+using OrionVault.Services;
+using OrionVault.Views; // Certifique-se que a view UpgradePage está neste namespace
 using System.Collections.ObjectModel;
 using Microsoft.Maui.ApplicationModel;
 
-namespace PassVault.ViewModels
+namespace OrionVault.ViewModels
 {
     public partial class SettingsPageViewModel : ObservableObject
     {
@@ -164,7 +164,7 @@ namespace PassVault.ViewModels
             catch (Exception ex)
             {
                 AppVersion = "1.2.0";
-                AppName = "PassVault";
+                AppName = "OrionVault";
                 BuildNumber = "1";
                 System.Diagnostics.Debug.WriteLine($"Erro ao carregar AppInfo: {ex.Message}");
             }

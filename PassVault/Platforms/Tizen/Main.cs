@@ -2,7 +2,7 @@ using System;
 using Microsoft.Maui;
 using Microsoft.Maui.Hosting;
 
-namespace PassVault
+namespace OrionVault
 {
     internal class Program : MauiApplication
     {

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Concurrent;
 using System.Linq;
 
-namespace PassVault.Services
+namespace OrionVault.Services
 {
     public class CacheService : IDisposable
     {

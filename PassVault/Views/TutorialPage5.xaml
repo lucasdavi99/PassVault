@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:viewModels="clr-namespace:PassVault.ViewModels"
-             x:Class="PassVault.Views.TutorialPage5"
+             xmlns:viewModels="clr-namespace:OrionVault.ViewModels"
+             x:Class="OrionVault.Views.TutorialPage5"
              x:DataType="viewModels:TutorialPage5ViewModel"
              Shell.NavBarIsVisible="False"
              Title="TutorialPage5">
@@ -296,7 +296,7 @@
                                TextColor="White"
                                HorizontalTextAlignment="Center"
                                VerticalOptions="Center" />
-                        <Label Text="{Binding AccessPassVault}"
+                        <Label Text="{Binding AccessOrionVault}"
                                Style="{StaticResource CaptionStyle}"
                                FontSize="12"
                                TextColor="White"

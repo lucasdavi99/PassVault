@@ -1,11 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using PassVault.Interfaces;
-using PassVault.Services;
-using PassVault.Views;
+using OrionVault.Interfaces;
+using OrionVault.Services;
+using OrionVault.Views;
 using System.Windows.Input;
 
-namespace PassVault.ViewModels
+namespace OrionVault.ViewModels
 {
     public partial class TutorialPage2ViewModel : ObservableObject
     {

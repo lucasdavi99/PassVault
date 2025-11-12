@@ -2,10 +2,10 @@
 <ContentPage 
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:viewmodel="clr-namespace:PassVault.ViewModels"
-    xmlns:converters="clr-namespace:PassVault.Converters"
+    xmlns:viewmodel="clr-namespace:OrionVault.ViewModels"
+    xmlns:converters="clr-namespace:OrionVault.Converters"
     xmlns:controls="clr-namespace:Maui.ColorPicker;assembly=Maui.ColorPicker"
-    x:Class="PassVault.Views.EditFolderPage"
+    x:Class="OrionVault.Views.EditFolderPage"
     x:DataType="viewmodel:EditFolderPageViewModel"
     Title="{Binding PageTitle}">
 

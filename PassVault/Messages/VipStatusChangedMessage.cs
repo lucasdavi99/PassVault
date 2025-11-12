@@ -1,6 +1,6 @@
 using CommunityToolkit.Mvvm.Messaging.Messages;
 
-namespace PassVault.Messages
+namespace OrionVault.Messages
 {
     public sealed class VipStatusChangedMessage : ValueChangedMessage<bool>
     {

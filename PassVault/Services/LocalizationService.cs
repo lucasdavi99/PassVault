@@ -1,4 +1,4 @@
-﻿using PassVault.Interfaces;
+﻿using OrionVault.Interfaces;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace PassVault.Services
+namespace OrionVault.Services
 {
     internal class LocalizationService : ILocalizationService
     {
@@ -123,7 +123,7 @@ namespace PassVault.Services
             try
             {
                 var assembly = Assembly.GetExecutingAssembly();
-                var resourceName = $"PassVault.Resources.Languages.{languageCode}.json";
+                var resourceName = $"OrionVault.Resources.Languages.{languageCode}.json";
 
                 System.Diagnostics.Debug.WriteLine($"Tentando carregar recurso: {resourceName}");
 

@@ -1,4 +1,4 @@
-namespace PassVault.Configuration
+namespace OrionVault.Configuration
 {
     /// <summary>
     /// Centraliza os switches de build que precisamos alterar rapidamente durante os testes.

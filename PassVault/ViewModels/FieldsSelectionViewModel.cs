@@ -1,10 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using PassVault.Interfaces;
-using PassVault.Services;
-using PassVault.Views;
+using OrionVault.Interfaces;
+using OrionVault.Services;
+using OrionVault.Views;
 
-namespace PassVault.ViewModels
+namespace OrionVault.ViewModels
 {
     public partial class FieldsSelectionViewModel : ObservableObject, IQueryAttributable
     {

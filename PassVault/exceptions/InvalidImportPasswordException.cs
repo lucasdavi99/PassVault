@@ -1,4 +1,4 @@
-﻿namespace PassVault.exceptions
+﻿namespace OrionVault.exceptions
 {
     internal class InvalidImportPasswordException : Exception
     {

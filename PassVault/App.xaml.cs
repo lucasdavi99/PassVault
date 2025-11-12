@@ -1,7 +1,7 @@
-﻿using PassVault.Interfaces;
-using PassVault.Services;
+﻿using OrionVault.Interfaces;
+using OrionVault.Services;
 
-namespace PassVault
+namespace OrionVault
 {
     public partial class App : Application
     {

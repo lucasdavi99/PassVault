@@ -1,7 +1,7 @@
-﻿using PassVault.Models;
+﻿using OrionVault.Models;
 using SQLite;
 
-namespace PassVault.Data
+namespace OrionVault.Data
 {
     public class FolderDatabase
     {

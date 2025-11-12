@@ -5,16 +5,16 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Maui.ApplicationModel;
 using Microsoft.Maui.ApplicationModel.DataTransfer;
-using PassVault.Data;
-using PassVault.Interfaces;
-using PassVault.Messages;
-using PassVault.Models;
-using PassVault.Services;
-using PassVault.Views;
+using OrionVault.Data;
+using OrionVault.Interfaces;
+using OrionVault.Messages;
+using OrionVault.Models;
+using OrionVault.Services;
+using OrionVault.Views;
 using Plugin.Fingerprint;
 using Plugin.Fingerprint.Abstractions;
 
-namespace PassVault.ViewModels
+namespace OrionVault.ViewModels
 {
     public partial class EditAccountPageViewModel : ObservableValidator, IQueryAttributable
     {

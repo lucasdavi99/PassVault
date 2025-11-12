@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace PassVault.Converters
+namespace OrionVault.Converters
 {
     internal class TabVisibilityConverter : IValueConverter
     {

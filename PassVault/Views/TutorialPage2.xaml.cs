@@ -1,6 +1,6 @@
-using PassVault.ViewModels;
+using OrionVault.ViewModels;
 
-namespace PassVault.Views;
+namespace OrionVault.Views;
 
 public partial class TutorialPage2 : ContentPage
 {

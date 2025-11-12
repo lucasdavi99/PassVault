@@ -1,4 +1,4 @@
-namespace PassVault.Services.Security
+namespace OrionVault.Services.Security
 {
     public static class EncryptionConstants
     {

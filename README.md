@@ -1,6 +1,6 @@
-# **📱 PassVault - Seu Gerenciador de Senhas Seguro**
+# **📱 OrionVault - Seu Gerenciador de Senhas Seguro**
 
-PassVault é um aplicativo Android desenvolvido com **.NET MAUI**, pensado para oferecer segurança, simplicidade e praticidade no gerenciamento de senhas. Organize e proteja suas informações com criptografia avançada e funcionalidades que garantem o acesso rápido e seguro às suas contas.
+OrionVault é um aplicativo Android desenvolvido com **.NET MAUI**, pensado para oferecer segurança, simplicidade e praticidade no gerenciamento de senhas. Organize e proteja suas informações com criptografia avançada e funcionalidades que garantem o acesso rápido e seguro às suas contas.
 
 ---
 
@@ -27,21 +27,21 @@ PassVault é um aplicativo Android desenvolvido com **.NET MAUI**, pensado para 
 ## 📸 **Screenshots**
 
 <div style="display: flex; flex-wrap: wrap; gap: 10px;">
-  <img src="https://github.com/lucasdavi99/PassVault/blob/main/Assets/Screenshot_1739467710.png?raw=true" alt="Imagem 1" width="190" height="400"/>
-  <img src="https://github.com/lucasdavi99/PassVault/blob/main/Assets/Screenshot_1739467727.png?raw=true" alt="Imagem 2" width="190" height="400"/>
-  <img src="https://github.com/lucasdavi99/PassVault/blob/main/Assets/Screenshot_1739467812.png?raw=true" alt="Imagem 3" width="190" height="400"/>
-  <img src="https://github.com/lucasdavi99/PassVault/blob/main/Assets/Screenshot_1739467852.png?raw=true" alt="Imagem 4" width="190" height="400"/>
-  <img src="https://github.com/lucasdavi99/PassVault/blob/main/Assets/Screenshot_1739467878.png?raw=true" alt="Imagem 5" width="190" height="400"/>
-  <img src="https://github.com/lucasdavi99/PassVault/blob/main/Assets/Screenshot_1739467891.png?raw=true" alt="Imagem 6" width="190" height="400"/>
-  <img src="https://github.com/lucasdavi99/PassVault/blob/main/Assets/Screenshot_1739468051.png?raw=true" alt="Imagem 7" width="190" height="400"/>
-  <img src="https://github.com/lucasdavi99/PassVault/blob/main/Assets/Screenshot_1739468053.png?raw=true" alt="Imagem 8" width="190" height="400"/>
+  <img src="./Assets/Screenshot_1739467710.png" alt="Imagem 1" width="190" height="400"/>
+  <img src="./Assets/Screenshot_1739467727.png" alt="Imagem 2" width="190" height="400"/>
+  <img src="./Assets/Screenshot_1739467812.png" alt="Imagem 3" width="190" height="400"/>
+  <img src="./Assets/Screenshot_1739467852.png" alt="Imagem 4" width="190" height="400"/>
+  <img src="./Assets/Screenshot_1739467878.png" alt="Imagem 5" width="190" height="400"/>
+  <img src="./Assets/Screenshot_1739467891.png" alt="Imagem 6" width="190" height="400"/>
+  <img src="./Assets/Screenshot_1739468051.png" alt="Imagem 7" width="190" height="400"/>
+  <img src="./Assets/Screenshot_1739468053.png" alt="Imagem 8" width="190" height="400"/>
 </div>
 
 ---
 
 ## 📦 **Download**
 
-Baixe a versão mais recente diretamente na aba de [**Releases**](https://github.com/lucasdavi99/PassVault/releases).
+Baixe a versão mais recente diretamente na aba de [**Releases**](../../releases).
 
 ---
 

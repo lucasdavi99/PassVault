@@ -1,4 +1,4 @@
-﻿namespace PassVault.Models
+﻿namespace OrionVault.Models
 {
     public class BackupData
     {

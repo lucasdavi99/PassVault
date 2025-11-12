@@ -1,7 +1,7 @@
 ﻿using Timer = System.Timers.Timer;
 
 
-namespace PassVault.Services
+namespace OrionVault.Services
 {
     public class InactivityTimeoutService
     {

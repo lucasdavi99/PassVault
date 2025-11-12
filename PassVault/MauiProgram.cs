@@ -1,16 +1,16 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
-using PassVault.Data;
-using PassVault.Interfaces;
-using PassVault.Services;
-using PassVault.Services.Security;
-using PassVault.Services.Billing;
-using PassVault.ViewModels;
-using PassVault.Views;
+using OrionVault.Data;
+using OrionVault.Interfaces;
+using OrionVault.Services;
+using OrionVault.Services.Security;
+using OrionVault.Services.Billing;
+using OrionVault.ViewModels;
+using OrionVault.Views;
 using SkiaSharp.Views.Maui.Controls.Hosting;
 
-namespace PassVault
+namespace OrionVault
 {
     public static class MauiProgram
     {

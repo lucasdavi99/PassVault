@@ -1,4 +1,4 @@
-namespace PassVault.Interfaces
+namespace OrionVault.Interfaces
 {
     public interface IEncryptionService
     {

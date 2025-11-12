@@ -1,8 +1,8 @@
-using PassVault.Services.Billing;
+using OrionVault.Services.Billing;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace PassVault.Interfaces
+namespace OrionVault.Interfaces
 {
     public interface IBillingService
     {

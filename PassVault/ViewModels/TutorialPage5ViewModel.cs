@@ -1,11 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using PassVault.Interfaces;
-using PassVault.Models;
-using PassVault.Services;
+using OrionVault.Interfaces;
+using OrionVault.Models;
+using OrionVault.Services;
 using System.Windows.Input;
 
-namespace PassVault.ViewModels
+namespace OrionVault.ViewModels
 {
     public partial class TutorialPage5ViewModel : ObservableObject
     {
@@ -45,7 +45,7 @@ namespace PassVault.ViewModels
         private string getStartedButton;
 
         [ObservableProperty]
-        private string accessPassVault;
+        private string accessOrionVault;
 
         public ICommand NextPageCommand { get; }
 
@@ -75,7 +75,7 @@ namespace PassVault.ViewModels
             YouAreNowAUser = L.Text("tutorial.you_are_now_a_user");
             ProgressText = L.Text("tutorial.progress_6_of_6");
             GetStartedButton = L.Text("tutorial.get_started_button");
-            AccessPassVault = L.Text("tutorial.access_passvault");
+            AccessOrionVault = L.Text("tutorial.access_OrionVault");
         }
 
         private async void OnNextPageClicked()

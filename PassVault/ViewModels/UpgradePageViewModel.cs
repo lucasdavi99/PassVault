@@ -1,10 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using PassVault.Interfaces;
-using PassVault.Services;
-using PassVault.Services.Billing;
+using OrionVault.Interfaces;
+using OrionVault.Services;
+using OrionVault.Services.Billing;
 
-namespace PassVault.ViewModels
+namespace OrionVault.ViewModels
 {
     public partial class UpgradePageViewModel : ObservableObject
     {

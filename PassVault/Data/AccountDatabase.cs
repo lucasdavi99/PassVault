@@ -1,9 +1,9 @@
-﻿using PassVault.Interfaces;
-using PassVault.Models;
-using PassVault.Services.Security;
+﻿using OrionVault.Interfaces;
+using OrionVault.Models;
+using OrionVault.Services.Security;
 using SQLite;
 
-namespace PassVault.Data
+namespace OrionVault.Data
 {
     public class AccountDatabase
     {

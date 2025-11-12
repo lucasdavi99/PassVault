@@ -1,7 +1,7 @@
 ﻿using ObjCRuntime;
 using UIKit;
 
-namespace PassVault
+namespace OrionVault
 {
     public class Program
     {

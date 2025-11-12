@@ -1,17 +1,17 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Maui.ApplicationModel;
 using Plugin.InAppBilling;
-using PassVault.Interfaces;
+using OrionVault.Interfaces;
 using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace PassVault.Services.Billing
+namespace OrionVault.Services.Billing
 {
     public class BillingService : IBillingService
     {
-        private const string VipProductId = "passvault.premium";
+        private const string VipProductId = "OrionVault.premium";
         private readonly IVipService _vipService;
         private readonly ILogger<BillingService> _logger;
 

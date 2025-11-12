@@ -1,11 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
-using PassVault.Configuration;
-using PassVault.Interfaces;
-using PassVault.Messages;
+using OrionVault.Configuration;
+using OrionVault.Interfaces;
+using OrionVault.Messages;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace PassVault.Services
+namespace OrionVault.Services
 {
     public class VipService : IVipService
     {

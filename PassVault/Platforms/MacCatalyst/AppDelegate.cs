@@ -1,7 +1,7 @@
 ﻿using Foundation;
 using Microsoft.Maui;
 
-namespace PassVault
+namespace OrionVault
 {
     [Register("AppDelegate")]
     public class AppDelegate : MauiUIApplicationDelegate

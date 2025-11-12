@@ -1,8 +1,8 @@
-﻿namespace PassVault.Data
+﻿namespace OrionVault.Data
 {
     public static class Constants
     {
-        public const string DatabaseFileName = "passvault.db3";
+        public const string DatabaseFileName = "OrionVault.db3";
 
         public const SQLite.SQLiteOpenFlags Flags =
             SQLite.SQLiteOpenFlags.ReadWrite |

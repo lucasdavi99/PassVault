@@ -1,6 +1,6 @@
-﻿using PassVault.Views;
+﻿using OrionVault.Views;
 
-namespace PassVault
+namespace OrionVault
 {
     public partial class AppShell : Shell
     {

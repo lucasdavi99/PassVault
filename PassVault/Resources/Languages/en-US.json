@@ -1,11 +1,11 @@
 {
   "app": {
-    "name": "PassVault",
-    "welcome": "Welcome to PassVault",
+    "name": "OrionVault",
+    "welcome": "Welcome to OrionVault",
     "version": "Version"
   },
   "main": {
-    "title": "PassVault",
+    "title": "OrionVault",
     "subtitle": "Your secure passwords in one place",
     "items_tab": "Items",
     "folders_tab": "Folders",
@@ -76,7 +76,7 @@
       "error_message": "Error clearing data. Please try again."
     },
     "about": {
-      "title": "About PassVault",
+      "title": "About OrionVault",
       "subtitle": "Application information",
       "version": "Version",
       "developer": "Developed by"
@@ -321,19 +321,19 @@
     "privacy_focused": "Developed with a focus on your privacy",
     "progress_4_of_6": "4 of 6",
     "privacy_policy_title": "Privacy policy",
-    "privacy_policy_intro": "Please review the key expectations for storing sensitive passwords with PassVault.",
+    "privacy_policy_intro": "Please review the key expectations for storing sensitive passwords with OrionVault.",
     "privacy_policy_acceptance_title": "Acceptance and lawful use",
-    "privacy_policy_acceptance_description": "By continuing you confirm you own the credentials you will store, will use PassVault only for lawful purposes, and understand it is a personal vault for your accounts.",
+    "privacy_policy_acceptance_description": "By continuing you confirm you own the credentials you will store, will use OrionVault only for lawful purposes, and understand it is a personal vault for your accounts.",
     "privacy_policy_responsible_use_title": "Responsible access",
     "privacy_policy_responsible_use_description": "Keep your device protected with a strong unlock method, do not share your biometric data or PIN, and avoid saving sensitive data on shared devices you do not control.",
     "privacy_policy_security_title": "Protecting sensitive data",
-    "privacy_policy_security_description": "PassVault keeps your information encrypted and stored only on this device. Make regular encrypted backups and keep your operating system updated to avoid data loss.",
+    "privacy_policy_security_description": "OrionVault keeps your information encrypted and stored only on this device. Make regular encrypted backups and keep your operating system updated to avoid data loss.",
     "privacy_policy_liability_title": "Limitation of liability",
-    "privacy_policy_liability_description": "The PassVault team is not responsible for damages caused by improper use, weak passwords, lost or compromised devices, or missing backups. You remain accountable for the content you store.",
+    "privacy_policy_liability_description": "The OrionVault team is not responsible for damages caused by improper use, weak passwords, lost or compromised devices, or missing backups. You remain accountable for the content you store.",
     "privacy_policy_updates_title": "Updates and support",
     "privacy_policy_updates_description": "We may update this policy and the app. We will announce relevant changes within the app. For questions, contact support through the link in the settings.",
     "privacy_policy_acknowledgement": "I have read and understand the privacy policy above.",
-    "privacy_policy_acceptance_required": "You need to accept the privacy policy to continue using PassVault.",
+    "privacy_policy_acceptance_required": "You need to accept the privacy policy to continue using OrionVault.",
     "progress_5_of_6": "5 of 6",
     "ready_title": "Ready!\r\nNow just enjoy the app.",
     "congratulations": "Congratulations!",
@@ -343,10 +343,10 @@
     "search_and_access": "Search and access quickly",
     "backup_data": "Back up your data",
     "welcome": "Welcome!",
-    "you_are_now_a_user": "You are now a PassVault user",
+    "you_are_now_a_user": "You are now a OrionVault user",
     "progress_6_of_6": "6 of 6 - Complete!",
     "get_started_button": "Let's get started!",
-    "access_passvault": "Access PassVault"
+    "access_OrionVault": "Access OrionVault"
   },
   "messages": {
     "account_saved": "Account saved successfully!",

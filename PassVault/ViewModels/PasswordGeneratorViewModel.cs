@@ -3,11 +3,11 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Maui.ApplicationModel;
-using PassVault.Interfaces;
-using PassVault.Messages;
-using PassVault.Services;
+using OrionVault.Interfaces;
+using OrionVault.Messages;
+using OrionVault.Services;
 
-namespace PassVault.ViewModels
+namespace OrionVault.ViewModels
 {
     public partial class PasswordGeneratorViewModel : ObservableObject
     {

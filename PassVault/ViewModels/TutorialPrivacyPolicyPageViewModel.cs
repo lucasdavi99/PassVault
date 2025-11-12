@@ -1,12 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Maui.Storage;
-using PassVault.Interfaces;
-using PassVault.Services;
-using PassVault.Views;
+using OrionVault.Interfaces;
+using OrionVault.Services;
+using OrionVault.Views;
 using System.Threading.Tasks;
 
-namespace PassVault.ViewModels
+namespace OrionVault.ViewModels
 {
     public partial class TutorialPrivacyPolicyPageViewModel : ObservableObject
     {

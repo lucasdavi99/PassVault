@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Shell
-    x:Class="PassVault.AppShell"
+    x:Class="OrionVault.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:PassVault.Views"
+    xmlns:local="clr-namespace:OrionVault.Views"
     Shell.FlyoutBehavior="Disabled"
-    Title="PassVault">
+    Title="OrionVault">
 
     <ShellContent Title="Tutorial" ContentTemplate="{DataTemplate local:TutorialPage1}" Route="TutorialPage1" />
     <ShellContent Title="Lock Screen" ContentTemplate="{DataTemplate local:LockScreen}" Route="LockScreen" />

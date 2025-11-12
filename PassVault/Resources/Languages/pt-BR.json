@@ -1,11 +1,11 @@
 {
   "app": {
-    "name": "PassVault",
-    "welcome": "Bem-vindo ao PassVault",
+    "name": "OrionVault",
+    "welcome": "Bem-vindo ao OrionVault",
     "version": "Versão"
   },
   "main": {
-    "title": "PassVault",
+    "title": "OrionVault",
     "subtitle": "Suas senhas seguras em um só lugar",
     "items_tab": "Itens",
     "folders_tab": "Pastas",
@@ -76,7 +76,7 @@
       "error_message": "Erro ao limpar os dados. Tente novamente."
     },
     "about": {
-      "title": "Sobre o PassVault",
+      "title": "Sobre o OrionVault",
       "subtitle": "Informações do aplicativo",
       "version": "Versão",
       "developer": "Desenvolvido por"
@@ -321,19 +321,19 @@
     "privacy_focused": "Desenvolvido com foco na sua privacidade",
     "progress_4_of_6": "4 de 6",
     "privacy_policy_title": "Política de privacidade",
-    "privacy_policy_intro": "Leia os pontos essenciais sobre como protegemos seus dados e quais são suas responsabilidades ao guardar senhas sensíveis no PassVault.",
+    "privacy_policy_intro": "Leia os pontos essenciais sobre como protegemos seus dados e quais são suas responsabilidades ao guardar senhas sensíveis no OrionVault.",
     "privacy_policy_acceptance_title": "Aceite e uso do aplicativo",
-    "privacy_policy_acceptance_description": "Ao continuar, você confirma ser o titular das credenciais que serão armazenadas, utilizar o PassVault apenas para fins legais e compreender que ele é um cofre pessoal para suas contas.",
+    "privacy_policy_acceptance_description": "Ao continuar, você confirma ser o titular das credenciais que serão armazenadas, utilizar o OrionVault apenas para fins legais e compreender que ele é um cofre pessoal para suas contas.",
     "privacy_policy_responsible_use_title": "Acesso responsável",
     "privacy_policy_responsible_use_description": "Mantenha seu dispositivo protegido com uma forma de desbloqueio forte, não compartilhe biometria ou PIN e evite guardar dados sensíveis em aparelhos compartilhados ou comprometidos.",
     "privacy_policy_security_title": "Proteção dos dados sensíveis",
-    "privacy_policy_security_description": "O PassVault mantém suas informações criptografadas e armazenadas apenas neste dispositivo. Faça backups cifrados com regularidade e mantenha o sistema atualizado para evitar perda de dados.",
+    "privacy_policy_security_description": "O OrionVault mantém suas informações criptografadas e armazenadas apenas neste dispositivo. Faça backups cifrados com regularidade e mantenha o sistema atualizado para evitar perda de dados.",
     "privacy_policy_liability_title": "Limitação de responsabilidade",
-    "privacy_policy_liability_description": "A equipe PassVault não se responsabiliza por danos causados por uso indevido, senhas fracas, perda ou comprometimento do dispositivo e ausência de backups. Você é responsável pelo conteúdo armazenado.",
+    "privacy_policy_liability_description": "A equipe OrionVault não se responsabiliza por danos causados por uso indevido, senhas fracas, perda ou comprometimento do dispositivo e ausência de backups. Você é responsável pelo conteúdo armazenado.",
     "privacy_policy_updates_title": "Atualizações e suporte",
     "privacy_policy_updates_description": "Podemos atualizar esta política e o aplicativo. Avisaremos no próprio app quando houver mudanças relevantes. Para dúvidas, utilize o canal de suporte indicado nas configurações.",
     "privacy_policy_acknowledgement": "Li e compreendi a política de privacidade acima.",
-    "privacy_policy_acceptance_required": "Você precisa aceitar a política de privacidade para continuar usando o PassVault.",
+    "privacy_policy_acceptance_required": "Você precisa aceitar a política de privacidade para continuar usando o OrionVault.",
     "progress_5_of_6": "5 de 6",
     "ready_title": "Pronto!\r\nAgora é só aproveitar o app.",
     "congratulations": "Parabéns!",
@@ -343,10 +343,10 @@
     "search_and_access": "Buscar e acessar rapidamente",
     "backup_data": "Fazer backup dos dados",
     "welcome": "Bem-vindo!",
-    "you_are_now_a_user": "Você agora é um usuário PassVault",
+    "you_are_now_a_user": "Você agora é um usuário OrionVault",
     "progress_6_of_6": "6 de 6 - Concluído!",
     "get_started_button": "Vamos começar!",
-    "access_passvault": "Acessar o PassVault"
+    "access_OrionVault": "Acessar o OrionVault"
   },
   "messages": {
     "account_saved": "Conta salva com sucesso!",

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:viewModels="clr-namespace:PassVault.ViewModels"
+             xmlns:viewModels="clr-namespace:OrionVault.ViewModels"
              x:DataType="viewModels:FieldsSelectionViewModel"
-             x:Class="PassVault.Views.FieldsSelection"
+             x:Class="OrionVault.Views.FieldsSelection"
              Title="{Binding PageTitle}">
 
     <Grid RowDefinitions="Auto,*,Auto">

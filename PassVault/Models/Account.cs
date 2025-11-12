@@ -1,6 +1,6 @@
 ﻿using SQLite;
 
-namespace PassVault.Models
+namespace OrionVault.Models
 {
     public class Account
     {

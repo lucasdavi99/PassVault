@@ -1,6 +1,6 @@
 using System;
 
-namespace PassVault.Services.Billing
+namespace OrionVault.Services.Billing
 {
     public enum BillingResultStatus
     {

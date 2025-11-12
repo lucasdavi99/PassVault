@@ -1,14 +1,14 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using PassVault.Data;
-using PassVault.Interfaces;
-using PassVault.Models;
-using PassVault.Services;
-using PassVault.Views;
+using OrionVault.Data;
+using OrionVault.Interfaces;
+using OrionVault.Models;
+using OrionVault.Services;
+using OrionVault.Views;
 
 
-namespace PassVault.ViewModels
+namespace OrionVault.ViewModels
 {
     public partial class SearchPageViewModel : ObservableObject
     {
