@@ -93,9 +93,7 @@ namespace PassVault.Services.Billing
                     .GetPurchasesAsync(ItemType.InAppPurchase, cancellationToken)
                     .ConfigureAwait(false);
 
-                var vipPurchase = purchases?.FirstOrDefault(p => p.ProductId == VipProductId &&
-                                                                 (p.State == PurchaseState.Purchased ||
-                                                                  p.State == PurchaseState.Restored));
+                var vipPurchase = purchases?.FirstOrDefault(IsValidVipPurchase);
 
                 if (vipPurchase != null)
                 {
@@ -119,6 +117,51 @@ namespace PassVault.Services.Billing
             {
                 _logger.LogError(ex, "Erro inesperado durante a restauração do produto VIP.");
                 return BillingResult.FromStatus(BillingResultStatus.UnknownError, ex.Message);
+            }
+            finally
+            {
+                await billing.DisconnectAsync(cancellationToken).ConfigureAwait(false);
+            }
+        }
+
+        public async Task ValidateVipStatusAsync(CancellationToken cancellationToken = default)
+        {
+            if (!IsBillingSupported())
+            {
+                return;
+            }
+
+            var billing = CrossInAppBilling.Current;
+
+            try
+            {
+                if (!await billing.ConnectAsync(enablePendingPurchases: true, cancellationToken).ConfigureAwait(false))
+                {
+                    return;
+                }
+
+                var purchases = await billing
+                    .GetPurchasesAsync(ItemType.InAppPurchase, cancellationToken)
+                    .ConfigureAwait(false);
+
+                var vipPurchase = purchases?.FirstOrDefault(IsValidVipPurchase);
+
+                if (vipPurchase != null)
+                {
+                    PersistVipStatus(vipPurchase);
+                }
+                else if (_vipService.IsUserVip())
+                {
+                    _vipService.SetUserVipStatus(false);
+                }
+            }
+            catch (InAppBillingPurchaseException ex)
+            {
+                _logger.LogWarning(ex, "Erro ao validar automaticamente o status VIP: {Error}", ex.PurchaseError);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro inesperado ao validar automaticamente o status VIP.");
             }
             finally
             {
@@ -172,6 +215,12 @@ namespace PassVault.Services.Billing
         private void PersistVipStatus(InAppBillingPurchase purchase)
         {
             _vipService.SetUserVipStatus(true, purchase.PurchaseToken);
+        }
+
+        private static bool IsValidVipPurchase(InAppBillingPurchase purchase)
+        {
+            return purchase.ProductId == VipProductId &&
+                   (purchase.State == PurchaseState.Purchased || purchase.State == PurchaseState.Restored);
         }
     }
 }

@@ -8,5 +8,6 @@ namespace PassVault.Interfaces
     {
         Task<BillingResult> PurchaseVipAsync(CancellationToken cancellationToken = default);
         Task<BillingResult> RestoreVipAsync(CancellationToken cancellationToken = default);
+        Task ValidateVipStatusAsync(CancellationToken cancellationToken = default);
     }
 }
