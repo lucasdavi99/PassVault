@@ -5,6 +5,7 @@ using PassVault.Data;
 using PassVault.Interfaces;
 using PassVault.Services;
 using PassVault.Services.Security;
+using PassVault.Services.Billing;
 using PassVault.ViewModels;
 using PassVault.Views;
 using SkiaSharp.Views.Maui.Controls.Hosting;
@@ -40,8 +41,9 @@ namespace PassVault
             builder.Services.AddSingleton<CacheService>();
             builder.Services.AddSingleton<IEncryptionService, EncryptionService>();
 
-            // Serviço de Localização
             builder.Services.AddSingleton<ILocalizationService, LocalizationService>();
+            builder.Services.AddSingleton<IVipService, VipService>();
+            builder.Services.AddSingleton<IBillingService, BillingService>();
 
             // Database services - mantém como Singleton
             builder.Services.AddSingleton<AccountDatabase>();
@@ -51,7 +53,7 @@ namespace PassVault
             builder.Services.AddSingleton<ExportService>();
             builder.Services.AddSingleton<ImportService>();
 
-            // ViewModels como Transient para melhor gestão de memória
+            // ViewModels
             builder.Services.AddSingleton<TutorialPage1ViewModel>();
             builder.Services.AddSingleton<TutorialPage2ViewModel>();
             builder.Services.AddSingleton<TutorialPage3ViewModel>();
@@ -70,8 +72,9 @@ namespace PassVault
             builder.Services.AddTransient<FieldsSelectionViewModel>();
             builder.Services.AddTransient<SettingsPageViewModel>();
             builder.Services.AddTransient<LockScreenViewModel>();
+            builder.Services.AddSingleton<UpgradePageViewModel>();
 
-            // Pages com ViewModels
+            // Pages 
             builder.Services.AddTransient<TutorialPage1>();
             builder.Services.AddTransient<TutorialPage2>();
             builder.Services.AddTransient<TutorialPage3>();
@@ -90,6 +93,7 @@ namespace PassVault
             builder.Services.AddTransient<FieldsSelection>();
             builder.Services.AddTransient<SettingsPage>();
             builder.Services.AddTransient<LockScreen>();
+            builder.Services.AddSingleton<UpgradePage>();
 
 #if DEBUG
             builder.Logging.AddDebug();

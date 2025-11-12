@@ -50,6 +50,11 @@
   "settings": {
     "title": "Configurações",
     "subtitle": "Personalize e gerencie seu app",
+    "vip": {
+      "title": "Torne-se VIP",
+      "subtitle": "Desbloqueie todos os recursos com um pagamento único.",
+      "button": "Ver Vantagens"
+    },
     "language": {
       "title": "Idioma",
       "subtitle": "Escolha o idioma do aplicativo",
@@ -441,5 +446,38 @@
       "title": "Autenticação necessária",
       "message": "Desbloqueie o Dispositivo."
     }
+  },
+  "vip": {
+    "limit_reached_title": "Limite Atingido",
+    "account_limit_message": "Você atingiu o limite de 10 contas da versão gratuita. Faça o upgrade para o VIP para criar contas ilimitadas!",
+    "folder_limit_message": "Você atingiu o limite de 2 pastas da versão gratuita. Faça o upgrade para o VIP para criar pastas ilimitadas!",
+    "feature_locked_title": "Recurso VIP",
+    "subfolder_feature_message": "A criação de subpastas é um recurso exclusivo da versão VIP. Faça o upgrade para organizar suas contas com mais detalhes!",
+    "upgrade_now": "Atualize agora!"
+  },
+  "upgrade_page": {
+    "title": "Tornar-se VIP",
+    "header_title": "Desbloqueie todo o Potencial",
+    "header_subtitle": "Faça o upgrade para a versão VIP com um pagamento único e aproveite todos os recursos para sempre.",
+    "benefits_title": "Benefícios VIP:",
+    "benefit_unlimited_accounts": "Contas ilimitadas",
+    "benefit_unlimited_folders": "Pastas ilimitadas",
+    "benefit_subfolders": "Suporte a subpastas",
+    "purchase_button": "Tornar-se VIP Agora",
+    "restore_button": "Restaurar Compras",
+    "purchase_success": "Compra concluída! Recursos VIP liberados.",
+    "purchase_already_owned": "Você já possui o upgrade VIP. Aproveite os benefícios!",
+    "purchase_pending": "Seu pagamento ainda está pendente. Assim que a loja confirmar, liberaremos o VIP.",
+    "pending_title": "Pagamento Pendente",
+    "purchase_cancelled": "Compra cancelada. Nenhuma cobrança foi realizada.",
+    "cancelled_title": "Compra Cancelada",
+    "purchase_error": "Não foi possível concluir a compra. Tente novamente mais tarde.",
+    "restore_success": "Benefícios VIP restaurados com sucesso!",
+    "restore_none": "Não encontramos compras anteriores para esta conta.",
+    "restore_title": "Restaurar Compra",
+    "billing_unavailable": "O serviço de cobrança da Google Play está indisponível no momento.",
+    "network_error": "Não foi possível se conectar à Play Store. Verifique sua internet e tente novamente.",
+    "product_not_found": "Produto VIP não encontrado. Verifique o SKU configurado na Play Console.",
+    "not_supported": "Compras estão disponíveis apenas em dispositivos Android no momento."
   }
 }

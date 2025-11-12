@@ -1,15 +1,18 @@
-﻿using PassVault.Services;
+﻿using PassVault.Interfaces;
+using PassVault.Services;
 
 namespace PassVault
 {
     public partial class App : Application
     {
         private readonly InactivityTimeoutService _inactivityService;
+        private readonly IBillingService _billingService;
 
-        public App()
+        public App(IBillingService billingService)
         {
             InitializeComponent();
 
+            _billingService = billingService;
             _inactivityService = new InactivityTimeoutService();
             _inactivityService.TimeoutElapsed += OnInactivityTimeout;
         }
@@ -23,6 +26,8 @@ namespace PassVault
         protected override async void OnStart()
         {
             base.OnStart();
+
+            await _billingService.ValidateVipStatusAsync();
 
             bool isNewUser = Preferences.Get("IsNewUser", true);
 
@@ -42,6 +47,11 @@ namespace PassVault
         {
             base.OnResume();
             _inactivityService.Stop();
+
+            MainThread.BeginInvokeOnMainThread(async () =>
+            {
+                await _billingService.ValidateVipStatusAsync();
+            });
         }     
 
         private async void OnInactivityTimeout()

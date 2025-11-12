@@ -15,6 +15,7 @@ namespace PassVault.ViewModels
     {
         private readonly AccountDatabase _database;
         private readonly ILocalizationService _localizationService;
+        private readonly IVipService _vipService;
 
         [ObservableProperty]
         [Required(ErrorMessage = "Título é obrigatório")]
@@ -69,10 +70,11 @@ namespace PassVault.ViewModels
         [ObservableProperty] private string hexCodePlaceholder;
         [ObservableProperty] private string confirmColorButtonText;
 
-        public NewAccountPageViewModel(AccountDatabase database, ILocalizationService localizationService)
+        public NewAccountPageViewModel(AccountDatabase database, ILocalizationService localizationService, IVipService vipService)
         {
             _database = database;
             _localizationService = localizationService;
+            _vipService = vipService;
             UpdateLocalizedTexts();
             _localizationService.LanguageChanged += OnLanguageChanged;
 
@@ -112,6 +114,27 @@ namespace PassVault.ViewModels
         {
             try
             {
+                // Verificação de Limite para Usuários Gratuitos
+                if (!_vipService.IsUserVip())
+                {
+                    var accountCount = await _database.GetTotalAccountsAsync();
+                    if (accountCount >= 10)
+                    {
+                        // Exibe um alerta com a opção de fazer upgrade
+                        bool wantsToUpgrade = await Shell.Current.DisplayAlert(
+                            L.Text("vip.limit_reached_title"),
+                            L.Text("vip.account_limit_message"),
+                            L.Text("vip.upgrade_now"),
+                            L.Text("common.cancel"));
+
+                        if (wantsToUpgrade)
+                        {
+                            await Shell.Current.GoToAsync(nameof(UpgradePage));
+                        }
+                        return; // Impede o salvamento da conta
+                    }
+                }
+
                 ValidateAllProperties();
 
                 if (HasErrors)
@@ -120,9 +143,8 @@ namespace PassVault.ViewModels
                     return;
                 }
 
-                // Verificar se já existe uma conta com o mesmo nome na mesma pasta
                 bool accountExists = await _database.AccountNameExistsAsync(Title, FolderId);
-                
+
                 if (accountExists)
                 {
                     await Shell.Current.DisplayAlert(L.Text("common.error"), L.Text("messages.duplicate_account_name"), L.Text("common.ok"));
@@ -168,7 +190,6 @@ namespace PassVault.ViewModels
 
         partial void OnSelectedColorChanged(Color value)
         {
-            // Força a atualização da interface
             SelectedColorHex = value.ToHex();
             OnPropertyChanged(nameof(SelectedColor));
         }
