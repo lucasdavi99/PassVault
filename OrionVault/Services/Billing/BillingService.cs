@@ -11,7 +11,7 @@ namespace OrionVault.Services.Billing
 {
     public class BillingService : IBillingService
     {
-        private const string VipProductId = "OrionVault.premium";
+        private const string VipProductId = "orionvault_premium";
         private readonly IVipService _vipService;
         private readonly ILogger<BillingService> _logger;
 
